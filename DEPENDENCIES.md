@@ -8,8 +8,8 @@
 
 | Artifact | Type | Version typique | Déployé |
 |----------|------|-----------------|---------|
-| `sfd-integration-api` | Lib REST | 1.0.0-SNAPSHOT | Nexus |
-| `sfd-report-api` | Lib rapports | 1.0.1-SNAPSHOT | Nexus |
+| `sfd-integration-api` | Lib REST | 1.0.1-SNAPSHOT | Nexus |
+| `sfd-report-api` | Lib rapports | 1.0.2-SNAPSHOT | Nexus |
 | `sfd-demo-data` | Lib démo UEMOA | 1.0.0-SNAPSHOT | Nexus |
 
 ### Ordre build Layer 0–1
