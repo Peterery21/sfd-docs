@@ -96,21 +96,26 @@ java -jar target/sfd-erp-monolith-*.jar
 
 ---
 
-## Ordre push Jenkins (Layer 2 microservices)
+## Ordre push git / Jenkins (dépendances)
+
+**Règle agents & dev** : tout `git push` multi-repo respecte cet ordre — libs d'abord, `sfd-angular` en dernier.
 
 ```
-commun (4597)
-  → client (4598)
-  → epargne (4596)
-  → credit (4594)
-  → caisse (4599)
-  → comptabilite (4595)
-  → immobilisation, rh, paie, budget, transfert, stock,
-    commercial, suivi-evaluation, reporting, agent-mobile, portail
-  → sfd-angular (Layer 3)
+Layer 0 : sfd-integration-api
+Layer 1 : sfd-demo-data → sfd-report-api
+Layer 2 :
+  commun (4597)
+    → client (4598)
+    → epargne (4596)
+    → credit (4594)
+    → caisse (4599)
+    → comptabilite (4595)
+    → immobilisation, rh, paie, budget, transfert, stock,
+      commercial, suivi-evaluation, reporting, agent-mobile, portail
+Layer 3 : sfd-angular
 ```
 
-Ne pas pousser si le job Jenkins du repo précédent est en FAILURE ou en cours.
+Ne pas pousser un consommateur avant ses dépendances modifiées. Ne pas pousser si le job Jenkins du repo précédent est en FAILURE ou en cours.
 
 ---
 

@@ -189,4 +189,15 @@ Détail : [docs/EXTERNAL_LIBS.md](EXTERNAL_LIBS.md)
 
 ---
 
+## Tests E2E — vidéo récap implémentation (UI)
+
+Après feature non triviale avec écran Angular : **1 vidéo Playwright** résume tout le parcours (pas N vidéos).
+
+- Repo : **`sfd-angular`** uniquement
+- Doc complète : [E2E_VIDEO_SUMMARY.md](E2E_VIDEO_SUMMARY.md)
+- Backend seul : JUnit + curl — pas de vidéo
+- Feature backend **+** UI : JUnit service **puis** vidéo récap Angular avant push Layer 3
+
+---
+
 *Source unique — ne pas dupliquer dans les CLAUDE.md service.*
