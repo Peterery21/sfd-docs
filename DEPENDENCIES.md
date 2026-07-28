@@ -75,7 +75,7 @@ sfd-commun-service, sfd-client-service, sfd-epargne-service,
 sfd-caisse-service, sfd-comptabilite-service, sfd-credit-service,
 sfd-immobilisation-service, sfd-rh-service, sfd-paie-service,
 sfd-budget-service, sfd-transfert-service, sfd-stock-api,
-sfd-commercial-api, sfd-suivi-evaluation-api,
+sfd-commercial-service, sfd-suivi-evaluation-api,
 sfd-reporting-service, sfd-agent-mobile-service,
 sfd-portail-client-service
 ```
