@@ -1,57 +1,52 @@
 # Audit — Plan comptable zone × secteur
 
-> Date : 2026-07-30  
-> Scope : UEMOA + CEMAC · SFD vs entreprise · hors assurances/asso
+> Date : 2026-07-30 (MAJ RDC / BCC)  
+> Scope : UEMOA + CEMAC + **RDC** · SFD vs entreprise · hors assurances/asso
 
 ## Verdict
 
-Nexora ne chargeait **pas** le référentiel BCEAO SFD (RCSFD). Le YAML `uemoa/sycebnl/` était un échantillon hybride (libellé microfinance) incompatible avec :
+Nexora charge :
 
-1. le **RCSFD** (Instruction BCEAO 025/026-02-2009) — classe 25 = comptes membres  
-2. le vrai **SYCEBNL OHADA** (associations) — hors scope  
-3. le **SYSCOHADA** (entreprise / stock / commercial)
+| Zone | SFD | Entreprise |
+|------|-----|------------|
+| **UEMOA** | `RCS_SFD` (RCSFD BCEAO) | `SYSCOHADA` |
+| **CEMAC** | `COBAC` (PCEMF COBAC/BEAC) | `SYSCOHADA` |
+| **RDC** | `PCCI` (COOPEC/IMF — BCC) | `SYSCOHADA` (OHADA, CDF) |
 
-## Trois normes distinctes
+Banques RDC : plan **GCEC** seedé (`rdc/gcec/`) — non sélectionné au wizard v1 (pas de secteur banque).
 
-| Code | Usage | Zone |
-|------|-------|------|
-| `SYSCOHADA` | Compta / stock / commercial | UEMOA + CEMAC |
-| `RCS_SFD` | SFD / microfinance | **UEMOA** (BCEAO) |
-| `COBAC` | SFD CEMAC (seed provisoire) | **CEMAC** |
-| `SYCEBNL` | Associations (stub, hors scope) | — |
+## Normes
 
-## Matrice cible
+| Code | Libellé | Zone |
+|------|---------|------|
+| `SYSCOHADA` | OHADA général | UEMOA / CEMAC / RDC entreprise |
+| `RCS_SFD` | RCSFD BCEAO | UEMOA SFD |
+| `COBAC` | PCEMF | CEMAC SFD |
+| `PCCI` | Plan COOPEC/IMF | **RDC SFD** |
+| `GCEC` | Guide établissements de crédit | RDC banques (seed) |
+| `SYCEBNL` | Asso OHADA | stub hors scope |
 
-| Zone | Secteur | Norme |
-|------|---------|-------|
-| UEMOA | `SFD` | `RCS_SFD` |
-| UEMOA | `ENTREPRISE` | `SYSCOHADA` |
-| CEMAC | `SFD` | `COBAC` (provisoire) |
-| CEMAC | `ENTREPRISE` | `SYSCOHADA` |
-| * | Assurance / Association | Hors scope (désactivé wizard) |
+## Écarts structurels (classe 25 / clientèle)
 
-## Écarts classe 25 (échantillon)
+| Référentiel | Clientèle / dépôts | Compte 25 |
+|-------------|-------------------|-----------|
+| RCSFD BCEAO | Classe **2** (25 = membres) | Membres / bénéficiaires |
+| PCEMF COBAC | Classe **3** | Dépôts/cautionnements versés (immo.) |
+| PCCI RDC | Classe **3** (crédits 30–32, épargne 33–35) | Titres de participation |
 
-| Source | Compte | Contenu |
-|--------|--------|---------|
-| RCSFD officiel | **25** | COMPTES DES MEMBRES, BENEFICIAIRES OU CLIENTS |
-| RCSFD | **254 / 2545** | Dépôts de garantie reçus |
-| Ancien YAML `sycebnl` | **250** | Dépréciations immobilisations (**faux**) |
-| SYSCOHADA | Classe 2 / 28-29 | Immob. / amort. / dépréciations |
+## Inventaires PDF
 
-## Inventaire extraction PDF
+- RCSFD : [refs/RCSFD_PLAN_COMPTES_INVENTAIRE.md](refs/RCSFD_PLAN_COMPTES_INVENTAIRE.md)  
+- PCEMF : [refs/PCEMF_PLAN_COMPTES_INVENTAIRE.md](refs/PCEMF_PLAN_COMPTES_INVENTAIRE.md)  
+- PCCI RDC : [refs/PCCI_RDC_PLAN_COMPTES_INVENTAIRE.md](refs/PCCI_RDC_PLAN_COMPTES_INVENTAIRE.md) (~598)  
+- GCEC RDC : [refs/GCEC_RDC_PLAN_COMPTES_INVENTAIRE.md](refs/GCEC_RDC_PLAN_COMPTES_INVENTAIRE.md) (~923)  
+  - Source : `PLAN-COMPTABLE-BANQUES-ET-IMF.pdf`
 
-- PDF : `~/Downloads/Référentiel comptable spécifique des SFD_1.pdf`
-- Inventaire : [refs/RCSFD_PLAN_COMPTES_INVENTAIRE.md](refs/RCSFD_PLAN_COMPTES_INVENTAIRE.md)
-- Seed YAML : `sfd-comptabilite-service/.../accounting-norms/uemoa/rcs_sfd/` (~363 comptes)
+## Seeds YAML
+
+- `uemoa/rcs_sfd/` · `cemac/cobac/` · `rdc/pcci/` · `rdc/gcec/` · `rdc/syscohada/`
 
 ## Wizard
 
-Champ explicite **`secteurActivite`** (`SFD` | `ENTREPRISE`) + `zoneCode` → dérive `organisation` + `normeComptable`.  
-Pas de migration BD (base vidée / re-seed).
-
-## CEMAC note
-
-Seed `cemac/cobac/` = provisoire (base SYSCOHADA CEMAC + metadata COBAC). Remplacer dès référentiel officiel COBAC SFD disponible — **ne pas** réutiliser le PDF BCEAO.
-
-Wizard `CEMAC-BEAC` × `SFD` → `organisation=CEMAC` + `normeComptable=COBAC` ; × `ENTREPRISE` → `SYSCOHADA` (XAF).
+Zones : `UEMOA-BCEAO` | `CEMAC-BEAC` | **`RDC-BCC`** | CUSTOM  
+`secteurActivite` × zone → `organisation` + `normeComptable` + devise (`XOF` / `XAF` / **`CDF`**).
