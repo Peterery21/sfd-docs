@@ -137,3 +137,14 @@ Suite à la demande "corrige les gaps fonctionnels majeurs (rapports inspirés d
 - Navigateur (compte admin@admin.com) : génération réelle d'un rapport PDF (REP_IMMO_001, 5 enregistrements, PDF valide), génération de 2 sessions d'inventaire (AG001 → 0 ligne car aucun bien EN_SERVICE, comportement correct ; AG006 → 2 lignes capturées), code session auto-généré confirmé (`SI-2026-00001`, `SI-2026-00002`), page Paramétrage confirmée à 7 onglets (plus de "Paramètres généraux" ni "Duplication").
 
 **Baseline → Après | Régressions : 0**
+
+## Itération 3 (2026-10-05) — points restants comblés
+
+- **Génération amortissements : calcul-aperçu désormais réel (bug #10 définitivement clos).** Nouveau endpoint `POST /immobilisations/apercu-amortissements` : calcule la dotation pour mois/année sans rien persister. Le calcul a été extrait en une unique méthode `calculerDotation()` réutilisée à la fois par la génération réelle (`doGenerateAmortissement`) et l'aperçu — garantit qu'ils ne peuvent plus diverger. Le frontend (`amortissement-batch.component.ts`) appelle ce nouvel endpoint au lieu de dupliquer le calcul côté client (ancien `simulerCalcul()` utilisait `Math.round` sans plafonnement à la base amortissable — écart possible avec le réel). Vérifié en navigateur : 2 immobilisations éligibles, dotations réelles 13 888,89 chacune, comptes 6814/2844 réels.
+- **Modal "Mise au rebut" : aperçu comptable conforme (bug #15 définitivement clos).** L'aperçu affichait systématiquement une manche fictive équilibrée `D 6816 / C compteAmortissement = VNC`. Remplacé par la manche réellement publiée par `LignesComptablesPublisherService.publierRebut` : `D compteAmortissement (cumul, si > 0) / C compteImmobilisation (valeur brute)` — manche partielle, pas nécessairement équilibrée, avec avertissement si `compteImmobilisation` est absent (aucune écriture ne sera publiée). Vérifié en navigateur sur IMM-2026-00002 (Toyota Hilux) : `D 2844 833 333 / C 2441 15 000 000`, conforme au calcul réel du publisher.
+- **`messages_en.properties` créé** côté backend (était absent, seul le reste du monorepo a la parité FR/EN — confirmé convention via échantillon de 6 autres services, 5/6 l'ont).
+- **Non traité** : lien Catégorie-paramétrage (`CategorieImmo`) ↔ champ "Catégorie" de l'immobilisation (actuellement un enum Java figé `CORPORELLE/INCORPORELLE/FINANCIERE`, déconnecté de l'entité). Nécessite une décision de modélisation (FK nullable en plus de l'enum ? remplacement complet de l'enum ?) et une migration de données — hors scope d'une correction ponctuelle, à traiter comme un item de backlog séparé.
+
+**Vérification** : `sfd-immobilisation-service` `mvn test` → 0 échec (toute la suite, aucune régression). `sfd-angular` `npm run build` → 0 erreur TS. `check-i18n-sync.js` → 21 795 clés fr/en synchronisées. Les deux correctifs vérifiés en navigateur réel (voir ci-dessus).
+
+**Baseline → Après | Régressions : 0**
