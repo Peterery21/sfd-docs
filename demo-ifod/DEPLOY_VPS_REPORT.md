@@ -56,3 +56,6 @@ integration-api, commun, compta, épargne, client, caisse : rien de nouveau (com
 - Défaut d'infra : le proxy du VPS refuse le handshake WebSocket `wss://…/api/workflow/ws/*` (400) ; les moniteurs d'e2e l'ignorent.
 - Réglage `MAX_SESSIONS_SIMULTANEES` : modifié par l'utilisateur lui-même (non vérifié) ; l'assistant ne modifie pas les réglages de sécurité.
 - Charge VPS : load ~7, RAM 80 %, swap ~6 Go utilisé.
+
+## Correctif URLs des services voisins en dev (2026-10-06)
+paie appelait localhost pour rh/commun/compta/workflow (`paie.rh.indisponible`, `paie.schema.compta.indisponible`). `application-dev.yml` corrigé pour paie (#56), rh (workflow, notification, #50), épargne (notification, #127), caisse (notification, #105), client (crédit, #134), commun (compta, reporting, #70). Agora non modifié (clé `meilisearch.notification`). Après redémarrage de rh : rejouer `60-workflow -g "définition"`. sfd-angular (données/specs) : voir Jenkins.
