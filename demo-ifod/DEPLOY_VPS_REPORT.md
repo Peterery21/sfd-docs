@@ -72,3 +72,6 @@ docker run -d --name sfd-portail-employe-dev --network dev-network -p 4631:4612 
   -v /opt/sfd/logs-dev:/app/logs registry.evolticatechnologies.com/sfd-portail-employe-dev:<n>-SNAPSHOT
 ```
 Comptes portail de démo : non créés par l'assistant (création de comptes + mot de passe). Il faut ajouter `-e APP_PORTAIL_PROVISIONING_COMPTES=…` et `-e APP_PORTAIL_PROVISIONING_PASSWORD=…` ; le provisionneur est idempotent et tourne au démarrage. Valeurs : `source sfd-docs/demo-ifod/portail_comptes_env.sh` (exporte `APP_PORTAIL_PROVISIONING_COMPTES`) et mot de passe = clé `motDePasseUtilisateurs` de `sfd-angular/e2e/demo-ifod/data/agora.json`.
+
+## audit_log.roles (VPS, 2026-10-06)
+Colonne `dbo.audit_log.roles` relue en `varchar(255)` (500 « String or binary data would be truncated » pour les utilisateurs à nombreux rôles : chat, Agora, écritures auditées). `ALTER TABLE dbo.audit_log ALTER COLUMN roles NVARCHAR(MAX) NULL` exécuté une fois sur `sfd` (VPS) ; relu : `nvarchar`, `CHARACTER_MAXIMUM_LENGTH = -1`. La lib `activity-tracking-starter-full` (`@Column(length=4000)`) reste à publier avant la prochaine base vierge, sinon la colonne sera recréée en varchar(255).
