@@ -148,3 +148,59 @@ Légende : [OPEN] à corriger, [FIXED] corrigé (avec fichier), [WONTFIX] décis
 - [FIXED] UI RH/compta/XOF en dur (caisse, épargne, suivi-éval) : voir rapport de session.
 - [FIXED] sfd-paie-service redémarré, 3 types PAIE disponibles ; lib activity-tracking 1.0.2 réinstallée localement (non publiée).
 - [OPEN] Garde changement devise principale (écritures existantes) ; SMIG vs salaireMinLegal ; double toast sanctions ; dashboard compta 400 1er appel ; apostrophe sélecteur de rôles (serveur sécurité) ; page rapport « Hiérarchie des agences » sans rapport backend ; DEMO-SCH-* restent dans caisse UEMOA/CEMAC/SYSCOHADA ; matrice des pouvoirs : édition non faite ; suppression frais de mission n'annule pas l'instance ; définitions workflow en version >1 figées vs modèles modules (reset manuel).
+- [FIXED + VERIFIED 2026-10-06] Workflow : ré-inscription d'un module n'écrase plus une définition éditée (`declared_signature`, `WorkflowDefinitionServiceImpl`, tests `WorkflowDefinitionRegisterTest`). Preuve : étape 1 de RH_DEMANDE_ABSENCE renommée par PUT, `restart_service.sh sfd-rh-service`, registrar rejoué (23:59:20), édition conservée, version inchangée ; libellé restauré ensuite.
+
+## Vérif portail/WF 2026-10-06
+- [FIXED] Portail : photo employé cassée (relais /media), clé i18n SEXE_FEMININ brute.
+- [FIXED] Workflow : KPI « tâches en retard » ignorait le SLA ; notification de rejet sans nom d'étape.
+- [FIXED] Agora : documents d'un dossier RESTREINT lisibles/téléchargeables par tout authentifié (ACL dossier ignorée si document PUBLIC) ; 500 → 404 sur ressource absente.
+- [FIXED] Page Institution : sous-titre « Description ».
+- [OPEN] PDF bulletin de paie : pas de devise, montants non formatés, agence « — » (sfd-paie-service).
+- [OPEN] Portail : si RH est indisponible, profil/dashboard renvoient des champs vides sans erreur (RhRestClient avale l'exception) ; l'API bulletin expose `contexteCalcul` et `detailCalcul` (détails internes de calcul) à l'employé.
+- [OPEN] Notifications workflow en double (même événement REJET affiché 2 fois pour admin) ; notifications non lues = 92 (accumulation).
+- [OPEN] Dashboard ERP : 500 console pour les health-checks des modules non démarrés en local (bruit).
+- [OPEN] Une session portail est invalidée quand le même compte se reconnecte ailleurs (observé pendant les tests concurrents) ; les agents concurrents sur le même navigateur se déconnectent mutuellement.
+- [NOTE] Non vérifié faute de capture (volet navigateur masqué) : responsive mobile, nouvelle demande/annulation/complétion/approbation via UI, escalade SLA.
+
+## Session suite 2026-10-05/06 (saisie par l'UI, corrections)
+- [FIXED] RH : doublon d'employé accepté (même pièce / CNSS / e-mails) → contrôle d'unicité create/update (`EmployeServiceImpl`, 4 requêtes `existsBy…IdNot`), test.
+- [FIXED] RH : « Appliquer » une promotion/mutation ne changeait que le statut → report salaire/poste/département/catégorie/échelon (promotion) et poste/département/agence via Préférence (mutation) sur le dossier ; statut VALIDEE exigé ; demandes appliquées à vide avant correctif (promo IFOD-0011/0014, mutations IFOD-0011/0012) réparées par UPDATE SQL ciblés avec l'accord de l'utilisateur (2026-10-06).
+- [FIXED] Angular promotion-edition : employé hors liste du store non retrouvé (ancien salaire 0, matricule vide) → lecture par id (`EmployeService.getById`).
+- [FIXED] RH : libellés département/agence vides sur les dossiers créés par l'UI (portail « Département — ») → `EmployeLibelleCompleter` + reprise au démarrage.
+- [FIXED] RH : corps JSON invalide (enum inconnue) → 500 ; maintenant 400 (`RhExceptionHandler`).
+- [FIXED] Angular évaluations : type 360° envoyait `360` au lieu de `EVALUATION_360` (500 à la création).
+- [FIXED] RH : collecte 360° créait des évaluateurs sans nom/prénom/poste ni source → noms renseignés, source MANAGER (supérieur) sinon PAIR.
+- [FIXED] Paie : filtre année des périodes (string vs nombre → liste vide), libellé « 10 2025 » (mois non numérique).
+- [FIXED] Paie : bulletins générés pour des employés embauchés après la période (backend ignore + UI n'envoie plus) ; compteur « Erreurs » faussé.
+- [FIXED] Paie : barème/cotisations avec date d'effet 01/01/2026 → périodes 2025 sans cotisation (« paie.bareme.notfound ») ; saisie IFOD_RDC avec effet 01/01/2025.
+- [FIXED] Intégration (sfd-integration-api) : `AgenceHeaderInterceptor` écrasait l'en-tête agence explicite par celui de la requête entrante → paiements des salaires des agences ≠ agence connectée refusés (« journée non ouverte ») ; jar réinstallé, test.
+- [FIXED] Paie portail : liste des bulletins en 500 (LazyInitializationException) et bulletins non publiés visibles → transaction + statuts publiés (VALIDE/COMPTABILISE/PAYE) seulement.
+- [FIXED] Workflow/portail : tri `sort=` + méthode `OrderBy…` = colonne dupliquée sous SQL Server (mes-demandes, notifications) → tri retiré du Pageable.
+- [FIXED] Portail : profil affichait des données fictives (« Koffi Adodo ») quand le 360° RH n'avait que `nomComplet` → fusion profil + 360°, plus jamais de données de démo ; dates d'embauche décalées d'un jour (UTC) ; champ « Employé » unique présélectionné.
+- [FIXED] Éditeur de processus workflow : « Listes de valeurs autorisées » (portail) affichait des options vides → `bindLabel/bindValue` ; portail.lookups `employes` par défaut pour congé/absence/mission/heures sup (403 sur le sélecteur sinon).
+- [FIXED] Agora : contenu existant jamais indexé dans Meilisearch → réindexation au démarrage (`MeilisearchReindexRunner`) ; recherche validée (8/6/6 résultats).
+- [FIXED] Specs : cookie `lang` perdu après purge de session (UI en anglais) ; moniteur ignore `chat/me`.
+- [OPEN] Portail : aucun écran/endpoint d'administration des accès employés (ni inscription) → comptes provisionnés par variables d'environnement (`portail_comptes_env.sh`).
+- [OPEN] Paie : paiement en ESPÈCES non supporté (IFOD-0013 passé en mobile money) ; champ legacy `mode_paiement` non resynchronisé quand la domiciliation change.
+- [OPEN] Paie : un seul compte mobile money ACTIF par agence autorisé (sinon « aucun compte ») : Orange Money conservé, M-Pesa/Airtel désactivés ; l'opérateur de l'employé n'est pas pris en compte.
+- [OPEN] Paie : historique recalculé sur le salaire courant (promotions appliquées visibles sur les mois passés) ; pas de prorata du premier mois pour une embauche en cours de mois.
+- [OPEN] Évaluation 360° : aucun écran évaluateur pour saisir son retour (statut EN_COURS atteignable mais pas par un compte évaluateur) ; plus d'un lancement de collecte duplique les évaluateurs.
+- [OPEN] Workflow : trace d'audit technique impossible (« nesting depth 1001 », cycle `WorkflowInstance.actions` ↔ `WorkflowAction.instance`) ; bruit ERROR « utilisateur introuvable (404) » pour chaque employé du portail (non utilisateur ERP).
+- [OPEN] Paie PDF bulletin : solde congés indisponible (401 de RH vers `/conges/solde-bulletin` avec le jeton portail).
+- [OPEN] Avatars (photoUrl `public/media?url=…`) cassés dans le portail ; en-tête « Employe » sans accent dans l'éditeur d'évaluation ; agence connectée par défaut = Goma au login admin.
+- [OPEN] Une demande portail d'avance/congé dure ~5 à 35 s (appels workflow→module séquentiels) : le bouton reste sans retour visuel.
+
+## Chaîne bulletin (verif-bulletin, 2026-10-06) — détail dans VERIF_BULLETIN.md
+- [FIXED] Paie : détail bulletin (total retenues, lignes à 0, boutons workflow, historique, libellé IPR, jours), édition (PUT 400, éléments variables, recalcul, mode écrasé), PDF (devise CDF, séparateurs fr, agence, libellés, mention légale), dashboard (période courante, données réelles), REP-PAIE-007 (pension) / 011 (année), éléments variables créés inactifs, portail sans `contexteCalcul`/`detailCalcul`, RH indisponible = calcul interrompu.
+- [OPEN] sfd-report-api : période des PDF de rapport en ISO (« Du 2026-09-01 au 2026-09-30 ») et nom de fichier `..pdf`.
+- [OPEN] PDF bulletin : 2 pages quand le solde de congés est présent ; solde congés absent via le portail (401).
+- [OPEN] IPR avec décimales (arrondi à définir) ; département vide sur les bulletins antérieurs au correctif RH (recalcul nécessaire) ; KPI « Validés / Payés » de la liste ne compte pas les PAYE dans « validés » ; flash « Aucune période ouverte » à la génération.
+
+## Vérification RH 2026-10-06 (VERIF_RH.md)
+- [FIXED] Évaluation 360 : collecte jamais en statut COLLECTE_360, retours impossibles (doublon), note globale/agrégation/anonymat absents, brouillon réinitialisait la collecte, i18n brute ; `EvaluationServiceImpl`, `Feedback360Mapper`, UI feedbacks + tests.
+- [FIXED] Candidature/entretien/offre/contrat/congé : validations métier manquantes (offre publiée, doublon, créneau, cohérence contrat, chevauchement congé).
+- [FIXED] Solde de congé en dur (30 j/an) -> droit RDC paramétrable ; congés VALIDE_N2 ignorés par rapports/KPI.
+- [FIXED] PDF REP_RH_013 et REP_RH_022 : entités JPA dumpées en colonnes brutes.
+- [OPEN] 3 invitations 360 héritées (sans nom/source) sur l'évaluation id 6 : suppression non autorisée ici.
+- [OPEN] Autres rapports RH à vérifier pour le même défaut (entités brutes) ; erreur console sidebar intermittente `activateParentDropdown`.
+- [OPEN] Parcours congé workflow, pointage/retards/heures sup, jours fériés RDC, carrière (Appliquer) non rejoués ce tour.

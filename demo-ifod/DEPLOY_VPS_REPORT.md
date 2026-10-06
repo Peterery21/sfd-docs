@@ -34,3 +34,25 @@ Sauvegarde faite par l'utilisateur. DROP/CREATE `sfd` ; purge MinIO `dev/erp-sfd
 ## Notes finales
 - Monorepo racine : commit de bump créé localement, aucun remote `origin` configuré → rien à pousser.
 - Wizard `/setup` et connexion admin non faits par l'assistant (saisie de mot de passe/création de compte interdite à l'assistant) : à faire par l'utilisateur ; ensuite l'assistant peut rejouer les specs avec une session enregistrée (`e2e/demo-ifod/.auth/admin.json`).
+
+## Tour final (2026-10-06) — correctifs des sessions de vérification
+| Repo | Build | Conteneur VPS |
+|---|---|---|
+| sfd-report-api | #48 SUCCESS | — |
+| sfd-workflow-service | #35 UNSTABLE | 35-SNAPSHOT UP |
+| sfd-rh-service | #49 UNSTABLE | 49-SNAPSHOT UP |
+| sfd-paie-service | #55 UNSTABLE | 55-SNAPSHOT UP |
+| sfd-portail-employe-service | #14 UNSTABLE | 14-SNAPSHOT UP (recréé à la main, pas de déploiement Jenkins) |
+| sfd-agora-service | #21 UNSTABLE | 21-SNAPSHOT UP (correctif sécurité GED : dossiers restreints 403) |
+| sfd-angular | #270 SUCCESS | 270-SNAPSHOT |
+| sfd-portail-employe-angular | voir Jenkins | 21-SNAPSHOT |
+integration-api, commun, compta, épargne, client, caisse : rien de nouveau (compta : fixture xlsx modifiée par les tests, NON commitée).
+
+## BLOC rejeu des specs (session `.auth-vps`, un seul agent à la fois)
+- BLOC 01–03, 05, 06 : OK (01, 01b, 02, 02b, 02d, 02e, 02f, 03, 05, 06).
+- BLOC 02c (comptes bancaires AG001, mobile money AG002) : KO — la liste « Banque » de la modale est vide alors que les 3 banques existent en base (cause probable : ng-select asynchrone + VPS chargé, load ~7 ; pas de donnée manquante).
+- BLOC 10, 20 : KO — `ModuleGuard` renvoyait vers `/home` (cache de santé des modules périmé + sondes lentes). Corrigé dans `helpers/session.ts` et `gotoList` (non rejoué).
+- BLOC 50, 60 : KO — délais dépassés (VPS lent) ; 60 échoue sur le 1er test.
+- Défaut d'infra : le proxy du VPS refuse le handshake WebSocket `wss://…/api/workflow/ws/*` (400) ; les moniteurs d'e2e l'ignorent.
+- Réglage `MAX_SESSIONS_SIMULTANEES` : modifié par l'utilisateur lui-même (non vérifié) ; l'assistant ne modifie pas les réglages de sécurité.
+- Charge VPS : load ~7, RAM 80 %, swap ~6 Go utilisé.
