@@ -59,3 +59,16 @@ integration-api, commun, compta, épargne, client, caisse : rien de nouveau (com
 
 ## Correctif URLs des services voisins en dev (2026-10-06)
 paie appelait localhost pour rh/commun/compta/workflow (`paie.rh.indisponible`, `paie.schema.compta.indisponible`). `application-dev.yml` corrigé pour paie (#56), rh (workflow, notification, #50), épargne (notification, #127), caisse (notification, #105), client (crédit, #134), commun (compta, reporting, #70). Agora non modifié (clé `meilisearch.notification`). Après redémarrage de rh : rejouer `60-workflow -g "définition"`. sfd-angular (données/specs) : voir Jenkins.
+
+## Conteneur `sfd-portail-employe-dev` (manuel — le Jenkinsfile a `docker.run/vps.enabled=false`)
+Image `registry.evolticatechnologies.com/sfd-portail-employe-dev:<n>-SNAPSHOT` ; à recréer à la main après chaque build (aucun secret ici) :
+```
+docker rm -f sfd-portail-employe-dev
+docker run -d --name sfd-portail-employe-dev --network dev-network -p 4631:4612 --restart=always --memory=768m --cpus=1 \
+  -e SPRING_PROFILES_ACTIVE=dev -e SPRING_ACTIVE_PROFILES=dev -e DEMO_DATA_ENABLED=false \
+  -e "JAVA_OPTS=-Xms256m -Xmx512m -XX:MaxMetaspaceSize=128m -XX:+UseG1GC" \
+  -e RH_SERVICE_URL=http://sfd-rh-dev:4602/api/rh -e PAIE_SERVICE_URL=http://sfd-paie-dev:4603/api/paie \
+  -e WORKFLOW_SERVICE_URL=http://sfd-workflow-dev:4632/api/workflow \
+  -v /opt/sfd/logs-dev:/app/logs registry.evolticatechnologies.com/sfd-portail-employe-dev:<n>-SNAPSHOT
+```
+Comptes portail de démo : non créés par l'assistant (création de comptes + mot de passe). Il faut ajouter `-e APP_PORTAIL_PROVISIONING_COMPTES=…` et `-e APP_PORTAIL_PROVISIONING_PASSWORD=…` ; le provisionneur est idempotent et tourne au démarrage. Valeurs : `source sfd-docs/demo-ifod/portail_comptes_env.sh` (exporte `APP_PORTAIL_PROVISIONING_COMPTES`) et mot de passe = clé `motDePasseUtilisateurs` de `sfd-angular/e2e/demo-ifod/data/agora.json`.

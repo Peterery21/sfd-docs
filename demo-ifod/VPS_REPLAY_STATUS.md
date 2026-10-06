@@ -10,3 +10,21 @@
 [vps-agora] 50-agora: OK (11/12, recherche non jouée: clé Meilisearch invalide côté agora-dev 'The provided API key is invalid') ~1h45
 [vps-paie] 39a-compta-auxiliaires (nouveau spec, préalable de 39: génération comptes auxiliaires CDF AG001-4): OK 4.0m
 [vps-paie] 39-caisse-prealables: OK 6/6 5.5m
+[vps-paie] 40-clients-epargne: OK 23/23 (clients+comptes épargne; 2 retries dus à 502 caisse/workflow transitoires; data/comptes-internes.json et clients-externes.json réécrits avec les valeurs VPS -> 35 peut suivre)
+[vps-agora] 60-workflow: groupes+comptes+12 définitions+3 BASE+délégation OK (19 tests, 54 min); instances KO 'Valider' absent sur WF-2026-00012 (attend 30-rh-employes de vps-rh) — à rejouer -g instances
+[vps-rh] 30-rh-employes: employés créés OK (24, 26m), photos KO timeout 20m (retry)
+[vps-agora] 60-workflow instances: BLOCKED-BY-DEPLOY — workflow->rh lookups 'module injoignable' : selfUrl enregistrée = localhost (défaut). Fix: app.workflow.process.self-url dans sfd-rh-service et sfd-paie-service application-dev.yml (non commité). Après redéploiement rh+paie: rejouer 60-workflow -g instances (cache refs local déplacé)
+[vps-agora] 60-workflow définitions (rejeu post-redéploiement rh/paie): OK 15/15 20min
+[vps-paie] 35-rh-domiciliation-interne: OK 13 domiciliations INTERNE 20.9m
+[vps-paie] 31-rh-carriere (sanction): OK 1.3m
+[vps-paie] 33-rh-temps-formations: OK 7/7 12.8m (32 en attente de [vps-agora] 60 instances)
+[vps-agora] 60-workflow instances+écrans: OK (congé approuvé/en attente/rejeté, mission DAF, mutation en cours, SLA express = WF-2026-00001..6; écrans OK 5 min; spec écrans paramétrée sur ref mission) ~30min
+[vps-paie] 71-paie-calcul: OK 14/14 16.8m (oct 2025->sep 2026 calculés, 23/24 bulletins)
+[vps-agora] 41-rh-carriere-workflow: OK 2/2 (nettoyage, rien à supprimer) 2.3m
+[vps-paie] 75-compta-mobile-salaire: OK 5/5; 76-rh-domiciliation-faustin: OK 2/2 (no-op)
+[vps-rh] 30 photos OK 24/24 (27m)
+[vps-paie] 73-paie-cloture: KO Octobre 2025 (1/11): bulletins validés mais comptabilisation refusée (net-nul) -> 0 comptabilisé. CAUSE: employés VPS sans poste (IFOD-0019/0021/0022 + autres, libellé poste vide) => brut 0 en paie. A corriger côté RH (vps-rh: poste/grille des employés) puis recalculer; 73 STOP, 32/74/77-79 non lancés.
+[vps-agora] 42-rh-carriere-approbations: OK 3/3 (promo IFOD-0010 WF-00007, promo IFOD-0016 WF-00008, mutation IFOD-0008 WF-00009 : chaîne RRH>DGA>DG, statut APPLIQUÉE) 19min
+[vps-paie] CONTROLE bulletins (71b, lecture seule): Octobre 2025 = 21 bulletins VALIDE (0 comptabilisés) dont >=6 à brut 0 sur la 1re page -> STOP (règle: VALIDE net 0). Mars 2026 = 23 CALCULE (5+ brut 0 sur page 1). Déc 2025: liste vide dans mon contrôle (à revérifier). 71 patché (#recalculer) mais NON rejoué. En attente de [vps-rh] 30 contrats + décision coordinateur.
+[vps-rh] 30 contrats: OK 24/24 contrats ACTIF avec grille+poste+salaire>0 (0 manquant); #24 fix: timezoneId Africa/Kinshasa in playwright.demo.config.ts (dateFinEssai UTC off-by-one) + contrat-edition.component.ts local-date fix (needs deploy) 06:50
+[vps-paie] 71 recalcul: BLOCKED-BY-DEPLOY. 'Génération des bulletins' ne propose que les périodes OUVERTE; après le 1er calcul elles passent CALCULEE (aucune action UI pour rouvrir) -> DEJA_FAIT, bulletins à brut 0 (IFOD-0013/15/19/21/22/12...) non recalculés; Oct-Déc 2025 = 0 bulletin (disparus?). Fix: sfd-angular generation-bulletins.component.ts (filtre OUVERTE||CALCULEE), non commité -> redéployer sfd-angular puis rejouer 71 (#recalculer), 71b, 73...
