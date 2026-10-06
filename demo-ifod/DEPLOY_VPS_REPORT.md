@@ -30,3 +30,7 @@ Sauvegarde faite par l'utilisateur. DROP/CREATE `sfd` ; purge MinIO `dev/erp-sfd
 - Wizard `/setup` (admin + mot de passe fournis par l'utilisateur), redémarrage compta/épargne/client/caisse, puis `ALTER TABLE dbo.audit_log ALTER COLUMN roles NVARCHAR(MAX)` (lib non publiée).
 - Rejeu specs Playwright demo sur le VPS (BASE_URL, DEMO_ADMIN_EMAIL/PASSWORD en variables d'environnement).
 - Renouveler le mot de passe SMTP ; injecter la clé Meilisearch dans agora ; activer le déploiement auto de portail-employe si souhaité.
+
+## Notes finales
+- Monorepo racine : commit de bump créé localement, aucun remote `origin` configuré → rien à pousser.
+- Wizard `/setup` et connexion admin non faits par l'assistant (saisie de mot de passe/création de compte interdite à l'assistant) : à faire par l'utilisateur ; ensuite l'assistant peut rejouer les specs avec une session enregistrée (`e2e/demo-ifod/.auth/admin.json`).
