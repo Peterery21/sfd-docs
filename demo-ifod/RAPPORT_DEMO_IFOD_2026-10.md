@@ -1,6 +1,6 @@
 # Rapport — Démo IFOD (RH, Paie, Workflow, Agora, Portail employé) — octobre 2026
 
-Statut : saisie locale terminée par l'interface (specs Playwright rejouables). Vérifications fonctionnelles croisées en cours par d'autres sessions (`VERIF_*.md`, à intégrer en annexe A). Rien n'est commité ni poussé ; le déploiement VPS est pris en charge par une autre session (`HANDOFF_VPS.md`).
+Statut : saisie locale terminée par l'interface (specs Playwright rejouables). Vérifications fonctionnelles croisées intégrées en annexe A (`VERIF_*.md`). Rien n'est commité ni poussé ; le déploiement VPS est pris en charge par une autre session (`HANDOFF_VPS.md`).
 
 ## 1. Contexte
 - **Institution** : SMF IFOD SA (Institution Financière pour les Œuvres de Développement), Kinshasa, RDC. Agrément BCC, 4 agences : AG001 Siège Gombe, AG002 Lubumbashi, AG003 Kisangani, AG004 Goma. Devise unique : CDF.
@@ -149,3 +149,36 @@ Sources : `VERIF_BULLETIN.md`, `VERIF_RH.md`, `VERIF_PORTAIL_WF.md` (dans le mê
 - **OK** : portail (connexion, tableau de bord, 12 bulletins, PDF, catalogue de 8 demandes, validations des 3 managers, pointage, congés, profil 360°), workflow ERP (dashboard, tâches, suivi, kanban, délégation, audit, rapports), Agora (accueil, GED, recherche Meilisearch sur « paie », « crédit », « bulletin », « Goma »), devise CDF partout.
 - **Corrigés** : photos du portail cassées (relais `GET /api/portail-employe/media`), clés i18n brutes, « Tâches en retard » à 0 malgré une instance en retard, notification de rejet sans nom d'étape, **faille de sécurité Agora** : un utilisateur hors groupes RH/Direction lisait et téléchargeait les PDF du dossier Paie restreint (ACL du dossier jamais consultée, 403 maintenant), document inexistant en 500 → 404, sous-titre « Description » de la page Institution.
 - **Non vérifié** : création, annulation et complétion d'une demande depuis le portail par les agents (couvert par le spec 80, non rejoué car non idempotent), responsive mobile, escalade SLA réelle.
+
+
+## 12. Compléments livrés (session finale)
+- **Portail employé — refonte UX** : page de connexion « split card » (maquette Stitch validée, logo officiel IFOD, mémorisation de l'identifiant, aide RH) ; écran **détail d'une demande** (étapes, statut, SLA, historique) et **Nouvelle demande** (formulaire dynamique piloté par le workflow, listes de valeurs autorisées, employé présélectionné). Specs `80`, `81-portail-detail-demande`.
+- **Agora** : actualités avec **images de couverture** (spec `82`, vérifié 1440 et 390 px) ; recherche Meilisearch avec réindexation au démarrage (`MeilisearchReindexRunner`).
+- **Langues** : menu Lingála / English / Français (spec `83`). Lingála = **22 500 clés traduites automatiquement** ; **relecture par un locuteur natif recommandée** avant usage client.
+- **Rapports** : paie — filtre code agence corrigé, dates masquées à tort, période préremplie (spec `84`) ; RH — corrections en cours (spec `85`).
+- **Chat** : annuaire « Nouvelle conversation » (tous utilisateurs ERP actifs), bruit 502/ws filtré dans les specs ; spec `46`.
+- **RH avancé** : organigramme (12 unités), compétences, plans de carrière, 18 objectifs / 6 évaluations validées (specs `44`, `45`), 360° (`43`).
+
+## 13. Sources et règles RDC (rappel)
+Barème IPR progressif 3/15/30/40 % annualisé, réduction 2 %/personne à charge, CNSS 5 % salarié / 5 % employeur, allocations familiales 6,5 %, risques professionnels 1,5 %, INPP 3 %, ONEM 0,5 %, HS 30/60/100 %, paliers d'ancienneté. Les taux sont **paramétrables** (profil `IFOD_RDC`) ; sources de référence : textes DGI (IPR), CNSS, INPP, ONEM, Code du travail RDC — à faire valider par IFOD avant mise en production. Comptabilisation : plan **PCCI**, schémas dual-line (650xxx/651xxx charges, 421000/420000 personnel, 431000/432xxx organismes, 560100/560400 trésorerie, 330/331), journal PA, pièce créée quand débit = crédit par `correlationId`.
+
+## 14. État du VPS (rejeu des specs, source : `DEPLOY_VPS_REPORT.md`, `VPS_REPLAY_STATUS.md`)
+**OK** : 00, 02c, 10, 20 (après redéploiement paie), 30 (employés, photos, contrats), 31 sanction, 33, 34, 34b, 35, 36, 37, 38, 39, 39a, 40, 41, 42, 43, 44, 45, 50 (11/12, recherche non jouée), 60 (groupes, comptes, définitions, instances, écrans), 70, 71 (12/13), 72, 75, 76, 82, 83.
+**Partiel / KO** :
+- **73 paie-clôture** : octobre 2025 → août 2026 comptabilisés ; paiements épargne INTERNE KO car les comptes épargne des employés manquent sur le VPS (fixture `comptes-internes.json` contenait des n° locaux) ; risque de crédit sur un compte tiers (IFOD-0005) → décision et rejeu 40 → 35 → 73 requis.
+- **46 chat** : lecture côté destinataire KO (`audit_log.roles` tronqué) ; l'ALTER TABLE n'est pas pris en compte par chat-dev → vérifier schéma/redémarrage.
+- **Octobre 2025** : bulletins partiels (14 annulés, 7 validés, période VALIDEE non regénérable par l'écran).
+- 32, 74, 77, 78, 79, 80, 81, 84, 85 : non confirmés sur VPS (voir `VPS_REPLAY_STATUS.md`).
+
+## 15. Gaps ouverts (VPS / sécurité)
+1. Clé **Meilisearch** invalide côté agora-dev (« provided API key is invalid ») → recherche Agora KO sur VPS.
+2. Lib **activity-tracking 1.0.3** publiée mais services encore en 1.0.2 (`audit_log.roles`).
+3. **Compta** : listener à concurrence 1 (contournement) ; retry sur `ObjectOptimisticLockingFailureException` / `LIGNES_NON_TROUVEES` à implémenter (TODO).
+4. Image console **MinIO** rétrogradée.
+5. Conteneur **portail** géré par Jenkins avec `provisioning.properties` (comptes portail).
+6. **wss** refusé par le proxy VPS (chat temps réel dégradé).
+7. Mot de passe **SMTP** committé dans l'historique de sfd-paie-service : à renouveler.
+8. Suppression de 3 invitations 360° historiques sans nom (évaluation 6) : en attente d'autorisation explicite.
+
+## 16. Résultats de tests (fin de session)
+Voir §7 pour Baseline → Après (rh 427 verts, `npm run build` EXIT 0). Aucune commit/push. Mots de passe : jamais dans ce document (fixture `agora.json`).

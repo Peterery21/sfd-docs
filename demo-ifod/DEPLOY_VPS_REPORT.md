@@ -75,3 +75,6 @@ Comptes portail de démo : non créés par l'assistant (création de comptes + m
 
 ## audit_log.roles (VPS, 2026-10-06)
 Colonne `dbo.audit_log.roles` relue en `varchar(255)` (500 « String or binary data would be truncated » pour les utilisateurs à nombreux rôles : chat, Agora, écritures auditées). `ALTER TABLE dbo.audit_log ALTER COLUMN roles NVARCHAR(MAX) NULL` exécuté une fois sur `sfd` (VPS) ; relu : `nvarchar`, `CHARACTER_MAXIMUM_LENGTH = -1`. La lib `activity-tracking-starter-full` (`@Column(length=4000)`) reste à publier avant la prochaine base vierge, sinon la colonne sera recréée en varchar(255).
+
+## audit_log.roles — 2e ALTER (VPS, 2026-10-06 19:47 UTC)
+Avant : `varchar(255)` (réaligné par un redémarrage de service après le 1er ALTER). `ALTER TABLE dbo.audit_log ALTER COLUMN roles NVARCHAR(MAX) NULL` rejoué une fois ; après : `nvarchar`, longueur -1. Libs d'audit dans les conteneurs : 1.0.2 (client, compta, paie, workflow, commun, rh, caisse, épargne), 1.0.0-SNAPSHOT (agora, chat, transitif `security-oauth2`). agent-mobile, erp-monolith, crédit, reporting arrêtés (restart=no). Les poms bumpés en 1.0.3 (commun, workflow poussés ; chat poussé ; agora commit local) ne sont pas encore déployés par Jenkins (gel de démo). Relecture de la colonne : voir ci-dessous.
