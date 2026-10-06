@@ -204,3 +204,20 @@ Légende : [OPEN] à corriger, [FIXED] corrigé (avec fichier), [WONTFIX] décis
 - [OPEN] 3 invitations 360 héritées (sans nom/source) sur l'évaluation id 6 : suppression non autorisée ici.
 - [OPEN] Autres rapports RH à vérifier pour le même défaut (entités brutes) ; erreur console sidebar intermittente `activateParentDropdown`.
 - [OPEN] Parcours congé workflow, pointage/retards/heures sup, jours fériés RDC, carrière (Appliquer) non rejoués ce tour.
+
+
+## Organigramme / compétences / carrière / évaluation / annuaire (2026-10-06)
+- [FIXED] Annuaire : 1 employé sur 25 visible (`actif` forcé à false par le DTO à la création/modification) ; filtre sur le statut (≠ SORTI) + rattrapage au démarrage ; photo jamais renvoyée (colonne `photoUrl` vide) → `photo` relative résolue côté Angular.
+- [FIXED] Photos absentes des listes (employés, évaluations, congés, absences, missions, heures sup., pointages, tableaux de bord, organigramme, annuaire) : composant `app-employe-avatar` (photo ou initiales) alimenté par l'annuaire ; retour anonyme 360° sans photo.
+- [FIXED] Organigramme : membres/responsable absents (nom null → erreur d'affichage), pas de vue hiérarchique réelle (superieurId) → vue « Hiérarchie » + `/organigramme/hierarchie`, membres = employés du département, niveau calculé, responsable saisissable.
+- [FIXED] Compétences d'employés : contrat front/back incohérent (niveau, libellés), modal de déclaration jamais branchée → accessible depuis la fiche employé (déclaration + validation RH) ; exigences par poste créées « inactives » donc invisibles + écran inaccessible (lien ajouté dans la liste des postes).
+- [FIXED] Plans de carrière : étapes jamais enregistrées, libellés/identité absents, route d'édition inexistante, bouton « Atteint » qui abandonnait le plan, statuts d'étape incohérents.
+- [FIXED] Historique de carrière : écran autonome jamais chargé (400 sans matricule), page non lue comme tableau ; événement « Entrée » absent (créé à l'embauche + rattrapage) ; i18n des types.
+- [FIXED] Évaluation : objectifs non contrôlés → poids = 100 %, chaque objectif évalué avant soumission/validation ; note pondérée serveur ; résultats reportés sur le référentiel à la validation ; poids cumulé ≤ 100 % par employé/exercice côté objectifs.
+- [FIXED] Sidebar : erreur console `activateParentDropdown` (déréférencement null) sur certaines routes ; i18n : `RH.TYPE_EVAL_EVALUATION_360`, `RH.CATEGORIE_OBJ_*`, types de mission/planning/congé/préavis, `LABELS.PHOTO_*`, étapes/statuts de plan.
+- [OPEN] Organigramme : pas d'écran pour rattacher explicitement un employé à une unité (membres = employés du département) ; unités d'agence sans employés propres (les employés d'agence dépendent des départements fonctionnels).
+- [OPEN] Plan de carrière : pas d'écran pour faire avancer le statut d'une étape ; note globale d'évaluation = moyenne des 4 notes de catégorie (arrondies), non pondérée par les objectifs.
+
+## Compta — rejets de déversement concurrents (VPS, 2026-10-06)
+- [OPEN][TODO] `LignesComptablesConsumer` / `DeversementServiceImpl` : plusieurs salaires payés en parallèle rejettent des écritures (`ObjectOptimisticLockingFailureException` sur `EcritureEnAttenteContrepartie`, et `LIGNES_NON_TROUVEES` = course sur le buffer de lignes) ; aucun retry, l'exception publie `ECRITURE_REJETEE`. Contournement dev : `app.rabbitmq.listener.lignes.concurrency/max-concurrency = 1` (application-dev.yml, 2/5 par défaut). **Vrai correctif** : retry sur `ObjectOptimisticLockingFailureException` et sur la course `LIGNES_NON_TROUVEES` (requeue/backoff) dans `DeversementServiceImpl` / `LignesComptablesConsumer`.
+- [FIXED] `sfd-agora-service/application.yml` : les blocs `preference` et `notification` étaient sous `meilisearch:` (jamais lus comme `app.preference` / `app.notification`) → remontés sous `app:` ; URLs dev vers `sfd-*-dev`.
