@@ -1,0 +1,31 @@
+# PostgreSQL de dev/local pour l'ERP SFD — AUCUN secret dans ce fichier: valeurs lues dans un fichier .env hors dépôt
+# (voir .env.example). Équivalent sans secret du compose utilisé par l'équipe (postgres:15.2 + pgAdmin).
+services:
+  db:
+    container_name: ${PG_CONTAINER_NAME:-pg_container}
+    image: postgres:15.2
+    restart: always
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:?défini dans .env}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?défini dans .env}
+      POSTGRES_DB: ${POSTGRES_DB:-postgres}
+    ports:
+      - "${PG_PORT:-5432}:5432"
+    volumes:
+      - ./data/postgresql:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB:-postgres}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+  pgadmin:
+    container_name: ${PGADMIN_CONTAINER_NAME:-pgadmin4_container}
+    image: dpage/pgadmin4
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:?défini dans .env}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:?défini dans .env}
+    ports:
+      - "${PGADMIN_PORT:-5050}:80"
+    volumes:
+      - ./data/pgadmin:/var/lib/pgadmin
