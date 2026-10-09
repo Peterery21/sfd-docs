@@ -1,4 +1,5 @@
 #!/bin/bash
+# OBSOLETE (2026-10-09): les builds tournent sur vps-agent (hôte), le fichier doit être /opt/sfd/env/sfd-pg-dev.env (voir RUNBOOK §5). Ne pas utiliser.
 # Rend le fichier d'environnement PostgreSQL visible du conteneur Jenkins (docker run --env-file est lu côté client, donc DANS
 # le conteneur Jenkins, qui ne voit pas /opt/sfd). Copie en 600 dans jenkins_home. À lancer APRÈS 02 et avant de pousser le blueprint.
 # Simulation par défaut; --apply pour agir. Ne jamais afficher le contenu.
