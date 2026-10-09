@@ -29,7 +29,7 @@ Méthode : volet navigateur intégré (volet masqué : pas de capture d'écran, 
 - KO restant : PDF bulletin de paie sans devise (aucun « CDF ») et montants sans séparateur de milliers (`1100000,00`), « Agence : — » alors que AG001.
 
 ## 5. Shell
-- OK logo Nexora conservé (sidebar/topbar). Descriptions du sidebar Paramétrage : traitées par un autre agent, non revérifiées.
+- OK logo EDIP conservé (sidebar/topbar). Descriptions du sidebar Paramétrage : traitées par un autre agent, non revérifiées.
 
 ## Tests
 - sfd-portail-employe-service `mvn -o test` vert (+PortailMediaControllerTest) ; sfd-workflow-service vert (+assertion retard, +test étape) ; sfd-agora-service vert (+2 tests ACL dossier, +AgoraNotFoundAdviceTest) ; portail-employe-angular `ngc --noEmit` 0 erreur ; JSON i18n ERP valides (build ERP complet non rejoué).

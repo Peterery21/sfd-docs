@@ -1,6 +1,6 @@
 # ERP-SFD — Architecture technique
 
-> NEXORA — ERP microfinance UEMOA. Voir aussi [INDEX.md](../INDEX.md).
+> EDIP — ERP microfinance UEMOA. Voir aussi [INDEX.md](../INDEX.md).
 
 ---
 
