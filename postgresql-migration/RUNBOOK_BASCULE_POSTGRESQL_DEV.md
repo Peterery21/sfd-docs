@@ -58,3 +58,9 @@ Le compte initial est celui du setup ; ne jamais écrire son mot de passe dans l
 
 ## 7. Monolithe
 Reste sur SQL Server **avec ses données** (option B de l'utilisateur) : voir `monolithe-sqlserver-donnees-existantes.md` pour le nettoyage facultatif des CHECK d'enum existants (non exécuté sans accord). Il démarre sur PostgreSQL en changeant seulement `DATABASE_URL/USER/PASSWORD/DRIVER`.
+
+## 8. Retour d'expérience de la bascule du 2026-10-09 (VPS dev)
+- Étapes 0-2 : préflight 5/5 OK ; sauvegarde `sfd` (15 090 pages, valide) dans `/opt/sfd/backups/pre-pg/20261009-000105/` ; PostgreSQL préparé (`pg_container` rattaché à `dev-network`, rôle `sfd_app`, base `sfd`).
+- **Saturation des connexions PostgreSQL** : `max_connections = 100` (partagé avec sonar, n8n…) ; 21 services × pool Hikari par défaut (20 max / 5 inactifs) ont saturé le serveur (`remaining connection slots are reserved…`) et fait échouer workflow puis commun. Correctif : `SPRING_DATASOURCE_HIKARI_MAXIMUM_POOL_SIZE=3` et `SPRING_DATASOURCE_HIKARI_MINIMUM_IDLE=1` dans `/opt/sfd/env/sfd-pg-dev.env` (écrits désormais par `02-prepare-postgres.sh`). Après bascule : 31 connexions sur `sfd`, 58 au total sur 100.
+- **Défaut du script 03 corrigé** : l'arrêt au premier échec n'était pas effectif (`cmd && autre` n'arrête pas `set -e`) ; deux passes se sont chevauchées. Désormais : arrêt réel (`ARRÊT: …`), verrou `flock` (`/tmp/sfd-pg-switch.lock`), nettoyage des conteneurs `-old` résiduels. En cas de saturation : arrêter d'abord les services (libère les connexions) puis relancer 03.
+- Résultat : 21/21 services UP sur PostgreSQL (482 tables dans `sfd`), SQL Server non interrompu.

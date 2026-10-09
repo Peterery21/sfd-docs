@@ -31,6 +31,8 @@ DATABASE_URL=jdbc:postgresql://$PG_CONTAINER:5432/$PG_DATABASE
 DATABASE_USER=$PG_APP_USER
 DATABASE_PASSWORD=$APP_PW
 DATABASE_DRIVER=org.postgresql.Driver
+SPRING_DATASOURCE_HIKARI_MAXIMUM_POOL_SIZE=3
+SPRING_DATASOURCE_HIKARI_MINIMUM_IDLE=1
 ENV
   chmod 600 "$PG_ENV_FILE"; echo "fichier d'environnement écrit: $PG_ENV_FILE (600) — contenu non affiché"
 else echo "[simulation] rôle $PG_APP_USER + base $PG_DATABASE + $PG_ENV_FILE"; fi

@@ -61,6 +61,7 @@ recreate_container() { # $1 nom  $2 dossier sauvegarde  $3.. env-files suppléme
   # garde-fou: ne rien arrêter si la configuration sauvegardée est inexploitable
   [ -n "$image" ] && [ -n "$opts" ] && [ -s "$d/$n.env" ] || { echo "configuration sauvegardée inexploitable pour $n: rien n'a été modifié" >&2; return 1; }
   # l'ancien conteneur est arrêté puis renommé (jamais supprimé ici): restauré automatiquement si le nouveau ne se lance pas
+  docker rm -f "$n-old" >/dev/null 2>&1 || true   # reste d'une tentative précédente (la configuration d'origine est sauvegardée)
   docker stop "$n" >/dev/null 2>&1 || true
   docker rename "$n" "$n-old" >/dev/null 2>&1 || true
   # shellcheck disable=SC2086
