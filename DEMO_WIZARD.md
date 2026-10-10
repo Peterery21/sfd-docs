@@ -33,6 +33,16 @@ Sans coche démo, le wizard garde ses 4 étapes (agence et administrateur saisis
 - Monolithe : même interface, appel en processus, aucune URL à configurer.
 - Données par pays : `sfd-demo-data` (8 pays UEMOA, RD Congo, Cameroun) + `DemoLocale` (devise, indicatif,
   capitale, domaine).
+- Zones géographiques : découpage administratif de premier niveau complet du pays (ex. 26 provinces en RDC, 10
+  régions au Cameroun), puis communes et quartier de la capitale depuis les villes du jeu de données
+  (`DemoDecoupageAdministratif`, centres approximatifs).
+- Jours fériés : calendrier légal du pays pour l'année courante et la suivante (`DemoCalendrierFerie`) : fêtes
+  nationales, Pâques et fêtes dérivées calculées, fêtes musulmanes tabulées 2025-2030 (dates lunaires à confirmer).
+- Crédit : le wizard appelle `POST /setup/init` du crédit (si `credit` est dans `enabledModules`) après la
+  comptabilité : termes et comptes produit×terme de la norme. Un terme sans compte de créance dans la norme (long
+  terme en RCS-SFD, tous les termes en COBAC) laisse le dossier de démo sans terme ni compte crédit, jamais forcé.
+- Comptes auxiliaires : épargne, tontine, **dépôts à terme** et crédit sont projetés en fin de seed
+  (`rejouerProjections`, `backfillCompteCredits`) et visibles dans Comptes > Auxiliaire de la fiche client.
 
 ## Limites connues
 
