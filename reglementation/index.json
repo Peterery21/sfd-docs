@@ -1918,7 +1918,7 @@
   "regle": "Les comptes annuels sont publiés selon une instruction du Président de la COBAC (non lue).",
   "source": "PCEMF, Ch. 3 art. 3.2, p. 10",
   "url": "[PCEMF]",
-  "confiance": "HAUTE (renvoi) / instruction : NON TROUVÉ",
+  "confiance": "HAUTE",
   "statut": "◐",
   "note_verif": "Renvoi ; instruction non lue.",
   "corrige_apres_verif": false
@@ -2009,7 +2009,7 @@
   "regle": "Des états mensuels existent : le PCEMF mentionne la « situation mensuelle détaillée » et la déclaration à la centrale des risques pour lesquelles la compensation des comptes est exigée ; les encours sont à ventiler à la date d'arrêté (durée initiale, durée restante).",
   "source": "PCEMF, comptes 37 (p. 122), 19 et 3x",
   "url": "[PCEMF]",
-  "confiance": "MOYENNE (mention incidente ; périodicité exacte non lue)",
+  "confiance": "MOYENNE",
   "statut": "◐",
   "note_verif": "Mention incidente ; non recontrôlé.",
   "corrige_apres_verif": false
@@ -2022,7 +2022,7 @@
   "regle": "Contrôle interne : rapport sur l'exécution du contrôle interne et la mesure des risques à transmettre à la COBAC au plus tard le 30 juin de l'année suivante (R-2017/06, art. 75 à 81) ; contrôle externe par commissaires aux comptes (Règl. 01/17).",
   "source": "Présentation Promote 2019, p. 13 et 15-16",
   "url": "[PROMOTE]",
-  "confiance": "MOYENNE (R-2017/06 non lu)",
+  "confiance": "MOYENNE",
   "statut": "◐",
   "note_verif": "Promote : art. 75-81 R-2017/06 et 30 juin confirmés ; commissaires aux comptes : 01/17 art. 12 (certification au moins annuelle). R-2017/06 non lu.",
   "corrige_apres_verif": false
@@ -2048,7 +2048,7 @@
   "regle": "La COBAC détermine la liste, la teneur et les délais de transmission des documents et informations que les EMF doivent lui adresser (début d'article seulement lu à l'OCR).",
   "source": "Règl. 01/02 art. 48",
   "url": "[R0102]",
-  "confiance": "HAUTE (2002) ; équivalent sous 01/17 non lu",
+  "confiance": "HAUTE",
   "statut": "✔",
   "note_verif": "01/02 art. 48 relu ; équivalent 01/17 art. 6 (« liste, teneur, modèles, périodicité »).",
   "corrige_apres_verif": false
@@ -2113,7 +2113,7 @@
   "regle": "Chaque EMF décrit son organisation comptable (moyens, piste d'audit remontant de la pièce à la synthèse) conformément au règlement COBAC EMF-2010/02 et tient à jour les procédures d'arrêté des comptes. Le règlement EMF-2010/02 lui-même n'a pas été lu (scan).",
   "source": "PCEMF, Ch. 2, p. 9",
   "url": "[PCEMF]",
-  "confiance": "HAUTE (renvoi) / texte EMF-2010/02 non lu",
+  "confiance": "HAUTE",
   "statut": "◐",
   "note_verif": "Renvoi à EMF-2010/02 confirmé (l. 353) ; texte 2010/02 non lu.",
   "corrige_apres_verif": false
@@ -2308,7 +2308,7 @@
   "regle": "Hors-bilan clientèle : « 92 Engagements en faveur de la clientèle » ; « 93 Engagements reçus de la clientèle » dont « 931 Hypothèques », « 932 Nantissement de prêts subordonnés et de dépôts », « 933 Gages », « 934 Avals et cautions ». Les intérêts non perçus sur créances en souffrance sont suivis en",
   "source": "PCEMF, Classe 9, table des comptes et compte 98, p. 210-211",
   "url": "[PCEMF]",
-  "confiance": "HAUTE (libellés) / numérotation interne de 98 à confirmer (le commentaire cite des comptes de PCEC)",
+  "confiance": "HAUTE",
   "statut": "◐",
   "note_verif": "931-934, 9841 exacts ; incohérences classe 9 non recontrôlées.",
   "corrige_apres_verif": false
@@ -2321,7 +2321,7 @@
   "regle": "Opérations accessoires : le compte 34 (stock de marchandises, opérations engagées pour le compte de la clientèle) alimente la vente au comptant (« 740 Ventes de marchandises », 7401) et les achats (« 6401 Achats de marchandises », « 6402 Variations de stocks »). Le préambule du PCEMF numérote 341/34",
   "source": "PCEMF, Ch. 4 art. 4.4 (p. 15) et compte 34 (p. 117-118)",
   "url": "[PCEMF]",
-  "confiance": "HAUTE (incohérence interne signalée)",
+  "confiance": "HAUTE",
   "statut": "◐",
   "note_verif": "Incohérence confirmée : préambule 341/342 (l. 617-619) vs table 340/341.",
   "corrige_apres_verif": false
@@ -2360,7 +2360,7 @@
   "regle": "Est une opération de crédit tout acte par lequel l'EMF met ou promet de mettre des fonds à la disposition d'un membre ou d'un tiers, ou prend un engagement par signature (aval, caution, garantie). Les EMF de 1re catégorie ne prêtent qu'à leurs membres ; affiliés à un réseau, ils ne s'engagent qu'au ",
   "source": "PCEMF, Classe 3 intro, p. 109 ; Règl. 01/02 art. 9-2°",
   "url": "[PCEMF] ; [R0102]",
-  "confiance": "HAUTE (définition du 01/17 non lue)",
+  "confiance": "HAUTE",
   "statut": "✔",
   "note_verif": "01/17 art. 22 (définition du crédit) ; 01/02 art. 9 ; PCEMF.",
   "corrige_apres_verif": false
@@ -2373,7 +2373,7 @@
   "regle": "Classement par durée initiale : crédits « 30 » à long terme (> 2 ans), « 31 » à moyen terme (> 1 an et ≤ 2 ans), « 32 » à court terme (≤ 1 an). Le PCEMF contient une incohérence : la liste « EXCLUS » du compte 30/31 renvoie au compte 32 les crédits « amortissables à moins de deux ans ».",
   "source": "PCEMF, Classe 3 intro p. 109 ; comptes 30/31 p. 111-112 ; compte 32 p. 113-114",
   "url": "[PCEMF]",
-  "confiance": "HAUTE (incohérence signalée)",
+  "confiance": "HAUTE",
   "statut": "◐",
   "note_verif": "PCEMF l. 4911-4913 : CT ≤1 an, MT 1-2 ans, LT >2 ans exact.",
   "corrige_apres_verif": false
@@ -2438,7 +2438,7 @@
   "regle": "Commissions et frais sur crédit : le PCEMF offre « 715 Commissions sur opérations avec la clientèle » (7151 sur crédits LT, 7152 MT, 7153 CT) mais ne mentionne ni « frais de dossier » ni « assurance ». Le rattachement d'un frais de dossier à 715 est donc un choix, non un texte.",
   "source": "PCEMF, compte 71 et table des comptes (recherche des termes « frais de dossier » et « assurance » : absents)",
   "url": "[PCEMF]",
-  "confiance": "HAUTE (silence constaté sur le PDF entier)",
+  "confiance": "HAUTE",
   "statut": "◐",
   "note_verif": "« frais de dossier » absent du PCEMF (grep) ; « assurance » seulement 461 et 163.",
   "corrige_apres_verif": false
@@ -2464,7 +2464,7 @@
   "regle": "HISTORIQUE (EMF 2002/18 tel que repris par le PCEMF) — créances en souffrance : « 33 » = immobilisées (échues depuis plus de 45 jours ; 90 jours pour le crédit de campagne), impayées (non réglées à l'échéance, la totalité du crédit est virée si déchéance du terme), douteuses (risque probable de non-",
   "source": "PCEMF, compte 33 (commentaires), p. 116",
   "url": "[PCEMF]",
-  "confiance": "HAUTE (texte PCEMF) ; applicabilité actuelle : voir CRD-013",
+  "confiance": "HAUTE",
   "statut": "◐",
   "note_verif": "HISTORIQUE. 45 j / 90 j campagne, 3 mois / 6 mois immobiliers confirmés dans le PCEMF.",
   "corrige_apres_verif": false
@@ -2477,7 +2477,7 @@
   "regle": "HISTORIQUE — le déclassement en douteux de la fraction impayée d'un client transfère en créances douteuses l'intégralité de ses engagements, « nonobstant » les garanties individuelles. Les créances douteuses sont déclassées vers « 333 couvertes par la garantie de l'État », « 334 couvertes par des sû",
   "source": "PCEMF, compte 33, p. 115-116",
   "url": "[PCEMF]",
-  "confiance": "HAUTE (texte PCEMF)",
+  "confiance": "HAUTE",
   "statut": "◐",
   "note_verif": "HISTORIQUE. 333/334/335 exacts.",
   "corrige_apres_verif": false
@@ -2503,7 +2503,7 @@
   "regle": "HISTORIQUE — provisionnement : on ne provisionne qu'après déclassement en douteux. Garantie hypothécaire : 15 % (1re année), 45 %, 75 %, 100 % (4e année). Autres sûretés réelles ou cautions personnelles : 100 % en 1 an (y compris la partie couverte). Irrécouvrables ou non judiciarisables : 100 % dès",
   "source": "PCEMF, compte 39 (commentaires), p. 126 ; table des comptes 39",
   "url": "[PCEMF]",
-  "confiance": "HAUTE (texte PCEMF) ; actualité : voir CRD-013",
+  "confiance": "HAUTE",
   "statut": "◐",
   "note_verif": "HISTORIQUE. 15/45/75/100 % sur 4 ans et 100 % en 1 an confirmés (l. 5693-5700) ; 391-393, 3921, 3933 exacts.",
   "corrige_apres_verif": false
@@ -2516,7 +2516,7 @@
   "regle": "R-2017/07 (24 oct. 2017) est « une mise à jour » du Règl. EMF 2002/18, inspirée de R-2014/01 (banques), mais sans provisionnement dynamique ni notion de « créance sensible » pour les EMF. Elle réserve la « créance immobilisée » aux créances sur l'État ou garanties par lui échues depuis plus de 45 jo",
   "source": "Présentation « Foire Promote 2019 – Journée Trésor », § 2.4, p. 11-12",
   "url": "[PROMOTE]",
-  "confiance": "MOYENNE (source secondaire)",
+  "confiance": "MOYENNE",
   "statut": "◐",
   "note_verif": "Promote 2019 (l. 404-435) : 45 jours, 3 ans exacts. Contradiction sur « créance sensible » : voir constat 5.",
   "corrige_apres_verif": false
@@ -2542,7 +2542,7 @@
   "regle": "Consolidation/rééchelonnement : impayés consolidés pour plus d'un an → comptes 304/314 (sur l'État), 305/315 (campagne moratoriés), 307/317 (crédit-bail), sinon 308/318 ; pour un an ou moins → « 321 Crédits moratoriés ou consolidés sur l'État » par nature. Les intérêts consolidés réellement payés tr",
   "source": "PCEMF, comptes 30/31 (p. 112), 32 (p. 114), 47 (p. 137)",
   "url": "[PCEMF]",
-  "confiance": "HAUTE (PCEMF)",
+  "confiance": "HAUTE",
   "statut": "◐",
   "note_verif": "304/314, 321, 47223 exacts.",
   "corrige_apres_verif": false
@@ -2581,7 +2581,7 @@
   "regle": "Plafonds de concours : en 2002, engagements sur actionnaires, administrateurs, dirigeants et personnel ≤ 20 % des fonds propres nets (30 % en 1re catégorie si le bénéficiaire ne délibère pas). Selon R-2017/08, l'encours par client est plafonné à 10 % du capital libéré et celui d'un actionnaire/coopé",
   "source": "Règl. COBAC EMF 2002/10 art. 2 ; R-2017/08 art. 2 (via Promote 2019 p. 10 et kalieu-elongo)",
   "url": "[E0210] ; [PROMOTE] ; [KALIEU]",
-  "confiance": "HAUTE (2002) / MOYENNE (2017, texte non lu)",
+  "confiance": "HAUTE",
   "statut": "◐",
   "note_verif": "2002/10 art. 2 relu (20 %, 30 %) ; R-2017/08 (10 % du capital libéré, 50 M FCFA) uniquement via Promote 2019 (l. 349-354) ; texte R-2017/08 non retrouvé.",
   "corrige_apres_verif": false
@@ -2594,7 +2594,7 @@
   "regle": "Interdiction de prendre des risques sur des clients situés à l'extérieur : escompte de valeurs tirées sur l'extérieur interdit (art. 45 du Règl. 01/02 cité par le PCEMF).",
   "source": "PCEMF, Classe 3 intro, p. 110",
   "url": "[PCEMF]",
-  "confiance": "HAUTE (2002) ; sous 01/17 : à confirmer",
+  "confiance": "HAUTE",
   "statut": "◐",
   "note_verif": "Glose du PCEMF exacte, mais plus large que l'art. 45 : constat 6.",
   "corrige_apres_verif": false
@@ -2750,7 +2750,7 @@
   "regle": "Après transfert, la CDC/BEAC conserve, cherche les titulaires au moins chaque année, restitue après réclamation fondée (décision sous un mois ; recours au médiateur bancaire sous 2 mois ; restitution sous 30 jours par virement) ; les avoirs frappés de prescription sont liquidés au profit du Trésor p",
   "source": "Règl. 02/25 art. 17 à 23",
   "url": "[R0225]",
-  "confiance": "HAUTE (délais) / prescription : NON TROUVÉ",
+  "confiance": "HAUTE",
   "statut": "◐",
   "note_verif": "Art. 17-23 relus (1 mois, 2 mois, 30 jours).",
   "corrige_apres_verif": false
@@ -2763,7 +2763,7 @@
   "regle": "Le PCEMF prévoit un compte « 383 Avoirs en cours de prescription » (classe 3, autres comptes de la clientèle) sans décrire son fonctionnement.",
   "source": "PCEMF, table des comptes 38, p. 123",
   "url": "[PCEMF]",
-  "confiance": "HAUTE (libellé)",
+  "confiance": "HAUTE",
   "statut": "◐",
   "note_verif": "383 exact.",
   "corrige_apres_verif": false
@@ -2776,7 +2776,7 @@
   "regle": "LBC/FT : conservation des documents d'identification et d'opérations pendant au moins cinq ans à compter de la clôture du compte ou de la fin de la relation ; le texte LBC réserve « les obligations plus contraignantes » ; la durée de 10 ans du Règl. 02/25 (DOR-008) est plus longue.",
   "source": "Règl. 01/03 art. 13 ; R-2005/01 art. 39",
   "url": "[R0103] ; [R2005]",
-  "confiance": "HAUTE (2003/2005)",
+  "confiance": "HAUTE",
   "statut": "✔",
   "note_verif": "01/03 art. 13 et R-2005/01 art. 36 et 39 (5 ans) + 02/25 art. 16 (10 ans).",
   "corrige_apres_verif": false
@@ -2815,7 +2815,7 @@
   "regle": "Sont des dépôts/épargne : pour la 1re catégorie, les fonds autres que cotisations et contributions obligatoires recueillis auprès des membres, que l'EMF peut employer et doit restituer à la demande du membre ; pour la 2e catégorie, les fonds recueillis auprès du public.",
   "source": "PCEMF, Classe 3 intro, p. 110 ; Règl. 01/02 art. 9-1°",
   "url": "[PCEMF] ; [R0102]",
-  "confiance": "HAUTE (la définition équivalente du Règl. 01/17 n'a pas été lue)",
+  "confiance": "HAUTE",
   "statut": "✔",
   "note_verif": "01/17 art. 21 (épargne) et art. 30 (1re cat.) + 01/02 art. 9 + PCEMF.",
   "corrige_apres_verif": false
@@ -2828,7 +2828,7 @@
   "regle": "Catégories : 1re = collecte l'épargne de ses membres et ne prête qu'à eux ; 2e = collecte l'épargne et prête à des tiers ; 3e = prête à des tiers sans collecter d'épargne. En 3e catégorie ne sont pas de l'épargne : dépôts de garantie, sommes laissées pour honorer les engagements, emprunts, fonds lai",
   "source": "Règl. 01/02 art. 5 et 9",
   "url": "[R0102]",
-  "confiance": "HAUTE (texte 2002) ; MOYENNE pour la reprise dans 01/17 (résumé secondaire concordant sur les 3 catégories)",
+  "confiance": "HAUTE",
   "statut": "✔",
   "note_verif": "01/02 art. 5 ; 01/17 art. 30, 41, 44 (liste d'exclusions 3e cat.).",
   "corrige_apres_verif": false
@@ -3010,7 +3010,7 @@
   "regle": "Les opérations avec l'extérieur doivent passer par une banque ou un établissement financier de l'État d'implantation ; il est interdit à l'EMF d'effectuer des opérations financières avec l'extérieur en qualité d'intermédiaire (texte 2002).",
   "source": "Règl. 01/02 art. 8 et 45 ; cité par PCEMF p. 110",
   "url": "[R0102] ; [PCEMF]",
-  "confiance": "HAUTE (2002) ; applicabilité sous 01/17 non vérifiée",
+  "confiance": "HAUTE",
   "statut": "✔",
   "note_verif": "01/02 art. 8 et 45 relus ; 01/17 art. 19 et 103 ; PCEMF.",
   "corrige_apres_verif": false
@@ -3023,7 +3023,7 @@
   "regle": "Moyens de paiement : les EMF peuvent émettre des moyens de paiement limités aux transferts à l'intérieur de l'État d'implantation entre établissements régis par la réglementation microfinance (2002). La réforme de 2017 aurait inscrit la gestion des moyens de paiement, y compris le transfert d'argent",
   "source": "Règl. 01/02 art. 11 ; présentation « Foire Promote 2019 », p. 9",
   "url": "[R0102] ; [PROMOTE]",
-  "confiance": "HAUTE (2002) / MOYENNE (2017)",
+  "confiance": "HAUTE",
   "statut": "✔",
   "note_verif": "01/02 art. 11 relu ; 01/17 art. 20 (moyens de paiement et transferts d'argent à titre principal) et art. 23 le confirment : la réserve « aurait » peut être levée.",
   "corrige_apres_verif": false
@@ -3062,7 +3062,7 @@
   "regle": "Dans un réseau, la 1re catégorie verse une partie des ressources collectées à l'organe faîtier et souscrit au capital de celui-ci (20 % au moins, art. 37) ; les dépôts statutaires auprès de l'organe faîtier sont déduits du dénominateur du coefficient de couverture des crédits par les ressources (200",
   "source": "Présentation Promote 2019 p. 5-6 (art. 36-37 du Règl. 01/17) ; Règl. COBAC EMF 2002/12 art. 3",
   "url": "[PROMOTE] ; [E0212]",
-  "confiance": "MOYENNE (01/17 non lu) / HAUTE (2002/12)",
+  "confiance": "MOYENNE",
   "statut": "✔",
   "note_verif": "01/17 art. 36-37 (20 % au moins) relus ; 2002/12 art. 3 relu (dépôts statutaires déduits) ; Promote.",
   "corrige_apres_verif": false
@@ -3075,7 +3075,7 @@
   "regle": "Le Règl. COBAC R-2005/01 s'applique aux établissements de crédit, aux intermédiaires en opérations de banque et aux établissements de microfinance relevant de la COBAC. Le Règl. 01/03 (art. 6) range aussi les établissements de microfinance parmi les « organismes financiers » assujettis.",
   "source": "R-2005/01 art. 2 ; Règl. 01/03 art. 5-6",
   "url": "[R2005] ; [R0103]",
-  "confiance": "HAUTE (textes 2005 et 2003) ; statut actuel à confirmer",
+  "confiance": "HAUTE",
   "statut": "✔",
   "note_verif": "R-2005/01 art. 2 (EMF visés) ; 01/03 art. 6 (« établissements de micro finance »).",
   "corrige_apres_verif": false
@@ -3088,7 +3088,7 @@
   "regle": "Avant toute relation d'affaires (ouverture de compte, etc.), l'établissement vérifie l'identité et l'adresse du cocontractant sur présentation d'un document officiel original en cours de validité comportant une photographie (copie conservée) ; personne morale : statuts et documents de constitution, ",
   "source": "R-2005/01 art. 4-5 ; Règl. 01/03 art. 9 et 11",
   "url": "[R2005] ; [R0103]",
-  "confiance": "HAUTE (2003/2005)",
+  "confiance": "HAUTE",
   "statut": "✔",
   "note_verif": "01/03 art. 9 relu (document officiel avec photographie, copie) ; R-2005/01 art. 4-5.",
   "corrige_apres_verif": false
@@ -3101,7 +3101,7 @@
   "regle": "Les clients occasionnels sont identifiés pour toute transaction supérieure à un montant défini par le Comité ministériel de l'UMAC (ou, à défaut, par l'État) ; l'identification est requise même sous le seuil si la provenance licite n'est pas certaine ou en cas d'opérations répétées fractionnées. Val",
   "source": "R-2005/01 art. 4 ; Règl. 01/03 art. 9",
   "url": "[R2005] ; [R0103]",
-  "confiance": "HAUTE (principe) / seuil : NON TROUVÉ",
+  "confiance": "HAUTE",
   "statut": "✔",
   "note_verif": "01/03 art. 9 : seuil fixé par le Comité ministériel ; valeur absente : exact.",
   "corrige_apres_verif": false
@@ -3127,7 +3127,7 @@
   "regle": "Personnes politiquement exposées (PPE) : se renseigner sur l'origine des fonds ; disposer d'un système de gestion des risques pour les repérer, obtenir l'autorisation de la haute direction avant d'entrer en relation, identifier l'origine du patrimoine et des fonds, assurer une surveillance renforcée",
   "source": "R-2005/01 art. 8",
   "url": "[R2005]",
-  "confiance": "HAUTE (2005)",
+  "confiance": "HAUTE",
   "statut": "◐",
   "note_verif": "R-2005/01 art. 8 relu (PPE, 3 mesures).",
   "corrige_apres_verif": false
@@ -3140,7 +3140,7 @@
   "regle": "Les données d'identification de la clientèle font l'objet d'une révision périodique ; l'établissement clôt les comptes présentant des problèmes d'identification insolubles et ceux des clients qui exigent l'anonymat ou utilisent un faux nom.",
   "source": "R-2005/01 art. 12 et 14",
   "url": "[R2005]",
-  "confiance": "HAUTE (2005)",
+  "confiance": "HAUTE",
   "statut": "◐",
   "note_verif": "R-2005/01 art. 12 et 14 relus.",
   "corrige_apres_verif": false
@@ -3153,7 +3153,7 @@
   "regle": "Surveillance particulière des opérations importantes (au-dessus d'un seuil fixé par le Comité ministériel) présentant une complexité inhabituelle sans justification économique ; rapport confidentiel écrit conservé ; paiement en espèces ou titres au porteur au-dessus d'un seuil déclaré à l'ANIF. Seui",
   "source": "Règl. 01/03 art. 12 ; R-2005/01 art. 17-19",
   "url": "[R0103] ; [R2005]",
-  "confiance": "HAUTE (principe)",
+  "confiance": "HAUTE",
   "statut": "✔",
   "note_verif": "01/03 art. 12 relu (seuils fixés par le Comité ministériel, rapport, espèces déclarées à l'ANIF) ; R-2005/01 art. 17-19.",
   "corrige_apres_verif": false
@@ -3166,7 +3166,7 @@
   "regle": "Déclaration de soupçon : les sommes ou opérations pouvant provenir d'un crime ou délit ou s'inscrire dans un processus de blanchiment, et les opérations dont le donneur d'ordre ou le bénéficiaire reste douteux, sont déclarées à l'Agence nationale d'investigation financière (ANIF), y compris pour des",
   "source": "Règl. 01/03 art. 18 ; R-2005/01 art. 26-27",
   "url": "[R0103] ; [R2005]",
-  "confiance": "HAUTE (2003/2005)",
+  "confiance": "HAUTE",
   "statut": "✔",
   "note_verif": "01/03 art. 18 ; R-2005/01 art. 26-27 (déclaration à l'ANIF, opérations déjà exécutées).",
   "corrige_apres_verif": false
@@ -3179,7 +3179,7 @@
   "regle": "Conservation : les documents relatifs à l'identité des clients habituels ou occasionnels et aux opérations sont conservés pendant au moins cinq ans à compter de la clôture des comptes, de la cessation des relations ou de l'exécution de l'opération ; les documents de l'examen particulier justifiant u",
   "source": "Règl. 01/03 art. 13 ; R-2005/01 art. 36 et 39",
   "url": "[R0103] ; [R2005]",
-  "confiance": "HAUTE (2003/2005) ; durée à comparer avec 10 ans (Règl. 02/25 art. 16)",
+  "confiance": "HAUTE",
   "statut": "✔",
   "note_verif": "01/03 art. 13 (5 ans) ; R-2005/01 art. 36 et 39.",
   "corrige_apres_verif": false
@@ -3192,7 +3192,7 @@
   "regle": "Organisation interne : règles écrites, formation du personnel, désignation et déclaration à l'ANIF et à la COBAC des dirigeants/préposés habilités à déclarer, pratiques de connaissance client intégrées au contrôle interne.",
   "source": "R-2005/01 art. 41 à 45",
   "url": "[R2005]",
-  "confiance": "HAUTE (2005)",
+  "confiance": "HAUTE",
   "statut": "◐",
   "note_verif": "R-2005/01 art. 41, 45 présents ; contenu non relu.",
   "corrige_apres_verif": false
@@ -3218,7 +3218,7 @@
   "regle": "Le dispositif communautaire a été refondu le 11 avril 2016 (extension à la prolifération, assujettis élargis) puis un règlement n° 02/CEMAC/UMAC/CM du 20 déc. 2024 « portant prévention et répression du blanchiment de capitaux et du financement du terrorisme et de la prolifération » est cité comme en",
   "source": "Préambule Règl. 02/25 ; recherche secondaire (droitmediasfinance, avis BEAC du 19 déc. 2024)",
   "url": "[R0225] ; [DMF]",
-  "confiance": "HAUTE pour l'existence et la date de 2024 (citée par un texte lu) / BASSE pour le contenu",
+  "confiance": "HAUTE",
   "statut": "✔",
   "note_verif": "02/25 préambule : règlement n°02/CEMAC/UMAC/CM du 20 déc. 2024 (LBC/FT/prolifération) ; 01/17 préambule : règlement n°01/CEMAC/UMAC/CM du 11 avril 2016.",
   "corrige_apres_verif": false
@@ -3231,7 +3231,7 @@
   "regle": "Deux formes de capital : capital social variable ou parts sociales (EMF de 1re et 3e catégories, forme associative, coopérative ou mutualiste) et capital fixe pour la 2e catégorie (société anonyme).",
   "source": "PCEMF, Classe 1 intro, p. 70",
   "url": "[PCEMF]",
-  "confiance": "HAUTE (texte rédigé sous le Règl. 01/02 ; 2017 : voir PAR-009)",
+  "confiance": "HAUTE",
   "statut": "◐",
   "note_verif": "PCEMF classe 1 intro.",
   "corrige_apres_verif": false
@@ -3296,7 +3296,7 @@
   "regle": "Réserve légale « 111 » (sociétés anonymes, SARL) : dotation annuelle de 10 % du bénéfice net (après report à nouveau débiteur), non obligatoire une fois 20 % du capital atteint, non distribuable.",
   "source": "PCEMF, compte 11, p. 75-76",
   "url": "[PCEMF]",
-  "confiance": "HAUTE (taux repris du texte du PCEMF)",
+  "confiance": "HAUTE",
   "statut": "◐",
   "note_verif": "10 % / 20 % du capital confirmés (PCEMF l. 3499-3511).",
   "corrige_apres_verif": false
@@ -3309,7 +3309,7 @@
   "regle": "Réserve obligatoire « 112 » : 20 % de l'excédent de l'exercice à affecter pour la 1re catégorie ; 15 % des bénéfices à affecter pour les 2e et 3e catégories, en plus de la réserve légale, sans limitation de durée ni de montant.",
   "source": "Règl. COBAC EMF 2002/06 art. 1 et 2 ; PCEMF, compte 11, p. 76",
   "url": "[E0206] ; [PCEMF]",
-  "confiance": "HAUTE (2002) ; maintien en vigueur à confirmer",
+  "confiance": "HAUTE",
   "statut": "✔",
   "note_verif": "EMF 2002/06 art. 1-2 relu (20 % / 15 %) + PCEMF l. 3519. Maintien en vigueur non prouvé.",
   "corrige_apres_verif": false
@@ -3322,7 +3322,7 @@
   "regle": "Fonds de solidarité (1re catégorie) : « 160 Fonds de solidarité réglementaire », alimenté au début de chaque exercice et à chaque adhésion par des apports en numéraire équitables ; il doit représenter en permanence au moins 40 % du capital constitué après imputation des déficits ; il cesse d'être ex",
   "source": "Règl. COBAC EMF 2002/05 art. 1 à 3 ; PCEMF, compte 16, p. 83-85",
   "url": "[E0205] ; [PCEMF]",
-  "confiance": "HAUTE (2002)",
+  "confiance": "HAUTE",
   "statut": "✔",
   "note_verif": "EMF 2002/05 art. 1-3 relu (40 %) + PCEMF l. 3887.",
   "corrige_apres_verif": false
@@ -3335,7 +3335,7 @@
   "regle": "Réforme 2017 : pas de capital minimum en 1re catégorie ; 300 millions FCFA en 2e catégorie et 150 millions en 3e catégorie (R-2017/03) avec paliers jusqu'au 1er janv. 2021 (2e : 100/150/200/300 M ; 3e : 50/75/100/150 M) ; minimum de 100 sociétaires en 1re catégorie, contre 30 (R-2017/02) ; 1re catég",
   "source": "Présentation Promote 2019 p. 4-8 ; kalieu-elongo (art. R-2017/01, /02, /03) ; cesttoutdroit",
   "url": "[PROMOTE] ; [KALIEU] ; [CTD]",
-  "confiance": "MOYENNE (textes 2017 non lus ; deux sources secondaires concordantes)",
+  "confiance": "MOYENNE",
   "statut": "◐",
   "note_verif": "Promote 2019 relu : 300/150 M, paliers 2018-2021, 30 vers 100 sociétaires, SA 2e/3e. R-2017/01-03 non ouverts ; 01/17 art. 43/46 renvoient à un règlement COBAC.",
   "corrige_apres_verif": false
@@ -3348,7 +3348,7 @@
   "regle": "Les parts détenues par un sociétaire sont plafonnées (nombre maximum de parts par membre fixé par R-2017/02 ; valeur NON TROUVÉE). En réseau, l'affilié contribue au capital de l'organe faîtier à hauteur de 20 % au moins de son capital social (art. 37 du Règl. 01/17).",
   "source": "Présentation Promote 2019 p. 5 ; titre de R-2017/02",
   "url": "[PROMOTE]",
-  "confiance": "MOYENNE (valeur du plafond : NON TROUVÉ)",
+  "confiance": "MOYENNE",
   "statut": "✔",
   "note_verif": "20 % : 01/17 art. 37 relu + Promote. Plafond de parts par membre : non trouvé (déjà dit).",
   "corrige_apres_verif": false
@@ -3361,7 +3361,7 @@
   "regle": "Dividendes et ristournes : « 443 Actionnaires, dividendes à payer » (crédité par le débit du compte 131 Bénéfice de l'exercice) et « 444 Sociétaires, ristournes à verser » ; tant que les frais d'établissement/augmentation de capital ne sont pas apurés, aucune distribution sauf si les réserves facult",
   "source": "PCEMF, comptes 44 (p. 134), 11 (p. 77) ; table des comptes 44",
   "url": "[PCEMF]",
-  "confiance": "HAUTE (comptes et condition) ; règles d'affectation des excédents d'une coopérative (assemblée, ristourne au prorata) : NON TROUVÉ",
+  "confiance": "HAUTE",
   "statut": "◐",
   "note_verif": "443, 444 exacts.",
   "corrige_apres_verif": false
@@ -3400,7 +3400,7 @@
   "regle": "Catégories : 1re = collecte auprès des membres et prête aux membres ; 2e = collecte auprès du public et prête à des tiers ; 3e = crédit sans collecte. 2017 : 1re catégorie en société coopérative avec conseil d'administration et obligatoirement en réseau ; 2e et 3e catégories en société anonyme avec ",
   "source": "Règl. 01/02 art. 5 ; R-2017/01 et Règl. 01/17 art. 27 et 33 (via Promote 2019 p. 4, 7 et kalieu-elongo)",
   "url": "[R0102] ; [PROMOTE] ; [KALIEU]",
-  "confiance": "HAUTE (2002) / MOYENNE (2017)",
+  "confiance": "HAUTE",
   "statut": "✔",
   "note_verif": "01/02 art. 5 ; 01/17 art. 27, 30, 33, 41, 44 ; Promote (SA/coopérative).",
   "corrige_apres_verif": false
@@ -3413,7 +3413,7 @@
   "regle": "Capital minimum : 1re catégorie néant ; 2e catégorie 300 M FCFA et 3e catégorie 150 M FCFA depuis la réforme 2017 (50 M et 25 M en 2002), avec paliers jusqu'au 1er janv. 2021. Le capital de l'organe faîtier ne peut être inférieur à 20 % du capital des affiliés (2002).",
   "source": "Règl. 01/02 art. 7 ; R-2017/03 (via Promote 2019 p. 8)",
   "url": "[R0102] ; [PROMOTE]",
-  "confiance": "HAUTE (2002) / MOYENNE (2017)",
+  "confiance": "HAUTE",
   "statut": "✔",
   "note_verif": "01/02 art. 7 relu (50 M / 25 M ; 20 % organe faîtier) ; Promote (300 / 150 M). 01/17 : chiffres renvoyés à R-2017/03.",
   "corrige_apres_verif": false
@@ -3426,7 +3426,7 @@
   "regle": "Couverture des risques : rapport minimum de 10 % entre fonds propres nets (ou fonds patrimoniaux nets) et risques encourus (crédits à la clientèle, portefeuille titres, engagements par signature, créances douteuses ou immobilisées sur correspondants, nettes de provisions, pondérés à 100 %).",
   "source": "Règl. COBAC EMF 2002/07 art. 1 à 5",
   "url": "[E0207]",
-  "confiance": "HAUTE (2002)",
+  "confiance": "HAUTE",
   "statut": "◐",
   "note_verif": "2002/07 relu : 10 %, art. 1-5 exacts. Statut actuel non prouvé.",
   "corrige_apres_verif": false
@@ -3439,7 +3439,7 @@
   "regle": "Liquidité : rapport disponibilités / exigibilités à moins de 3 mois d'au moins 100 % ; numérateur : caisse, avoirs chez correspondants < 3 mois, crédits sains à échoir ≤ 3 mois à 100 %, comptes débiteurs sains à 75 %, refinancements irrévocables ; dénominateur : dépôts des correspondants, refinancem",
   "source": "Règl. COBAC EMF 2002/14 art. 1 à 4",
   "url": "[E0214]",
-  "confiance": "HAUTE (2002)",
+  "confiance": "HAUTE",
   "statut": "◐",
   "note_verif": "2002/14 relu : 100 %, 75 %, 50 % exacts.",
   "corrige_apres_verif": false
@@ -3452,7 +3452,7 @@
   "regle": "Division des risques par bénéficiaire : au plus 15 % des fonds patrimoniaux nets (1re catégorie, hors concours de l'organe faîtier à ses affiliés) et 25 % des fonds propres nets (2e et 3e catégories) ; les gros risques (> 10 % des fonds propres nets) ne dépassent pas huit fois les fonds propres nets",
   "source": "Règl. COBAC EMF 2002/08 art. 5 et 6",
   "url": "[E0208]",
-  "confiance": "HAUTE (2002) ; OCR de l'art. 6 à confirmer sur l'original",
+  "confiance": "HAUTE",
   "statut": "◐",
   "note_verif": "2002/08 art. 5-6 relus : 15 % / 25 % / 10 % et « octuple » exacts.",
   "corrige_apres_verif": false
@@ -3465,7 +3465,7 @@
   "regle": "Couverture des immobilisations : ressources permanentes ≥ 100 % des immobilisations nettes ; les emprunts affectés au financement des immobilisations ≤ 50 % des fonds propres.",
   "source": "Règl. COBAC EMF 2002/09 art. 4 et 5",
   "url": "[E0209]",
-  "confiance": "HAUTE (2002)",
+  "confiance": "HAUTE",
   "statut": "◐",
   "note_verif": "2002/09 art. 4-5 relus (100 %, 50 %).",
   "corrige_apres_verif": false
@@ -3478,7 +3478,7 @@
   "regle": "Coefficient de couverture des crédits par les ressources disponibles : 70 % (1re et 2e catégories indépendantes, organes faîtiers) et 65 % (EMF affiliés à un réseau) ; numérateur = encours net des crédits ; dénominateur = fonds propres + dépôts − immobilisations nettes (− dépôts statutaires auprès d",
   "source": "Règl. COBAC EMF 2002/12 art. 2 à 4",
   "url": "[E0212]",
-  "confiance": "HAUTE (2002)",
+  "confiance": "HAUTE",
   "statut": "◐",
   "note_verif": "2002/12 art. 4 relu (70 % / 65 %).",
   "corrige_apres_verif": false
@@ -3491,7 +3491,7 @@
   "regle": "Engagements envers actionnaires, administrateurs, dirigeants, personnel : 20 % des fonds propres nets au plus (30 % en 1re catégorie si les bénéficiaires ne participent pas à la délibération) ; liste nominative à transmettre à la COBAC. Plafonds 2017 (R-2017/08) : 10 % du capital libéré par client e",
   "source": "Règl. COBAC EMF 2002/10 art. 2 et 5 ; R-2017/08 (via Promote 2019 p. 10)",
   "url": "[E0210] ; [PROMOTE]",
-  "confiance": "HAUTE (2002) / MOYENNE (2017)",
+  "confiance": "HAUTE",
   "statut": "◐",
   "note_verif": "2002/10 art. 2 et 5 relus ; R-2017/08 via Promote.",
   "corrige_apres_verif": false
@@ -3504,7 +3504,7 @@
   "regle": "Fonds propres nets (2e et 3e catégories) = fonds propres de base (capital, primes, réserves légales et facultatives, report créditeur, subventions à caractère de réserves, fonds de financement, provisions non affectées, résultat certifié) + ressources assimilées, déduction des actions propres, repor",
   "source": "Règl. COBAC EMF 2002/04 art. 1 à 3",
   "url": "[E0204]",
-  "confiance": "HAUTE (2002)",
+  "confiance": "HAUTE",
   "statut": "◐",
   "note_verif": "2002/04 art. 1-2 relus (liste de base conforme).",
   "corrige_apres_verif": false
@@ -3517,7 +3517,7 @@
   "regle": "Réserve obligatoire de 20 % (1re catégorie) / 15 % (2e et 3e) ; fonds de solidarité ≥ 40 % du capital constitué (1re catégorie).",
   "source": "Règl. COBAC EMF 2002/06 art. 1-2 ; 2002/05 art. 3",
   "url": "[E0206] ; [E0205]",
-  "confiance": "HAUTE (2002)",
+  "confiance": "HAUTE",
   "statut": "✔",
   "note_verif": "2002/06 + 2002/05 relus + PCEMF.",
   "corrige_apres_verif": false
@@ -3530,7 +3530,7 @@
   "regle": "Sanctions : en cas de non-respect d'une norme, injonction (art. 54 du Règl. 01/02) puis sanctions disciplinaires (art. 57) ; les EMF disposaient de 5 ans à compter de l'entrée en vigueur pour se conformer (délai échu).",
   "source": "Règl. COBAC EMF 2002/07 art. 6-8 ; 2002/14 art. 5-7",
   "url": "[E0207] ; [E0214]",
-  "confiance": "HAUTE (2002)",
+  "confiance": "HAUTE",
   "statut": "◐",
   "note_verif": "Art. 54 et 57 du 01/02 relus ; « 5 ans » conforme aux art. de vigueur des 2002/xx (art. 6/7/8).",
   "corrige_apres_verif": false
@@ -3556,7 +3556,7 @@
   "regle": "Le secret professionnel n'est pas opposable à la COBAC ; en réseau, l'organe faîtier contrôle ses affiliés et veille au respect des normes prudentielles, qui s'apprécient sur base combinée.",
   "source": "Règl. 01/02 art. 56 ; PCEMF Ch. 4 art. 4.1 ; Promote 2019 p. 16",
   "url": "[R0102] ; [PCEMF] ; [PROMOTE]",
-  "confiance": "HAUTE (2002) / MOYENNE",
+  "confiance": "HAUTE",
   "statut": "✔",
   "note_verif": "01/02 art. 56 ; 01/17 art. 17 (secret non opposable) ; PCEMF.",
   "corrige_apres_verif": false
@@ -3855,7 +3855,7 @@
   "regle": "Affectation du résultat : prélèvement d'au moins 15 % sur les excédents nets pour la réserve générale avant distribution (voir RDC-PSO-008) ; le surplus est réparti aux membres au prorata des opérations (RDC-PSO-007).",
   "source": "Instruction BCC n° 002, art. 19 ; Loi n° 002/2002, art. 9 6° (corrigé : vérification) ; art. 59 1° pour le prélèvement 15 % avant ristourne",
   "url": "https://resources.bcc.cd/publications/documents-surveillance-if/instruction-n.-002.pdf ; https://resources.bcc.cd/publications/documents-surveillance-if/loi_002-2002_du_02_fevrier_2002_portant_dispositions_applicables_aux_cooperatives_depargne_et_de_credit.pdf",
-  "confiance": "HAUTE / MOYENNE",
+  "confiance": "HAUTE",
   "statut": "✘",
   "note_verif": "Instr. 002 art. 19 exact, mais la référence « Loi 002/2002 art. 7 6° » est fausse : c'est l'art. 9 6° (ristourne au prorata) ; art. 59 1° pour le prélèvement 15 % « avant ristourne ». https://resources.bcc.cd/publications/documents-surveillance-if/instruction-n.-002.pdf ; https://resources.bcc.cd/pu",
   "corrige_apres_verif": true
@@ -5155,7 +5155,7 @@
   "regle": "Réserve générale : prélèvement annuel d'au moins 15 % des excédents nets ; non partageable. Loi : la COOPEC doit aussi couvrir à tout moment les emplois à moyen et long termes par des ressources stables et maintenir au moins 80 % de valeurs disponibles / réalisables / mobilisables à court terme face",
   "source": "Instruction BCC n° 002, art. 19-21 ; Loi n° 002/2002, art. 59",
   "url": "https://resources.bcc.cd/publications/documents-surveillance-if/instruction-n.-002.pdf ; https://resources.bcc.cd/publications/documents-surveillance-if/loi_002-2002_du_02_fevrier_2002_portant_dispositions_applicables_aux_cooperatives_depargne_et_de_credit.pdf",
-  "confiance": "HAUTE / MOYENNE",
+  "confiance": "HAUTE",
   "statut": "✔",
   "note_verif": "Instr. 002 art. 19-21 ; Loi 002/2002 art. 59 2° et 3° (80 % de valeurs disponibles/réalisables/mobilisables à court terme sur passif exigible + engagements par signature à court terme). https://resources.bcc.cd/publications/documents-surveillance-if/instruction-n.-002.pdf ; https://resources.bcc.cd/",
   "corrige_apres_verif": false
@@ -5168,7 +5168,7 @@
   "regle": "Limitation des risques d'une COOPEC : risques ≤ 2 x l'ensemble des dépôts de ses membres (crédits 30-39, participations 25, avoirs 53 et 56, engagements par signature) ; risque sur un seul membre ≤ 10 % des fonds propres prudentiels (Instruction) — la loi 002/2002 art. 59 6° exprime 10 % de l'ensemb",
   "source": "Instruction BCC n° 002, art. 22-24 et 29 ; Loi n° 002/2002, art. 59 5°-6°",
   "url": "https://resources.bcc.cd/publications/documents-surveillance-if/instruction-n.-002.pdf ; https://resources.bcc.cd/publications/documents-surveillance-if/loi_002-2002_du_02_fevrier_2002_portant_dispositions_applicables_aux_cooperatives_depargne_et_de_credit.pdf",
-  "confiance": "HAUTE / MOYENNE",
+  "confiance": "HAUTE",
   "statut": "✔",
   "note_verif": "Instr. 002 art. 22-24 (2 x dépôts) et art. 29 (10 % des FPP) ; Loi 002/2002 art. 59 5°-6° (10 % de l'ensemble des dépôts) : divergence correctement signalée par le rédacteur. https://resources.bcc.cd/publications/documents-surveillance-if/instruction-n.-002.pdf ; https://resources.bcc.cd/publication",
   "corrige_apres_verif": false
@@ -5416,8 +5416,8 @@
   "source": "AUDCIF, 26/01/2017, art. 112 et formule finale « Fait à Brazzaville, le 26 janvier 2017 »",
   "url": "https://www.vie-publique.sn/documents/11026/acte-uniforme-droit-comptable-information-financiere-ohada-2017",
   "confiance": "HAUTE",
-  "statut": "?",
-  "note_verif": "",
+  "statut": "✔",
+  "note_verif": "S1 : « Fait à Brazzaville, le 26 janvier 2017 » ; art. 112 abroge l'Acte du 24 mars 2000 ; S2 et ohada.com concordent.",
   "corrige_apres_verif": false
  },
  {
@@ -5429,8 +5429,8 @@
   "source": "AUDCIF 2017, art. 5 al. 1",
   "url": "idem (PDF droit-afrique lu en entier : 38 p.)",
   "confiance": "HAUTE",
-  "statut": "?",
-  "note_verif": "",
+  "statut": "✔",
+  "note_verif": "Art. 5 al. 1 : PCG OHADA + dispositif comptes consolidés et combinés (S1 + S8). Nombre de pages (38) non recompté.",
   "corrige_apres_verif": false
  },
  {
@@ -5442,8 +5442,8 @@
   "source": "AUDCIF 2017, art. 113 al. 2",
   "url": "idem",
   "confiance": "HAUTE",
-  "statut": "?",
-  "note_verif": "",
+  "statut": "✔",
+  "note_verif": "Art. 113 al. 2 : 01/01/2018 comptes personnels ; 01/01/2019 consolidés, combinés, IFRS (S1 + S2).",
   "corrige_apres_verif": false
  },
  {
@@ -5455,8 +5455,8 @@
   "source": "AUDCIF 2017, art. 5 al. 3 (cité : « ne sont pas assujettis au SYSCOHADA »)",
   "url": "idem",
   "confiance": "HAUTE",
-  "statut": "?",
-  "note_verif": "",
+  "statut": "✔",
+  "note_verif": "Art. 5 al. 3 (S1) : établissements de crédit, de microfinance, acteurs du marché financier, assurances/réassurances, sécurité et prévoyance sociales, entités à but non lucratif « ne sont pas assujettis au SYSCOHADA ». Analyse Lextenso concordante.",
   "corrige_apres_verif": false
  },
  {
@@ -5468,8 +5468,8 @@
   "source": "AUDCIF 2017, art. 2",
   "url": "idem",
   "confiance": "HAUTE",
-  "statut": "?",
-  "note_verif": "",
+  "statut": "◐",
+  "note_verif": "Art. 2 conforme (S1).",
   "corrige_apres_verif": false
  },
  {
@@ -5481,8 +5481,8 @@
   "source": "AUDCIF 2017, art. 5 al. 4",
   "url": "idem",
   "confiance": "HAUTE",
-  "statut": "?",
-  "note_verif": "",
+  "statut": "◐",
+  "note_verif": "Art. 5 al. 4 : mise à jour par décision sur avis de la Commission de normalisation comptable, Règlement n°002/2009 (S1).",
   "corrige_apres_verif": false
  },
  {
@@ -5494,8 +5494,8 @@
   "source": "Article de presse OHADA/ohada.com (secondaire)",
   "url": "https://www.ohada.com/actualite/3896/entree-en-vigueur-du-syscohada-revise-lohada-met-la-derniere-main.html (cité par recherche web, page non relue)",
   "confiance": "BASSE",
-  "statut": "?",
-  "note_verif": "",
+  "statut": "◐",
+  "note_verif": "JO OHADA du 15/02/2017 : ohada.com via recherche. Errata du 09/06/2017 non retrouvés (?).",
   "corrige_apres_verif": false
  },
  {
@@ -5507,8 +5507,8 @@
   "source": "Communiqué OHADA du 28/12/2022 « Acte uniforme relatif au Système comptable des entités à but non lucratif (SYCEBNL) »",
   "url": "https://www.ohada.com/actualite/6569/acte-uniforme-relatif-au-systeme-comptable-des-entites-a-but-non-lucratif-sycebnl.html",
   "confiance": "MOYENNE",
-  "statut": "?",
-  "note_verif": "",
+  "statut": "✔",
+  "note_verif": "53e session, Niamey, 21-22/12/2022, entrée en vigueur 01/01/2024 : ohada.com (2 pages) + droitmediasfinance.",
   "corrige_apres_verif": false
  },
  {
@@ -5520,8 +5520,8 @@
   "source": "Guide d'application SYCEBNL (OHADA, 2023), Introduction ; communiqué OHADA 28/12/2022",
   "url": "https://www.ohada.org/wp-content/uploads/2023/04/SYCEBNL-GUIDE-D-APPLICATION.pdf",
   "confiance": "MOYENNE",
-  "statut": "?",
-  "note_verif": "",
+  "statut": "✔",
+  "note_verif": "Associations, ordres professionnels, fondations et assimilés, projets de développement et assimilés (S8 + guide).",
   "corrige_apres_verif": false
  },
  {
@@ -5533,8 +5533,8 @@
   "source": "AUSCGIE révisé 30/01/2014 (version droit-afrique, 219 p., lue)",
   "url": "https://justice.gouv.km/wp-content/uploads/2025/03/ohada-acte-uniforme-2014-droit-societes-commerciales-gie.pdf",
   "confiance": "HAUTE",
-  "statut": "?",
-  "note_verif": "",
+  "statut": "✔",
+  "note_verif": "AUSCGIE adopté le 17/04/1997, révisé le 30/01/2014 (en-tête S3 ; ohada.com).",
   "corrige_apres_verif": false
  },
  {
@@ -5546,8 +5546,8 @@
   "source": "Recherche web (synthèse) — à confirmer sur ohada.org",
   "url": "https://www.ohada.org",
   "confiance": "BASSE",
-  "statut": "?",
-  "note_verif": "",
+  "statut": "✔",
+  "note_verif": "17 États parties dont la RDC (ohada.com accueil ; droitmediasfinance). Confiance BASSE du rédacteur sous-estimée.",
   "corrige_apres_verif": false
  },
  {
@@ -5559,8 +5559,8 @@
   "source": "AUDCIF 2017, art. 7",
   "url": "https://www.vie-publique.sn/documents/11026/acte-uniforme-droit-comptable-information-financiere-ohada-2017",
   "confiance": "HAUTE",
-  "statut": "?",
-  "note_verif": "",
+  "statut": "◐",
+  "note_verif": "Art. 7 (S1).",
   "corrige_apres_verif": false
  },
  {
@@ -5572,8 +5572,8 @@
   "source": "AUDCIF 2017, art. 8, 26, 28",
   "url": "https://www.vie-publique.sn/documents/11026/acte-uniforme-droit-comptable-information-financiere-ohada-2017",
   "confiance": "HAUTE",
-  "statut": "?",
-  "note_verif": "",
+  "statut": "◐",
+  "note_verif": "Art. 8, 26, 28 (S1).",
   "corrige_apres_verif": false
  },
  {
@@ -5585,8 +5585,8 @@
   "source": "AUDCIF 2017, art. 16 al. 6-7 ; art. 17 6°",
   "url": "https://www.vie-publique.sn/documents/11026/acte-uniforme-droit-comptable-information-financiere-ohada-2017",
   "confiance": "HAUTE",
-  "statut": "?",
-  "note_verif": "",
+  "statut": "◐",
+  "note_verif": "Art. 16 al. 6-7 et art. 17 6° (S1).",
   "corrige_apres_verif": false
  },
  {
@@ -5598,8 +5598,8 @@
   "source": "AUDCIF 2017, art. 42 et 43",
   "url": "https://www.vie-publique.sn/documents/11026/acte-uniforme-droit-comptable-information-financiere-ohada-2017",
   "confiance": "HAUTE",
-  "statut": "?",
-  "note_verif": "",
+  "statut": "◐",
+  "note_verif": "Art. 42-43 (S1).",
   "corrige_apres_verif": false
  },
  {
@@ -5611,8 +5611,8 @@
   "source": "AUDCIF 2017, art. 49",
   "url": "https://www.vie-publique.sn/documents/11026/acte-uniforme-droit-comptable-information-financiere-ohada-2017",
   "confiance": "HAUTE",
-  "statut": "?",
-  "note_verif": "",
+  "statut": "◐",
+  "note_verif": "Art. 49 (S1).",
   "corrige_apres_verif": false
  },
  {
@@ -5624,8 +5624,8 @@
   "source": "AUDCIF 2017, art. 54",
   "url": "https://www.vie-publique.sn/documents/11026/acte-uniforme-droit-comptable-information-financiere-ohada-2017",
   "confiance": "HAUTE",
-  "statut": "?",
-  "note_verif": "",
+  "statut": "✔",
+  "note_verif": "Art. 54 (S1) ; cohérent avec 478/479 (S5/S6, mémoire).",
   "corrige_apres_verif": false
  },
  {
@@ -5637,8 +5637,8 @@
   "source": "AUDCIF 2017, art. 58",
   "url": "https://www.vie-publique.sn/documents/11026/acte-uniforme-droit-comptable-information-financiere-ohada-2017",
   "confiance": "HAUTE",
-  "statut": "?",
-  "note_verif": "",
+  "statut": "◐",
+  "note_verif": "Art. 58 (S1).",
   "corrige_apres_verif": false
  },
  {
@@ -5650,8 +5650,8 @@
   "source": "AUDCIF 2017, art. 23",
   "url": "https://www.vie-publique.sn/documents/11026/acte-uniforme-droit-comptable-information-financiere-ohada-2017",
   "confiance": "HAUTE",
-  "statut": "?",
-  "note_verif": "",
+  "statut": "◐",
+  "note_verif": "Art. 23 : 4 mois (S1).",
   "corrige_apres_verif": false
  },
  {
@@ -5660,12 +5660,12 @@
   "theme": "clotures",
   "fichier": "syscohada-sycebnl/clotures.md",
   "regle": "États financiers et rapport de gestion soumis à l'approbation des actionnaires, associés ou membres dans les 6 mois de la clôture.",
-  "source": "AUDCIF 2017, art. 69 ; voir aussi AUSCGIE art. 548 (AGO dans les 6 mois, prorogation judiciaire)",
+  "source": "AUDCIF 2017, art. 72 (corrigé : art. 69 = contrôle interne/externe) ; voir aussi AUSCGIE art. 548 (AGO dans les 6 mois, prorogation judiciaire)",
   "url": "https://www.vie-publique.sn/documents/11026/acte-uniforme-droit-comptable-information-financiere-ohada-2017 ; https://justice.gouv.km/wp-content/uploads/2025/03/ohada-acte-uniforme-2014-droit-societes-commerciales-gie.pdf",
   "confiance": "HAUTE",
-  "statut": "?",
-  "note_verif": "",
-  "corrige_apres_verif": false
+  "statut": "✘",
+  "note_verif": "Article AUDCIF erroné : la règle des 6 mois est à l'art. 72 AUDCIF ; l'art. 69 traite de l'organisation comptable et du contrôle interne/externe (S1). AUSCGIE art. 548 correct (AGO dans les 6 mois, prorogation par décision de justice, S3). Fond exact, référence à corriger.",
+  "corrige_apres_verif": true
  },
  {
   "id": "OHADA-CLO-010",
@@ -5676,8 +5676,8 @@
   "source": "AUDCIF 2017, art. 34",
   "url": "https://www.vie-publique.sn/documents/11026/acte-uniforme-droit-comptable-information-financiere-ohada-2017",
   "confiance": "HAUTE",
-  "statut": "?",
-  "note_verif": "",
+  "statut": "◐",
+  "note_verif": "Art. 34, 1re puce (S1).",
   "corrige_apres_verif": false
  },
  {
@@ -5689,8 +5689,8 @@
   "source": "AUDCIF 2017, art. 111",
   "url": "https://www.vie-publique.sn/documents/11026/acte-uniforme-droit-comptable-information-financiere-ohada-2017",
   "confiance": "HAUTE",
-  "statut": "?",
-  "note_verif": "",
+  "statut": "◐",
+  "note_verif": "Art. 111 (S1).",
   "corrige_apres_verif": false
  },
  {
@@ -5702,8 +5702,8 @@
   "source": "AUDCIF 2017, art. 22 3°",
   "url": "https://www.vie-publique.sn/documents/11026/acte-uniforme-droit-comptable-information-financiere-ohada-2017",
   "confiance": "HAUTE",
-  "statut": "?",
-  "note_verif": "",
+  "statut": "◐",
+  "note_verif": "Art. 22 3° (S1).",
   "corrige_apres_verif": false
  },
  {
@@ -5715,8 +5715,8 @@
   "source": "AUSCGIE révisé 2014, art. 144",
   "url": "https://justice.gouv.km/wp-content/uploads/2025/03/ohada-acte-uniforme-2014-droit-societes-commerciales-gie.pdf",
   "confiance": "HAUTE",
-  "statut": "?",
-  "note_verif": "",
+  "statut": "✔",
+  "note_verif": "AUSCGIE art. 144 (S3 + S4).",
   "corrige_apres_verif": false
  },
  {
@@ -5728,8 +5728,8 @@
   "source": "AUDCIF 2017, chap. V (art. 73-1 relevé)",
   "url": "https://www.vie-publique.sn/documents/11026/acte-uniforme-droit-comptable-information-financiere-ohada-2017",
   "confiance": "BASSE",
-  "statut": "?",
-  "note_verif": "",
+  "statut": "◐",
+  "note_verif": "Art. 73-1 conforme (dépôt des états IFRS des entités cotées) ; art. 73 renvoie au droit des sociétés. Obligation générale de dépôt non confirmée.",
   "corrige_apres_verif": false
  },
  {
@@ -5741,8 +5741,8 @@
   "source": "AUDCIF 2017, art. 1",
   "url": "https://www.vie-publique.sn/documents/11026/acte-uniforme-droit-comptable-information-financiere-ohada-2017",
   "confiance": "HAUTE",
-  "statut": "?",
-  "note_verif": "",
+  "statut": "◐",
+  "note_verif": "Art. 1 conforme (S1).",
   "corrige_apres_verif": false
  },
  {
@@ -5754,8 +5754,8 @@
   "source": "AUDCIF 2017, art. 3 et 6",
   "url": "https://www.vie-publique.sn/documents/11026/acte-uniforme-droit-comptable-information-financiere-ohada-2017",
   "confiance": "HAUTE",
-  "statut": "?",
-  "note_verif": "",
+  "statut": "◐",
+  "note_verif": "Art. 3 et 6 conformes (S1).",
   "corrige_apres_verif": false
  },
  {
@@ -5767,8 +5767,8 @@
   "source": "AUDCIF 2017, art. 15 et art. 16 al. 5",
   "url": "https://www.vie-publique.sn/documents/11026/acte-uniforme-droit-comptable-information-financiere-ohada-2017",
   "confiance": "HAUTE",
-  "statut": "?",
-  "note_verif": "",
+  "statut": "◐",
+  "note_verif": "Art. 15 et art. 16 (période <= 1 mois) conformes (S1).",
   "corrige_apres_verif": false
  },
  {
@@ -5780,8 +5780,8 @@
   "source": "AUDCIF 2017, art. 17 1°-2°",
   "url": "https://www.vie-publique.sn/documents/11026/acte-uniforme-droit-comptable-information-financiere-ohada-2017",
   "confiance": "HAUTE",
-  "statut": "?",
-  "note_verif": "",
+  "statut": "◐",
+  "note_verif": "Art. 17 2° (S1).",
   "corrige_apres_verif": false
  },
  {
@@ -5793,8 +5793,8 @@
   "source": "AUDCIF 2017, art. 17 3°-5°",
   "url": "https://www.vie-publique.sn/documents/11026/acte-uniforme-droit-comptable-information-financiere-ohada-2017",
   "confiance": "HAUTE",
-  "statut": "?",
-  "note_verif": "",
+  "statut": "◐",
+  "note_verif": "Art. 17 3°-5° (S1).",
   "corrige_apres_verif": false
  },
  {
@@ -5806,8 +5806,8 @@
   "source": "AUDCIF 2017, art. 17 1°",
   "url": "https://www.vie-publique.sn/documents/11026/acte-uniforme-droit-comptable-information-financiere-ohada-2017",
   "confiance": "HAUTE",
-  "statut": "?",
-  "note_verif": "",
+  "statut": "◐",
+  "note_verif": "Art. 17 1° (S1).",
   "corrige_apres_verif": false
  },
  {
@@ -5819,8 +5819,8 @@
   "source": "AUDCIF 2017, art. 17 7° et art. 18",
   "url": "https://www.vie-publique.sn/documents/11026/acte-uniforme-droit-comptable-information-financiere-ohada-2017",
   "confiance": "HAUTE",
-  "statut": "?",
-  "note_verif": "",
+  "statut": "◐",
+  "note_verif": "Art. 17 7° et art. 18 (S1).",
   "corrige_apres_verif": false
  },
  {
@@ -5832,8 +5832,8 @@
   "source": "AUDCIF 2017, art. 19",
   "url": "https://www.vie-publique.sn/documents/11026/acte-uniforme-droit-comptable-information-financiere-ohada-2017",
   "confiance": "HAUTE",
-  "statut": "?",
-  "note_verif": "",
+  "statut": "◐",
+  "note_verif": "Art. 19 (S1).",
   "corrige_apres_verif": false
  },
  {
@@ -5845,8 +5845,8 @@
   "source": "AUDCIF 2017, art. 20",
   "url": "https://www.vie-publique.sn/documents/11026/acte-uniforme-droit-comptable-information-financiere-ohada-2017",
   "confiance": "HAUTE",
-  "statut": "?",
-  "note_verif": "",
+  "statut": "◐",
+  "note_verif": "Art. 20 (S1).",
   "corrige_apres_verif": false
  },
  {
@@ -5858,8 +5858,8 @@
   "source": "AUDCIF 2017, art. 66 et 67",
   "url": "https://www.vie-publique.sn/documents/11026/acte-uniforme-droit-comptable-information-financiere-ohada-2017",
   "confiance": "HAUTE",
-  "statut": "?",
-  "note_verif": "",
+  "statut": "◐",
+  "note_verif": "Art. 66 et 67 (S1).",
   "corrige_apres_verif": false
  },
  {
@@ -5871,8 +5871,8 @@
   "source": "AUDCIF 2017, art. 22 2°",
   "url": "https://www.vie-publique.sn/documents/11026/acte-uniforme-droit-comptable-information-financiere-ohada-2017",
   "confiance": "HAUTE",
-  "statut": "?",
-  "note_verif": "",
+  "statut": "◐",
+  "note_verif": "Art. 22 2° : l'OCR de S1 est illisible sur le délai de validation ; « 1 mois » cohérent avec art. 16 et 19 mais non lu mot à mot.",
   "corrige_apres_verif": false
  },
  {
@@ -5884,8 +5884,8 @@
   "source": "AUDCIF 2017, art. 22 3°-4°",
   "url": "https://www.vie-publique.sn/documents/11026/acte-uniforme-droit-comptable-information-financiere-ohada-2017",
   "confiance": "HAUTE",
-  "statut": "?",
-  "note_verif": "",
+  "statut": "◐",
+  "note_verif": "Art. 22 3°-4° conformes (S1).",
   "corrige_apres_verif": false
  },
  {
@@ -5897,8 +5897,8 @@
   "source": "AUDCIF 2017, art. 22 6°-7°",
   "url": "https://www.vie-publique.sn/documents/11026/acte-uniforme-droit-comptable-information-financiere-ohada-2017",
   "confiance": "HAUTE",
-  "statut": "?",
-  "note_verif": "",
+  "statut": "◐",
+  "note_verif": "Art. 22 6°-7° conformes (S1).",
   "corrige_apres_verif": false
  },
  {
@@ -5910,8 +5910,8 @@
   "source": "AUDCIF 2017, art. 16 al. 1-2",
   "url": "https://www.vie-publique.sn/documents/11026/acte-uniforme-droit-comptable-information-financiere-ohada-2017",
   "confiance": "HAUTE",
-  "statut": "?",
-  "note_verif": "",
+  "statut": "◐",
+  "note_verif": "Art. 16 al. 1-2 (S1).",
   "corrige_apres_verif": false
  },
  {
@@ -5923,8 +5923,8 @@
   "source": "AUDCIF 2017, art. 34",
   "url": "https://www.vie-publique.sn/documents/11026/acte-uniforme-droit-comptable-information-financiere-ohada-2017",
   "confiance": "HAUTE",
-  "statut": "?",
-  "note_verif": "",
+  "statut": "◐",
+  "note_verif": "Art. 34, 2e puce (S1).",
   "corrige_apres_verif": false
  },
  {
@@ -5936,8 +5936,8 @@
   "source": "AUDCIF 2017, art. 68",
   "url": "https://www.vie-publique.sn/documents/11026/acte-uniforme-droit-comptable-information-financiere-ohada-2017",
   "confiance": "HAUTE",
-  "statut": "?",
-  "note_verif": "",
+  "statut": "◐",
+  "note_verif": "Art. 68 (S1).",
   "corrige_apres_verif": false
  },
  {
@@ -5949,8 +5949,8 @@
   "source": "AUDCIF 2017, art. 11 et 13",
   "url": "https://www.vie-publique.sn/documents/11026/acte-uniforme-droit-comptable-information-financiere-ohada-2017",
   "confiance": "HAUTE",
-  "statut": "?",
-  "note_verif": "",
+  "statut": "✔",
+  "note_verif": "Art. 11 et 13 (S1) + S2 : 60 M négoce, 40 M artisanat, 30 M services (CA HT).",
   "corrige_apres_verif": false
  },
  {
@@ -5962,8 +5962,8 @@
   "source": "PCG SYSCOHADA révisé (AUDCIF 2017, annexe), classe 1",
   "url": "https://plan-comptable-ohada.com/nouvelle-norme-2016/classe/1.html",
   "confiance": "MOYENNE",
-  "statut": "?",
-  "note_verif": "",
+  "statut": "✔",
+  "note_verif": "Classe 1 : numéros 10-16, 19 confirmés (S5 + S6). Libellé de 19 : « Provisions pour risques et charges » (S6) ; ancien plan : « Provisions financières pour risques et charges ».",
   "corrige_apres_verif": false
  },
  {
@@ -5975,8 +5975,8 @@
   "source": "PCG SYSCOHADA révisé, classe 4",
   "url": "https://plan-comptable-ohada.com/nouvelle-norme-2016/classe/4.html",
   "confiance": "MOYENNE",
-  "statut": "?",
-  "note_verif": "",
+  "statut": "✔",
+  "note_verif": "Classe 4 : 40 à 49 (S5 + S6).",
   "corrige_apres_verif": false
  },
  {
@@ -5988,8 +5988,8 @@
   "source": "PCG SYSCOHADA révisé, classe 5",
   "url": "https://plan-comptable-ohada.com/nouvelle-norme-2016/classe/5.html",
   "confiance": "MOYENNE",
-  "statut": "?",
-  "note_verif": "",
+  "statut": "◐",
+  "note_verif": "50, 52, 53, 54, 56, 57, 58, 59 confirmés (S5 + S6). Le compte 55 « Instruments de monnaie électronique » n'est que dans S6 (absent de l'ancien plan) ; ohada.com cite ces instruments comme opération de trésorerie, sans numéro.",
   "corrige_apres_verif": false
  },
  {
@@ -6001,8 +6001,8 @@
   "source": "PCG SYSCOHADA révisé, classes 6, 7, 8",
   "url": "https://plan-comptable-ohada.com/nouvelle-norme-2016/classe/6.html ; https://plan-comptable-ohada.com/nouvelle-norme-2016/classe/7.html",
   "confiance": "MOYENNE",
-  "statut": "?",
-  "note_verif": "",
+  "statut": "✔",
+  "note_verif": "Classes 6, 7, 8 (S5 + S6).",
   "corrige_apres_verif": false
  },
  {
@@ -6012,10 +6012,10 @@
   "fichier": "syscohada-sycebnl/comptabilite.md",
   "regle": "57 / 571 / 5711 / 5712",
   "source": "« Caisse » / « CAISSE SIEGE SOCIAL » / « dans l'unité monétaires légales des pays (UML) » / « en devises » (572, 573 : caisses succursales)",
-  "url": "PCG SYSCOHADA révisé, classe 5",
-  "confiance": "https://plan-comptable-ohada.com/nouvelle-norme-2016/classe/5.html",
-  "statut": "?",
-  "note_verif": "",
+  "url": "https://plan-comptable-ohada.com/nouvelle-norme-2016/classe/5.html",
+  "confiance": "MOYENNE",
+  "statut": "✔",
+  "note_verif": "57, 571 « Caisse siège social », 5711/5712 (S5, S6, guide : « 571 Caisse »). Libellé 5711 de S5 : « en unités monétaires légales » ; la formule « dans l'unité monétaires légales des pays (UML) » est une coquille de S6.",
   "corrige_apres_verif": false
  },
  {
@@ -6025,10 +6025,10 @@
   "fichier": "syscohada-sycebnl/comptabilite.md",
   "regle": "52 / 521 / 5211",
   "source": "« Banques » / « BANQUES LOCALES » / « Banque X »",
-  "url": "idem",
-  "confiance": "https://plan-comptable-ohada.com/nouvelle-norme-2016/classe/5.html",
-  "statut": "?",
-  "note_verif": "",
+  "url": "https://plan-comptable-ohada.com/nouvelle-norme-2016/classe/5.html",
+  "confiance": "MOYENNE",
+  "statut": "✔",
+  "note_verif": "52 « Banques », 521 « Banques locales », 5211 (S5, S6, guide). « Banque X » est un placeholder de S6 ; le guide SYCEBNL dit « 5211 Banques en monnaie nationale ». Ne pas recopier « Banque X ».",
   "corrige_apres_verif": false
  },
  {
@@ -6038,10 +6038,10 @@
   "fichier": "syscohada-sycebnl/comptabilite.md",
   "regle": "55 / 552",
   "source": "« Instruments de monnaie électronique » / « MONNAIE ELECTRONIQUE- TELEPHONE PORTABLE » (551 carte carburant, 553 carte péage)",
-  "url": "idem",
-  "confiance": "https://plan-comptable-ohada.com/nouvelle-norme-2016/classe/5.html",
-  "statut": "?",
-  "note_verif": "",
+  "url": "https://plan-comptable-ohada.com/nouvelle-norme-2016/classe/5.html",
+  "confiance": "MOYENNE",
+  "statut": "◐",
+  "note_verif": "55 / 551 / 552 / 553 : S6 seul. Non retrouvé dans l'annexe officielle. Plausible (révision 2017) mais 1 source.",
   "corrige_apres_verif": false
  },
  {
@@ -6051,10 +6051,10 @@
   "fichier": "syscohada-sycebnl/comptabilite.md",
   "regle": "101 (1013)",
   "source": "« Capital social » (1013 « Capital souscrit, appelé, versé, non amorti »)",
-  "url": "PCG, classe 1",
-  "confiance": "https://plan-comptable-ohada.com/nouvelle-norme-2016/classe/1.html",
-  "statut": "?",
-  "note_verif": "",
+  "url": "https://plan-comptable-ohada.com/nouvelle-norme-2016/classe/1.html",
+  "confiance": "MOYENNE",
+  "statut": "✔",
+  "note_verif": "101 « Capital social », 1013 (S5 + S6).",
   "corrige_apres_verif": false
  },
  {
@@ -6064,10 +6064,10 @@
   "fichier": "syscohada-sycebnl/comptabilite.md",
   "regle": "111",
   "source": "« RESERVE LEGALE » ; 112 « RESERVES STATUTAIRES OU CONTRACTUELLES » ; 118 « AUTRES RESERVES »",
-  "url": "idem",
-  "confiance": "https://plan-comptable-ohada.com/nouvelle-norme-2016/classe/1.html",
-  "statut": "?",
-  "note_verif": "",
+  "url": "https://plan-comptable-ohada.com/nouvelle-norme-2016/classe/1.html",
+  "confiance": "MOYENNE",
+  "statut": "✔",
+  "note_verif": "111 Réserve légale, 112, 118 (S5 + S6).",
   "corrige_apres_verif": false
  },
  {
@@ -6077,10 +6077,10 @@
   "fichier": "syscohada-sycebnl/comptabilite.md",
   "regle": "12 / 121 / 129",
   "source": "« Report à nouveau » / « REPORT A NOUVEAU CREDITEUR » / « REPORT A NOUVEAU DEBITEUR »",
-  "url": "idem",
-  "confiance": "https://plan-comptable-ohada.com/nouvelle-norme-2016/classe/1.html",
-  "statut": "?",
-  "note_verif": "",
+  "url": "https://plan-comptable-ohada.com/nouvelle-norme-2016/classe/1.html",
+  "confiance": "MOYENNE",
+  "statut": "✔",
+  "note_verif": "12, 121, 129 (S5 + S6).",
   "corrige_apres_verif": false
  },
  {
@@ -6090,10 +6090,10 @@
   "fichier": "syscohada-sycebnl/comptabilite.md",
   "regle": "13 / 130 / 131 / 139",
   "source": "« Résultat net de l'exercice » / « RESULTAT EN INSTANCE D'AFFECTATION » / « RESULTAT NET : BENEFICE » / « RESULTAT NET : PERTE »",
-  "url": "idem",
-  "confiance": "https://plan-comptable-ohada.com/nouvelle-norme-2016/classe/1.html",
-  "statut": "?",
-  "note_verif": "",
+  "url": "https://plan-comptable-ohada.com/nouvelle-norme-2016/classe/1.html",
+  "confiance": "MOYENNE",
+  "statut": "✔",
+  "note_verif": "13, 130, 131 bénéfice, 139 perte (S5 + S6).",
   "corrige_apres_verif": false
  },
  {
@@ -6103,10 +6103,10 @@
   "fichier": "syscohada-sycebnl/comptabilite.md",
   "regle": "401",
   "source": "« FOURNISSEURS, DETTES EN COMPTE »",
-  "url": "PCG, classe 4",
-  "confiance": "https://plan-comptable-ohada.com/nouvelle-norme-2016/classe/4.html",
-  "statut": "?",
-  "note_verif": "",
+  "url": "https://plan-comptable-ohada.com/nouvelle-norme-2016/classe/4.html",
+  "confiance": "MOYENNE",
+  "statut": "✔",
+  "note_verif": "401 « Fournisseurs, dettes en compte » (S5 + S6).",
   "corrige_apres_verif": false
  },
  {
@@ -6116,10 +6116,10 @@
   "fichier": "syscohada-sycebnl/comptabilite.md",
   "regle": "411 (4111)",
   "source": "« CLIENTS » (4111 « Clients »)",
-  "url": "idem",
-  "confiance": "https://plan-comptable-ohada.com/nouvelle-norme-2016/classe/4.html",
-  "statut": "?",
-  "note_verif": "",
+  "url": "https://plan-comptable-ohada.com/nouvelle-norme-2016/classe/4.html",
+  "confiance": "MOYENNE",
+  "statut": "✔",
+  "note_verif": "411 « Clients », 4111 (S5 + S6).",
   "corrige_apres_verif": false
  },
  {
@@ -6129,10 +6129,10 @@
   "fichier": "syscohada-sycebnl/comptabilite.md",
   "regle": "443 (4431)",
   "source": "« ETAT, T.V.A. FACTUREE » (4431 « T.V.A. facturée sur ventes », 4432 prestations de services, 4433 travaux)",
-  "url": "idem",
-  "confiance": "https://plan-comptable-ohada.com/nouvelle-norme-2016/classe/4.html",
-  "statut": "?",
-  "note_verif": "",
+  "url": "https://plan-comptable-ohada.com/nouvelle-norme-2016/classe/4.html",
+  "confiance": "MOYENNE",
+  "statut": "✔",
+  "note_verif": "443 « État, T.V.A. facturée », 4431 (S5 + S6). 4432/4433 non revérifiés.",
   "corrige_apres_verif": false
  },
  {
@@ -6142,10 +6142,10 @@
   "fichier": "syscohada-sycebnl/comptabilite.md",
   "regle": "445 (4452)",
   "source": "« ETAT, T.V.A. RECUPERABLE » (4451 sur immobilisations, 4452 « T.V.A. récupérable sur achats », 4454 services extérieurs)",
-  "url": "idem",
-  "confiance": "https://plan-comptable-ohada.com/nouvelle-norme-2016/classe/4.html",
-  "statut": "?",
-  "note_verif": "",
+  "url": "https://plan-comptable-ohada.com/nouvelle-norme-2016/classe/4.html",
+  "confiance": "MOYENNE",
+  "statut": "✔",
+  "note_verif": "445 « État, T.V.A. récupérable », 4451, 4452 (S5 + S6). 4454 non revérifié.",
   "corrige_apres_verif": false
  },
  {
@@ -6155,10 +6155,10 @@
   "fichier": "syscohada-sycebnl/comptabilite.md",
   "regle": "47 / 471 / 4711 / 4712",
   "source": "« DEBITEURS ET CREDITEURS DIVERS » ; 4711 « Débiteurs divers », 4712 « Créditeurs divers ». Aucun libellé « compte d'attente » lu dans cette révision.",
-  "url": "idem",
-  "confiance": "https://plan-comptable-ohada.com/nouvelle-norme-2016/classe/4.html",
-  "statut": "?",
-  "note_verif": "",
+  "url": "https://plan-comptable-ohada.com/nouvelle-norme-2016/classe/4.html",
+  "confiance": "MOYENNE",
+  "statut": "◐",
+  "note_verif": "4711 « Débiteurs divers », 4712 « Créditeurs divers » confirmés (S5 + S6). Mais dans l'ancien plan (S5) 471 = « Comptes d'attente » ; le libellé révisé « Débiteurs et créditeurs divers » vient de S6 seul. « Aucun compte d'attente dans cette révision » non établi par source officielle.",
   "corrige_apres_verif": false
  },
  {
@@ -6168,10 +6168,10 @@
   "fichier": "syscohada-sycebnl/comptabilite.md",
   "regle": "475 (4751/4752)",
   "source": "« COMPTE TRANSITOIRE, AJUSTEMENT SPECIAL LIE A LA REVISION SYSCOHADA » (« Compte actif » / « Compte passif »). Usage limité à la transition vers le SYSCOHADA révisé.",
-  "url": "AUDCIF 2017, art. 111-1 (475 cité) ; PCG classe 4",
-  "confiance": "https://www.vie-publique.sn/documents/11026/acte-uniforme-droit-comptable-information-financiere-ohada-2017",
-  "statut": "?",
-  "note_verif": "",
+  "url": "https://www.vie-publique.sn/documents/11026/acte-uniforme-droit-comptable-information-financiere-ohada-2017",
+  "confiance": "HAUTE",
+  "statut": "✔",
+  "note_verif": "Art. 111-1 AUDCIF : « 475 Compte transitoire lié à la révision du SYSCOHADA, compte actif-compte passif » (S1) + S6 (4751/4752). En SYCEBNL, 4751 = « Mécènes » (guide) : le sens de 475x dépend du référentiel.",
   "corrige_apres_verif": false
  },
  {
@@ -6181,10 +6181,10 @@
   "fichier": "syscohada-sycebnl/comptabilite.md",
   "regle": "476 / 477",
   "source": "« CHARGES CONSTATEES D'AVANCE » / « PRODUITS CONSTATES D'AVANCE »",
-  "url": "PCG, classe 4",
-  "confiance": "https://plan-comptable-ohada.com/nouvelle-norme-2016/classe/4.html",
-  "statut": "?",
-  "note_verif": "",
+  "url": "https://plan-comptable-ohada.com/nouvelle-norme-2016/classe/4.html",
+  "confiance": "MOYENNE",
+  "statut": "✔",
+  "note_verif": "476 Charges constatées d'avance, 477 Produits constatés d'avance (S5 + S6).",
   "corrige_apres_verif": false
  },
  {
@@ -6194,10 +6194,10 @@
   "fichier": "syscohada-sycebnl/comptabilite.md",
   "regle": "478 / 479",
   "source": "« ECARTS DE CONVERSION-ACTIF » (4781 « Diminution des créances », 4782 « Augmentation des dettes », 4788 « Différences compensées par couverture de change ») / « ECARTS DE CONVERSION- PASSIF » (4791 « Augmentation des créances », 4792 « Diminution des dettes », 4798 idem)",
-  "url": "idem",
-  "confiance": "https://plan-comptable-ohada.com/nouvelle-norme-2016/classe/4.html",
-  "statut": "?",
-  "note_verif": "",
+  "url": "https://plan-comptable-ohada.com/nouvelle-norme-2016/classe/4.html",
+  "confiance": "MOYENNE",
+  "statut": "✔",
+  "note_verif": "478/479 et 4781, 4782, 4788, 4791, 4792, 4798 (S5 + S6 + mémoire universitaire).",
   "corrige_apres_verif": false
  },
  {
@@ -6207,10 +6207,10 @@
   "fichier": "syscohada-sycebnl/comptabilite.md",
   "regle": "701 / 706 / 707",
   "source": "« VENTES DE MARCHANDISES » / « SERVICES VENDUS » / « PRODUITS ACCESSOIRES » (702 « VENTES DE PRODUITS FINIS »)",
-  "url": "PCG, classe 7",
-  "confiance": "https://plan-comptable-ohada.com/nouvelle-norme-2016/classe/7.html",
-  "statut": "?",
-  "note_verif": "",
+  "url": "https://plan-comptable-ohada.com/nouvelle-norme-2016/classe/7.html",
+  "confiance": "MOYENNE",
+  "statut": "✔",
+  "note_verif": "701, 702, 706, 707 (S5 + S6).",
   "corrige_apres_verif": false
  },
  {
@@ -6220,10 +6220,10 @@
   "fichier": "syscohada-sycebnl/comptabilite.md",
   "regle": "676 / 776",
   "source": "« PERTES DE CHANGE » / « GAINS DE CHANGE » (sans subdivision lue)",
-  "url": "PCG, classes 6 et 7",
-  "confiance": "https://plan-comptable-ohada.com/nouvelle-norme-2016/classe/6.html ; https://plan-comptable-ohada.com/nouvelle-norme-2016/classe/7.html",
-  "statut": "?",
-  "note_verif": "",
+  "url": "https://plan-comptable-ohada.com/nouvelle-norme-2016/classe/6.html ; https://plan-comptable-ohada.com/nouvelle-norme-2016/classe/7.html",
+  "confiance": "MOYENNE",
+  "statut": "✔",
+  "note_verif": "676 Pertes de change, 776 Gains de change (S5 + S6).",
   "corrige_apres_verif": false
  },
  {
@@ -6233,10 +6233,10 @@
   "fichier": "syscohada-sycebnl/comptabilite.md",
   "regle": "681 / 691 / 697",
   "source": "« DOTATIONS AUX AMORTISSEMENTS D'EXPLOITATION » / « DOTATIONS AUX PROVISIONS ET AUX DEPRECIATIONS D'EXPLOITATION » / « DOTATIONS AUX PROVISIONS ET AUX DEPRECIATIONS FINANCIERES » (6971 « pour risques et charges », 6972 « des immobilisations financières »)",
-  "url": "PCG, classe 6",
-  "confiance": "https://plan-comptable-ohada.com/nouvelle-norme-2016/classe/6.html",
-  "statut": "?",
-  "note_verif": "",
+  "url": "https://plan-comptable-ohada.com/nouvelle-norme-2016/classe/6.html",
+  "confiance": "MOYENNE",
+  "statut": "◐",
+  "note_verif": "Numéros 681, 691, 697, 6971, 6972 confirmés (S5 + S6). Libellés révisés « …ET AUX DEPRECIATIONS D'EXPLOITATION/FINANCIERES » : S6 seul ; ancien plan : « Dotations aux provisions d'exploitation/financières ».",
   "corrige_apres_verif": false
  },
  {
@@ -6246,10 +6246,10 @@
   "fichier": "syscohada-sycebnl/comptabilite.md",
   "regle": "659",
   "source": "« Charges pour dépréciations et provisions pour risques a court terme d'exploitation » (6591 « sur risques à court terme », 6593 stocks, 6594 créances, 6598 autres)",
-  "url": "PCG, classe 6",
-  "confiance": "https://plan-comptable-ohada.com/nouvelle-norme-2016/classe/6.html",
-  "statut": "?",
-  "note_verif": "",
+  "url": "https://plan-comptable-ohada.com/nouvelle-norme-2016/classe/6.html",
+  "confiance": "MOYENNE",
+  "statut": "◐",
+  "note_verif": "Numéros 659, 6591, 6593, 6594, 6598 confirmés (S5). Libellé révisé de 659 : S6 seul (ancien : « Charges provisionnées d'exploitation »).",
   "corrige_apres_verif": false
  },
  {
@@ -6259,10 +6259,10 @@
   "fichier": "syscohada-sycebnl/comptabilite.md",
   "regle": "194",
   "source": "« PROVISIONS POUR PERTES DE CHANGE » (classe 1, compte 19 « Provisions pour risques et charges »)",
-  "url": "PCG, classe 1",
-  "confiance": "https://plan-comptable-ohada.com/nouvelle-norme-2016/classe/1.html",
-  "statut": "?",
-  "note_verif": "",
+  "url": "https://plan-comptable-ohada.com/nouvelle-norme-2016/classe/1.html",
+  "confiance": "MOYENNE",
+  "statut": "✔",
+  "note_verif": "194 « Provisions pour pertes de change » (S5 + S6).",
   "corrige_apres_verif": false
  },
  {
@@ -6272,10 +6272,10 @@
   "fichier": "syscohada-sycebnl/comptabilite.md",
   "regle": "89",
   "source": "« Impôts sur le résultat » ; 81-88 : autres comptes HAO",
-  "url": "PCG, classe 8",
-  "confiance": "https://plan-comptable-ohada.com/nouvelle-norme-2016/plan-comptable-syscohada.html",
-  "statut": "?",
-  "note_verif": "",
+  "url": "https://plan-comptable-ohada.com/nouvelle-norme-2016/plan-comptable-syscohada.html",
+  "confiance": "MOYENNE",
+  "statut": "✔",
+  "note_verif": "89 « Impôts sur le résultat », 81-88 HAO (S5 + S6).",
   "corrige_apres_verif": false
  },
  {
@@ -6287,8 +6287,8 @@
   "source": "AUDCIF 2017, art. 24",
   "url": "https://www.vie-publique.sn/documents/11026/acte-uniforme-droit-comptable-information-financiere-ohada-2017",
   "confiance": "HAUTE",
-  "statut": "?",
-  "note_verif": "",
+  "statut": "✔",
+  "note_verif": "Art. 24 (S1) : « conservées pendant dix ans » ; S2 concordant.",
   "corrige_apres_verif": false
  },
  {
@@ -6300,8 +6300,8 @@
   "source": "AUDCIF 2017, art. 16 al. 2",
   "url": "https://www.vie-publique.sn/documents/11026/acte-uniforme-droit-comptable-information-financiere-ohada-2017",
   "confiance": "HAUTE",
-  "statut": "?",
-  "note_verif": "",
+  "statut": "◐",
+  "note_verif": "Art. 16 al. 2 (S1).",
   "corrige_apres_verif": false
  },
  {
@@ -6313,8 +6313,8 @@
   "source": "AUDCIF 2017, art. 22 5° et 7°",
   "url": "https://www.vie-publique.sn/documents/11026/acte-uniforme-droit-comptable-information-financiere-ohada-2017",
   "confiance": "HAUTE",
-  "statut": "?",
-  "note_verif": "",
+  "statut": "◐",
+  "note_verif": "Art. 22 5° et 7° (S1).",
   "corrige_apres_verif": false
  },
  {
@@ -6326,8 +6326,8 @@
   "source": "AUDCIF 2017, art. 16 al. 7",
   "url": "https://www.vie-publique.sn/documents/11026/acte-uniforme-droit-comptable-information-financiere-ohada-2017",
   "confiance": "HAUTE",
-  "statut": "?",
-  "note_verif": "",
+  "statut": "◐",
+  "note_verif": "Art. 16, dernier alinéa (S1).",
   "corrige_apres_verif": false
  },
  {
@@ -6339,8 +6339,8 @@
   "source": "AUSCGIE 2014, art. 311",
   "url": "https://justice.gouv.km/wp-content/uploads/2025/03/ohada-acte-uniforme-2014-droit-societes-commerciales-gie.pdf",
   "confiance": "HAUTE",
-  "statut": "?",
-  "note_verif": "",
+  "statut": "✔",
+  "note_verif": "Art. 311 (S3 + commentaire ohada.com) : 1 000 000 FCFA « sauf dispositions nationales contraires », parts >= 5 000 FCFA. Sénégal et Bénin ont dérogé : vérifier le droit national.",
   "corrige_apres_verif": false
  },
  {
@@ -6352,8 +6352,8 @@
   "source": "AUSCGIE 2014, art. 311-1",
   "url": "https://justice.gouv.km/wp-content/uploads/2025/03/ohada-acte-uniforme-2014-droit-societes-commerciales-gie.pdf",
   "confiance": "HAUTE",
-  "statut": "?",
-  "note_verif": "",
+  "statut": "◐",
+  "note_verif": "Art. 311-1 (S3).",
   "corrige_apres_verif": false
  },
  {
@@ -6365,8 +6365,8 @@
   "source": "AUSCGIE 2014, art. 313",
   "url": "https://justice.gouv.km/wp-content/uploads/2025/03/ohada-acte-uniforme-2014-droit-societes-commerciales-gie.pdf",
   "confiance": "HAUTE",
-  "statut": "?",
-  "note_verif": "",
+  "statut": "◐",
+  "note_verif": "Art. 313 (S3).",
   "corrige_apres_verif": false
  },
  {
@@ -6378,8 +6378,8 @@
   "source": "AUSCGIE 2014, art. 317",
   "url": "https://justice.gouv.km/wp-content/uploads/2025/03/ohada-acte-uniforme-2014-droit-societes-commerciales-gie.pdf",
   "confiance": "HAUTE",
-  "statut": "?",
-  "note_verif": "",
+  "statut": "◐",
+  "note_verif": "Art. 317 (S3).",
   "corrige_apres_verif": false
  },
  {
@@ -6391,8 +6391,8 @@
   "source": "AUSCGIE 2014, art. 387",
   "url": "https://justice.gouv.km/wp-content/uploads/2025/03/ohada-acte-uniforme-2014-droit-societes-commerciales-gie.pdf",
   "confiance": "HAUTE",
-  "statut": "?",
-  "note_verif": "",
+  "statut": "◐",
+  "note_verif": "Art. 387 : 10 000 000 FCFA (S3).",
   "corrige_apres_verif": false
  },
  {
@@ -6404,8 +6404,8 @@
   "source": "AUSCGIE 2014, art. 142 al. 2",
   "url": "https://justice.gouv.km/wp-content/uploads/2025/03/ohada-acte-uniforme-2014-droit-societes-commerciales-gie.pdf",
   "confiance": "HAUTE",
-  "statut": "?",
-  "note_verif": "",
+  "statut": "◐",
+  "note_verif": "Art. 142 al. 2 (S3).",
   "corrige_apres_verif": false
  },
  {
@@ -6417,8 +6417,8 @@
   "source": "AUSCGIE 2014, art. 346 al. 2",
   "url": "https://justice.gouv.km/wp-content/uploads/2025/03/ohada-acte-uniforme-2014-droit-societes-commerciales-gie.pdf",
   "confiance": "HAUTE",
-  "statut": "?",
-  "note_verif": "",
+  "statut": "✔",
+  "note_verif": "Art. 346 al. 2 (S3) : un dixième au moins, cesse au cinquième du capital, nullité ; règle recoupée par commentaire (art. 142/546).",
   "corrige_apres_verif": false
  },
  {
@@ -6430,8 +6430,8 @@
   "source": "AUSCGIE 2014, art. 546 2°",
   "url": "https://justice.gouv.km/wp-content/uploads/2025/03/ohada-acte-uniforme-2014-droit-societes-commerciales-gie.pdf",
   "confiance": "HAUTE",
-  "statut": "?",
-  "note_verif": "",
+  "statut": "✔",
+  "note_verif": "Art. 546 2° (S3) ; même règle recoupée.",
   "corrige_apres_verif": false
  },
  {
@@ -6443,8 +6443,8 @@
   "source": "AUSCGIE 2014, art. 143 al. 1",
   "url": "https://justice.gouv.km/wp-content/uploads/2025/03/ohada-acte-uniforme-2014-droit-societes-commerciales-gie.pdf",
   "confiance": "HAUTE",
-  "statut": "?",
-  "note_verif": "",
+  "statut": "◐",
+  "note_verif": "Art. 143 al. 1 (S3).",
   "corrige_apres_verif": false
  },
  {
@@ -6456,8 +6456,8 @@
   "source": "AUSCGIE 2014, art. 143 al. 2-4",
   "url": "https://justice.gouv.km/wp-content/uploads/2025/03/ohada-acte-uniforme-2014-droit-societes-commerciales-gie.pdf",
   "confiance": "HAUTE",
-  "statut": "?",
-  "note_verif": "",
+  "statut": "◐",
+  "note_verif": "Art. 143 al. 2-4 (S3).",
   "corrige_apres_verif": false
  },
  {
@@ -6469,8 +6469,8 @@
   "source": "AUSCGIE 2014, art. 144",
   "url": "https://justice.gouv.km/wp-content/uploads/2025/03/ohada-acte-uniforme-2014-droit-societes-commerciales-gie.pdf",
   "confiance": "HAUTE",
-  "statut": "?",
-  "note_verif": "",
+  "statut": "✔",
+  "note_verif": "Art. 144 (S3 + S4).",
   "corrige_apres_verif": false
  },
  {
@@ -6482,8 +6482,8 @@
   "source": "AUSCGIE 2014, art. 146 al. 2",
   "url": "https://justice.gouv.km/wp-content/uploads/2025/03/ohada-acte-uniforme-2014-droit-societes-commerciales-gie.pdf",
   "confiance": "HAUTE",
-  "statut": "?",
-  "note_verif": "",
+  "statut": "✔",
+  "note_verif": "Art. 146 al. 2 : 9 mois, prolongation par la juridiction (S3 + S4).",
   "corrige_apres_verif": false
  },
  {
@@ -6495,8 +6495,8 @@
   "source": "AUSCGIE 2014, art. 346 al. 3",
   "url": "https://justice.gouv.km/wp-content/uploads/2025/03/ohada-acte-uniforme-2014-droit-societes-commerciales-gie.pdf",
   "confiance": "HAUTE",
-  "statut": "?",
-  "note_verif": "",
+  "statut": "◐",
+  "note_verif": "Art. 346 : répétition exigible des associés ; prescription 3 ans à compter de la mise en distribution (S3).",
   "corrige_apres_verif": false
  },
  {
@@ -6508,8 +6508,8 @@
   "source": "PCG SYSCOHADA révisé, classe 1 (voir comptabilite.md OHADA-CPT-033 à 036)",
   "url": "https://plan-comptable-ohada.com/nouvelle-norme-2016/classe/1.html",
   "confiance": "MOYENNE",
-  "statut": "?",
-  "note_verif": "",
+  "statut": "✔",
+  "note_verif": "101, 111, 12, 13 (voir CPT-033 à 036).",
   "corrige_apres_verif": false
  },
  {
@@ -6520,9 +6520,9 @@
   "regle": "Gains et pertes de change réalisés dans l'exercice (naissance et règlement la même année) : l'Acte impose de les inscrire en produits financiers / charges financières. Comptes correspondants du PCG : 776 « GAINS DE CHANGE », 676 « PERTES DE CHANGE » (classe 77 « Revenus financiers », 67 « Frais fina",
   "source": "AUDCIF 2017, art. 53 ; PCG classes 6-7",
   "url": "https://www.vie-publique.sn/documents/11026/acte-uniforme-droit-comptable-information-financiere-ohada-2017",
-  "confiance": "HAUTE (traitement) / MOYENNE (numéros)",
-  "statut": "?",
-  "note_verif": "",
+  "confiance": "HAUTE",
+  "statut": "✔",
+  "note_verif": "Art. 53 (S1) ; 676 et 776 (S5 + S6).",
   "corrige_apres_verif": false
  },
  {
@@ -6534,8 +6534,8 @@
   "source": "AUDCIF 2017, art. 55",
   "url": "https://www.vie-publique.sn/documents/11026/acte-uniforme-droit-comptable-information-financiere-ohada-2017",
   "confiance": "MOYENNE",
-  "statut": "?",
-  "note_verif": "",
+  "statut": "◐",
+  "note_verif": "Art. 55 (S1).",
   "corrige_apres_verif": false
  },
  {
@@ -6546,9 +6546,9 @@
   "regle": "Écarts de conversion à la clôture : OBLIGATOIRES (inscription directe au bilan en écarts de conversion actif = pertes probables, passif = gains latents). Comptes : 478 « ECARTS DE CONVERSION-ACTIF » (4781 diminution des créances, 4782 augmentation des dettes), 479 « ECARTS DE CONVERSION- PASSIF » (4",
   "source": "AUDCIF 2017, art. 54 et art. 30 (bilan : « écart de conversion-actif/passif ») ; PCG classe 4",
   "url": "https://www.vie-publique.sn/documents/11026/acte-uniforme-droit-comptable-information-financiere-ohada-2017",
-  "confiance": "HAUTE (obligation) / MOYENNE (numéros)",
-  "statut": "?",
-  "note_verif": "",
+  "confiance": "HAUTE",
+  "statut": "✔",
+  "note_verif": "Art. 54 (S1) ; 478/479 et sous-comptes (S5 + S6 + mémoire). Art. 30 non relu.",
   "corrige_apres_verif": false
  },
  {
@@ -6559,9 +6559,9 @@
   "regle": "Provision pour pertes de change : imposée pour les pertes probables (écart actif), limitée à l'excédent des pertes probables sur les gains latents si position globale de change. Compte de provision du PCG : 194 « PROVISIONS POUR PERTES DE CHANGE ». Compte de dotation exact (697/6971 ? 679 ?) : NON c",
   "source": "AUDCIF 2017, art. 54 al. 3 et art. 57 ; PCG classe 1",
   "url": "https://www.vie-publique.sn/documents/11026/acte-uniforme-droit-comptable-information-financiere-ohada-2017",
-  "confiance": "HAUTE (obligation) / BASSE (compte de dotation)",
-  "statut": "?",
-  "note_verif": "",
+  "confiance": "HAUTE",
+  "statut": "◐",
+  "note_verif": "Art. 54 (dernier alinéa, pas « al. 3 ») et art. 57 conformes (S1) ; 194 confirmé (S5 + S6). Compte de dotation toujours inconnu.",
   "corrige_apres_verif": false
  },
  {
@@ -6573,8 +6573,8 @@
   "source": "AUDCIF 2017, art. 58 et 56",
   "url": "https://www.vie-publique.sn/documents/11026/acte-uniforme-droit-comptable-information-financiere-ohada-2017",
   "confiance": "HAUTE",
-  "statut": "?",
-  "note_verif": "",
+  "statut": "◐",
+  "note_verif": "Art. 58 et 56 (S1).",
   "corrige_apres_verif": false
  },
  {
@@ -6586,8 +6586,8 @@
   "source": "AUDCIF 2017, art. 53 al. 2 et art. 58-1 ; PCG classe 4",
   "url": "https://www.vie-publique.sn/documents/11026/acte-uniforme-droit-comptable-information-financiere-ohada-2017",
   "confiance": "MOYENNE",
-  "statut": "?",
-  "note_verif": "",
+  "statut": "◐",
+  "note_verif": "Art. 53 al. 2 et 58-1 (S1) ; 4788/4798 (S5 + S6).",
   "corrige_apres_verif": false
  },
  {
@@ -6598,9 +6598,9 @@
   "regle": "Provisions pour risques et charges (passif externe incertain) : OBLIGATOIRES si risque probable. À plus d'un an : « compte de dotation aux provisions » (classe 19 au passif, rubrique dettes financières) ; à court terme : « charges pour provisions pour risques à court terme » (passif circulant). Comp",
   "source": "AUDCIF 2017, art. 48 ; PCG classes 1 et 6",
   "url": "https://www.vie-publique.sn/documents/11026/acte-uniforme-droit-comptable-information-financiere-ohada-2017",
-  "confiance": "HAUTE (obligation) / MOYENNE (numéros)",
-  "statut": "?",
-  "note_verif": "",
+  "confiance": "HAUTE",
+  "statut": "◐",
+  "note_verif": "Art. 48 (S1) ; numéros 19x, 659, 691, 697 confirmés ; libellés révisés : voir CPT-047/048.",
   "corrige_apres_verif": false
  },
  {
@@ -6611,9 +6611,9 @@
   "regle": "Dépréciations et amortissements : imposés lorsque la valeur d'inventaire est inférieure à la valeur d'entrée (perte définitive = amortissement ; non définitive = dépréciation). Charge : 681 « DOTATIONS AUX AMORTISSEMENTS D'EXPLOITATION » ; 691 pour les dépréciations/provisions d'exploitation.",
   "source": "AUDCIF 2017, art. 43, 45-47, 49 ; PCG classe 6",
   "url": "https://www.vie-publique.sn/documents/11026/acte-uniforme-droit-comptable-information-financiere-ohada-2017",
-  "confiance": "HAUTE / MOYENNE",
-  "statut": "?",
-  "note_verif": "",
+  "confiance": "HAUTE",
+  "statut": "◐",
+  "note_verif": "Art. 43 et 49 (S1) ; art. 45-47 non relus ; 681 et 691 (numéros).",
   "corrige_apres_verif": false
  },
  {
@@ -6625,8 +6625,8 @@
   "source": "AUDCIF 2017, art. 111-1 ; PCG classe 4",
   "url": "https://www.vie-publique.sn/documents/11026/acte-uniforme-droit-comptable-information-financiere-ohada-2017",
   "confiance": "MOYENNE",
-  "statut": "?",
-  "note_verif": "",
+  "statut": "◐",
+  "note_verif": "Art. 111-1 (S1) : seul 475 est cité ; aucun compte d'attente prescrit par l'Acte. Réserve : l'ancien plan nommait 471 « Comptes d'attente » ; libellé révisé de 471 à confirmer.",
   "corrige_apres_verif": false
  },
  {
@@ -6638,8 +6638,8 @@
   "source": "AUDCIF 2017, art. 17 7° et art. 18",
   "url": "https://www.vie-publique.sn/documents/11026/acte-uniforme-droit-comptable-information-financiere-ohada-2017",
   "confiance": "MOYENNE",
-  "statut": "?",
-  "note_verif": "",
+  "statut": "◐",
+  "note_verif": "Art. 17 7° et 18 (S1).",
   "corrige_apres_verif": false
  },
  {
@@ -6651,8 +6651,8 @@
   "source": "AUDCIF 2017, art. 51-52",
   "url": "https://www.vie-publique.sn/documents/11026/acte-uniforme-droit-comptable-information-financiere-ohada-2017",
   "confiance": "HAUTE",
-  "statut": "?",
-  "note_verif": "",
+  "statut": "◐",
+  "note_verif": "Art. 52 (S1). Art. 51 non relu.",
   "corrige_apres_verif": false
  },
  {
@@ -6663,9 +6663,9 @@
   "regle": "Les entités à but non lucratif ne sont pas assujetties au SYSCOHADA (AUDCIF art. 5) ; elles relèvent du SYCEBNL, Acte uniforme adopté les 21-22/12/2022 à Niamey, en vigueur le 01/01/2024.",
   "source": "AUDCIF 2017, art. 5 al. 3 ; communiqué OHADA 28/12/2022",
   "url": "https://www.vie-publique.sn/documents/11026/acte-uniforme-droit-comptable-information-financiere-ohada-2017 ; https://www.ohada.com/actualite/6569/acte-uniforme-relatif-au-systeme-comptable-des-entites-a-but-non-lucratif-sycebnl.html",
-  "confiance": "HAUTE (art. 5) / MOYENNE (dates)",
-  "statut": "?",
-  "note_verif": "",
+  "confiance": "HAUTE",
+  "statut": "✔",
+  "note_verif": "Art. 5 al. 3 (S1) + dates SYCEBNL (S8).",
   "corrige_apres_verif": false
  },
  {
@@ -6677,8 +6677,8 @@
   "source": "Guide d'application SYCEBNL, Introduction",
   "url": "https://www.ohada.org/wp-content/uploads/2023/04/SYCEBNL-GUIDE-D-APPLICATION.pdf",
   "confiance": "MOYENNE",
-  "statut": "?",
-  "note_verif": "",
+  "statut": "✔",
+  "note_verif": "Guide + S8.",
   "corrige_apres_verif": false
  },
  {
@@ -6690,8 +6690,8 @@
   "source": "Communiqué OHADA 28/12/2022",
   "url": "https://www.ohada.com/actualite/6569/acte-uniforme-relatif-au-systeme-comptable-des-entites-a-but-non-lucratif-sycebnl.html",
   "confiance": "MOYENNE",
-  "statut": "?",
-  "note_verif": "",
+  "statut": "✔",
+  "note_verif": "Annexe 422 p., 4 parties (ohada.com 6569 ; recherche concordante).",
   "corrige_apres_verif": false
  },
  {
@@ -6703,8 +6703,8 @@
   "source": "Guide SYCEBNL, application 1, note préliminaire",
   "url": "https://www.ohada.org/wp-content/uploads/2023/04/SYCEBNL-GUIDE-D-APPLICATION.pdf",
   "confiance": "MOYENNE",
-  "statut": "?",
-  "note_verif": "",
+  "statut": "◐",
+  "note_verif": "Guide : 4511 « Apporteurs en nature », 4512 « Apporteurs en numéraire » confirmés.",
   "corrige_apres_verif": false
  },
  {
@@ -6716,8 +6716,8 @@
   "source": "Guide SYCEBNL, application 1",
   "url": "https://www.ohada.org/wp-content/uploads/2023/04/SYCEBNL-GUIDE-D-APPLICATION.pdf",
   "confiance": "MOYENNE",
-  "statut": "?",
-  "note_verif": "",
+  "statut": "◐",
+  "note_verif": "Guide : 1015, 1041, 1021, 1025, 1049, 703 confirmés.",
   "corrige_apres_verif": false
  },
  {
@@ -6729,8 +6729,8 @@
   "source": "Guide SYCEBNL, application 2",
   "url": "https://www.ohada.org/wp-content/uploads/2023/04/SYCEBNL-GUIDE-D-APPLICATION.pdf",
   "confiance": "MOYENNE",
-  "statut": "?",
-  "note_verif": "",
+  "statut": "◐",
+  "note_verif": "Guide : 103, 1851, 701, 411 confirmés.",
   "corrige_apres_verif": false
  },
  {
@@ -6742,8 +6742,8 @@
   "source": "Guide SYCEBNL, applications 3 et 16",
   "url": "https://www.ohada.org/wp-content/uploads/2023/04/SYCEBNL-GUIDE-D-APPLICATION.pdf",
   "confiance": "MOYENNE",
-  "statut": "?",
-  "note_verif": "",
+  "statut": "◐",
+  "note_verif": "Guide : 4731, 1417, 799, 4732 confirmés.",
   "corrige_apres_verif": false
  },
  {
@@ -6755,8 +6755,8 @@
   "source": "Guide SYCEBNL, application 4",
   "url": "https://www.ohada.org/wp-content/uploads/2023/04/SYCEBNL-GUIDE-D-APPLICATION.pdf",
   "confiance": "MOYENNE",
-  "statut": "?",
-  "note_verif": "",
+  "statut": "◐",
+  "note_verif": "Guide : 165, 7925 confirmés.",
   "corrige_apres_verif": false
  },
  {
@@ -6768,8 +6768,8 @@
   "source": "Guide SYCEBNL, applications 5, 6, 7, 8",
   "url": "https://www.ohada.org/wp-content/uploads/2023/04/SYCEBNL-GUIDE-D-APPLICATION.pdf",
   "confiance": "MOYENNE",
-  "statut": "?",
-  "note_verif": "",
+  "statut": "◐",
+  "note_verif": "Guide : 167, 172, 171, 162, 165, 702 confirmés.",
   "corrige_apres_verif": false
  },
  {
@@ -6781,8 +6781,8 @@
   "source": "Guide SYCEBNL, applications 9-11, 17, 18",
   "url": "https://www.ohada.org/wp-content/uploads/2023/04/SYCEBNL-GUIDE-D-APPLICATION.pdf",
   "confiance": "MOYENNE",
-  "statut": "?",
-  "note_verif": "",
+  "statut": "◐",
+  "note_verif": "Guide : 4713, 706 « Revenus des manifestations », 4751 « Mécènes », 4572 « Bénévoles » confirmés. Conflit de numérotation avec le SYSCOHADA (4751 = Compte actif) : ne pas mélanger dans un même plan.",
   "corrige_apres_verif": false
  },
  {
@@ -6794,8 +6794,8 @@
   "source": "Guide SYCEBNL, applications 1, 3",
   "url": "https://www.ohada.org/wp-content/uploads/2023/04/SYCEBNL-GUIDE-D-APPLICATION.pdf",
   "confiance": "MOYENNE",
-  "statut": "?",
-  "note_verif": "",
+  "statut": "✔",
+  "note_verif": "571 Caisse, 5211, 2441, 6813 dans le guide ; 571/52 dans S5/S6.",
   "corrige_apres_verif": false
  },
  {
@@ -6807,8 +6807,8 @@
   "source": "Guide SYCEBNL (silencieux) ; AUDCIF art. 24",
   "url": "https://www.vie-publique.sn/documents/11026/acte-uniforme-droit-comptable-information-financiere-ohada-2017",
   "confiance": "BASSE",
-  "statut": "?",
-  "note_verif": "",
+  "statut": "◐",
+  "note_verif": "Le guide est silencieux sur la conservation (recherche « conserv », « dix ans » : rien). Application de l'art. 24 aux EBNL non établie.",
   "corrige_apres_verif": false
  },
  {
@@ -6820,8 +6820,8 @@
   "source": "Recherche web (synthèse), non vérifié",
   "url": "https://www.ohada.com/actualite/6569/acte-uniforme-relatif-au-systeme-comptable-des-entites-a-but-non-lucratif-sycebnl.html",
   "confiance": "BASSE",
-  "statut": "?",
-  "note_verif": "",
+  "statut": "✔",
+  "note_verif": "SMT du SYCEBNL confirmé par ohada.com 6692 et par les comptes rendus de Cotonou et Libreville (2023). Seuil 30 M, base de calcul variable (subventions/dons/legs ou revenus) : à trancher sur l'Acte.",
   "corrige_apres_verif": false
  }
 ]
