@@ -18,7 +18,7 @@
 | CEMAC-CLO-011 | Des états mensuels existent : le PCEMF mentionne la « situation mensuelle détaillée » et la déclaration à la centrale des risques pour lesquelles la compensation des comptes est exigée ; les encours sont à ventiler à la date d'arrêté (durée initiale, durée restante). | PCEMF, comptes 37 (p. 122), 19 et 3x | [PCEMF] | MOYENNE (mention incidente ; périodicité exacte non lue) | ? |
 | CEMAC-CLO-012 | Contrôle interne : rapport sur l'exécution du contrôle interne et la mesure des risques à transmettre à la COBAC au plus tard le 30 juin de l'année suivante (R-2017/06, art. 75 à 81) ; contrôle externe par commissaires aux comptes (Règl. 01/17). | Présentation Promote 2019, p. 13 et 15-16 | [PROMOTE] | MOYENNE (R-2017/06 non lu) | ? |
 | CEMAC-CLO-013 | Rapport annuel sur les comptes et coffres inactifs à transmettre à la COBAC et à la CDC (ou Direction nationale BEAC) au plus tard le 31 mars de l'exercice suivant ; transmission mensuelle d'un état récapitulatif des avoirs transférés. | Règl. 02/25 art. 11 et 14 | [R0225] | HAUTE | ? |
-| CEMAC-CLO-014 | Le Secrétaire général de la COBAC peut mettre en demeure ; les EMF doivent transmettre les documents dans les formes et délais fixés par la COBAC (liste, teneur et délais déterminés par la COBAC). | Règl. 01/02 art. 48 | [R0102] | HAUTE (2002) ; équivalent sous 01/17 non lu | ? |
+| CEMAC-CLO-014 | La COBAC détermine la liste, la teneur et les délais de transmission des documents et informations que les EMF doivent lui adresser (début d'article seulement lu à l'OCR). | Règl. 01/02 art. 48 | [R0102] | HAUTE (2002) ; équivalent sous 01/17 non lu | ? |
 
 ## Choix de produit (hors réglementation)
 
