@@ -58,7 +58,7 @@ Total : 35 entrées (dont 18 lues au moins en partie).
 
 - Sources privilégiées : cb-umoa.org (page « Réglementation comptable et prudentielle des SFD », 19 textes, https://cb-umoa.org/fr/sfd), bceao.int (réglementations, Conseil des Ministres), recueil BCEAO des textes SFD (éd. déc. 2011).
 - RCSFD : le PDF local est la version allégée ; les pages 42-114 (contenu et fonctionnement des comptes) ne sont pas extractibles en texte (police encodée) : lues par OCR avec contrôle visuel de 2 pages (p.44 et p.65). Instruction 010-08-2010 et loi uniforme comptes dormants : scans lus par OCR. Tous chiffres clés (seuils de ratios, 40/80/100 %, durées 8/10/20/30 ans) à contrôler visuellement par l'agent de vérification.
-- Aucun fichier volumineux n'a été téléchargé par le rédacteur (PDF consultés via lecture web ou fichiers < 1 Mo) ; les PDF volumineux cités ci-dessous restent à obtenir si une lecture complète est nécessaire.
+- Aucun téléchargement manuel (wget/curl) de PDF > 1 Mo. Note : l'outil de lecture web a mis en cache hors dépôt (dossier de session) deux PDF de 6 Mo (recueil cb-umoa, instruction 010-08-2010) pour lecture locale ; rien n'a été écrit dans le dépôt hors uemoa-bceao/.
 
 ## Lacunes / à confirmer
 
