@@ -1,7 +1,7 @@
 # CEMAC — Taux effectif global (TEG), usure, conditions de banque
 
 - Zone : CEMAC. Thème : TEG, taux d'usure, publication des conditions. Date : 2026-10-13. Rédacteur : agent de recherche Claude.
-- Texte lu (OCR, 10 pages) : Règlement n° 04/19/CEMAC/UMAC/CM du 20 décembre 2019 relatif au taux effectif global et à la répression de l'usure et à la publication des conditions de banque dans la CEMAC. Il s'applique aux « établissements assujettis », définis comme les établissements de crédit, de microfinance, de paiement et intermédiaires en opérations de banque octroyant des crédits à titre habituel.
+- Texte lu (OCR, 10 pages) : Règlement n° 04/19/CEMAC/UMAC/CM du 10 août 2020 (adopté en session le 20 décembre 2019) relatif au taux effectif global et à la répression de l'usure et à la publication des conditions de banque dans la CEMAC. Il s'applique aux « établissements assujettis », définis comme les établissements de crédit, de microfinance, de paiement et intermédiaires en opérations de banque octroyant des crédits à titre habituel.
 - Aucun taux d'usure chiffré n'est dans le règlement : il est fixé trimestriellement par le Comité de politique monétaire (CPM) de la BEAC, par État et catégorie de prêt.
 
 | id | règle (résumé fidèle) | source | URL | confiance | vérification |
