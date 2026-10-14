@@ -12,6 +12,7 @@ for vf in (root / 'verification').glob('*-verification.md'):
         if len(c) >= 2 and re.match(r'^[A-Z]+-[A-Z0-9]+-\d+', c[0]):
             m = re.search(r'[✔◐✘?]', c[1])
             if m: verd[c[0]] = (m.group(0), c[2] if len(c) > 2 else '')
+CORRIGES = {'RDC-CLO-009','RDC-CPT-010','RDC-EPA-004','RDC-EPA-016','RDC-PSO-003','RDC-PSO-006','RDC-PSO-007','CEMAC-TUS-014'}  # ✘ corrigés dans le texte après vérification, pas encore re-vérifiés
 rows = []
 idre = re.compile(r'^\|\s*([A-Z]+-[A-Z0-9]+-\d+)\s*\|')
 for d, zone in ZONES.items():
@@ -27,7 +28,7 @@ for d, zone in ZONES.items():
             if apply and c[-1] != v:
                 c[-1] = v; lines[i] = '| ' + ' | '.join(c) + ' |'; changed = True
             rows.append(dict(id=rid, zone=zone, theme=f.stem, fichier=f'{d}/{f.name}', regle=c[1][:300],
-                             source=c[2], url=c[3], confiance=c[4], statut=v, note_verif=verd.get(rid, ('', ''))[1][:300]))
+                             source=c[2], url=c[3], confiance=c[4], statut=v, note_verif=verd.get(rid, ('', ''))[1][:300], corrige_apres_verif=rid in CORRIGES))
         if changed: f.write_text('\n'.join(lines) + '\n', encoding='utf-8')
 (root / 'index.json').write_text(json.dumps(rows, ensure_ascii=False, indent=1), encoding='utf-8')
 st = collections.defaultdict(collections.Counter)
