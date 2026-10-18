@@ -23,7 +23,7 @@ Charger dans une instance EDIP les données d'une institution (reprise d'un anci
 
 ## 3. Cycle de vie d'un lot
 
-Un lot a un code généré, un libellé, une date de bascule (date du dernier jour de l'ancien système) et les agences concernées. Un seul lot est actif à la fois (verrou global).
+Un lot a un code généré, un libellé, une date de bascule (date du dernier jour de l'ancien système) et les agences concernées (aucune sélection = toutes les agences). Un seul lot est actif à la fois (verrou global).
 
 | Statut | Signification | Actions possibles |
 |---|---|---|
@@ -71,6 +71,8 @@ Télécharger le gabarit à l'étape 2 (feuilles : `Instructions`, `Devises`, `A
 | dateOuverture | non | pas postérieure à la date de bascule |
 | adresse, telephone, email | non | 255 / 30 / 100 car. ; e-mail au format valide |
 
+Le sigle de l'agence reçoit son code (affiché « libellé (code) » dans Paramétrage commun).
+
 ### Utilisateurs (`Utilisateurs`, après Agences)
 | Colonne | Oblig. | Règle |
 |---|---|---|
@@ -81,7 +83,7 @@ Télécharger le gabarit à l'étape 2 (feuilles : `Instructions`, `Devises`, `A
 | agences | oui | codes séparés par des virgules |
 | agencePrincipale | oui | doit figurer dans `agences` |
 
-Mot de passe : aléatoire, inconnu de tous. Une invitation par e-mail n'est envoyée que si l'option du lot `envoyerInvitations` vaut `true` ; sinon l'administrateur déclenche une réinitialisation de mot de passe.
+Rattachements : l'utilisateur créé reçoit exactement le profil et les agences du fichier ; toute ligne d'agence, de groupe ou de rôle laissée en base sur le même identifiant (ancien utilisateur supprimé) est effacée avant. Mot de passe : aléatoire, inconnu de tous. Une invitation par e-mail n'est envoyée que si l'option du lot `envoyerInvitations` vaut `true` ; sinon l'administrateur déclenche une réinitialisation de mot de passe.
 
 ### Codes d'erreur (affichés traduits dans la grille)
 | Code | Gravité | Cause |
@@ -98,10 +100,11 @@ Mot de passe : aléatoire, inconnu de tous. Une invitation par e-mail n'est envo
 | `import.erreur.cycle_parente` | bloquante | agence parente d'elle-même |
 | `import.erreur.devise_principale_multiple` | bloquante | plus d'une devise principale |
 | `import.erreur.profil_interdit` | bloquante | profil d'administration/migration |
+| `import.erreur.dataset_manquant` | avertissement | jeu de données dont dépend une feuille absent du lot (ex. `Devises` pour `Agences`) : les références sont vérifiées dans la base |
 | `import.erreur.existe_deja` | avertissement | code ou e-mail déjà en base : ligne ignorée, jamais écrasée, jamais purgée |
 | `import.erreur.chargement` | bloquante | échec à l'écriture (détail sous le message) |
 
-Une erreur bloquante interdit « Passer à l'import ». Les avertissements doivent être acceptés (case à cocher). Export CSV des erreurs depuis la grille.
+Une erreur bloquante interdit « Passer à l'import ». Les avertissements doivent être acceptés (case à cocher). Export xlsx des erreurs depuis la grille (filtres appliqués : sévérité, dataset, fichier, ligne, colonne, code, valeur).
 
 ## 5. Formats de nombres, dates, booléens
 
