@@ -1,6 +1,6 @@
 # Migration de données EDIP — guide opérateur
 
-Itération 1 : socle (lots, verrou, réinitialisation) et classeur `01-Parametrage` (module commun : devises, agences, utilisateurs). Les classeurs des autres modules (compta, épargne, crédit, caisse, stock, RH, paie…) arrivent aux itérations suivantes sur les mêmes interfaces.
+Itération 1 : socle (lots, verrou, réinitialisation) et classeur `01-Parametrage` (module commun : devises, agences, utilisateurs). Itération 2 : classeurs `02-Comptabilite` (plan comptable, journaux, balance d'ouverture, exercices générés) et `03-Clients` (gestionnaires, clients, groupes, membres, bénéficiaires, parts sociales). Les classeurs des autres modules (épargne, crédit, caisse, stock, RH, paie…) arrivent aux itérations suivantes sur les mêmes interfaces.
 
 ## 1. Objet
 
@@ -106,6 +106,145 @@ Rattachements : l'utilisateur créé reçoit exactement le profil et les agences
 
 Une erreur bloquante interdit « Passer à l'import ». Les avertissements doivent être acceptés (case à cocher). Export xlsx des erreurs depuis la grille (filtres appliqués : sévérité, dataset, fichier, ligne, colonne, code, valeur).
 
+## 4 bis. Classeur `02-Comptabilite`
+
+Ordre de dépôt : `01-Parametrage` (agences) d'abord, puis `02-Comptabilite`, puis `03-Clients`. Feuilles du gabarit : `Instructions`, `PlanComptable`, `Journaux`, `BalanceOuverture`, `Référentiels` (listes déroulantes). Mêmes règles d'en-têtes et de CSV que le §4 (`PlanComptable.csv`, `Journaux.csv`, `BalanceOuverture.csv`).
+
+### Décisions de cadrage (rappel pour l'opérateur)
+- **Numéros de comptes à la longueur du paramétrage** (`parametrage_comptabilite.longueur_compte_general`, 6 dans la démo Togo), chiffres seulement. Aucun complément de zéros n'est fait à l'import : un compte de 4 chiffres est refusé (`compte_longueur`). Compléter les numéros dans Excel avant le dépôt.
+- **Exercices générés, pas de feuille dédiée.** Pour chaque agence du lot (aucune sélection = toutes les agences, y compris celles du même lot), l'import crée l'exercice de l'année de **J = date de bascule + 1 jour** (code = année, du 1er janvier au 31 décembre, `OUVERT`, exercice courant), les périodes mensuelles de janvier au mois de J (les mois antérieurs `CLOTUREE`, celui de J `OUVERTE`) et la journée comptable J `OUVERTE`. Une agence qui a déjà un exercice pour cette année n'est pas touchée (avertissement `exercice_existant`). Option du lot `exercicesAuto` = `false` : rien n'est généré.
+- **Balance d'ouverture : validée mais non comptabilisée.** À cette itération, la balance est contrôlée (équilibre par agence, comptes mouvementables) et conservée en transit, mais **aucune pièce comptable n'est créée** : les soldes d'ouverture ne s'affichent donc pas encore en comptabilité. Les pièces d'à-nouveau seront générées à l'itération 3, après l'épargne, le crédit, le stock et les immobilisations.
+
+### PlanComptable (aucune dépendance)
+| Colonne | Oblig. | Règle |
+|---|---|---|
+| numeroCompte | oui | chiffres seulement, longueur du paramétrage comptable (15 max) |
+| libelle | oui | 150 car. |
+| classe | oui | `C1` à `C9` (ou le chiffre seul) ; doit être le 1er chiffre du numéro |
+| nature | oui | `BILAN`, `GESTION`, `HORS_BILAN` |
+| sens | oui | `DEBITEUR`, `CREDITEUR`, `MIXTE` |
+| typeCompte | non | `RACINE`, `PRINCIPAL`, `DETAILLE`, `COLLECTIF`, `AUXILIAIRE` ; si vide, déduit des zéros de droite (1-2 chiffres significatifs = racine, 3-4 = principal, plus = détaillé) |
+| compteParent | non | numéro du compte parent (classeur ou base) ; sinon le plus long préfixe existant |
+| lettrable | non | défaut : oui pour les classes 2, 3, 4 hors racine |
+| rapprochable | non | défaut : oui pour les préfixes 11 et 52 hors racine |
+| actif | non | défaut : oui |
+
+Un numéro déjà en base est ignoré (avertissement), jamais écrasé ni purgé. Le parent est rattaché après le chargement.
+
+### Journaux (après PlanComptable)
+| Colonne | Oblig. | Règle |
+|---|---|---|
+| codeJournal | oui | majuscules, chiffres, `_` ; 5 car. max ; unique |
+| libelle | oui | 50 car. |
+| typeJournal | oui | `ACHAT`, `VENTE`, `TRESORERIE`, `BANQUE`, `CAISSE`, `OD`, `AN`, `A_NOUVEAUX`, `CLOTURE`, `OPERATIONS`, `INTEGRATION`, `EPARGNE`, `CREDIT`, `PAIE`… (liste du gabarit) |
+| compteContrepartie | non | numéro du plan ou nom de rôle (ex. `CAISSE_SESSION`) ; **obligatoire pour une trésorerie** (banque, caisse, trésorerie) |
+| prefixePiece | non | préfixe des numéros de pièces, unique entre journaux (code du journal si vide) |
+| numerotation | non | mode de numérotation, défaut par période |
+| devise | non | code d'une devise existante (devise principale si vide) |
+| actif | non | défaut : oui |
+
+Un format de numéro de pièce est créé pour chaque journal chargé. Un code déjà en base est ignoré (avertissement).
+
+### BalanceOuverture (après PlanComptable et Agences)
+| Colonne | Oblig. | Règle |
+|---|---|---|
+| codeAgence | oui | agence du classeur 01 ou déjà en base |
+| numeroCompte | oui | compte **mouvementable** (ni racine ni principal) |
+| debit / credit | non | entiers positifs ; un seul des deux par ligne |
+| libelle | non | 150 car. |
+
+La balance doit être **équilibrée par agence** (somme des débits = somme des crédits). Une ligne à 0 est signalée (sans effet). Un compte ne figure qu'une fois par agence.
+
+### Codes d'erreur propres au classeur 02
+| Code | Gravité | Cause |
+|---|---|---|
+| `import.erreur.compte_longueur` | bloquante | numéro de longueur différente du paramétrage |
+| `import.erreur.classe_incoherente` | bloquante | classe différente du 1er chiffre du numéro |
+| `import.erreur.cycle_parente` | bloquante | compte parent cyclique ou égal au compte |
+| `import.erreur.reference_inconnue` | bloquante | parent, agence, compte de contrepartie, compte de balance ou devise introuvable |
+| `import.erreur.doublon` | bloquante | numéro de compte, code de journal ou compte de balance répété |
+| `import.erreur.existe_deja` | avertissement | compte ou journal déjà en base : ligne ignorée |
+| `import.erreur.prefixe_doublon` | bloquante | préfixe de pièce déjà pris par un autre journal |
+| `import.erreur.contrepartie_obligatoire` | bloquante | journal de trésorerie sans compte de contrepartie |
+| `import.erreur.compte_non_mouvementable` | bloquante | balance sur un compte racine ou principal |
+| `import.erreur.montant_negatif` / `montant_non_entier` | bloquante | montant < 0 ou avec décimales |
+| `import.erreur.debit_et_credit` | bloquante | débit et crédit sur la même ligne |
+| `import.erreur.balance_desequilibree` | bloquante | écart débit − crédit non nul pour l'agence (affiché sur la 1re ligne de l'agence) |
+| `import.erreur.montant_nul` | avertissement | ligne de balance à 0 |
+| `import.erreur.exercice_existant` | avertissement | l'agence a déjà son exercice de l'année de bascule : aucun exercice créé |
+
+### Annulation
+Les comptes, journaux (et leurs formats de pièces) créés par le lot sont supprimés. **Refus** (lot en `ECHEC`, message explicite) si un compte créé porte des écritures, a des comptes enfants hors lot, est utilisé par un journal, un compte auxiliaire ou un rôle comptable hors lot, si un journal créé porte des pièces, ou si une pièce hors lot référence un exercice/période générés. Les exercices, périodes et la journée générés sont retirés avec le lot.
+
+## 4 ter. Classeur `03-Clients`
+
+Feuilles du gabarit : `Instructions`, `Gestionnaires`, `Clients`, `Groupes`, `MembresGroupe`, `Beneficiaires`, `PartsSociales`, `Référentiels`. CSV : `Clients_<CodeAgence>.csv` (un fichier par agence pour les gros volumes), `Groupes.csv`, `MembresGroupe.csv`, etc.
+
+### Décisions de cadrage
+- **Numéros de clients générés par EDIP.** Le numéro EDIP (`CLI-…`, groupes `GRP-<année>-…`, comptes de parts `PS…`) suit le format de numérotation configuré et est attribué au chargement, par blocs, dans l'ordre des lignes. Formats supportés : `{prefix}`, `{year}`, `{month}`, `{day}`, `{sequence}` ; tout autre jeton arrête l'import avant écriture (`format_numero_non_supporte`).
+- **L'ancien numéro est conservé** (`ancienNumeroClient` → champ numéro externe) et **sert à la recherche** : la fiche et la recherche client retrouvent un client par son ancien numéro.
+- **KYC par défaut `VALIDE`** (clients déjà adhérents) ; niveau de risque `FAIBLE`, segment `STANDARD`, PEP non, si les colonnes sont vides.
+- **Unicités** : ancien numéro unique dans le lot (clients et groupes confondus) et en base (bloquant) ; pièce d'identité (type + numéro) unique dans le lot et en base (bloquant) ; téléphone principal et e-mail en double : avertissement seulement.
+- **Parts sociales sans historique de mouvements** : une ligne `ACTIVE` par client avec montants calculés (nominal × nombre de parts…) ; aucun mouvement ni écriture comptable n'est créé (l'historique des mouvements sera vide à l'écran).
+- Aucun événement n'est émis (pas de notification, pas de création de compte), et aucun appel au service de création : chargement ensembliste.
+
+### Gestionnaires (après Agences)
+`code*` (20, conservé tel quel), `nom*`, `prenom*`, `codeAgence*`, `telephone`, `email`. Code en double dans le lot : bloquant ; déjà en base : avertissement (conservé, jamais purgé).
+
+### Clients (après Agences)
+| Colonne | Oblig. | Règle |
+|---|---|---|
+| ancienNumeroClient | oui | 50 car., unique (lot + base, groupes compris) |
+| codeAgence | oui | agence du classeur 01 ou déjà en base |
+| typeClient | oui | `PARTICULIER`, `PROFESSIONNEL`, `INSTITUTIONNEL`, `MEMBRE` (les groupes sont dans la feuille Groupes) |
+| etatClient | oui | un des 9 états client (liste du gabarit), ex. `ACTIF` |
+| nom | oui | 100 car. |
+| prenom, nomJeuneFille | non | 100 car. |
+| civilite, sexe, situationMatrimoniale | non | listes du gabarit |
+| dateNaissance | non | antérieure à la date de bascule |
+| typePiece, numeroPiece, dateEmissionPiece, dateExpirationPiece | non | (type, numéro) unique |
+| adresse, quartier, ville, pays, lieuNaissance, nationalite, profession, employeur | non | longueurs du gabarit |
+| telephonePrincipal, telephoneSecondaire, email | non | e-mail au format valide |
+| revenuMensuel | non | décimal |
+| raisonSociale, sigle, formeJuridique, numeroRccm, numeroIfu | non | `raisonSociale` obligatoire pour professionnel et institutionnel |
+| dateAdhesion | non | au plus la date de bascule |
+| codeGestionnaire | non | gestionnaire du classeur ou de la base (inconnu : avertissement) |
+| statutKyc, niveauRisque, segmentClient, pep | non | défauts ci-dessus |
+
+### Groupes (après Agences)
+`ancienNumeroGroupe*` (unique, aussi parmi les clients), `codeAgence*`, `nomGroupe*`, `typeGroupe*`, `etatClient*`, `dateCreationGroupe`, `montantCotisation`, `periodiciteCotisation`, `objectif`, `dateAdhesion` (au plus la date de bascule). Un groupe est enregistré comme client de type `GROUPE` avec un numéro au format groupe.
+
+### MembresGroupe (après Clients et Groupes)
+`ancienNumeroGroupe*`, `ancienNumeroClient*`, `role*` (un seul président, un seul trésorier, un seul secrétaire par groupe, base comprise), `dateAdhesion*`, `numeroOrdre`, `montantCotisationSpecifique`. Un client ne peut être membre qu'une fois du même groupe. Un membre d'une autre agence que le groupe : avertissement. Après chargement, le nombre de membres et le bureau (président, trésorier, secrétaire) du groupe sont recalculés.
+
+### Beneficiaires (après Clients)
+`ancienNumeroClient*`, `nomBeneficiaire*`, `prenomBeneficiaire`, `lienParente*`, `pourcentageAttribution*` (> 0 et ≤ 100 ; le total par client devrait faire 100, sinon avertissement), `numeroPiece*`, `typePiece`, `dateNaissance`, `telephone`, `adresse`.
+
+### PartsSociales (après Clients et Groupes)
+`ancienNumeroClient*` (un seul compte de parts par client), `valeurNominale*` (entier > 0), `nombreParts*` (> 0), `nombrePartsBloquees` (≤ nombreParts, défaut 0), `dateSouscription*` (au plus la date de bascule).
+
+### Codes d'erreur propres au classeur 03
+| Code | Gravité | Cause |
+|---|---|---|
+| `import.erreur.doublon` | bloquante | ancien numéro répété (clients, groupes), membre ou part répétés |
+| `import.erreur.existe_deja` | bloquante (avertissement pour les gestionnaires) | ancien numéro, membre ou compte de parts déjà en base |
+| `import.erreur.reference_inconnue` | bloquante (avertissement pour un gestionnaire inconnu) | agence, groupe, client introuvable |
+| `import.erreur.raison_sociale_obligatoire` | bloquante | professionnel/institutionnel sans raison sociale |
+| `import.erreur.piece_doublon` | bloquante | (type, numéro) de pièce déjà utilisé |
+| `import.erreur.telephone_doublon` / `email_doublon` | avertissement | téléphone principal ou e-mail déjà utilisé |
+| `import.erreur.date_future` | bloquante | adhésion ou souscription après la date de bascule |
+| `import.erreur.date_naissance_invalide` | bloquante | naissance à la date de bascule ou après |
+| `import.erreur.montant_hors_limite` / `montant_non_entier` | bloquante | montant démesuré ou avec décimales |
+| `import.erreur.role_unique` | bloquante | rôle de bureau déjà attribué dans le groupe |
+| `import.erreur.membre_hors_agence` | avertissement | membre d'une autre agence que le groupe |
+| `import.erreur.pourcentage_invalide` | bloquante | pourcentage ≤ 0 ou > 100 |
+| `import.erreur.pourcentage_total` | avertissement | total des bénéficiaires d'un client différent de 100 |
+| `import.erreur.nombre_parts_invalide` / `parts_bloquees_superieures` | bloquante | nombre de parts ≤ 0 ; parts bloquées au-delà du total |
+| `import.erreur.format_numero_absent` / `format_numero_non_supporte` | bloquante | format de numérotation absent ou avec un jeton non géré (arrêt avant écriture) |
+
+### Annulation
+Les clients, groupes, membres, bénéficiaires, parts sociales et gestionnaires créés par le lot sont supprimés (les compteurs de numérotation ne sont pas remis en arrière). **Refus** (lot en `ECHEC`, message explicite) si un client ou groupe du lot est référencé hors du lot : comptes d'épargne, dossiers de crédit, comptes de tontine, cartes, procurations, documents, historiques d'état, vérifications d'identité, frais d'adhésion, alertes, transferts, départs, décès, dividendes, ou mouvements de parts sociales ; un gestionnaire créé par le lot n'est pas supprimable s'il est affecté à un client hors lot.
+
 ## 5. Formats de nombres, dates, booléens
 
 - **Dates** : `dd/MM/yyyy` (jours et mois sur 1 ou 2 chiffres), ISO `yyyy-MM-dd`, ou cellule Excel de type date / numéro de série.
@@ -164,6 +303,31 @@ Pendant `IMPORT_EN_COURS`, `SUSPENDU` (import non terminé), `ANNULATION_EN_COUR
 | Fichier rejeté « feuille inconnue » | Nom de feuille ou de CSV ne correspondant à aucun dataset ; repartir du gabarit. |
 | Doute sur une ligne chargée | Journal d'import (écran étape 5) et export des erreurs ; les lignes chargées gardent l'id créé pour la purge. |
 
-## 10. Test automatisé
+## 10. Volumes mesurés et jeu de test
 
-`sfd-angular` : `npm run e2e:migration` (spec `e2e/functional/migration/migration-lot.spec.ts`) rejoue le parcours complet sur la feuille Agences : doublon + type inconnu, correction, import, vérification en API, annulation. À lancer sur une base jetable (`scripts/edip-env/edip-env.sh up <nom>`), avec `BASE_URL` (Angular), `MONOLITH_URL` (API) si monolithe, et `E2E_EMAIL` / `E2E_PASSWORD` (rôle `ROLE_ADMIN` ou `ROLE_MIGRATION`).
+Mesure du 2026-10-18 (monolithe, PostgreSQL 15 local, jeu `--agences 5 --clients-par-agence 200000` : 278 Mo, 1 000 000 clients, 20 000 groupes, 100 000 membres, 300 000 parts sociales, plan + balance) :
+
+| Étape | Durée |
+|---|---|
+| Dépôt des 11 fichiers | 4 s |
+| Analyse (1 420 112 lignes) | 64 s |
+| Validation (tous datasets) | 153 s |
+| Chargement CLIENTS (1 000 000, numérotation comprise) | 173 s |
+| Chargement GROUPES / MEMBRES_GROUPE / PARTS_SOCIALES | 175 s / 184 s / 215 s (chevauchement : import total 411 s) |
+| Annulation (purge) du lot complet | 169 s |
+
+Objectif « 1 M de clients : analyse + validation + chargement < 10 min » tenu (environ 6,5 min). Contrôles : numéros EDIP tous distincts, séquences de numérotation alignées sur le plus grand numéro attribué, balance équilibrée pour les 5 agences, exercice de l'année de bascule `OUVERT` par agence, 0 pièce comptable, 0 donnée résiduelle après annulation.
+
+Générateur de jeux de test (`scripts/migration-fixtures/`, Python 3 + `openpyxl`, graine fixe 42, sortie en flux) :
+
+```bash
+python3 scripts/migration-fixtures/generer_iter2.py --agences 5 --clients-par-agence 200000 --sortie <DIR>   # 1 M clients
+python3 scripts/migration-fixtures/generer_iter2.py --agences 2 --clients-par-agence 500 --sortie <DIR>      # taille navigateur
+python3 scripts/migration-fixtures/generer_iter2.py --verifier-entetes .                                       # en-têtes vs descripteurs Java
+```
+
+Options : `--date-bascule` (2026-09-30), `--longueur-compte` (6, égale au paramétrage comptable), `--prefixe-agence` (VOL), `--type-agence` (AGENCE, doit exister), `--pays` (CI), `--erreurs` (injecte un doublon d'ancien numéro entre deux agences, une agence déséquilibrée, une pièce dupliquée, un montant non entier ; liste dans `erreurs-injectees.txt`). Toujours générer **hors du dépôt**. Ordre de dépôt : `01-Parametrage.xlsx`, `02-Comptabilite.xlsx`, `Gestionnaires.csv`, `Clients_<AG>.csv`, `Groupes.csv`, `MembresGroupe.csv`, `PartsSociales.csv` (CSV UTF-8, séparateur `;`, dates `dd/MM/yyyy`).
+
+## 11. Test automatisé
+
+`sfd-angular` : `npm run e2e:migration` rejoue deux parcours complets. `migration-lot.spec.ts` : feuille Agences, doublon + type inconnu, correction, import, vérification en API, annulation. `migration-compta-clients.spec.ts` : 1 agence, plan de 3 comptes, 1 journal, balance déséquilibrée puis corrigée, 2 clients dont un doublon d'ancien numéro puis corrigé, import, vérification en API (comptes, client au numéro `CLI-…` retrouvé par son ancien numéro, exercice de l'agence), annulation et données retirées. Les deux specs se partagent un verrou de fichier (un seul lot actif à la fois). À lancer sur une base jetable (`scripts/edip-env/edip-env.sh up <nom>`), avec `BASE_URL` (Angular), `MONOLITH_URL` (API) si monolithe, et `E2E_EMAIL` / `E2E_PASSWORD` (rôle `ROLE_ADMIN` ou `ROLE_MIGRATION`).
