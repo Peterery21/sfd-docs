@@ -19,7 +19,7 @@ Charger dans une instance EDIP les données d'une institution (reprise d'un anci
 | `SCHEDULING_ENABLED=false` | Recommandé pendant la migration (évite tout traitement planifié concurrent). Le verrou fait déjà ignorer les jobs des modules client, épargne et crédit. |
 | URLs des modules | `IMPORT_<MODULE>_URL` (comptabilite, client, epargne, credit, caisse, stock, immobilisation, rh, paie) en microservices ; en monolithe, rien à régler. |
 | Dossiers | `IMPORT_DOSSIER_DEPOT` (fichiers déposés sur le serveur), `IMPORT_DOSSIER_STOCKAGE` (copies des fichiers d'un lot). Taille max : `IMPORT_MAX_FILE_SIZE` (1 Go), `IMPORT_MAX_REQUEST_SIZE` (2 Go). |
-| Files RabbitMQ | `IMPORT_REINIT_FILES` : files qui doivent être vides avant une réinitialisation (liste séparée par des virgules). |
+| Files RabbitMQ | `IMPORT_REINIT_FILES` : files qui doivent être vides avant une réinitialisation (liste séparée par des virgules). **Vide par défaut : aucun contrôle n'est alors effectué** et l'écran Réinitialisation affiche « contrôle des files RabbitMQ non configuré ». Renseigner les files métier (ex. écritures comptables) sur tout environnement où des messages peuvent être en attente. |
 
 ## 3. Cycle de vie d'un lot
 
@@ -129,18 +129,20 @@ Pendant `IMPORT_EN_COURS`, `SUSPENDU` (import non terminé), `ANNULATION_EN_COUR
 - Lot chargé (`IMPORTE`, `SUSPENDU`, `ECHEC`) : purge dans chaque module, ordre inverse du chargement, sous verrou d'annulation, puis `ANNULE`. Seules les lignes **créées par le lot** sont supprimées (l'id créé est mémorisé) ; les éléments « déjà existants » ne sont jamais touchés.
 - **Purge refusée si une donnée est référencée** hors du lot : agence avec utilisateurs rattachés, clients ou agences enfants non issues du lot ; devise utilisée par des agences ; utilisateur ayant déjà une connexion (jeton, session active) ou des rôles directs. Le lot passe en `ECHEC` avec le message ; supprimer ou déplacer les données référencées puis relancer l'annulation.
 - Un motif est obligatoire.
+- Un lot passé à `ANNULE` voit son dossier de fichiers (`IMPORT_DOSSIER_STOCKAGE/<code du lot>`) supprimé du disque.
 
 ## 8. Réinitialisation de la base
 
 Écran `Migration > Réinitialisation`. Désactivée tant que `IMPORT_REINITIALISATION_ENABLED` n'est pas `true`.
 
-**Garde-fous (tous requis)** : fonction activée ; code de l'institution exact ; mot de confirmation `REINITIALISER` ; jeton à usage unique (5 min, lié à l'utilisateur) ; aucun verrou actif ni réinitialisation en cours ; tous les modules cibles joignables ; files RabbitMQ surveillées vides ; le verrou est posé pendant l'exécution.
+**Garde-fous (tous requis)** : fonction activée ; code de l'institution exact ; mot de confirmation `REINITIALISER` ; jeton à usage unique (5 min, lié à l'utilisateur) ; aucun verrou actif ni réinitialisation en cours ; tous les modules cibles joignables ; aucun lot en cours de traitement (analyse, validation, import, annulation) ; files RabbitMQ surveillées vides (si `IMPORT_REINIT_FILES` est renseigné) ; le verrou est posé pendant l'exécution.
 
-**Supprimé** : toutes les données métier de chaque module (clients, épargne, crédit, caisse, compta, stock, RH, paie…), les utilisateurs et leurs jetons/sessions, notifications, fichiers, journaux d'audit, séquences, planifications, fournisseurs e-mail/SMS. Les compteurs d'identité sont remis à 1. Le module commun passe en dernier ; l'opération est journalisée (dernière réinitialisation affichée).
+**Supprimé** : toutes les données métier de chaque module (clients, épargne, crédit, caisse, compta, stock, RH, paie…), les utilisateurs et leurs jetons/sessions, notifications, fichiers, journaux d'audit, séquences, planifications, fournisseurs e-mail/SMS. Les tables de la migration elles-mêmes sont vidées (lots, fichiers, journal d'import, erreurs, tables de transit) à l'exception du verrou et du journal des réinitialisations, et les fichiers déposés (`IMPORT_DOSSIER_STOCKAGE`) sont supprimés : l'historique des lots est perdu, l'ancien lot ne peut plus être annulé. Les compteurs d'identité sont remis à 1. Le module commun passe en dernier ; l'opération est journalisée (dernière réinitialisation affichée).
 
 **Conservé** : rôles et profils (`role`, `user_group`, `group_role`), formats de numérotation, paramètres système, devises, pays, types d'agence et de zone géographique (chargés au démarrage), modèles de notification.
 
 **Limites connues**
+- La limite multipart (`IMPORT_MAX_FILE_SIZE` 1 Go / `IMPORT_MAX_REQUEST_SIZE` 2 Go) s'applique à tout le service commun, pas seulement au dépôt de fichiers de lot (compromis assumé, itération 5) ; le monolithe garde 50 Mo : au-delà, utiliser le dossier de dépôt serveur.
 - En microservices, les modules chat, agora, commercial… ne sont pas encore réinitialisés (seuls les modules déclarés dans `IMPORT_<MODULE>_URL` le sont).
 - La configuration conservée peut être périmée si la norme comptable ou les codes d'agence changent : revérifier devises et types d'agence avant d'importer.
 - Après réinitialisation, les utilisateurs étant supprimés, se reconnecter avec le compte recréé (relancer `/setup` si l'administrateur a disparu).
@@ -154,6 +156,8 @@ Pendant `IMPORT_EN_COURS`, `SUSPENDU` (import non terminé), `ANNULATION_EN_COUR
 | « Ce lot détient encore le verrou » / jobs ignorés alors qu'aucun import ne tourne | Verrou resté au nom d'un lot suspendu ou en échec : reprendre puis terminer, ou annuler le lot. Le verrou d'une réinitialisation interrompue (motif `RESET`) est levé automatiquement au démarrage et journalisé. |
 | « Un traitement est déjà en cours pour ce lot » | Attendre ; si l'écran est figé, bouton « Actualiser » (polling interrompu). |
 | « Le module X est injoignable / n'a pas répondu / réponse incohérente » | Vérifier `IMPORT_<X>_URL`, `INTERNAL_SERVICE_KEY` identique, santé `/actuator/health` du module ; relancer l'étape (statut `ECHEC`). |
+| « Un lot est en cours de traitement » (réinitialisation refusée) | Attendre la fin de l'analyse, de la validation, de l'import ou de l'annulation du lot indiqué, puis recommencer (nouveau jeton). |
+| Fichier rejeté « champ trop long » | Un champ CSV dépasse 1 Mio, typiquement un guillemet jamais refermé : corriger le fichier. |
 | « Des messages sont en attente dans les files » | Laisser consommer ou purger les files listées dans `IMPORT_REINIT_FILES`, puis recommencer (nouveau jeton). |
 | « Jeton invalide ou expiré » | Le jeton dure 5 minutes et est à usage unique : refaire la demande. |
 | « Table de transit absente » | Le module n'a pas créé ses tables `imp_*` : redémarrer le service (Hibernate `ddl-auto: update`). |
