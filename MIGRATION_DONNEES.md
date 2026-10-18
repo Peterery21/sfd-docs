@@ -38,7 +38,7 @@ Un lot a un code généré, un libellé, une date de bascule (date du dernier jo
 | `SUSPENDU` | Suspendu par l'opérateur, ou import interrompu par un arrêt du service | Reprendre (à la dernière ligne chargée), annuler |
 | `IMPORTE` | Chargement terminé, verrou levé | Annuler (purge), clôturer |
 | `ECHEC` | Échec technique (module injoignable, traitement interrompu) | Reprendre, retour aux fichiers, annuler |
-| `ANNULATION_EN_COURS` | Purge en cours | Attendre |
+| `ANNULATION_EN_COURS` | Contrôle puis purge en cours | Attendre (refus : retour au statut d'avant) |
 | `ANNULE` / `CLOTURE` | Terminaux | Aucune |
 
 Parcours type de l'assistant : 1 Paramètres (libellé, date de bascule, agences) → 2 Gabarits → 3 Fichiers → 4 Validation → 5 Import. L'import exige de **saisir le code du lot** dans la fenêtre de confirmation, et d'avoir pris connaissance des avertissements éventuels.
@@ -174,7 +174,7 @@ La balance doit être **équilibrée par agence** (somme des débits = somme des
 | `import.erreur.exercice_existant` | avertissement | l'agence a déjà son exercice de l'année de bascule : aucun exercice créé |
 
 ### Annulation
-Les comptes, journaux (et leurs formats de pièces) créés par le lot sont supprimés. **Refus** (lot en `ECHEC`, message explicite) si un compte créé porte des écritures, a des comptes enfants hors lot, est utilisé par un journal, un compte auxiliaire ou un rôle comptable hors lot, si un journal créé porte des pièces, ou si une pièce hors lot référence un exercice/période générés. Les exercices, périodes et la journée générés sont retirés avec le lot.
+Les comptes, journaux (et leurs formats de pièces) créés par le lot sont supprimés, ainsi que les exercices, périodes et la journée générés. **Refus** (voir section 7 : rien n'est supprimé, le lot revient à son statut d'avant) si un compte créé porte des écritures, a des comptes enfants hors lot, est utilisé par un journal, un compte auxiliaire ou un rôle comptable hors lot, si un journal créé porte des pièces, si une pièce ou une journée hors lot repose sur un exercice ou une période générés, si une clôture (journalière, mensuelle, annuelle) porte sur l'exercice, une période ou la journée générés, ou si un exercice suivant a pour exercice précédent un exercice généré.
 
 ## 4 ter. Classeur `03-Clients`
 
@@ -243,7 +243,7 @@ Feuilles du gabarit : `Instructions`, `Gestionnaires`, `Clients`, `Groupes`, `Me
 | `import.erreur.format_numero_absent` / `format_numero_non_supporte` | bloquante | format de numérotation absent ou avec un jeton non géré (arrêt avant écriture) |
 
 ### Annulation
-Les clients, groupes, membres, bénéficiaires, parts sociales et gestionnaires créés par le lot sont supprimés (les compteurs de numérotation ne sont pas remis en arrière). **Refus** (lot en `ECHEC`, message explicite) si un client ou groupe du lot est référencé hors du lot : comptes d'épargne, dossiers de crédit, comptes de tontine, cartes, procurations, documents, historiques d'état, vérifications d'identité, frais d'adhésion, alertes, transferts, départs, décès, dividendes, ou mouvements de parts sociales ; un gestionnaire créé par le lot n'est pas supprimable s'il est affecté à un client hors lot.
+Les clients, groupes, membres, bénéficiaires, parts sociales et gestionnaires créés par le lot sont supprimés (les compteurs de numérotation ne sont pas remis en arrière). **Refus** (voir section 7 : rien n'est supprimé) si un client ou groupe du lot est référencé hors du lot (les membres, bénéficiaires et parts créés par le lot lui-même ne comptent pas) : comptes d'épargne, dossiers de crédit, comptes de tontine, cartes, procurations, documents, historiques d'état, vérifications d'identité, frais d'adhésion, alertes, transferts, départs, décès, dividendes, ou mouvements de parts sociales ; un gestionnaire créé par le lot n'est pas supprimable s'il est affecté à un client hors lot.
 
 ## 5. Formats de nombres, dates, booléens
 
@@ -265,9 +265,12 @@ Pendant `IMPORT_EN_COURS`, `SUSPENDU` (import non terminé), `ANNULATION_EN_COUR
 ## 7. Annulation et purge
 
 - Lot jamais chargé (`CREE`…`EN_ERREUR`) : suppression du staging, statut `ANNULE`.
-- Lot chargé (`IMPORTE`, `SUSPENDU`, `ECHEC`) : purge dans chaque module, ordre inverse du chargement, sous verrou d'annulation, puis `ANNULE`. Seules les lignes **créées par le lot** sont supprimées (l'id créé est mémorisé) ; les éléments « déjà existants » ne sont jamais touchés.
-- **Purge refusée si une donnée est référencée** hors du lot : agence avec utilisateurs rattachés, clients ou agences enfants non issues du lot ; devise utilisée par des agences ; utilisateur ayant déjà une connexion (jeton, session active) ou des rôles directs. Le lot passe en `ECHEC` avec le message ; supprimer ou déplacer les données référencées puis relancer l'annulation.
-- Un motif est obligatoire.
+- Lot chargé (`IMPORTE`, `SUSPENDU`, `ECHEC`) : annulation **en deux temps**, sous verrou d'annulation. Seules les lignes **créées par le lot** sont supprimées (l'id créé est mémorisé) ; les éléments « déjà existants » ne sont jamais touchés.
+  1. **Contrôle** (phase `CONTROLER_PURGE`, sans aucune suppression) : chaque module exécute tous ses contrôles d'annulation. Les références créées par le lot lui-même (ses clients, membres, parts, journaux, exercices générés, rattachements de ses utilisateurs) ne comptent pas.
+  2. **Refus** si un module trouve au moins une référence hors lot, ou ne répond pas (module injoignable, version antérieure qui ne connaît pas le contrôle) : **rien n'est supprimé**, le lot revient à son statut d'avant l'annulation (`IMPORTE`, `SUSPENDU` ou `ECHEC`) avec son verrou d'avant (verrou d'import rétabli pour un lot suspendu). L'écran du lot affiche « Annulation refusée » et une ligne par référence bloquante : jeu de données, table qui référence, nombre de lignes. Traiter ou supprimer ces données, puis relancer l'annulation.
+  3. Sinon **purge** module par module (ordre inverse du chargement), chaque module dans une seule transaction (suppressions et recalculs) : une erreur annule toute la purge du module. Une contrainte de base apparue entre le contrôle et la purge est signalée « Annulation interrompue » avec la table concernée (lot en `ECHEC`, verrou d'annulation conservé) ; relancer l'annulation après l'avoir traitée.
+- **Références qui refusent l'annulation** (commun) : agence avec des utilisateurs hors lot rattachés, clients, exercices, journées ou pièces hors lot, agences enfants non issues du lot, ou opérations d'un module métier (caisse, épargne, crédit, stock, immobilisations, RH, paie…) ; devise utilisée par des agences hors lot ou par des taux de change ; utilisateur ayant déjà une connexion (jeton, session active) ou des rôles directs.
+- **Données de session supprimées avec le lot** (pas de refus) : l'agence de travail sélectionnée par un utilisateur (`utilisateur_agence_connectee`) sur une agence du lot, et celle des utilisateurs du lot.
 - Un lot passé à `ANNULE` voit son dossier de fichiers (`IMPORT_DOSSIER_STOCKAGE/<code du lot>`) supprimé du disque.
 
 ## 8. Réinitialisation de la base
@@ -291,6 +294,7 @@ Pendant `IMPORT_EN_COURS`, `SUSPENDU` (import non terminé), `ANNULATION_EN_COUR
 | Symptôme | Cause / action |
 |---|---|
 | Lot `SUSPENDU` après redémarrage | Normal : import interrompu. Utiliser « Reprendre » (reprise à la dernière ligne chargée). |
+| « Annulation refusée » (lot revenu à `IMPORTE` / `SUSPENDU`) | Une donnée hors lot repose sur le lot : chaque ligne du message donne le jeu, la table et le nombre de lignes. Rien n'a été supprimé. Traiter ces données (ex. supprimer la pièce saisie dans la période générée, annuler la clôture) puis relancer l'annulation. |
 | Lot `ECHEC` « traitement interrompu » | Arrêt pendant analyse/validation/annulation. Retour aux fichiers puis réanalyser, ou relancer l'annulation. |
 | « Ce lot détient encore le verrou » / jobs ignorés alors qu'aucun import ne tourne | Verrou resté au nom d'un lot suspendu ou en échec : reprendre puis terminer, ou annuler le lot. Le verrou d'une réinitialisation interrompue (motif `RESET`) est levé automatiquement au démarrage et journalisé. |
 | « Un traitement est déjà en cours pour ce lot » | Attendre ; si l'écran est figé, bouton « Actualiser » (polling interrompu). |
