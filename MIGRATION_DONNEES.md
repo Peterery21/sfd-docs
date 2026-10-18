@@ -142,7 +142,7 @@ Pendant `IMPORT_EN_COURS`, `SUSPENDU` (import non terminé), `ANNULATION_EN_COUR
 **Conservé** : rôles et profils (`role`, `user_group`, `group_role`), formats de numérotation, paramètres système, devises, pays, types d'agence et de zone géographique (chargés au démarrage), modèles de notification.
 
 **Limites connues**
-- La limite multipart (`IMPORT_MAX_FILE_SIZE` 1 Go / `IMPORT_MAX_REQUEST_SIZE` 2 Go) s'applique à tout le service commun, pas seulement au dépôt de fichiers de lot (compromis assumé, itération 5) ; le monolithe garde 50 Mo : au-delà, utiliser le dossier de dépôt serveur.
+- La limite multipart (`IMPORT_MAX_FILE_SIZE` 1 Go / `IMPORT_MAX_REQUEST_SIZE` 2 Go) s'applique à tout le service commun et à tout le monolithe (mêmes variables), pas seulement au dépôt de fichiers de lot (compromis assumé, itération 5). Un reverse proxy devant l'application (nginx `client_max_body_size`) doit être relevé d'autant ; au-delà, utiliser le dossier de dépôt serveur.
 - En microservices, les modules chat, agora, commercial… ne sont pas encore réinitialisés (seuls les modules déclarés dans `IMPORT_<MODULE>_URL` le sont).
 - La configuration conservée peut être périmée si la norme comptable ou les codes d'agence changent : revérifier devises et types d'agence avant d'importer.
 - Après réinitialisation, les utilisateurs étant supprimés, se reconnecter avec le compte recréé (relancer `/setup` si l'administrateur a disparu).
