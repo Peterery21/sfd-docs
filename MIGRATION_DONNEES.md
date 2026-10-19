@@ -1,6 +1,6 @@
 # Migration de données EDIP — guide opérateur
 
-Itération 1 : socle (lots, verrou, réinitialisation) et classeur `01-Parametrage` (module commun : devises, agences, utilisateurs). Itération 2 : classeurs `02-Comptabilite` (plan comptable, journaux, balance d'ouverture, exercices générés) et `03-Clients` (gestionnaires, clients, groupes, membres, bénéficiaires, parts sociales). Les classeurs des autres modules (épargne, crédit, caisse, stock, RH, paie…) arrivent aux itérations suivantes sur les mêmes interfaces.
+Itération 1 : socle (lots, verrou, réinitialisation) et classeur `01-Parametrage` (module commun : devises, agences, utilisateurs). Itération 2 : classeurs `02-Comptabilite` (plan comptable, journaux, balance d'ouverture, exercices générés) et `03-Clients` (gestionnaires, clients, groupes, membres, bénéficiaires, parts sociales). Itération 3 : classeur `04-Epargne` (produits, comptes, DAT, blocages, tontines) et pièces d'à-nouveaux. Les classeurs des autres modules (crédit, caisse, stock, RH, paie…) arrivent aux itérations suivantes sur les mêmes interfaces.
 
 ## 1. Objet
 
@@ -245,6 +245,116 @@ Feuilles du gabarit : `Instructions`, `Gestionnaires`, `Clients`, `Groupes`, `Me
 ### Annulation
 Les clients, groupes, membres, bénéficiaires, parts sociales et gestionnaires créés par le lot sont supprimés (les compteurs de numérotation ne sont pas remis en arrière). **Refus** (voir section 7 : rien n'est supprimé) si un client ou groupe du lot est référencé hors du lot (les membres, bénéficiaires et parts créés par le lot lui-même ne comptent pas) : comptes d'épargne, dossiers de crédit, comptes de tontine, cartes, procurations, documents, historiques d'état, vérifications d'identité, frais d'adhésion, alertes, transferts, départs, décès, dividendes, ou mouvements de parts sociales ; un gestionnaire créé par le lot n'est pas supprimable s'il est affecté à un client hors lot.
 
+## 4 quater. Classeur `04-Epargne` et pièces d'à-nouveaux
+
+Ordre de dépôt : `01-Parametrage`, `02-Comptabilite`, `03-Clients`, puis `04-Epargne`. Feuilles du gabarit : `ProduitsEpargne`, `ComptesGenerauxProduit`, `ComptesEpargne`, `Dat`, `Blocages`, `Tontines`, `ParticipantsTontine` (CSV du même nom acceptés ; `ComptesEpargne_<AG>.csv`, un fichier par agence, pour les gros volumes). Mêmes règles d'en-têtes qu'au §4.
+
+### Décisions de cadrage
+- **Montants et taux en nombres bruts** : `200000`, `2` pour 2 %. Les pourcentages Excel (cellule au format %) sont lus en valeur brute : une cellule affichant 15 % vaut `0,15`, pas `15`. Saisir le taux en nombre ordinaire (`15`) ou passer la colonne en format Standard. Montants entiers (pas de décimales, `decimal(18,0)`).
+- **Numéros de compte, de DAT et de tontine : 30 caractères au plus** (25 pour `numeroDat`). `codeAgence` : 10 caractères ; `codeProduit` : 20 (10 pour la feuille `Tontines`).
+- **Client** d'un compte, d'une tontine ou d'un participant : référencé par `ancienNumeroClient` (client ou groupe du lot, sinon client déjà en base par son ancien numéro). Client radié : refus sauf compte clôturé ; client non actif : avertissement.
+- **Compte général** résolu par `ComptesGenerauxProduit` (produit + type de client, sinon produit seul). Types de client : `PARTICULIER`, `PROFESSIONNEL`, `GROUPE`, `INSTITUTIONNEL` ; `MEMBRE` est traité comme `PARTICULIER`. Aucun numéro de compte n'est en dur.
+- **Solde stocké, jamais rejoué** : le solde d'ouverture est repris tel quel ; aucune opération de dépôt n'est simulée.
+
+### ProduitsEpargne (aucune dépendance)
+| Colonne | Oblig. | Règle |
+|---|---|---|
+| codeProduit | oui | 20 car., unique |
+| libelle | oui | 100 car. |
+| typeProduit | oui | `DAV`, `DAT`, `PLANIFIEE`, `TONTINE`, `CAUTION` |
+| devise | oui | devise en base ou dans le lot |
+| typeTaux | non | `FIXE` seulement (défaut) ; `PALIER` / `PROGRESSIF` refusés |
+| tauxInteret, periodiciteInterets, baseCalcul | non | défauts : 0, `ANNUEL`, 360 |
+| dureeMinJours, dureeMaxJours | DAT, PLANIFIEE | cohérentes (min ≤ max) |
+| montantMinimum, montantMaximum | non | min ≤ max |
+| autoriserDecouvert, plafondDecouvert, tauxInteretsDebiteurs | non | ignorés pour `CAUTION` |
+| validationRequise, renouvellementAutomatique | non | booléens |
+| tontineMiseMin/Max, tontineParticipantsMin/Max | tontine | bornes contrôlées sur les tontines |
+
+Un produit déjà en base : avertissement `existe_deja`, ligne ignorée. Les listes de modes/fréquences autorisés d'un produit `TONTINE` ne sont pas importées : à compléter dans le produit avant toute ouverture de tontine en ligne.
+
+### ComptesGenerauxProduit (après ProduitsEpargne)
+`codeProduit` (oui), `typeClient` (non, vide = tous), `numeroCompteGeneral` (oui, compte du plan en base ou du lot, 64 car.), `libelle` (oui, 150 car.). Ce compte devient le **compte collectif** des auxiliaires du produit.
+
+### ComptesEpargne (après Clients, ProduitsEpargne, ComptesGenerauxProduit, Agences)
+Produits `DAV`, `CAUTION` et `PLANIFIEE` (le plan de versement d'une épargne planifiée n'est pas repris : avertissement `plan_versement_non_repris`). Les produits `DAT` et `TONTINE` passent par leurs feuilles.
+| Colonne | Oblig. | Règle |
+|---|---|---|
+| numeroCompte | oui | 30 car., unique (lot, comptes, DAT, tontines, auxiliaires déjà en base) |
+| ancienNumeroClient | oui | client résolu comme ci-dessus |
+| codeProduit | oui | produit actif de type DAV/CAUTION/PLANIFIEE |
+| codeAgence | non | défaut : agence du client |
+| statut | non | `ACTIF` (défaut), `SUSPENDU`, `BLOQUE`, `CLOTURE` |
+| dateOuverture | oui | pas après la date de bascule |
+| soldeOuverture | oui | entier ; négatif limité au découvert ; 0 si `CLOTURE` |
+| decouvertAutorise, plafondDecouvert | non | défauts : ceux du produit |
+| libelleCompte | non | 100 car. |
+| dateDerniereOperation | non | défaut : date de bascule |
+| dateCloture | non | `CLOTURE` seulement, défaut : date de bascule |
+
+### Dat (après ComptesEpargne et ProduitsEpargne)
+Colonnes : `numeroDat` (oui, 25 car.), `numeroCompte` (oui, compte source actif du lot ou de la base), `codeProduit` (oui, produit `DAT`), `montant` (oui, dans les bornes du produit), `tauxAnnuel` (non, défaut : taux du produit ; entre 0 et 100), `dateConstitution` (oui), `dureeJours` (oui, dans les bornes du produit), `capitalisation`, `renouvellement` (non). Le DAT est chargé `ACTIF`, son **échéancier** est généré par le service d'épargne (même calcul qu'en ligne) ; les **périodes déjà passées à la date de bascule sont marquées versées**.
+
+### Blocages (après ComptesEpargne)
+`numeroCompte` (oui), `typeBlocage` (oui : `PARTIEL` ou `COMPLET`), `montantBloque` (obligatoire et > 0 si `PARTIEL`, interdit si `COMPLET`), `motif` (oui, 500 car.), `reference`, `dateDebut` (oui), `dateFinPrevue`. Le solde bloqué n'est pas une colonne du compte : il découle des blocages.
+
+### Tontines (après ProduitsEpargne, ComptesGenerauxProduit, Clients, Agences)
+`numeroCompte`, `codeProduit` (produit `TONTINE`), `ancienNumeroClient` (client ou groupe principal), `modeTontine` (`COLLECTIF` : 2 à 30 participants principal compris ; `INDIVIDUEL` : aucun participant), `montantMise` (dans les bornes du produit), `frequenceMise`, `dateOuverture`, `soldeOuverture` (≥ 0) obligatoires ; `codeAgence`, `statut` facultatifs. Chargement : solde stocké, **cycle n°1** commençant au lendemain de la bascule ; **tontine clôturée ⇒ cycle n°1 clôturé** (fin = lendemain de la bascule). Aucune opération de tontine n'est créée.
+
+### ParticipantsTontine (après Tontines et Clients)
+`numeroCompte` (tontine du lot, mode `COLLECTIF`), `ancienNumeroClient`, `numeroOrdre` (oui, ≥ 1, contigus : au plus le nombre de participants secondaires), `montantTotalVerse` (non, ≥ 0), `aRecuCagnotte` (non). Le client principal n'est pas listé (ordre 0). Un client n'apparaît qu'une fois par tontine.
+
+### Options du lot
+Étape 1 de l'assistant (« Options ») ; exposées aux règles et au chargement.
+| Option | Défaut | Effet |
+|---|---|---|
+| `compteReprise` | vide | Compte du plan (15 car. max) qui équilibre les pièces d'à-nouveaux. **Obligatoire dès que le lot contient des comptes, DAT ou tontines** (`compte_reprise_requis`), doit exister (`compte_reprise_inconnu`), détaillé et mouvementable, et **ne pas figurer dans la balance d'ouverture** (s'il y figure, son solde est absorbé par la ligne d'équilibre). |
+| `ecartAuxiliairesBloquant` | non | `balance_ecart_auxiliaires` : si la somme des soldes des comptes du lot ≠ solde du collectif dans la balance, **avertissement** par défaut ; **erreur bloquante** si la case est cochée. |
+| `exercicesAuto` | oui | Génère l'exercice et les périodes de l'agence si besoin. Si décoché, une période ouverte contenant le lendemain de la bascule est exigée (`periode_ouverte_absente`). |
+
+### Pièces d'à-nouveaux (`A_NOUVEAU`)
+Générées à la fin du chargement (phase finale « Génération des pièces d'à-nouveaux », idempotente : un rejeu après incident ne duplique rien), par agence ayant une balance d'ouverture.
+- Date de pièce = **lendemain de la date de bascule**, dans la période ouverte de l'agence ; journal de type `AN` existant, sinon journal `AN` « A nouveaux » créé (retiré à l'annulation s'il a été créé par le lot) ; statut `COMPTABILISEE`, module source `MIGRATION`.
+- **Une pièce par agence** (`AN<id du lot>-<agence>-1`) tant que ses lignes tiennent dans une tranche (`app.import.taille-tranche`) ; au-delà, pièce 1 = comptes non collectifs de la balance, puis **une pièce par tranche d'auxiliaires** (`-2`, `-3`…).
+- Le compte **collectif** n'est pas repris depuis la balance : ses lignes sont celles des **comptes auxiliaires** (un par compte d'épargne, DAT ou tontine, code auxiliaire = numéro, crédit si solde > 0, débit si < 0 ; solde nul = auxiliaire créé sans ligne).
+- Chaque pièce non équilibrée reçoit une **ligne de reprise** sur `compteReprise`. Si les soldes concordent avec la balance (Σ auxiliaires = collectif), le compte de reprise est **soldé** (somme nulle sur l'agence) ; sinon il porte exactement l'écart accepté, à solder par OD manuelle.
+- Les soldes débit/crédit des auxiliaires sont recalculés depuis ces pièces.
+- **Opération `REPRISE_SOLDE`** : pour chaque compte de solde ≠ 0, une opération validée et comptabilisée (type `REPRISE_SOLDE`, `REP-<code du lot>-<id>`, sens crédit si solde > 0, débit sinon, mode compensation, date = date de bascule) est créée et rattachée à la pièce `A_NOUVEAU` portant l'auxiliaire. Elle ne génère aucun message comptable. Le solde du compte est la somme de ses opérations validées (donc = solde d'ouverture).
+- Les séquences de numérotation (comptes, DAT, tontines) sont recalées sur les numéros importés au format EDIP.
+
+### Codes d'erreur propres au classeur 04
+| Code | Gravité | Cause |
+|---|---|---|
+| `doublon` / `existe_deja` | bloquante | numéro répété dans le lot ou déjà en base (comptes, DAT, tontines, auxiliaires) ; participant, ordre répété |
+| `reference_inconnue` | bloquante | client, produit, agence, compte source ou tontine introuvable |
+| `client_radie` / `client_non_actif` | bloquante / avertissement | client radié (sauf compte clôturé) / non actif |
+| `produit_inactif`, `produit_non_dat`, `produit_non_tontine` | bloquante | produit inactif ou de mauvais type |
+| `valeur_non_supportee` | bloquante | produit à paliers/progressif, ou produit DAT/TONTINE sur la feuille ComptesEpargne |
+| `plan_versement_non_repris` | avertissement | produit `PLANIFIEE` : plan de versement à saisir après import |
+| `compte_general_introuvable` | bloquante | aucun compte général pour (produit, type de client) |
+| `agence_invalide` | bloquante | agence effective inconnue ou de plus de 10 caractères |
+| `date_future` | bloquante | ouverture, constitution après la date de bascule |
+| `montant_non_entier`, `montant_negatif`, `montant_hors_bornes`, `solde_negatif` | bloquante | montants avec décimales, négatifs, hors bornes du produit |
+| `decouvert_depasse` | bloquante | solde négatif au-delà du découvert/plafond |
+| `cloture_solde_non_nul` | bloquante | compte ou tontine clôturé avec solde ≠ 0 |
+| `compte_non_actif`, `dat_echu`, `duree_hors_bornes`, `taux_hors_bornes` | bloquante | DAT : compte source inactif, déjà échu à la bascule (non repris), durée ou taux hors bornes |
+| `blocage_montant_incoherent` | bloquante | montant manquant (partiel) ou présent (complet) |
+| `blocage_depasse_solde` | avertissement | blocages partiels supérieurs au solde |
+| `mise_hors_bornes`, `participants_hors_bornes`, `tontine_individuelle`, `ordre_hors_plage` | bloquante | mise, nombre de participants, participants sur tontine individuelle, ordre hors plage |
+| `balance_ecart_auxiliaires` | avertissement (bloquante si `ecartAuxiliairesBloquant`) | Σ soldes des comptes du lot ≠ collectif de la balance |
+| `compte_reprise_requis` / `compte_reprise_inconnu` | bloquante | option `compteReprise` absente ou inconnue |
+| `periode_ouverte_absente` | bloquante | pas de période ouverte au lendemain de la bascule (`exercicesAuto` décoché) |
+| `code_agence_trop_long` | bloquante | code agence ou numéro de pièce trop long pour la pièce `AN` |
+
+### Annulation
+Supprimés : comptes, opérations de reprise, historiques, DAT et échéanciers, blocages, tontines (cycles, participants), comptes auxiliaires créés par le lot, pièces `A_NOUVEAU` et journal `AN` créé par le lot. **Refus** (rien n'est supprimé, voir §7) dès qu'une donnée hors lot repose sur un compte importé : opération (par exemple un dépôt en caisse), procuration, bénéficiaire, garantie, affectation d'agent, blocage ou historique d'un autre opérateur, DAT hors lot, opération/collecte/cycle suivant/participant ajouté sur une tontine, ligne de pièce hors lot, rapprochée ou régularisée sur un auxiliaire importé. Contre-passer ou supprimer ces données puis relancer l'annulation. Les compteurs de numérotation ne sont pas remis en arrière.
+
+### Limites connues
+- **DAT échus** à la date de bascule et **produits à paliers/progressifs** refusés : à saisir après import.
+- **Plan de versement** d'une épargne planifiée non repris.
+- Participant principal d'une tontine sans total versé : le total du cycle n°1 ignore ses mises.
+- Pas de colonne de solde bloqué ; liste des modes/fréquences d'un produit tontine à compléter.
+
 ## 5. Formats de nombres, dates, booléens
 
 - **Dates** : `dd/MM/yyyy` (jours et mois sur 1 ou 2 chiffres), ISO `yyyy-MM-dd`, ou cellule Excel de type date / numéro de série.
@@ -257,7 +367,9 @@ Les clients, groupes, membres, bénéficiaires, parts sociales et gestionnaires 
 
 Pendant `IMPORT_EN_COURS`, `SUSPENDU` (import non terminé), `ANNULATION_EN_COURS` et une réinitialisation, un verrou global `imp_verrou` est posé (motif, référence du lot, utilisateur, depuis quand). Effets :
 
-- Les jobs planifiés des modules **client, épargne, crédit** ne s'exécutent pas : ils journalisent « ignoré : migration en cours » (`migration.en_cours`).
+- Les jobs planifiés des modules **client, épargne, crédit** ne s'exécutent pas : ils journalisent « ignoré : migration en cours » (`migration.en_cours`). Il en va de même des jobs d'écritures en attente de la comptabilité.
+- Les **déclencheurs manuels** sont refusés avec l'erreur HTTP 423 `migration.verrou.actif` : calcul des intérêts, frais de tenue de compte, traitement des échéances DAT, comptabilisation de l'épargne, ouverture et réouverture de journée comptable.
+- Un **bandeau « migration en cours »** (motif et code du lot) s'affiche en bas de toutes les pages tant que le verrou est actif (relevé toutes les 30 s).
 - Un second lot, une réinitialisation ou une autre phase ne peut pas démarrer (409).
 - Lecture fail-closed : si la lecture du verrou échoue (hors table absente), il est considéré actif.
 - Le verrou est levé à `IMPORTE` et `ANNULE`. Un lot `SUSPENDU` ou `ECHEC` le conserve.
@@ -305,6 +417,9 @@ Pendant `IMPORT_EN_COURS`, `SUSPENDU` (import non terminé), `ANNULATION_EN_COUR
 | « Jeton invalide ou expiré » | Le jeton dure 5 minutes et est à usage unique : refaire la demande. |
 | « Table de transit absente » | Le module n'a pas créé ses tables `imp_*` : redémarrer le service (Hibernate `ddl-auto: update`). |
 | Fichier rejeté « feuille inconnue » | Nom de feuille ou de CSV ne correspondant à aucun dataset ; repartir du gabarit. |
+| Compte de reprise non soldé après import | Normal si l'écart entre comptes et balance a été accepté (avertissement `balance_ecart_auxiliaires`) : le compte porte l'écart ; le solder par une OD manuelle. |
+| `compte_reprise_requis` | Renseigner l'option « Compte de reprise » à l'étape 1 (un compte détaillé du plan, absent de la balance). |
+| Annulation refusée après un dépôt sur un compte importé | Contre-passer ou supprimer l'opération hors lot, puis relancer l'annulation. |
 | Doute sur une ligne chargée | Journal d'import (écran étape 5) et export des erreurs ; les lignes chargées gardent l'id créé pour la purge. |
 
 ## 10. Volumes mesurés et jeu de test
@@ -334,4 +449,4 @@ Options : `--date-bascule` (2026-09-30), `--longueur-compte` (6, égale au param
 
 ## 11. Test automatisé
 
-`sfd-angular` : `npm run e2e:migration` rejoue deux parcours complets. `migration-lot.spec.ts` : feuille Agences, doublon + type inconnu, correction, import, vérification en API, annulation. `migration-compta-clients.spec.ts` : 1 agence, plan de 3 comptes, 1 journal, balance déséquilibrée puis corrigée, 2 clients dont un doublon d'ancien numéro puis corrigé, import, vérification en API (comptes, client au numéro `CLI-…` retrouvé par son ancien numéro, exercice de l'agence), annulation et données retirées. Les deux specs se partagent un verrou de fichier (un seul lot actif à la fois). À lancer sur une base jetable (`scripts/edip-env/edip-env.sh up <nom>`), avec `BASE_URL` (Angular), `MONOLITH_URL` (API) si monolithe, et `E2E_EMAIL` / `E2E_PASSWORD` (rôle `ROLE_ADMIN` ou `ROLE_MIGRATION`).
+`sfd-angular` : `npm run e2e:migration` rejoue trois parcours complets. `migration-lot.spec.ts` : feuille Agences, doublon + type inconnu, correction, import, vérification en API, annulation. `migration-compta-clients.spec.ts` : 1 agence, plan de 3 comptes, 1 journal, balance déséquilibrée puis corrigée, 2 clients dont un doublon d'ancien numéro puis corrigé, import, vérification en API (comptes, client au numéro `CLI-…` retrouvé par son ancien numéro, exercice de l'agence), annulation et données retirées. `lot-epargne.spec.ts` : lot 01-04 (1 agence, plan avec collectif d'épargne et compte de reprise, 2 clients, 1 produit, 2 comptes) avec un écart volontaire de 10 000 accepté (case de prise de connaissance), import, pièces `A_NOUVEAU` de l'agence équilibrées avec ligne de reprise de 10 000, solde des comptes et des auxiliaires égal au solde d'ouverture, bandeau « migration en cours » relevé si capturé, annulation (lot `ANNULE`, comptes, auxiliaires et pièces retirés). Les specs se partagent un verrou de fichier (un seul lot actif à la fois). À lancer sur une base jetable (`scripts/edip-env/edip-env.sh up <nom>`), avec `BASE_URL` (Angular), `MONOLITH_URL` (API) si monolithe, et `E2E_EMAIL` / `E2E_PASSWORD` (rôle `ROLE_ADMIN` ou `ROLE_MIGRATION`).
