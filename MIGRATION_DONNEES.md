@@ -1,6 +1,6 @@
 # Migration de données EDIP — guide opérateur
 
-Itération 1 : socle (lots, verrou, réinitialisation) et classeur `01-Parametrage` (module commun : devises, agences, utilisateurs). Itération 2 : classeurs `02-Comptabilite` (plan comptable, journaux, balance d'ouverture, exercices générés) et `03-Clients` (gestionnaires, clients, groupes, membres, bénéficiaires, parts sociales). Itération 3 : classeur `04-Epargne` (produits, comptes, DAT, blocages, tontines) et pièces d'à-nouveaux. Les classeurs des autres modules (crédit, caisse, stock, RH, paie…) arrivent aux itérations suivantes sur les mêmes interfaces.
+Itération 1 : socle (lots, verrou, réinitialisation) et classeur `01-Parametrage` (module commun : devises, agences, utilisateurs). Itération 2 : classeurs `02-Comptabilite` (plan comptable, journaux, balance d'ouverture, exercices générés) et `03-Clients` (gestionnaires, clients, groupes, membres, bénéficiaires, parts sociales). Itération 3 : classeur `04-Epargne` (produits, comptes, DAT, blocages, tontines) et pièces d'à-nouveaux. Avenant du 2026-10-19 : migration sur **base vide** et paramétrages des modules commun, comptabilité, client et épargne (profils, banques, rôles comptables, comptes bancaires, frais, seuils, dormance : §2 bis et §4 quinquies). Les classeurs des autres modules (crédit, caisse, stock, RH, paie…) arrivent aux itérations suivantes sur les mêmes interfaces.
 
 ## 1. Objet
 
@@ -20,6 +20,41 @@ Charger dans une instance EDIP les données d'une institution (reprise d'un anci
 | URLs des modules | `IMPORT_<MODULE>_URL` (comptabilite, client, epargne, credit, caisse, stock, immobilisation, rh, paie) en microservices ; en monolithe, rien à régler. |
 | Dossiers | `IMPORT_DOSSIER_DEPOT` (fichiers déposés sur le serveur), `IMPORT_DOSSIER_STOCKAGE` (copies des fichiers d'un lot). Taille max : `IMPORT_MAX_FILE_SIZE` (1 Go), `IMPORT_MAX_REQUEST_SIZE` (2 Go). |
 | Files RabbitMQ | `IMPORT_REINIT_FILES` : files qui doivent être vides avant une réinitialisation (liste séparée par des virgules). **Vide par défaut : aucun contrôle n'est alors effectué** et l'écran Réinitialisation affiche « contrôle des files RabbitMQ non configuré ». Renseigner les files métier (ex. écritures comptables) sur tout environnement où des messages peuvent être en attente. |
+
+## 2 bis. Migration sur base vide
+
+Cas visé : l'institution part d'une installation neuve, sans données de démonstration. Tout ce que la démo seedait (frais, seuils, banques, profils…) doit être fourni par les classeurs.
+
+**Prérequis**
+1. Installation neuve : wizard `/setup` exécuté **sans** la case « données de démonstration » (institution, agence siège, administrateur, devise principale, plan comptable et journaux de la norme). Attendre la fin de l'initialisation asynchrone des modules (statut `COMPLETED` et services initialisés : comptabilité, crédit, reporting) avant de déposer un lot ; en cas de doute, `scripts/edip-env/edip-env.sh baseline-create --vide` sonde cet état.
+2. Modules cibles démarrés, `INTERNAL_SERVICE_KEY` identique partout, `ROLE_MIGRATION` ou `ROLE_ADMIN` pour l'opérateur (§2). Caisses, sessions de caisse et paramétrages du crédit ne sont **pas** importables en itération 3 (itération 4) : sur une base vide, aucun dépôt espèces n'est possible après la migration tant qu'une caisse n'est pas créée à la main.
+
+**Ce que le setup pose déjà (inutile de le fournir)** : institution, agence siège, administrateur et profil « Administrateurs » (`ROLE_ADMIN`), devise principale, 6 devises, pays, types d'agence, types de zone, rôles applicatifs de chaque module, formats de numérotation, modèles de notification, plan comptable et journaux de la norme, rôles comptables de la norme `uemoa/rcs_sfd`, paramétrage comptable, configuration KYC, schémas comptables du client, types d'opération de caisse et coupures.
+
+**Ce qui n'est pas posé et doit être fourni (si utile)**
+
+| Module | Paramétrage | Feuille | Si absent |
+|---|---|---|---|
+| Commun | profils d'accès, banques | `Profils`, `Banques` | `Utilisateurs` refusés (profil inconnu) ; pas de référence de banque pour les comptes bancaires |
+| Comptabilité | rôles comptables à surcharger, comptes bancaires, comptes mobile money | `RolesComptables`, `ComptesBancaires`, `ComptesMobileMoney` | virements/chèques refusés ; rôles `null` en `rcs_sfd` (ex. pénalité de retrait anticipé de DAT) non résolus |
+| Client | types et barèmes de frais d'adhésion, frais de notification, parts sociales, dormance | `TypesFraisAdhesion`, `BaremesFraisAdhesion`, `TranchesFraisAdhesion`, `FraisNotification`, `ConfigPartsSociales`, `ConfigDormance` | aucun frais d'adhésion ; prélèvement des notifications en échec ; valeurs par défaut du code pour parts et dormance |
+| Épargne | frais d'opération, seuils et limites, dormance, commissions de collecte | `FraisOperations`, `TranchesFraisOperation`, `SeuilsLimites`, `ParametrageDormance`, `CommissionsCollecte` | frais nuls en silence, aucune limite, job de dormance sans effet, pas de commission |
+
+**Jours fériés** : générés automatiquement en fin de chargement du module commun (étape après chargement) pour le pays du siège, années de la date de bascule + 1 jour et suivante ; idempotent.
+
+**Schémas comptables de l'épargne** : sur base vide, la table `schema_comptable_operation` n'est chargée qu'au redémarrage du service si l'institution existait au démarrage. Le lot la recharge **automatiquement** avant le chargement (même méthode que le démarrage) lorsqu'elle est vide. Si elle reste vide (institution sans organisation ou sans norme comptable, ou préférence indisponible), `import.erreur.schemas_comptables_absents` (bloquante) est posée sur la première ligne de `ProduitsEpargne` et de `ComptesEpargne` : configurer l'institution puis relancer la validation.
+
+**Itération 4 (hors périmètre ici)** : caisses, comptes de caisse par devise, sessions, seuils de caisse, produits et paramétrages du crédit. Les rôles comptables caisse/crédit restent ceux de la norme.
+
+**Ordre de dépôt** (un classeur par module ; le moteur ordonne les feuilles selon leurs dépendances) :
+1. `01-Parametrage` : `Devises` (si besoin), `Agences`, `Profils`, `Utilisateurs`, `Banques`
+2. `02-Comptabilite` : `PlanComptable`, `RolesComptables`, `Journaux`, `ComptesBancaires`, `ComptesMobileMoney`, `BalanceOuverture`
+3. `03-Clients` : paramétrages (`TypesFraisAdhesion`, `BaremesFraisAdhesion`, `TranchesFraisAdhesion`, `FraisNotification`, `ConfigPartsSociales`, `ConfigDormance`) puis `Gestionnaires`, `Clients`, `Groupes`, `MembresGroupe`, `Beneficiaires`, `PartsSociales`
+4. `04-Epargne` : `ProduitsEpargne`, `ComptesGenerauxProduit`, `FraisOperations`, `TranchesFraisOperation`, `SeuilsLimites`, `ParametrageDormance`, `CommissionsCollecte`, puis `ComptesEpargne`, `Dat`, `Blocages`, `Tontines`, `ParticipantsTontine`
+
+Option de lot `compteReprise` (§4 quater) : compte d'attente de classe 47 du plan, absent de la balance (`471000` dans le jeu de test).
+
+**Annulation** : la purge supprime les lignes créées par le lot et restaure les singletons (`ConfigPartsSociales`, `ConfigDormance`) et les rôles comptables modifiés à leur valeur d'origine (ou les supprime s'ils n'existaient pas). Les éléments déjà en base avant le lot (avertissement `existe_deja`) ne sont jamais modifiés ni purgés. Après annulation complète, la base revient à l'état post-wizard.
 
 ## 3. Cycle de vie d'un lot
 
@@ -355,6 +390,170 @@ Supprimés : comptes, opérations de reprise, historiques, DAT et échéanciers,
 - Participant principal d'une tontine sans total versé : le total du cycle n°1 ignore ses mises.
 - Pas de colonne de solde bloqué ; liste des modes/fréquences d'un produit tontine à compléter.
 
+## 4 quinquies. Paramétrages des modules (commun, comptabilité, client, épargne)
+
+Règles communes à toutes les feuilles de cette section (patron des itérations 2-3) :
+- Une ligne dont le code/clé existe **déjà en base** est signalée par l'avertissement `import.erreur.existe_deja`, **n'est pas chargée** et n'est jamais purgée (la base existante n'est pas écrasée). Exceptions : les singletons (`ConfigPartsSociales`, `ConfigDormance`) et `RolesComptables` **remplacent** la valeur existante ; l'ancienne valeur est conservée et restaurée à l'annulation.
+- Un doublon dans le lot est une erreur bloquante (`import.erreur.doublon`, la 1re ligne est conservée).
+- Valeurs fermées (colonne `enum` du gabarit) : `import.erreur.enum` si la valeur est hors liste. Booléens `oui`/`non` (défaut indiqué). Montants **entiers** ≥ 0 (`montant_non_entier`, `montant_hors_limite`). Dates `dd/MM/yyyy`.
+- **Aucun numéro de compte n'est en dur** : toute colonne de compte désigne un compte **mouvementable** (type `DETAILLE`) du plan, présent dans le lot ou déjà en base (`reference_inconnue`, `compte_non_mouvementable`). Un nom de rôle comptable n'est pas accepté à la place d'un numéro.
+- Les références (agence, produit, journal, banque, type de frais) sont cherchées dans le lot puis en base.
+
+### Profils (`Profils`, classeur 01, avant Utilisateurs)
+| Colonne | Oblig. | Règle |
+|---|---|---|
+| nom | oui | nom du profil (groupe d'accès), unique, 100 car. |
+| libelle | non | description, 255 car. (nom si vide) |
+| roles | oui | rôles existants séparés par `;` (liste « Référentiels ») |
+
+Restrictions : sont refusés, avant toute création, les rôles privilégiés `ROLE_ADMIN` et `ROLE_MIGRATION` (`import.erreur.profil_interdit`) et tous les rôles de gestion des accès (préfixes `ROLE_USER`, `ROLE_ROLE`, `ROLE_GROUPROLE`, `ROLE_PREFERENCE_UTILISATEURAGENCE`) ; un rôle inconnu est refusé (`reference_inconnue`). Les droits d'administration s'attribuent ensuite dans Gestion des accès. `Utilisateurs.profil` accepte les profils du lot ou de la base. Purge : un profil du lot encore utilisé par un utilisateur hors lot bloque l'annulation.
+
+### Banques (`Banques`, classeur 01)
+| Colonne | Oblig. | Règle |
+|---|---|---|
+| codeBanque | oui | 20 car., unique |
+| libelle | oui | 150 car. |
+| codePays | non | ISO alpha-2, pays existant (`reference_inconnue`) |
+| swift | non | 8 ou 11 caractères `A-Z0-9` |
+
+Purge : une banque du lot référencée par un compte bancaire hors lot bloque l'annulation.
+
+### RolesComptables (classeur 02, après PlanComptable)
+| Colonne | Oblig. | Règle |
+|---|---|---|
+| role | oui | rôle comptable connu (enum `RoleComptable` : CAISSE, BANQUE, MOBILE_MONEY, COMPTE_VUE, DEPOT_A_TERME, PENALITE_RETRAIT_ANTICIPE_DAT, GAIN_CHANGE…) |
+| numeroCompte | oui | compte mouvementable du plan |
+
+Met à jour la ligne existante de la norme de l'institution (ou l'insère), source `ADMIN`. À utiliser pour les rôles laissés à `null` par la norme `rcs_sfd` quand le plan a un compte adapté. Si la norme de l'institution est introuvable : `import.erreur.norme_indisponible`. Purge : restauration exacte de la valeur d'origine ; bloquée si le rôle a été modifié depuis l'import.
+
+### ComptesBancaires (classeur 02, après PlanComptable, Journaux, Agences, Banques)
+| Colonne | Oblig. | Règle |
+|---|---|---|
+| codeBanque | oui | banque du lot ou de la base |
+| libelleCompte | oui | 200 car. |
+| numeroCompte | oui | 50 car., unique |
+| iban | non | 34 car. |
+| codeAgence | oui | agence du lot ou de la base |
+| deviseCode | non | devise principale si vide |
+| compteComptable | oui | compte mouvementable du plan |
+| codeJournal | oui | journal de trésorerie du lot ou de la base |
+| typeCompte | non | `COURANT` (défaut), `EPARGNE`, `DEPOT_A_TERME`, `PLACEMENT` |
+| actif | non | oui |
+
+Purge : bloquée si une opération bancaire ou un rapprochement hors lot référence le compte.
+
+### ComptesMobileMoney (classeur 02)
+Mêmes règles, colonnes : `codeOperateur` (oui ; `ORANGE`, `MTN`, `MOOV`, `WAVE`, `AIRTEL`, `MPESA`, `AUTRE`), `libelleCompte` (oui), `numeroCompte` (oui, unique), `codeAgence` (oui), `deviseCode`, `compteComptable` (oui), `codeJournal` (oui), `actif`. Pas de colonne banque.
+
+### TypesFraisAdhesion (classeur 03, avant Clients)
+| Colonne | Oblig. | Règle |
+|---|---|---|
+| code | oui | 30 car., unique |
+| libelle | oui | 100 car. |
+| description | non | 500 car. |
+| categorie | oui | `DROIT_ADHESION`, `PART_SOCIALE`, `FRAIS_DOSSIER`, `CARNET_EPARGNE`, `CARTE_MEMBRE`, `TIMBRE_FISCAL`, `COTISATION_ANNUELLE`, `AUTRE` |
+| remboursable, obligatoire, paiementFractionneAutorise | non | défauts non, oui, non |
+| compteComptableDebit, compteComptableCredit | non | comptes mouvementables du plan (encaissement ; produit ou capital) |
+| codeJournal | non | journal du lot ou de la base |
+| ordre | non | entier, défaut 0 |
+| actif | non | oui |
+
+### BaremesFraisAdhesion (après TypesFraisAdhesion)
+| Colonne | Oblig. | Règle |
+|---|---|---|
+| codeBareme | oui | code libre, **unique dans le classeur** : relie les tranches |
+| codeTypeFrais | oui | type du lot ou de la base |
+| codeAgence | non | vide = toutes les agences |
+| typeClient | non | `TypeClient` hors `GROUPE` ; vide = tous |
+| segmentClient | non | `STANDARD`, `SILVER`, `GOLD`, `PLATINUM`, `GROUPE`, `INSTITUTIONNEL` ; vide = tous |
+| modeCalcul | oui | `FIXE` (montantFixe obligatoire), `POURCENTAGE` (pourcentage dans ]0 ; 100] obligatoire, montantMinimum/montantMaximum facultatifs), `PALIER` (tranches obligatoires) |
+| montantFixe, pourcentage, montantMinimum, montantMaximum | selon le mode | entiers sauf pourcentage |
+| montantReference | non | `NONE` (défaut), `REVENU_MENSUEL`, `CAPITAL_SOCIAL` : base du pourcentage ou des tranches |
+| nombrePartsMinimum, nombrePartsMaximum, valeurNominalePart | non | catégorie `PART_SOCIALE` (min défaut 1, max 0 = illimité) |
+| dateDebut | oui | début de validité |
+| dateFin | non | pas antérieure à dateDebut (`periode_invalide`) |
+| compteComptableCredit, codeJournal | non | surchargent ceux du type de frais |
+| actif | non | oui |
+
+Deux barèmes de même portée (type, agence, typeClient, segment, dateDebut) dans le lot : `doublon` ; portée déjà en base : `existe_deja` (non chargé). Mode incohérent avec les valeurs : `import.erreur.mode_calcul_incoherent`.
+
+### TranchesFraisAdhesion (feuille fille, après BaremesFraisAdhesion)
+**Une ligne par tranche** : `codeBareme` (oui, barème PALIER de la feuille précédente), `montantMin` (oui, borne basse incluse), `montantMax` (non, borne haute incluse ; **vide = sans limite**, réservé à la dernière tranche), `montant` (oui, frais de la tranche). Les tranches d'un même barème ne se chevauchent pas et ont `montantMax ≥ montantMin` ; sinon `import.erreur.tranches_incoherentes`. Un barème PALIER sans tranche valide n'est pas créé (même code d'erreur) ; une tranche n'est chargée que si son barème l'est. Les tranches sont écrites dans le barème au chargement (pas de table propre : la purge du barème les emporte).
+
+### FraisNotification (classeur 03)
+| Colonne | Oblig. | Règle |
+|---|---|---|
+| canal | oui | `SMS`, `EMAIL`, `PUSH` |
+| codeAgence | non | vide = tarif par défaut de toutes les agences ; (canal, agence) unique |
+| montantFrais | oui | entier ≥ 0, frais mensuel |
+| codeDevise | non | devise principale si vide |
+| description | non | 255 car. |
+| compteProduit | oui | compte de produit mouvementable (pas de repli : sans lui le prélèvement échoue) |
+| codeJournal | oui | journal du lot ou de la base |
+| actif | non | oui |
+
+Purge : bloquée si des souscriptions de ce canal/agence ont déjà été prélevées.
+
+### ConfigPartsSociales et ConfigDormance (singletons, classeur 03, **une seule ligne**)
+`ConfigPartsSociales` : `valeurNominale` (> 0), `nombreMinimum` (≥ 1), `nombreMaximum` (≥ nombreMinimum), `plafondTotal`, `tauxRemunerationMax` (0 à 100), `periodeRemboursement` (jours, > 0) toutes obligatoires ; `actif`. Incohérence : `nombre_parts_invalide`, `montant_hors_limite`, `valeur_hors_bornes`. La valeur nominale doit être cohérente avec `PartsSociales.valeurNominale`.
+`ConfigDormance` : `seuilJours` (oui, > 0, `valeur_hors_bornes` sinon), `notifierClient` (non, défaut non).
+Chaque ligne remplace la configuration existante, restaurée (ou supprimée si elle n'existait pas) à l'annulation. Deux lignes : `doublon`.
+
+### FraisOperations (classeur 04, après ProduitsEpargne et PlanComptable)
+| Colonne | Oblig. | Règle |
+|---|---|---|
+| code | oui | 50 car., unique ; l'identifiant technique est généré (préfixe `MF`) |
+| libelle | oui | 100 car. |
+| codeProduit | oui | produit du lot ou de la base |
+| codeTypeOperation | oui | `TypeOperationEpargne` : OUVERTURE, DEPOT, RETRAIT, VIREMENT_ENTRANT, VIREMENT_SORTANT, VIREMENT, INTERET_CREDIT, INTERET_DEBIT, FRAIS_GESTION, TENUE_COMPTE, ADMINISTRATIF, FRAIS_NOTIFICATION, CLOTURE, RETRAIT_ANTICIPE, REPRISE_SOLDE, REGULARISATION, VERSEMENT_PLANIFIE |
+| typeClient | non | `PARTICULIER`, `PROFESSIONNEL`, `GROUPE`, `INSTITUTIONNEL` ; vide = tous |
+| codeAgence | non | vide = toutes |
+| modeCalcul | oui | `FIXE` (montantFixe), `POURCENTAGE` (pourcentage dans ]0 ; 100], montantMinimum/montantMaximum facultatifs), `PALIER` (tranches) |
+| compteComptableCredit | non | compte de produit mouvementable ; vide = compte du schéma comptable du module |
+| dateDebut | non | défaut : date de bascule |
+| dateFin | non | `periode_invalide` si antérieure à dateDebut |
+| actif | non | oui |
+
+### TranchesFraisOperation (feuille fille)
+`codeFrais` (oui, frais PALIER), `montantMin` (oui), `montantMax` (non ; vide = sans limite, dernière tranche), `frais` (oui). Mêmes règles de tranches que `TranchesFraisAdhesion` (`tranches_incoherentes`, rien n'est créé pour un frais PALIER sans tranche valide). Pas de contrôle de purge : les opérations ne mémorisent pas le frais appliqué.
+
+### SeuilsLimites (classeur 04)
+| Colonne | Oblig. | Règle |
+|---|---|---|
+| code, libelle | oui | 50 / 100 car. ; code unique (id technique préfixe `MS`) |
+| codeProduit | oui | produit du lot ou de la base |
+| typeOperation | oui | `TypeSeuilOperation` : SOLDE_MINIMUM, SOLDE_MAXIMUM, DEPOT_MINIMUM/MAXIMUM, RETRAIT_MINIMUM/MAXIMUM, VIREMENT_MINIMUM/MAXIMUM, DEPOT_JOURNALIER, RETRAIT_JOURNALIER… (liste complète dans le gabarit) |
+| typeClient, codeAgence | non | vide = tous / toutes |
+| montantMinimum, montantMaximum, montantJournalier, montantMensuel | non | entiers ≥ 0 ; `montants_incoherents` si minimum > maximum |
+| niveauValidationRequis | non | `CAISSIER`, `SUPERVISEUR`, `DIRECTEUR_AGENCE` |
+| montantSeuilValidation | non | entier |
+| description | non | 500 car. |
+| alerte, bloquant | non | défauts non, non |
+| dateDebut / dateFin | non | défaut bascule / vide ; `periode_invalide` |
+| actif | non | oui |
+
+### ParametrageDormance (classeur 04)
+Toutes colonnes facultatives : `codeProduit` (10 car., vide = tous les produits), `codeAgence` (10 car.), `delaiAlerteMois` (6), `delaiDormantMois` (12), `delaiDesherenceMois` (120), `delaiDesactivationMois`, `actionDesactivation` (`SUSPENDRE`, `BLOQUER`, `CLOTURER`), `actionDormant` (`AUCUNE`, `NOTIFIER`, `SUSPENDRE` défaut, `BLOQUER`, `GELER`), `notifierClient` (oui), `delaiNotificationJours` (30), `appliquerFrais` (non), `fraisMensuel` (0), `soldeMinimumFrais` (0), `reactivationAuto` (oui), `fraisReactivation` (0), `actif`, `description`. Délais strictement positifs et croissants (alerte ≤ dormant ≤ déshérence) sinon `valeur_hors_bornes`. Une portée (produit, agence) déjà en base : `existe_deja`.
+
+### CommissionsCollecte (classeur 04, optionnel)
+`code` (oui, 20 car.), `libelle` (oui), `typeCommission` (oui : `POURCENTAGE_MONTANT`, `FORFAIT_PAR_COLLECTE`, `MIXTE` ; les paliers ne sont pas repris, à saisir dans l'écran), `typeOperation` (oui), `tauxPourcentage` (**fraction** : `0.02` = 2 %, dans ]0 ; 1], obligatoire pour POURCENTAGE_MONTANT et MIXTE), `montantForfait` (FORFAIT_PAR_COLLECTE et MIXTE), `commissionMin`, `commissionMax`, `plafondMensuel`, `codeAgence`, `dateDebut`, `dateFin`, `actif`. Incohérence de type : `mode_calcul_incoherent`.
+
+### Codes d'erreur propres aux paramétrages
+| Code | Gravité | Cause |
+|---|---|---|
+| `import.erreur.mode_calcul_incoherent` | bloquante | FIXE sans montant, POURCENTAGE sans pourcentage valide, type de commission sans taux/forfait |
+| `import.erreur.tranches_incoherentes` | bloquante | barème/frais PALIER sans tranche valide, bornes inversées, chevauchement ; avertissement si la tranche vise un barème qui n'est pas PALIER |
+| `import.erreur.periode_invalide` | bloquante | dateFin antérieure à dateDebut |
+| `import.erreur.valeur_hors_bornes` | bloquante | délai, seuil ou taux hors des bornes admises (dormance, parts sociales) |
+| `import.erreur.montant_hors_limite` / `montant_non_entier` | bloquante | montant négatif ou non entier |
+| `import.erreur.norme_indisponible` | bloquante | norme comptable de l'institution introuvable pour `RolesComptables` |
+| `import.erreur.schemas_comptables_absents` | bloquante | schémas comptables de l'épargne vides et non rechargeables (institution incomplète) |
+| `import.erreur.reference_inconnue` / `compte_non_mouvementable` | bloquante | agence, produit, journal, banque, type de frais, compte ou rôle introuvable / compte de regroupement |
+| `import.erreur.profil_interdit` | bloquante | profil contenant `ROLE_ADMIN`, `ROLE_MIGRATION` ou un rôle de gestion des accès |
+| `import.erreur.existe_deja` | avertissement | clé déjà en base : ligne ignorée, jamais écrasée ni purgée |
+
+Limites : le crédit et la caisse ne sont pas couverts (itération 4) ; les règles SQL du client, de l'épargne et de la comptabilité lisent les tables `plan_comptable`, `journal`, `agence`, `institution` (monolithe ou base partagée).
+
 ## 5. Formats de nombres, dates, booléens
 
 - **Dates** : `dd/MM/yyyy` (jours et mois sur 1 ou 2 chiffres), ISO `yyyy-MM-dd`, ou cellule Excel de type date / numéro de série.
@@ -445,7 +644,18 @@ python3 scripts/migration-fixtures/generer_iter2.py --agences 2 --clients-par-ag
 python3 scripts/migration-fixtures/generer_iter2.py --verifier-entetes .                                       # en-têtes vs descripteurs Java
 ```
 
-Options : `--date-bascule` (2026-09-30), `--longueur-compte` (6, égale au paramétrage comptable), `--prefixe-agence` (VOL), `--type-agence` (AGENCE, doit exister), `--pays` (CI), `--erreurs` (injecte un doublon d'ancien numéro entre deux agences, une agence déséquilibrée, une pièce dupliquée, un montant non entier ; liste dans `erreurs-injectees.txt`). Toujours générer **hors du dépôt**. Ordre de dépôt : `01-Parametrage.xlsx`, `02-Comptabilite.xlsx`, `Gestionnaires.csv`, `Clients_<AG>.csv`, `Groupes.csv`, `MembresGroupe.csv`, `PartsSociales.csv` (CSV UTF-8, séparateur `;`, dates `dd/MM/yyyy`).
+Options : `--date-bascule` (2026-09-30), `--longueur-compte` (6, égale au paramétrage comptable), `--prefixe-agence` (VOL), `--type-agence` (AGENCE, doit exister), `--pays` (CI), `--erreurs` (injecte un doublon d'ancien numéro entre deux agences, une agence déséquilibrée, une pièce dupliquée, un montant non entier ; liste dans `erreurs-injectees.txt`). Toujours générer **hors du dépôt**.
+
+Jeu de test avec paramétrages (base vide) : `generer_iter3.py` réutilise `generer_iter2.py` et ajoute l'épargne **et**, par défaut, toutes les feuilles de la section 4 quinquies (2 profils sans rôle privilégié, 2 utilisateurs, 2 banques, rôle `PENALITE_RETRAIT_ANTICIPE_DAT`, 2 comptes bancaires + 1 mobile money, comptes de trésorerie et journaux VOLCA/VOLBQ/VOLMM ajoutés au plan, type de frais d'adhésion + barème FIXE + barème PALIER à 2 tranches, frais de notification SMS, parts sociales, dormance, frais d'opération TENUE_COMPTE FIXE et RETRAIT PALIER à 2 tranches, seuils SOLDE_MINIMUM et RETRAIT_JOURNALIER, paramétrage de dormance du compte à vue). Écrit aussi `03-Clients.xlsx` (feuilles de paramétrage).
+
+```bash
+python3 -I scripts/migration-fixtures/generer_iter3.py --agences 2 --clients-par-agence 20 --sortie <DIR>    # petit lot de preuve
+python3 -I scripts/migration-fixtures/generer_iter3.py --sans-parametrage --agences 5 --clients-par-agence 200000 --sortie <DIR>   # ancien jeu (base déjà paramétrée)
+python3 -I scripts/migration-fixtures/generer_iter3.py --verifier <DIR>          # cohérences (comptes du plan, tranches, profils…)
+python3 -I scripts/migration-fixtures/generer_iter3.py --verifier-entetes .      # 17 feuilles de paramétrage vs descripteurs Java
+```
+
+Option de lot à saisir pour ce jeu : `compteReprise` = `471000` (6 chiffres). Ordre de dépôt : `01-Parametrage.xlsx`, `02-Comptabilite.xlsx`, `Gestionnaires.csv`, `Clients_<AG>.csv`, `Groupes.csv`, `MembresGroupe.csv`, `PartsSociales.csv` (CSV UTF-8, séparateur `;`, dates `dd/MM/yyyy`).
 
 ## 11. Test automatisé
 
