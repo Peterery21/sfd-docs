@@ -1,6 +1,6 @@
 # Migration de données EDIP — guide opérateur
 
-Itération 1 : socle (lots, verrou, réinitialisation) et classeur `01-Parametrage` (module commun : devises, agences, utilisateurs). Itération 2 : classeurs `02-Comptabilite` (plan comptable, journaux, balance d'ouverture, exercices générés) et `03-Clients` (gestionnaires, clients, groupes, membres, bénéficiaires, parts sociales). Itération 3 : classeur `04-Epargne` (produits, comptes, DAT, blocages, tontines) et pièces d'à-nouveaux. Avenant du 2026-10-19 : migration sur **base vide** et paramétrages des modules commun, comptabilité, client et épargne (profils, banques, rôles comptables, comptes bancaires, frais, seuils, dormance : §2 bis et §4 quinquies). Les classeurs des autres modules (crédit, caisse, stock, RH, paie…) arrivent aux itérations suivantes sur les mêmes interfaces.
+Itération 1 : socle (lots, verrou, réinitialisation) et classeur `01-Parametrage` (module commun : devises, agences, utilisateurs). Itération 2 : classeurs `02-Comptabilite` (plan comptable, journaux, balance d'ouverture, exercices générés) et `03-Clients` (gestionnaires, clients, groupes, membres, bénéficiaires, parts sociales). Itération 3 : classeur `04-Epargne` (produits, comptes, DAT, blocages, tontines) et pièces d'à-nouveaux. Avenant du 2026-10-19 : migration sur **base vide** et paramétrages des modules commun, comptabilité, client et épargne (profils, banques, rôles comptables, comptes bancaires, frais, seuils, dormance : §2 bis et §4 quinquies). Itération 4 : classeurs `06-Caisse` (caisses et soldes de bascule, §4 sexies) et `05-Credit` (paramétrages et encours, §4 septies), étape 6 « Contrôles post-import » avec rapport et clôture du lot (§4 octies). Les classeurs des autres modules (stock, RH, paie…) arrivent aux itérations suivantes sur les mêmes interfaces.
 
 ## 1. Objet
 
@@ -27,7 +27,7 @@ Cas visé : l'institution part d'une installation neuve, sans données de démon
 
 **Prérequis**
 1. Installation neuve : wizard `/setup` exécuté **sans** la case « données de démonstration » (institution, agence siège, administrateur, devise principale, plan comptable et journaux de la norme). Attendre la fin de l'initialisation asynchrone des modules (statut `COMPLETED` et services initialisés : comptabilité, crédit, reporting) avant de déposer un lot ; en cas de doute, `scripts/edip-env/edip-env.sh baseline-create --vide` sonde cet état.
-2. Modules cibles démarrés, `INTERNAL_SERVICE_KEY` identique partout, `ROLE_MIGRATION` ou `ROLE_ADMIN` pour l'opérateur (§2). Caisses, sessions de caisse et paramétrages du crédit ne sont **pas** importables en itération 3 (itération 4) : sur une base vide, aucun dépôt espèces n'est possible après la migration tant qu'une caisse n'est pas créée à la main.
+2. Modules cibles démarrés, `INTERNAL_SERVICE_KEY` identique partout, `ROLE_MIGRATION` ou `ROLE_ADMIN` pour l'opérateur (§2). Les caisses (avec leur solde de bascule) et le crédit se chargent par les classeurs `06-Caisse` et `05-Credit` ; sans caisse, aucun dépôt espèces n'est possible après la migration.
 
 **Ce que le setup pose déjà (inutile de le fournir)** : institution, agence siège, administrateur et profil « Administrateurs » (`ROLE_ADMIN`), devise principale, 6 devises, pays, types d'agence, types de zone, rôles applicatifs de chaque module, formats de numérotation, modèles de notification, plan comptable et journaux de la norme, rôles comptables de la norme `uemoa/rcs_sfd`, paramétrage comptable, configuration KYC, schémas comptables du client, types d'opération de caisse et coupures.
 
@@ -44,13 +44,21 @@ Cas visé : l'institution part d'une installation neuve, sans données de démon
 
 **Schémas comptables de l'épargne** : sur base vide, la table `schema_comptable_operation` n'est chargée qu'au redémarrage du service si l'institution existait au démarrage. Le lot la recharge **automatiquement** avant le chargement (même méthode que le démarrage) lorsqu'elle est vide. Si elle reste vide (institution sans organisation ou sans norme comptable, ou préférence indisponible), `import.erreur.schemas_comptables_absents` (bloquante) est posée sur la première ligne de `ProduitsEpargne` et de `ComptesEpargne` : configurer l'institution puis relancer la validation.
 
-**Itération 4 (hors périmètre ici)** : caisses, comptes de caisse par devise, sessions, seuils de caisse, produits et paramétrages du crédit. Les rôles comptables caisse/crédit restent ceux de la norme.
+**Exercice comptable** : sur une installation neuve sans démo, le setup ne crée **pas** d'exercice : l'utilisateur l'ouvre lui-même en comptabilité. Exceptions : le wizard démo, et la migration (option `exercicesAuto`, §4 quater) qui génère l'exercice, les périodes et la journée de chaque agence à la date de bascule.
+
+**Schémas comptables système** : chargés par le setup (`/setup/init` des modules épargne et caisse). Si la table est vide au moment du lot, le chargement épargne et caisse la recharge automatiquement avant d'écrire.
+
+**Administrateurs** : les utilisateurs `ROLE_ADMIN` sont rattachés automatiquement à chaque agence créée par le lot (hors agence principale), pour pouvoir y travailler sans réaffectation manuelle.
+
+**Dates de reprise** : toutes les lignes créées par le chargement (journée ouverte, pièces `A_NOUVEAU`, opérations de reprise, dossiers et échéances repris…) sont datées du **lendemain de la date de bascule** ; les dates métier du fichier (ouverture, décaissement, échéances) sont conservées. Les rôles comptables caisse/crédit restent ceux de la norme.
 
 **Ordre de dépôt** (un classeur par module ; le moteur ordonne les feuilles selon leurs dépendances) :
 1. `01-Parametrage` : `Devises` (si besoin), `Agences`, `Profils`, `Utilisateurs`, `Banques`
 2. `02-Comptabilite` : `PlanComptable`, `RolesComptables`, `Journaux`, `ComptesBancaires`, `ComptesMobileMoney`, `BalanceOuverture`
 3. `03-Clients` : paramétrages (`TypesFraisAdhesion`, `BaremesFraisAdhesion`, `TranchesFraisAdhesion`, `FraisNotification`, `ConfigPartsSociales`, `ConfigDormance`) puis `Gestionnaires`, `Clients`, `Groupes`, `MembresGroupe`, `Beneficiaires`, `PartsSociales`
 4. `04-Epargne` : `ProduitsEpargne`, `ComptesGenerauxProduit`, `FraisOperations`, `TranchesFraisOperation`, `SeuilsLimites`, `ParametrageDormance`, `CommissionsCollecte`, puis `ComptesEpargne`, `Dat`, `Blocages`, `Tontines`, `ParticipantsTontine`
+5. `06-Caisse` : `Caisses`, `ComptesDevise`, `Coupures`, `SeuilsOperation`, `TauxChangeCaisse`
+6. `05-Credit` : paramétrages (`PRODUITS_CREDIT` … `PARAMETRAGE_COMPTABLE_CREDIT`) puis `DOSSIERS`, `ECHEANCES`, `GARANTIES`
 
 Option de lot `compteReprise` (§4 quater) : compte d'attente de classe 47 du plan, absent de la balance (`471000` dans le jeu de test).
 
@@ -76,7 +84,7 @@ Un lot a un code généré, un libellé, une date de bascule (date du dernier jo
 | `ANNULATION_EN_COURS` | Contrôle puis purge en cours | Attendre (refus : retour au statut d'avant) |
 | `ANNULE` / `CLOTURE` | Terminaux | Aucune |
 
-Parcours type de l'assistant : 1 Paramètres (libellé, date de bascule, agences) → 2 Gabarits → 3 Fichiers → 4 Validation → 5 Import. L'import exige de **saisir le code du lot** dans la fenêtre de confirmation, et d'avoir pris connaissance des avertissements éventuels.
+Parcours type de l'assistant : 1 Paramètres (libellé, date de bascule, agences) → 2 Gabarits → 3 Fichiers → 4 Validation → 5 Import → 6 Contrôles post-import (réconciliation, rapport `.xlsx`, clôture du lot, §4 octies). L'import exige de **saisir le code du lot** dans la fenêtre de confirmation, et d'avoir pris connaissance des avertissements éventuels.
 
 Au redémarrage du service : `IMPORT_EN_COURS` devient `SUSPENDU` (verrou conservé, reprise possible) ; `ANALYSE_EN_COURS`, `VALIDATION_EN_COURS`, `ANNULATION_EN_COURS` deviennent `ECHEC`.
 
@@ -552,7 +560,165 @@ Toutes colonnes facultatives : `codeProduit` (10 car., vide = tous les produits)
 | `import.erreur.profil_interdit` | bloquante | profil contenant `ROLE_ADMIN`, `ROLE_MIGRATION` ou un rôle de gestion des accès |
 | `import.erreur.existe_deja` | avertissement | clé déjà en base : ligne ignorée, jamais écrasée ni purgée |
 
-Limites : le crédit et la caisse ne sont pas couverts (itération 4) ; les règles SQL du client, de l'épargne et de la comptabilité lisent les tables `plan_comptable`, `journal`, `agence`, `institution` (monolithe ou base partagée).
+Limites : les paramétrages du crédit et de la caisse sont dans leurs classeurs (§4 sexies, §4 septies) ; les règles SQL du client, de l'épargne et de la comptabilité lisent les tables `plan_comptable`, `journal`, `agence`, `institution` (monolithe ou base partagée).
+
+## 4 sexies. Classeur `06-Caisse` (module caisse, ordre 500)
+
+Ordre de dépôt : après `01-Parametrage` et `02-Comptabilite` (agences, devises, utilisateurs, plan comptable, balance). Feuilles du gabarit, dans l'ordre de chargement : `Caisses`, `ComptesDevise`, `Coupures`, `SeuilsOperation`, `TauxChangeCaisse`. Mêmes règles d'en-têtes qu'au §4 : `CODE_CAISSE` et `codeCaisse` désignent la même colonne (le gabarit écrit la forme camelCase).
+
+### Décisions de cadrage
+- **Caisses seules, aucune session** : le chargement ne crée ni session, ni opération, ni mouvement de caisse. L'encaisse à la bascule est portée par la colonne `soldeBascule`.
+- **Solde de bascule = solde hors session** de la caisse. À la première ouverture de session après la migration, les guichets sont pré-remplis avec ce solde (comme une caisse fermée la veille), puis le billetage habituel s'applique.
+- **Compte auxiliaire par caisse** : le code de la caisse devient le code du compte auxiliaire, rattaché au collectif `compteComptable` (57x). Les pièces `A_NOUVEAU` portent l'encaisse sur cet auxiliaire (§4 quater).
+- **Devise** : un solde de bascule n'est accepté que dans la devise principale de l'institution.
+- Aucune ligne n'émet de message comptable ; les lignes chargées portent `created_by = MIGRATION:<code du lot>`.
+
+### Caisses (après Agences, Devises, Utilisateurs, PlanComptable)
+| Colonne | Oblig. | Règle |
+|---|---|---|
+| codeCaisse | oui | 30 car., unique dans le lot (`CAISSE_DOUBLON`), absent de la base caisse et des codes auxiliaires (`CAISSE_EXISTE_DEJA`) |
+| libelle | oui | 100 car. |
+| typeCaisse | oui | `COF` (coffre), `CPR` (caisse principale), `GUI` (guichet) ; `MOB`, `DAB`, `CPT` acceptés |
+| codeAgence | oui | agence en base ou du lot 01 (`CAISSE_AGENCE_INCONNUE`) |
+| compteComptable | oui | collectif du plan (57x), 15 chiffres max, en base ou lot 02 (`CAISSE_COMPTE_INCONNU`) |
+| devise | oui | devise en base ou du lot 01 (`CAISSE_DEVISE_INCONNUE`) |
+| billetageObligatoire | non | booléen, défaut non |
+| loginResponsable | non | e-mail d'un utilisateur en base ou du lot 01 (`CAISSE_RESPONSABLE_INCONNU`) ; vide = aucun responsable |
+| soldeBascule | non | entier ≥ 0 ; vide = pas de solde ; refusé hors devise principale (`CAISSE_SOLDE_DEVISE_ETRANGERE`) |
+| codeCaisseParent | non | caisse du lot ou en base (`reference_inconnue`) |
+| compteLiaison, compteAnnulation | non | compte du plan (`CAISSE_COMPTE_INCONNU`) |
+| plafondEncaisse, seuilAlerteHaut, seuilAlerteBas, plafondOperation | non | décimaux ≥ 0 |
+| actif | non | booléen, défaut oui |
+
+### ComptesDevise (après Caisses)
+`codeAgence` (oui), `codeCaisse` (non, vide = compte par défaut de l'agence), `devise` (oui), `numeroCompte` (oui, compte du plan en base ou du lot, ou auxiliaire existant), `libelle`, `actif`. Doublon (agence, caisse, devise) : bloquant ; déjà en base : avertissement, ligne conservée telle quelle.
+
+### Coupures
+`devise`, `valeurFaciale` (> 0), `typeCoupure` (`BILLET` / `PIECE`), `libelle` (50 car.), `ordreAffichage` (entier) obligatoires ; `actif`. Coupure déjà présente (dont les coupures XOF posées au démarrage) : avertissement, conservée.
+
+### SeuilsOperation
+`typeOperation` (oui, code d'un type d'opération de caisse), `codeAgence` (vide = toutes), `devise` (oui), `seuilBilletage`, `seuilDoubleValidation`, `montantMinimum`, `montantMaximum`, `seuilDeclarationCentif`, `seuilCumulJournalierClient`, `plafondJournalierCaissier`, `plafondJournalierClient` (décimaux ≥ 0, vide = pas de contrôle), `description` (500 car.), `actif`. Existant (type, agence, devise) : avertissement, conservé.
+
+### TauxChangeCaisse
+`deviseSource`, `deviseCible`, `taux` (> 0) obligatoires ; `tauxAchat`, `tauxVente`, `tauxMoyen`, `dateApplication` (défaut : date de bascule), `dateFinValidite`, `actif`. Un taux à exactement 3 décimales est ambigu (`decimal_ambigu`, §5) : écrire `655.9570`. Existant (couple, date) : avertissement, conservé.
+
+### Cohérence avec la balance
+- Contrôle `BALANCE_ECART_AUXILIAIRES` : par (agence, `compteComptable`), Σ soldes de bascule des caisses ≠ solde débiteur du compte dans `BalanceOuverture` → **avertissement**, **bloquant** si l'option `ecartAuxiliairesBloquant` est cochée. Un groupe sans aucun solde renseigné n'est pas contrôlé.
+- Projection auxiliaire : une ligne par caisse chargée (`module=CAISSE`, `dataset=CAISSES`, collectif = `compteComptable`, code = `codeCaisse`, solde = −`soldeBascule`, débiteur). Pour un jeu cohérent : solde du 57x de l'agence dans la balance = Σ `soldeBascule` des caisses de ce collectif, au débit.
+
+### Codes d'erreur propres au classeur 06
+| Code | Gravité | Cause |
+|---|---|---|
+| `CAISSE_DOUBLON` | bloquante | code caisse répété dans le lot |
+| `CAISSE_EXISTE_DEJA` | bloquante | code déjà utilisé par une caisse ou un compte auxiliaire en base |
+| `CAISSE_AGENCE_INCONNUE` | bloquante | agence absente de la base et du lot |
+| `CAISSE_COMPTE_INCONNU` | bloquante | compte comptable, de liaison ou d'annulation absent du plan |
+| `CAISSE_RESPONSABLE_INCONNU` | bloquante | e-mail du responsable sans utilisateur |
+| `CAISSE_DEVISE_INCONNUE` | bloquante | devise absente |
+| `CAISSE_SOLDE_DEVISE_ETRANGERE` | bloquante | solde de bascule sur une caisse hors devise principale |
+| `balance_ecart_auxiliaires` | avertissement (bloquante si `ecartAuxiliairesBloquant`) | Σ soldes des caisses ≠ 57x de la balance |
+
+### Annulation
+Supprimés : caisses et paramétrages (comptes par devise, coupures, seuils, taux) créés par le lot, comptes auxiliaires des caisses ; les éléments déjà en base ne sont pas touchés. **Refus** si une opération de caisse postérieure référence une caisse du lot (par exemple un premier dépôt) : le motif s'affiche sur l'écran du lot (§7) ; contre-passer ou supprimer l'opération, puis relancer.
+
+## 4 septies. Classeur `05-Credit` (module crédit, ordre 600)
+
+Ordre de dépôt : après `03-Clients` et `04-Epargne` (clients, comptes de prélèvement, comptes de caution). Feuilles, dans l'ordre de chargement : paramétrages `PRODUITS_CREDIT`, `COMPTES_TERME_PRODUIT`, `COMPTES_CLASSE_PRODUIT`, `TYPES_GARANTIE`, `CONFIG_COMPTES_GARANTIE`, `PRODUITS_GARANTIES`, `BAILLEURS`, `SOURCES_FINANCEMENT`, `FRAIS_CREDIT`, `PENALITES_PRODUIT`, `GRILLE_SCORING`, `PARAMETRE_COMITE`, `ORDRE_REMBOURSEMENT`, `PARAMETRAGE_COMPTABLE_CREDIT`, puis l'encours `DOSSIERS`, `ECHEANCES`, `GARANTIES`. Nom de feuille = code du dataset ; en-têtes en MAJUSCULES_SNAKE (casse, accents, `_` et `*` final ignorés). Référence complète des colonnes : `sfd-credit-service/src/main/resources/import/credit/COLONNES.md`.
+
+### Décisions de cadrage
+- **Encours seul** à la date de bascule : dossier, compte crédit (`AUXCR-…`), échéances **non soldées**, garanties actives, provision. **Aucun historique de remboursement** n'est repris ; une échéance `PAYEE` est ignorée (avertissement).
+- **Σ échéances = capital restant dû** : Σ capital des échéances `PREVUE` + `IMPAYEE` + reste des `PARTIELLE` (capital − max(0, montant payé − intérêt)) doit égaler `CAPITAL_RESTANT_DU` du dossier (`ECHEANCES_SOMME_CRD`, bloquante).
+- **Cautions financières** : le compte de caution est un compte d'épargne du classeur 04 (ou de la base) d'un produit caution ; le montant bloqué est repris tel quel (pas de nouvelle constitution), dans la limite du solde du compte.
+- **Codes** : un type de garantie est désigné par son **libellé** ; un bailleur par son nom. Un produit, type, bailleur ou paramétrage déjà présent est réutilisé (avertissement), jamais modifié.
+- **Comptes** : aucun compte en dur ; le compte de créance d'un dossier est `COMPTE_CREANCE_SOUFFRANCE` du terme si `SOUFFRANCE_COMPTABLE` = oui, sinon `COMPTE_CREANCE_SAIN` (feuille `COMPTES_TERME_PRODUIT`).
+- Aucun message comptable émis ; lignes chargées marquées `MIGRATION:<code du lot>` (`cree_par`).
+
+### Paramétrages (feuilles 1 à 14)
+| Feuille | Clé | Contenu | Dépend de |
+|---|---|---|---|
+| `PRODUITS_CREDIT` | `CODE_PRODUIT` | libellé, terme (`TYPE_CREDIT`), bornes montant/durée, taux annuel, méthode d'intérêts, périodicité, type de taux, frais, assurance, pénalités, épargne préalable, seuil comité, plafond de délégation, groupe solidaire, comptes principal/intérêts/frais (défaut : comptes du terme) | — |
+| `COMPTES_TERME_PRODUIT` | produit + terme | créance saine, créance en souffrance, intérêts (obligatoires), intérêts courus, pénalités, perte | produits, plan |
+| `COMPTES_CLASSE_PRODUIT` | produit + classe | comptes principal, provision, dotation, reprise et taux de provision par classe (`SAIN` … `COMPROMIS`) | produits, plan |
+| `TYPES_GARANTIE` | libellé | catégorie (`PERSONNELLE`, `MOBILIERE`, `IMMOBILIERE`, `FINANCIERE`), décote, expertise, documents, validité | — |
+| `CONFIG_COMPTES_GARANTIE` | type + type de client | compte comptable des garanties financières (type de client vide = défaut) | types, plan |
+| `PRODUITS_GARANTIES` | produit + type | garanties acceptées, obligatoire, couverture minimale, produit d'épargne des cautions | produits, types, produits épargne |
+| `BAILLEURS` / `SOURCES_FINANCEMENT` | nom / libellé | bailleurs et lignes de financement | — / bailleurs |
+| `FRAIS_CREDIT` | `CODE` | type de frais, mode de calcul, moment de prélèvement, produit (vide = commun), compte de produits | produits, plan |
+| `PENALITES_PRODUIT` | libellé + type | modèle de pénalité (une ligne par produit rattaché) | produits, plan |
+| `GRILLE_SCORING` | grille / catégorie / critère | une ligne par barème | — |
+| `PARAMETRE_COMITE` | singleton | quorum, validité des décisions (ignoré si déjà paramétré) | — |
+| `ORDRE_REMBOURSEMENT` | portée (+ produit) | ordre d'imputation pénalités / intérêts / capital | produits |
+| `PARAMETRAGE_COMPTABLE_CREDIT` | type d'opération | journal et mode de comptabilisation (`DECAISSEMENT`, `PAIEMENT`, `PROVISION`, `PAIEMENT_FRAIS`) | journaux |
+
+### DOSSIERS (après Clients, Agences, PRODUITS_CREDIT, COMPTES_TERME_PRODUIT)
+| Colonne | Oblig. | Règle |
+|---|---|---|
+| NUMERO_DOSSIER | oui | 20 car., conservé, unique (`DOSSIER_DOUBLON`, `DOSSIER_EXISTE_DEJA`) |
+| ANCIEN_NUMERO_CLIENT | oui | client du lot ou en base (`DOSSIER_CLIENT_INCONNU`) |
+| CODE_PRODUIT | oui | produit du lot ou en base (`DOSSIER_PRODUIT_INCONNU`) |
+| CODE_AGENCE | non | défaut : agence du client |
+| MONTANT_ACCORDE, TAUX, DUREE_MOIS | oui | montant décaissé, taux annuel en %, durée en mois |
+| DATE_DECAISSEMENT | oui | au plus tard la date de bascule |
+| STATUT | oui | `DECAISSE`, `EN_COURS`, `EN_RETARD`, `IMMOBILISE`, `DOUTEUX`, `CONTENTIEUX`, `RESTRUCTURE`, `SOLDE` (`DOSSIER_STATUT_INVALIDE`) ; `SOLDE` exige un reste dû nul (`DOSSIER_SOLDE_RESTE_DU`) |
+| CAPITAL_RESTANT_DU | oui | = Σ capital restant des échéances |
+| TERME | non | défaut : terme du produit |
+| CAPITAL_REMBOURSE, INTERETS_PAYES, MONTANT_IMPAYES, NB_ECHEANCES_IMPAYEES, JOURS_RETARD | non | défauts : accordé − restant dû, puis 0 |
+| CLASSE_RISQUE | non | `SAIN` (défaut), `SENSIBLE`, `DOUTEUX`, `LITIGIEUX`, `COMPROMIS` |
+| PROVISION | non | provision constituée à la bascule (portée par la balance) |
+| SOUFFRANCE_COMPTABLE | non | oui = encours au compte de créances en souffrance |
+| NUMERO_COMPTE_EPARGNE | non | compte de prélèvement (classeur 04 ou base) |
+| PERIODICITE, METHODE_INTERET | non | défauts : ceux du produit |
+| OBJET_CREDIT, DATE_PREMIERE_ECHEANCE, DATE_DERNIERE_ECHEANCE | non | défauts des dates : première / dernière échéance restante |
+
+### ECHEANCES (après DOSSIERS)
+`NUMERO_DOSSIER`, `NUMERO_ECHEANCE` (rang dans le tableau d'amortissement), `DATE_ECHEANCE`, `CAPITAL`, `INTERET`, `STATUT` obligatoires ; `MONTANT_PAYE` (échéance `PARTIELLE` : déjà payé, imputé d'abord sur les intérêts). Statuts : `PREVUE`, `PARTIELLE`, `IMPAYEE` ; `PAYEE` ignorée (`ECHEANCE_PAYEE_IGNOREE`, avertissement).
+
+### GARANTIES (après DOSSIERS, TYPES_GARANTIE, PRODUITS_GARANTIES, CONFIG_COMPTES_GARANTIE, ComptesEpargne)
+`NUMERO_DOSSIER`, `CODE_TYPE_GARANTIE` (libellé paramétré dans les garanties du produit) obligatoires ; `VALEUR` (défaut : montant bloqué), `NUMERO_COMPTE_CAUTION` et `MONTANT_BLOQUE` (catégorie `FINANCIERE` : compte d'épargne de caution du classeur 04 ou de la base, montant ≤ solde du compte), `DESCRIPTION`.
+
+### Cohérence avec la balance et projection auxiliaire
+- Encours : Σ `CAPITAL_RESTANT_DU` par (agence, compte de créance) = solde **débiteur** de ce compte dans `BalanceOuverture` ; écart → `balance_ecart_auxiliaires` (avertissement, bloquant si `ecartAuxiliairesBloquant`).
+- `imp_solde_auxiliaire` : `DOSSIERS` (type `COMPTE_CREDIT`, code `AUXCR-nnnnnn`, solde −CRD) et `GARANTIES` (type `GARANTIE_FINANCIERE`, code `AUXGA-nnnnnn`, solde +montant bloqué, sur le compte de `CONFIG_COMPTES_GARANTIE`). Les pièces `A_NOUVEAU` reprennent ces auxiliaires (§4 quater).
+
+### Codes d'erreur propres au classeur 05
+| Code | Gravité | Cause |
+|---|---|---|
+| `DOSSIER_DOUBLON` / `DOSSIER_EXISTE_DEJA` | bloquante | numéro répété dans le lot / déjà en base |
+| `DOSSIER_CLIENT_INCONNU` / `DOSSIER_PRODUIT_INCONNU` | bloquante | client ou produit introuvable |
+| `DOSSIER_STATUT_INVALIDE` | bloquante | statut hors liste |
+| `DOSSIER_SOLDE_RESTE_DU` | bloquante | dossier `SOLDE` avec un capital restant dû |
+| `ECHEANCES_SOMME_CRD` | bloquante | Σ capital restant des échéances ≠ `CAPITAL_RESTANT_DU` |
+| `ECHEANCE_PAYEE_IGNOREE` | avertissement | échéance `PAYEE` : non reprise |
+| `TYPE_GARANTIE_NON_PARAMETRE` | bloquante | type absent des garanties du produit (`PRODUITS_GARANTIES`) |
+| `GARANTIE_COMPTE_NON_PARAMETRE` | bloquante | garantie financière sans compte dans `CONFIG_COMPTES_GARANTIE` |
+| `GARANTIE_CAUTION_INCONNUE` | bloquante | compte de caution introuvable |
+| `GARANTIE_CAUTION_INSUFFISANTE` | bloquante | montant bloqué > solde du compte de caution |
+| `balance_ecart_auxiliaires` | avertissement (bloquante si `ecartAuxiliairesBloquant`) | encours ≠ compte de créance de la balance |
+
+### Dates des lignes créées
+**Lendemain de la date de bascule** (jour des pièces `A_NOUVEAU` et de la journée ouverte) pour la création des dossiers, comptes crédit, échéances, garanties, la dernière classification et le déclassement en souffrance, la clôture d'un dossier `SOLDE`, l'historique de statut et l'évaluation des garanties. Les dates métier du fichier (décaissement, échéances, première / dernière échéance) sont reprises telles quelles.
+
+### Annulation
+Supprimés : dossiers, comptes crédit, échéances, garanties, provisions, historiques et paramétrages créés par le lot ; les séquences de numérotation du crédit sont remises comme avant le lot. **Refus** dès qu'une donnée postérieure, hors lot, repose sur l'encours (remboursement, pénalité, nouvelle provision, ligne de toute table liée au dossier) : le motif s'affiche sur l'écran du lot (§7).
+
+### Limite connue — provision de bascule
+La provision du fichier est enregistrée à la période (`aaaa-mm`) et à la date de la bascule, comptabilisée, dotation 0. La dotation de la période suivante se calcule par différence avec ce montant. Un calcul de provisions lancé **dans le mois de la bascule** (bascule en cours de mois) retrouve cette ligne comme période courante et la recalcule à partir de zéro (dotation de la totalité) : **lancer le premier calcul au mois suivant la bascule**.
+
+## 4 octies. Étape 6 — contrôles post-import et clôture du lot
+
+Après l'import (`IMPORTE`), l'assistant ouvre l'étape 6 « Contrôles post-import » : réconciliation **par agence** entre les fichiers du lot (staging, balance d'ouverture, projection auxiliaire) et les données chargées, en lecture directe de la base. Un module sans donnée pour le lot n'apparaît pas.
+
+| Contrôle | Comparaison | Écart |
+|---|---|---|
+| `CLIENTS`, `GROUPES`, `COMPTES_EPARGNE` | lignes du fichier (hors rejetées) / lignes créées | vert si égal ; orange si l'écart = lignes non chargées (erreurs, déjà existantes) ; rouge sinon |
+| `SOLDES_EPARGNE` | balance (crédit − débit) des collectifs épargne / Σ auxiliaires épargne | rouge si `ecartAuxiliairesBloquant`, orange sinon |
+| `ENCOURS_CREDIT` | balance (débit − crédit) des collectifs crédit / Σ capital restant dû des dossiers (garanties exclues) | rouge si `ecartAuxiliairesBloquant`, orange sinon |
+| `DOSSIERS_CREDIT` | auxiliaires crédit du lot / dossiers créés, détail par statut | orange |
+| `CAISSES` | balance (débit − crédit) des comptes 57 / Σ soldes des caisses du lot | orange |
+| `PARTS_SOCIALES` | Σ (valeur nominale × nombre) du fichier / Σ montants créés | rouge |
+
+- **Rapport de migration** : bouton « Rapport » → classeur `rapport-<code du lot>-<horodatage>.xlsx` (feuilles Synthèse, Datasets, Erreurs, Séquences, Réconciliation) à archiver avec le procès-verbal de bascule.
+- **Clôturer le lot** : passe le lot en `CLOTURE` après confirmation. Un lot clôturé **ne peut plus être annulé** ; clôturer seulement après validation des contrôles et du rapport.
 
 ## 5. Formats de nombres, dates, booléens
 
@@ -582,6 +748,9 @@ Pendant `IMPORT_EN_COURS`, `SUSPENDU` (import non terminé), `ANNULATION_EN_COUR
   3. Sinon **purge** module par module (ordre inverse du chargement), chaque module dans une seule transaction (suppressions et recalculs) : une erreur annule toute la purge du module. Une contrainte de base apparue entre le contrôle et la purge est signalée « Annulation interrompue » avec la table concernée (lot en `ECHEC`, verrou d'annulation conservé) ; relancer l'annulation après l'avoir traitée.
 - **Références qui refusent l'annulation** (commun) : agence avec des utilisateurs hors lot rattachés, clients, exercices, journées ou pièces hors lot, agences enfants non issues du lot, ou opérations d'un module métier (caisse, épargne, crédit, stock, immobilisations, RH, paie…) ; devise utilisée par des agences hors lot ou par des taux de change ; utilisateur ayant déjà une connexion (jeton, session active) ou des rôles directs.
 - **Données de session supprimées avec le lot** (pas de refus) : l'agence de travail sélectionnée par un utilisateur (`utilisateur_agence_connectee`) sur une agence du lot, et celle des utilisateurs du lot.
+- **Opérations postérieures** : toute opération saisie après l'import sur une donnée du lot (dépôt en caisse sur un compte importé, remboursement d'un dossier repris, opération sur une caisse migrée…) fait refuser l'annulation ; le motif (dernier refus, avec ses paramètres) reste affiché sur l'écran du lot et lisible dans l'API du lot.
+- **Remise en état** : les séquences de numérotation des clients et du crédit sont remises comme avant le lot ; les profils de messagerie (`chat_user`) créés pour les utilisateurs du lot sont supprimés avec eux.
+- Un lot `CLOTURE` (étape 6) ne peut plus être annulé.
 - Un lot passé à `ANNULE` voit son dossier de fichiers (`IMPORT_DOSSIER_STOCKAGE/<code du lot>`) supprimé du disque.
 
 ## 8. Réinitialisation de la base
@@ -619,6 +788,8 @@ Pendant `IMPORT_EN_COURS`, `SUSPENDU` (import non terminé), `ANNULATION_EN_COUR
 | Compte de reprise non soldé après import | Normal si l'écart entre comptes et balance a été accepté (avertissement `balance_ecart_auxiliaires`) : le compte porte l'écart ; le solder par une OD manuelle. |
 | `compte_reprise_requis` | Renseigner l'option « Compte de reprise » à l'étape 1 (un compte détaillé du plan, absent de la balance). |
 | Annulation refusée après un dépôt sur un compte importé | Contre-passer ou supprimer l'opération hors lot, puis relancer l'annulation. |
+| Provision du mois de bascule entièrement redotée | Calcul de provisions lancé dans le mois de la bascule : il recalcule la période depuis zéro. Lancer le premier calcul au mois suivant (§4 septies). |
+| Guichet ouvert avec un solde inattendu | La première session reprend le solde de bascule de la caisse (`soldeBascule`) ; vérifier la feuille `Caisses` et le contrôle `CAISSES` de l'étape 6. |
 | Doute sur une ligne chargée | Journal d'import (écran étape 5) et export des erreurs ; les lignes chargées gardent l'id créé pour la purge. |
 
 ## 10. Volumes mesurés et jeu de test
