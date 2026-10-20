@@ -85,7 +85,13 @@ Procédure (conteneur partagé : sonar et les 21 services perdent la base pendan
 8. Restauration de `sfd` : `DROP DATABASE sfd` / `CREATE DATABASE sfd OWNER sfd_app`, `pg_restore -d sfd` de la sauvegarde finale, `count(*)` = `avant.txt`, redémarrer les services arrêtés, `/actuator/health` UP avec `"database":"PostgreSQL"`, SonarQube UP.
 9. Validation → `docker rm pg_container_old` ; échec → `docker rm -f pg_container && docker rename pg_container_old pg_container && docker start pg_container`.
 
-Attention : le compose du VPS ne porte ni `shm_size` ni la limite mémoire ; un `docker compose up` dans `/home/ubuntu/pierre/postgres` recréerait le conteneur à 64 Mo. Référence versionnée sans secret : `docker-compose.postgres.yml` de ce répertoire (`shm_size`, `mem_limit`).
+Compose du VPS (`/home/ubuntu/pierre/postgres/docker-compose.yml`, contient des secrets, non versionné) : aligner le service `db` sur le conteneur, sans le relancer.
+1. Sauvegarde horodatée du fichier dans le répertoire de sauvegarde (`docker-compose.yml.<ts>.bak`, 0600).
+2. Service `db` : `shm_size: 1gb`, `mem_limit: 2g`, et `networks: [default, dev-network]` ; en fin de fichier `networks: { dev-network: { external: true } }`. Sans `dev-network`, un `docker compose up` couperait les 21 services `sfd-*-dev` (rattachement fait à la main en 2026-10-09).
+3. `docker compose config` doit sortir en 0 ; comparer avec `docker inspect pg_container` (bind, port 5432, réseaux `postgres_default` + `dev-network`, shm, mémoire).
+4. Ne pas relancer : le conteneur actuel a été créé par `docker run` (sans labels compose) ; un `docker compose up` échoue tant qu'il existe (nom pris). Pour revenir sous compose : fenêtre de maintenance, `docker stop pg_container && docker rename pg_container pg_container_old`, `docker compose up -d db`, vérifications du point 7 ci-dessus, puis `docker rm pg_container_old`.
+Écart toléré : `memory-swap` non fixé par compose (défaut Docker = 2 × `mem_limit`, contre 2560m posé par `docker run`).
+Référence versionnée sans secret : `docker-compose.postgres.yml` de ce répertoire (`shm_size`, `mem_limit`).
 
 
 Résultat du 2026-10-20 (≈ 05:00 VPS) : sauvegarde `/opt/sfd/backups/pg-shm/20261020-044947/` (`sfd-final.dump` pris services arrêtés) ; nouveau conteneur `/dev/shm` = 1,0G, limite 2 Go, `max_connections` = 300 ; `sfd` restaurée avec `pg_restore -C` (propriétaire, encodage, collation identiques) ; comptages des 30 plus grosses tables + nombre de tables identiques avant/après ; 21/21 services UP avec `"database":"PostgreSQL"` ; SonarQube reconnecté seul (santé GREEN) ; `pg_container_old` supprimé. Coupure ≈ 8 min.
