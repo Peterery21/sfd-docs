@@ -70,3 +70,20 @@ Reste sur SQL Server **avec ses données** (option B de l'utilisateur) : voir `m
 - **Collision de ressources classpath dans le monolithe** : épargne, caisse et client publiaient le même chemin `config/accounting-schemas/{org}/{norme}/schema-comptable-systeme.yml` avec des structures différentes ; un seul gagnait et le démarrage échouait après « Started » dès qu'une institution existait. Chaque module a désormais `config/accounting-schemas-<module>/`. Règle : un chemin de ressource classpath doit être propre au module.
 - **Préfixes et websockets du monolithe** : `MonolithWebConfig` préfixe les contrôleurs par package (`/api/agora`, `/api/chat` ajoutés) ; les `WebSocketConfig` des services (packages `config`, exclus du scan) ne sont pas repris : `MonolithWebSocketConfig` déclare `/api/workflow/ws`, `/api/chat/ws`, `/api/chat/ws-native`, avec contrôle JWT sur la trame STOMP `CONNECT` (le front envoie `Authorization: Bearer` dans `connectHeaders`) et `nginx-monolith.conf` proxifie `Upgrade`/`Connection`. Les microservices n'ont aucun contrôle STOMP (identique avant) : limite connue.
 - **Hot patch d'un conteneur** (à éviter, volatil) : jar éclaté sous `/application/BOOT-INF/{lib,classes}` ; archiver avec `COPYFILE_DISABLE=1` et supprimer les `._*` (sinon ASM échoue au démarrage).
+
+## 9. `pg_container` du VPS : `/dev/shm` à 1 Go (2026-10-20, décision utilisateur)
+Constat : `pg_container` (compose `/home/ubuntu/pierre/postgres/docker-compose.yml`, projet `postgres`, service `db`) tournait avec `/dev/shm` = 64 Mo et `--memory 512m` (posé par `docker update`, absent du compose). Les imports/annulations de migration en volume échouent alors (« could not resize shared memory segment »). Bases hébergées : `sfd` (21 services `sfd-*-dev`, rôle `sfd_app`), `sonar` (SonarQube, réseau `postgres_default`), `n8n`, `test_db`.
+
+Procédure (conteneur partagé : sonar et les 21 services perdent la base pendant l'opération) :
+1. Fenêtre : aucun build Jenkins (`/computer/api/json` busyExecutors=0, file vide) ni lot de migration en cours.
+2. Inventaire : `docker inspect pg_container` → `/opt/sfd/backups/pg-shm/<ts>/inspect.json` (bind `/home/ubuntu/pierre/postgres/data/postgresql`, port 5432, réseaux `postgres_default` (alias `db`) + `dev-network`, `restart=always`).
+3. Arrêter les services connectés à `sfd` (adresses de `pg_stat_activity` → noms sur `dev-network`) **avant** la sauvegarde finale : sinon les écritures entre sauvegarde et restauration sont perdues et les comptages divergent.
+4. Sauvegarde dans le même répertoire : `pg_dump -Fc` de chaque base, `pg_dumpall --globals-only`, contrôle `pg_restore --list`, `count(*)` des 30 plus grosses tables de `sfd` → `avant.txt`.
+5. Mémoire : relever la limite à 2 Go (`free -m` : ~5,8 Go disponibles le 2026-10-20) ; `--memory-swap` = limite + 512 Mo comme avant.
+6. `docker stop pg_container && docker rename pg_container pg_container_old` (pas de `rm` avant validation), puis `docker run -d --name pg_container --restart always --shm-size 1g --memory 2g --memory-swap 2560m --network postgres_default --network-alias db -p 5432:5432 -v /home/ubuntu/pierre/postgres/data/postgresql:/var/lib/postgresql/data --env-file <env extrait de inspect.json, 0600> postgres:15.2` puis `docker network connect dev-network pg_container`.
+7. Vérifier : `df -h /dev/shm` = 1,0G dans le conteneur, `SHOW max_connections` = 300 (persisté par `ALTER SYSTEM` dans le répertoire de données), `count(*)` identiques.
+8. Restauration de `sfd` : `DROP DATABASE sfd` / `CREATE DATABASE sfd OWNER sfd_app`, `pg_restore -d sfd` de la sauvegarde finale, `count(*)` = `avant.txt`, redémarrer les services arrêtés, `/actuator/health` UP avec `"database":"PostgreSQL"`, SonarQube UP.
+9. Validation → `docker rm pg_container_old` ; échec → `docker rm -f pg_container && docker rename pg_container_old pg_container && docker start pg_container`.
+
+Attention : le compose du VPS ne porte ni `shm_size` ni la limite mémoire ; un `docker compose up` dans `/home/ubuntu/pierre/postgres` recréerait le conteneur à 64 Mo. Référence versionnée sans secret : `docker-compose.postgres.yml` de ce répertoire (`shm_size`, `mem_limit`).
+
