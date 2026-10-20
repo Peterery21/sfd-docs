@@ -87,3 +87,5 @@ Procédure (conteneur partagé : sonar et les 21 services perdent la base pendan
 
 Attention : le compose du VPS ne porte ni `shm_size` ni la limite mémoire ; un `docker compose up` dans `/home/ubuntu/pierre/postgres` recréerait le conteneur à 64 Mo. Référence versionnée sans secret : `docker-compose.postgres.yml` de ce répertoire (`shm_size`, `mem_limit`).
 
+
+Résultat du 2026-10-20 (≈ 05:00 VPS) : sauvegarde `/opt/sfd/backups/pg-shm/20261020-044947/` (`sfd-final.dump` pris services arrêtés) ; nouveau conteneur `/dev/shm` = 1,0G, limite 2 Go, `max_connections` = 300 ; `sfd` restaurée avec `pg_restore -C` (propriétaire, encodage, collation identiques) ; comptages des 30 plus grosses tables + nombre de tables identiques avant/après ; 21/21 services UP avec `"database":"PostgreSQL"` ; SonarQube reconnecté seul (santé GREEN) ; `pg_container_old` supprimé. Coupure ≈ 8 min.
