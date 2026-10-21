@@ -1,6 +1,6 @@
 # Migration de données EDIP — guide opérateur
 
-Itération 1 : socle (lots, verrou, réinitialisation) et classeur `01-Parametrage` (module commun : devises, agences, utilisateurs). Itération 2 : classeurs `02-Comptabilite` (plan comptable, journaux, balance d'ouverture, exercices générés) et `03-Clients` (gestionnaires, clients, groupes, membres, bénéficiaires, parts sociales). Itération 3 : classeur `04-Epargne` (produits, comptes, DAT, blocages, tontines) et pièces d'à-nouveaux. Avenant du 2026-10-19 : migration sur **base vide** et paramétrages des modules commun, comptabilité, client et épargne (profils, banques, rôles comptables, comptes bancaires, frais, seuils, dormance : §2 bis et §4 quinquies). Itération 4 : classeurs `06-Caisse` (caisses et soldes de bascule, §4 sexies) et `05-Credit` (paramétrages et encours, §4 septies), étape 6 « Contrôles post-import » avec rapport et clôture du lot (§4 octies). Itération 4 bis : classeurs `07-Stock` (articles, magasins, stock d'ouverture, §4 septies bis) et `08-Immobilisation` (catégories, natures, immobilisations avec plan d'amortissement reconstitué, §4 septies ter). Les classeurs des autres modules (RH, paie…) arrivent aux itérations suivantes sur les mêmes interfaces.
+Itération 1 : socle (lots, verrou, réinitialisation) et classeur `01-Parametrage` (module commun : devises, agences, utilisateurs). Itération 2 : classeurs `02-Comptabilite` (plan comptable, journaux, balance d'ouverture, exercices générés) et `03-Clients` (gestionnaires, clients, groupes, membres, bénéficiaires, parts sociales). Itération 3 : classeur `04-Epargne` (produits, comptes, DAT, blocages, tontines) et pièces d'à-nouveaux. Avenant du 2026-10-19 : migration sur **base vide** et paramétrages des modules commun, comptabilité, client et épargne (profils, banques, rôles comptables, comptes bancaires, frais, seuils, dormance : §2 bis et §4 quinquies). Itération 4 : classeurs `06-Caisse` (caisses et soldes de bascule, §4 sexies) et `05-Credit` (paramétrages et encours, §4 septies), étape 6 « Contrôles post-import » avec rapport et clôture du lot (§4 octies). Itération 4 bis : classeurs `07-Stock` (articles, magasins, stock d'ouverture, §4 septies bis) et `08-Immobilisation` (catégories, natures, immobilisations avec plan d'amortissement reconstitué, §4 septies ter). Itération 4 ter : classeurs `09-RH` (organisation, employés, contrats, soldes de congés, §4 septies quater) et `10-Paie` (rubriques, périodes, cumuls de l'année, avances, §4 septies quinquies), compte de reprise (§4 septies sexies). Les classeurs des autres modules arrivent aux itérations suivantes sur les mêmes interfaces.
 
 ## 1. Objet
 
@@ -867,6 +867,169 @@ Par (agence, compte résolu) : Σ **valeur brute** = solde **débiteur** du comp
 ### Annulation
 Supprimés : plans d'amortissement, mouvements d'acquisition, immobilisations, natures et catégories créés par le lot ; les séquences (code immobilisation, numéro d'inventaire, code nature) sont ramenées. **Refus** si une immobilisation du lot a une dotation, un mouvement (cession, transfert, rebut) ou une ligne d'inventaire postérieurs, si elle n'est plus `EN_SERVICE`, ou si une immobilisation ou une nature hors lot référence une catégorie ou une nature du lot : le motif s'affiche sur l'écran du lot (§7). Les feuilles facultatives de libellés ne sont pas annulées (voir plus haut).
 
+## 4 septies quater. Classeur `09-RH` (module RH, ordre 1000)
+
+Ordre de dépôt : après `01-Parametrage`, `02-Comptabilite` (agences, banques, plan) et `04-Epargne` (comptes de salaire internes). Feuilles, dans l'ordre de chargement : `DEPARTEMENTS`, `CATEGORIES_EMPLOI`, `POSTES`, `TYPES_CONTRAT`, `GRILLES_SALARIALES` (facultative), `EMPLOYES`, `CONTRATS`, `AFFECTATIONS` (facultative), `SOLDES_CONGES`. Nom de feuille = code du dataset ; en-têtes en MAJUSCULES_SNAKE (casse, accents, `_` et `*` final ignorés). Référence complète : `sfd-rh-service/src/main/resources/import/rh/COLONNES.md`.
+
+### Décisions de cadrage
+- **Employés à la date de bascule** avec leur contrat en cours ; pas de bulletins détaillés, de congés pris, d'absences ni de formations (seuls les soldes de congés sont repris).
+- **Matricule conservé tel quel** (clé de rattachement avec la paie). Si les matricules suivent le format `EMP-<année>-<5 chiffres>`, la numérotation automatique est recalée sur le plus grand ; elle est ramenée à l'annulation.
+- **Le contrat fait foi** : salaire de base, poste, nature du contrat, fin de contrat, catégorie et échelon de la grille de l'employé sont **recopiés du contrat `ACTIF`** (ce ne sont pas des colonnes de `EMPLOYES`). Un employé `ACTIF` a **exactement un** contrat `ACTIF` ; `SUSPENDU` : un contrat `ACTIF` ou `SUSPENDU` ; `SORTI` : aucun contrat `ACTIF` (en général un CDD `TERMINE`). `EN_COURS` est refusé : seul `ACTIF` désigne le contrat en cours.
+- **Affectation initiale** créée automatiquement (active, origine `EMBAUCHE`, date d'effet = embauche) pour tout employé non sorti sans affectation active dans la feuille `AFFECTATIONS`, ainsi qu'un événement de carrière « Entrée » par employé.
+- **Soldes de congés** : repris sous la forme d'un congé annuel de reprise de **0 jour**, daté du dernier jour du dernier mois de paie clos `Mc` (voir ci-dessous), portant le solde. Le solde du fichier est celui **arrêté avec la dernière paie close, acquis de `Mc` inclus**. Les congés pris entre le 1er du mois suivant et la bascule se saisissent dans EDIP.
+- **Aucun rattachement** employé ↔ utilisateur EDIP ; responsables et supérieurs sont reliés par matricule, sans lien avec les utilisateurs.
+- **Types de contrat** : CDI, CDD et stage sont semés au démarrage ; un code déjà présent est ignoré (avertissement). Aucune période d'essai importée. Étapes de recrutement, domaines de formation et critères d'évaluation ne sont pas semés : ils restent propres à l'institution.
+- Lignes chargées marquées `MIGRATION:<code du lot>`.
+
+### Dernier mois de paie clos `Mc`
+`Mc` est le **mois de la date de bascule si celle-ci tombe le dernier jour du mois, sinon le mois précédent**. Il sert d'ancre à la paie (§4 septies quinquies) et aux soldes de congés. Exemple : bascule au 15/10 → `Mc` = septembre, et la paie d'octobre est calculée entièrement dans EDIP. **Recommandation : basculer en fin de mois.**
+
+### Paramétrages (feuilles 1 à 5)
+| Feuille | Clé | Colonnes (* = obligatoire) | Dépend de |
+|---|---|---|---|
+| `DEPARTEMENTS` | `CODE_DEPARTEMENT` | `CODE_DEPARTEMENT`* (30), `LIBELLE`* (150), `CODE_DEPARTEMENT_PARENT` (différent de lui-même), `CODE_AGENCE` (vide = siège), `CENTRE_COUT`, `EFFECTIF_CIBLE` (≥ 0), `MATRICULE_RESPONSABLE` (posé après le chargement des employés) | Agences |
+| `CATEGORIES_EMPLOI` | `CODE_CATEGORIE` | `CODE_CATEGORIE`* (20), `LIBELLE`* (150), `NIVEAU_HIERARCHIQUE`, `COEFFICIENT_MIN` ≤ `COEFFICIENT_MAX`, `SALAIRE_MIN_LEGAL` | — |
+| `POSTES` | `CODE_POSTE` | `CODE_POSTE`* (30), `INTITULE`* (150), `CODE_DEPARTEMENT`*, `CODE_CATEGORIE`, `ECHELON_MIN`, `ECHELON_MAX`, `SALAIRE_MIN` ≤ `SALAIRE_MAX`, `CODE_POSTE_RESPONSABLE` (poste supérieur) | Départements, catégories |
+| `TYPES_CONTRAT` | `CODE_TYPE_CONTRAT` | `CODE_TYPE_CONTRAT`* (20), `LIBELLE`*, `NATURE`* (`CDI`, `CDD`, `STAGE`, `INTERIM`, `APPRENTISSAGE`, `SAISONNIER`), `DUREE_MIN_MOIS` ≤ `DUREE_MAX_MOIS`, `RENOUVELABLE`, `NB_RENOUVELLEMENTS` | — |
+| `GRILLES_SALARIALES` | `CODE_GRILLE` | `CODE_GRILLE`* (30), `LIBELLE`*, `CODE_CATEGORIE`*, `ECHELON`*, `SALAIRE_BASE`* (> 0), `DEVISE`*, `SALAIRE_MIN`, `SALAIRE_MAX`, `PRIME_ANCIENNETE`, `INDEMNITE_LOGEMENT`, `INDEMNITE_TRANSPORT`, `AUTRES_AVANTAGES`, `DATE_EFFET`, `DATE_FIN` | Catégories, devises |
+
+Un département, une catégorie, un poste ou un type de contrat déjà en base est **ignoré avec avertissement** (jamais modifié) ; une grille déjà en base est une erreur.
+
+### EMPLOYES (après AGENCES, DEPARTEMENTS, POSTES, CATEGORIES_EMPLOI, COMPTES_EPARGNE, BANQUES)
+| Colonne | Oblig. | Règle |
+|---|---|---|
+| MATRICULE | oui | 30 car., conservé, unique (`EMPLOYE_DOUBLON`, `EMPLOYE_EXISTE_DEJA`) |
+| NOM, PRENOM | oui | 100 car. |
+| SEXE | non | `MASCULIN`, `FEMININ` (`M` et `F` acceptés) |
+| DATE_NAISSANCE, LIEU_NAISSANCE, NATIONALITE | non | naissance antérieure à l'embauche (`EMPLOYE_DATES_INCOHERENTES`) |
+| SITUATION_MATRIMONIALE | non | `CELIBATAIRE`, `MARIE`, `DIVORCE`, `VEUF` |
+| NOMBRE_ENFANTS | non | entier ≥ 0, défaut 0 (`EMPLOYE_ENFANTS_INVALIDE`) |
+| TYPE_PIECE, NUMERO_PIECE | non | `CNI`, `PASSEPORT`, `CARTE_SEJOUR` ; numéro unique sans tenir compte de la casse (`EMPLOYE_PIECE_DOUBLON`) |
+| NUMERO_CNSS | non | unique, lot et base (`EMPLOYE_CNSS_DOUBLON`) |
+| NUMERO_FISCAL, REGIME_FISCAL, TELEPHONE, ADRESSE, VILLE | non | textes |
+| EMAIL, EMAIL_PERSONNEL | non | uniques, lot et base (`EMPLOYE_EMAIL_DOUBLON`) |
+| CODE_AGENCE | oui | agence en base ou lot 01 (`EMPLOYE_AGENCE_INCONNUE`) |
+| CODE_DEPARTEMENT, CODE_POSTE | oui | du lot ou de la base ; le poste appartient au département (`EMPLOYE_DEPARTEMENT_INCONNU`, `EMPLOYE_POSTE_INCONNU`, `EMPLOYE_POSTE_HORS_DEPARTEMENT`) |
+| CODE_CATEGORIE, ECHELON, INDICE | non | catégorie connue (`EMPLOYE_CATEGORIE_INCONNUE`) ; échelon et catégorie écrasés par la grille du contrat actif |
+| DATE_EMBAUCHE | oui | au plus la date de bascule (`EMPLOYE_EMBAUCHE_POSTERIEURE`) |
+| DATE_ANCIENNETE | non | vide = embauche |
+| STATUT | oui | `ACTIF`, `SUSPENDU`, `SORTI` |
+| DATE_SORTIE, MOTIF_SORTIE | si `SORTI` | **obligatoires** si `SORTI`, **interdites** sinon (`EMPLOYE_SORTIE_INCOHERENTE`) ; motifs : `DEMISSION`, `LICENCIEMENT`, `FIN_CONTRAT`, `RETRAITE`, `DECES`, `RUPTURE_CONVENTIONNELLE`, `AUTRE` |
+| DOMICILIATION_SALAIRE | non | `INTERNE`, `BANQUE`, `MOBILE_MONEY`, `ESPECES` ; informations manquantes : `EMPLOYE_DOMICILIATION_INCOMPLETE` |
+| MODE_PAIEMENT | non | `VIREMENT`, `CHEQUE`, `ESPECES`, `MOBILE_MONEY` ; vide = déduit de la domiciliation |
+| NUMERO_COMPTE_EPARGNE | si `INTERNE` | compte épargne en base ou lot 04 (`EMPLOYE_COMPTE_EPARGNE_INCONNU`) |
+| CODE_BANQUE, NUMERO_COMPTE, IBAN | si `BANQUE` | banque en base ou lot 01 (`EMPLOYE_BANQUE_INCONNUE`) |
+| COMPTE_MOBILE_MONEY | si `MOBILE_MONEY` | numéro mobile money |
+| MATRICULE_SUPERIEUR | non | employé du lot ou de la base ; sinon avertissement `EMPLOYE_SUPERIEUR_INCONNU` et champ laissé vide |
+
+### CONTRATS (après EMPLOYES, TYPES_CONTRAT, POSTES, GRILLES_SALARIALES)
+`MATRICULE`*, `CODE_TYPE_CONTRAT`*, `DATE_DEBUT`*, `SALAIRE_CONTRACTUEL`* (> 0), `STATUT`* (`ACTIF`, `SUSPENDU`, `TERMINE`, `RESILIE`, `ROMPU`) obligatoires ; `DATE_FIN` (obligatoire hors CDI sauf contrat `TERMINE` : `CONTRAT_DATE_FIN_OBLIGATOIRE`), `DUREE_MOIS`, `PERIODE_ESSAI_MOIS`, `DATE_FIN_ESSAI`, `CODE_POSTE` (vide = poste de l'employé), `CODE_GRILLE`, `MOTIF_CDD`, `DATE_SIGNATURE`, `AVANTAGES`, `CLAUSES_PARTICULIERES`. Règles : au plus un contrat `ACTIF` par matricule, lot et base confondus (`CONTRAT_ACTIF_MULTIPLE`) ; doublon (matricule, date de début) bloquant (`CONTRAT_DOUBLON`) ; `EN_COURS` refusé (`CONTRAT_STATUT_INVALIDE`) ; salaire hors bornes de la grille : avertissement `CONTRAT_SALAIRE_HORS_GRILLE` ; contrat `ACTIF` déjà échu à la bascule : avertissement `CONTRAT_ACTIF_ECHU`.
+
+### AFFECTATIONS (facultative, après EMPLOYES, AGENCES, DEPARTEMENTS, POSTES)
+`MATRICULE`*, `CODE_AGENCE`*, `CODE_DEPARTEMENT`*, `CODE_POSTE`*, `DATE_EFFET`* (au plus bascule + 1), `STATUT`* (`ACTIVE` ou `TERMINEE` ; `PLANIFIEE` et `ANNULEE` refusées) ; `DATE_FIN`, `ORIGINE` (`EMBAUCHE`, `DIRECTE` défaut, `MUTATION`, `PROMOTION`), `MOTIF`. Au plus une affectation `ACTIVE` par matricule, identique à l'agence / département / poste de l'employé ; aucune `ACTIVE` pour un employé `SORTI` ; chevauchement de périodes : avertissement.
+
+### SOLDES_CONGES (après EMPLOYES)
+`MATRICULE`*, `SOLDE_JOURS`* (décimal ; négatif : avertissement `SOLDE_NEGATIF`, ligne chargée), `DATE_SOLDE` (**laisser vide** = dernier jour de `Mc` ; toute autre date est refusée : `SOLDE_DATE_INVALIDE`). Employé sorti : ligne ignorée (avertissement). Un seul solde par matricule (`SOLDE_DOUBLON`).
+
+### Codes d'erreur propres au classeur 09
+| Code | Gravité | Cause |
+|---|---|---|
+| `DEPARTEMENT_DOUBLON`, `CATEGORIE_DOUBLON`, `POSTE_DOUBLON`, `TYPE_CONTRAT_DOUBLON`, `GRILLE_DOUBLON`, `EMPLOYE_DOUBLON`, `CONTRAT_DOUBLON`, `SOLDE_DOUBLON` | bloquante | clé répétée dans le lot |
+| `DEPARTEMENT_EXISTE_DEJA`, `CATEGORIE_EXISTE_DEJA`, `POSTE_EXISTE_DEJA`, `TYPE_CONTRAT_EXISTE_DEJA` | avertissement | déjà en base : ligne ignorée |
+| `GRILLE_EXISTE_DEJA`, `EMPLOYE_EXISTE_DEJA` | bloquante | déjà en base |
+| `DEPARTEMENT_PARENT_INCONNU` / `_PARENT_CYCLE` / `_AGENCE_INCONNUE` / `_EFFECTIF_INVALIDE` | bloquante | parent introuvable ou égal au département, agence absente, effectif négatif |
+| `DEPARTEMENT_RESPONSABLE_INCONNU`, `EMPLOYE_SUPERIEUR_INCONNU` | avertissement | matricule introuvable : laissé vide |
+| `CATEGORIE_BORNES_INVALIDES`, `POSTE_SALAIRE_BORNES`, `GRILLE_SALAIRE_INVALIDE`, `TYPE_CONTRAT_DUREE_INVALIDE` | bloquante | bornes min > max ou valeur invalide |
+| `POSTE_DEPARTEMENT_INCONNU`, `POSTE_CATEGORIE_INCONNUE`, `POSTE_RESPONSABLE_INCONNU`, `GRILLE_CATEGORIE_INCONNUE`, `GRILLE_DEVISE_INCONNUE` | bloquante (`POSTE_RESPONSABLE_INCONNU` : avertissement) | référence introuvable |
+| `EMPLOYE_AGENCE_INCONNUE`, `_DEPARTEMENT_INCONNU`, `_POSTE_INCONNU`, `_POSTE_HORS_DEPARTEMENT`, `_CATEGORIE_INCONNUE`, `_COMPTE_EPARGNE_INCONNU`, `_BANQUE_INCONNUE` | bloquante | référence introuvable |
+| `EMPLOYE_DATES_INCOHERENTES`, `_EMBAUCHE_POSTERIEURE`, `_SORTIE_INCOHERENTE`, `_ENFANTS_INVALIDE`, `_DOMICILIATION_INCOMPLETE` | bloquante | dates, sortie, enfants ou domiciliation incohérents |
+| `EMPLOYE_PIECE_DOUBLON`, `_CNSS_DOUBLON`, `_EMAIL_DOUBLON` | bloquante | pièce, CNSS ou e-mail déjà utilisé (lot ou base) |
+| `EMPLOYE_SANS_CONTRAT_ACTIF`, `EMPLOYE_SORTI_CONTRAT_ACTIF` | bloquante | employé actif sans contrat actif / employé sorti avec un contrat actif |
+| `CONTRAT_EMPLOYE_INCONNU`, `_TYPE_INCONNU`, `_POSTE_INCONNU`, `_GRILLE_INCONNUE` | bloquante | référence introuvable |
+| `CONTRAT_STATUT_INVALIDE`, `_ACTIF_MULTIPLE`, `_DATES_INCOHERENTES`, `_DATE_FIN_OBLIGATOIRE`, `_SALAIRE_INVALIDE` | bloquante | statut, doublon d'actif, dates ou salaire |
+| `CONTRAT_DEBUT_POSTERIEUR`, `CONTRAT_ACTIF_ECHU`, `CONTRAT_SALAIRE_HORS_GRILLE` | avertissement | début après la bascule, contrat échu, salaire hors grille |
+| `AFFECTATION_EMPLOYE_INCONNU`, `_AGENCE_INCONNUE`, `_DEPARTEMENT_INCONNU`, `_POSTE_INCONNU`, `_POSTE_HORS_DEPARTEMENT`, `_STATUT_INVALIDE`, `_ACTIVE_MULTIPLE`, `_INCOHERENTE_EMPLOYE`, `_EMPLOYE_SORTI`, `_DATE_POSTERIEURE` | bloquante | référence ou règle d'affectation |
+| `AFFECTATION_CHEVAUCHEMENT` | avertissement | périodes qui se chevauchent |
+| `SOLDE_EMPLOYE_INCONNU`, `SOLDE_DATE_INVALIDE`, `SOLDE_CONGE_POSTERIEUR` | bloquante | employé introuvable, date autre que celle de `Mc`, congé annuel déjà posé après cette date |
+| `SOLDE_NEGATIF`, `SOLDE_EMPLOYE_SORTI` | avertissement | solde négatif chargé / employé sorti ignoré |
+
+### Annulation
+Supprimés (ordre inverse) : congés de reprise, événements de carrière, affectations, contrats, employés, grilles, types de contrat, postes, catégories et départements créés par le lot ; les liens vers des employés du lot (responsables, supérieurs) sont d'abord vidés ; la numérotation des matricules est ramenée. Les éléments déjà en base ne sont pas touchés. **Refus** si une donnée hors lot repose sur ce qui a été chargé : congé, absence, mission, pointage, heures supplémentaires, sanction, évaluation, promotion, mutation, formation, contrat ou affectation hors lot sur un employé du lot ; bulletin, élément variable, avance ou personnalisation de paie ; employés, contrats, affectations ou postes hors lot référençant un département, poste, catégorie, type ou grille du lot ; un congé annuel hors lot créé après l'import (`SOLDES_CONGES`). Le motif s'affiche sur l'écran du lot (§7). Le classeur 10 s'annule **avant** le classeur 09.
+
+## 4 septies quinquies. Classeur `10-Paie` (module paie, ordre 1100)
+
+Ordre de dépôt : après `09-RH` (les employés sont lus par leur matricule), `02-Comptabilite` (plan, journaux, balance d'ouverture) et `01-Parametrage`. Feuilles, dans l'ordre de chargement : `RUBRIQUES_PAIE`, `SCHEMA_COMPTABLE_PAIE` (facultative), `PERIODES_PAIE`, `ELEMENTS_FIXES`, `CUMULS_PAIE`, `AVANCES_EN_COURS`. En-têtes en MAJUSCULES_SNAKE ; mois au format `AAAA-MM`. Référence complète : `sfd-paie-service/src/main/resources/import/paie/COLONNES.md`.
+
+### Décisions de cadrage
+- **Ancrage sur `Mc`** (dernier mois de paie clos, voir §4 septies quater) : périodes jusqu'à `Mc` clôturées, période `Mc` + 1 ouverte et calculée dans EDIP.
+- **Historique = cumuls de l'année de `Mc` seulement** : pas de bulletins détaillés. Chaque employé reçoit **un bulletin de reprise** (numéro `MIG-<lot>-<matricule>`, statut payé, période `Mc`), **masqué** des listes, de l'historique de l'employé et du portail ; ses montants sont **comptés dans les cumuls annuels** du bulletin PDF (le bulletin de reprise n'est pas compté dans « nombre de bulletins »). Les cumuls servent à l'**affichage** (cadre « cumuls annuels ») ; ils n'influencent pas le calcul des profils semés.
+- **Salaire de base = contrat RH** (09) ; la feuille `ELEMENTS_FIXES` ne porte que les primes et retenues récurrentes en plus.
+- **Aucune écriture comptable** : ni bulletin de reprise, ni période clôturée, ni avance ne publie de pièce ; le solde d'avances est porté par la balance (classeur 02).
+- **Profil de paie** : seul le profil du pays de l'institution est semé au démarrage (paramètres pays, cotisations, barème IRPP, rubriques système dont `AVANCE_SALAIRE`, schéma comptable). Pays sans profil complet : « profil de paie à paramétrer » (voir « Jeu de test Côte d'Ivoire »).
+- **Schéma comptable** : les comptes viennent de la norme ; une ligne n'est créée que si le compte existe au plan (compte manquant = message, aucune ligne). Le journal de paie est celui de type `PAIE` du setup comptable (`PA` ou `SA` selon la norme).
+- Lignes chargées marquées `MIGRATION:<code du lot>`.
+
+### RUBRIQUES_PAIE
+Rubriques propres à l'institution (celles du setup, déjà en base, sont signalées et conservées : `RUBRIQUE_EXISTE_DEJA`, avertissement). Obligatoires : `CODE_RUBRIQUE` (30 car.), `LIBELLE`, `TYPE` (`GAIN`, `RETENUE`, `COTISATION`, `IMPOT`, `INFORMATION`), `MODE_CALCUL` (`MONTANT_FIXE`, `TAUX_BRUT`, `TAUX_BASE`, `FORMULE`, `BAREME`, `SAISIE_VARIABLE`, `REF_GRILLE` ; `TRANCHE` accepté = `BAREME`). Facultatives : `CATEGORIE`, `MONTANT_FIXE`, `TAUX`, `PLAFOND`, `PLANCHER`, `FORMULE`, `CONDITION`, `BASE_EXPRESSION`, `TAUX_EXPRESSION`, `QUANTITE_EXPRESSION`, `CODE_BAREME`, `REGROUPEMENT`, `AGREGATS` (liste parmi `BRUT`, `COTISABLE`, `IMPOSABLE`, `NET_PLUS`, `NET_MOINS`, ou `AUCUN`), `SOUMIS_IRPP`, `SOUMIS_COTISATION`, `IMPRIMABLE` (défaut oui), `OBLIGATOIRE`, `ORDRE`, `CODE_PAYS` (vide = tous). Cohérence (`RUBRIQUE_MODE_INCOHERENT`) : montant fixe sans montant, mode à taux sans taux, formule sans formule, barème sans barème. La syntaxe d'une formule n'est vérifiée qu'au premier calcul.
+
+### SCHEMA_COMPTABLE_PAIE (facultative, après PlanComptable)
+Surcharge des comptes semés. `TYPE_LIGNE`* (`REMUNERATION`, `CHARGE_PATRONALE`, `NET_A_PAYER`, `IPR`, `COTISATION_SALARIALE`, `COTISATION_PATRONALE`, `RETENUE`, `AVANCE`), `CLE` (regroupement, rubrique, cotisation ou organisme ; vide = défaut du type), `COMPTE_DEBIT`, `COMPTE_CREDIT` (au moins un, au plan : `SCHEMA_COMPTE_INCONNU`), `LIBELLE`, `CODE_PAYS` (vide = profil actif). La ligne active de même (pays, type, clé) est désactivée ; elle est réactivée à l'annulation.
+
+### PERIODES_PAIE
+`ANNEE`*, `MOIS`*, `STATUT`* ; facultatives : `CODE` (vide = `AAAA-MM`), `LIBELLE`, `DATE_DEBUT`, `DATE_FIN` (vides = bornes du mois), `DATE_PAIEMENT`. **Mois ≤ `Mc` : `CLOTUREE` ; mois `Mc` + 1 : `OUVERTE` ; au-delà refusé** (`PERIODE_STATUT_INVALIDE`). Les périodes clôturées sont marquées comptabilisées.
+
+### ELEMENTS_FIXES (après EMPLOYES, RUBRIQUES_PAIE)
+`MATRICULE`*, `CODE_RUBRIQUE`*, `TYPE`* (`GAIN` / `RETENUE`) ; **exactement un** de `MONTANT_FIXE` ou `TAUX` (`ELEMENT_MONTANT_OU_TAUX`), `BASE` (`BRUT`, `BASE`, `NET_IMPOSABLE`, obligatoire avec un taux), `PLAFOND`, `PLANCHER`, `DATE_DEBUT` (vide = **lendemain de la bascule**), `DATE_FIN`, `MOTIF`. Le salaire de base est refusé ici (`ELEMENT_SALAIRE_BASE`) ; employé ayant déjà une personnalisation de bulletin en base : `ELEMENT_PERSONNALISATION_EXISTANTE` ; employé sorti : avertissement, ligne ignorée.
+
+### CUMULS_PAIE (après EMPLOYES, RUBRIQUES_PAIE, PERIODES_PAIE)
+Une ligne par (employé, cumul) : `MATRICULE`*, `CODE_CUMUL`*, `MONTANT`*. Codes réservés : `BRUT`, `NET_IMPOSABLE`, `IRPP`, `COTIS_SAL`, `COTIS_PAT`, `NET_A_PAYER`, `AVANTAGES_NATURE`, `DEDUCTIONS` ; ou code d'une rubrique en base ou du lot. Montants = cumul **du 1er janvier à la fin de `Mc`**. Règles : `BRUT`, `NET_IMPOSABLE`, `IRPP` et `COTIS_SAL` obligatoires pour chaque matricule (`CUMUL_TOTAUX_MANQUANTS`) ; période `Mc` absente ou non clôturée (`CUMUL_PERIODE_CLOSE_ABSENTE`) ; employé ayant déjà un bulletin en base sur la période (`CUMUL_BULLETIN_EXISTANT`, double comptage) ; avertissements : montant négatif, `NET_IMPOSABLE` > `BRUT`, `Mc` = décembre (l'affichage de l'année suivante repart à zéro : `CUMUL_SANS_EFFET`).
+
+### AVANCES_EN_COURS (après EMPLOYES)
+Avances sur salaire en cours de retenue. L'échéancier d'origine continue : mensualité = montant ÷ échéances, la dernière prend le reste.
+| Colonne | Oblig. | Règle |
+|---|---|---|
+| REFERENCE | oui | ancien numéro, unique (`AVANCE_DOUBLON`, `AVANCE_EXISTE_DEJA`) |
+| MATRICULE | oui | employé connu et **non sorti** (`AVANCE_EMPLOYE_INCONNU`, `AVANCE_EMPLOYE_SORTI`) |
+| MONTANT | oui | montant d'origine > 0 |
+| MONTANT_RETENU | oui | déjà retenu jusqu'à la paie de `Mc` incluse ; reste = montant − retenu, **strictement positif et ≤ montant** (`AVANCE_RESTE_INVALIDE`) ; reste nul : avance ignorée (avertissement `AVANCE_SOLDEE`) |
+| NB_ECHEANCES | oui | ≥ 1 (`AVANCE_ECHEANCES_INVALIDES`) |
+| MOIS_DEBUT_RETENUE | oui | mois de la première retenue d'origine, `AAAA-MM` ; retenu incohérent avec l'échéancier : avertissement `AVANCE_RETENU_INCOHERENT` |
+| DATE_DECAISSEMENT | oui | au plus la date de bascule (`AVANCE_DECAISSEMENT_POSTERIEUR`) |
+| MOTIF, MODE_DECAISSEMENT | non | textes |
+
+### Cohérence avec la balance
+Σ des restes d'avances (montant − retenu) doit égaler le solde **débiteur** du compte d'avance du schéma comptable paie dans `BalanceOuverture` (écart : avertissement, **bloquant** si l'option `ecartAuxiliairesBloquant` est cochée). Aucun compte auxiliaire n'est créé pour la paie.
+
+### Codes d'erreur propres au classeur 10
+| Code | Gravité | Cause |
+|---|---|---|
+| `RUBRIQUE_DOUBLON` | bloquante | code répété dans le lot |
+| `RUBRIQUE_EXISTE_DEJA` | avertissement | rubrique déjà en base : conservée |
+| `RUBRIQUE_MODE_INCOHERENT`, `RUBRIQUE_BAREME_INCONNU`, `RUBRIQUE_AGREGAT_INVALIDE` | bloquante | mode de calcul incomplet, barème absent, agrégat inconnu |
+| `SCHEMA_DOUBLON`, `SCHEMA_COMPTE_INCONNU` | bloquante | ligne répétée / compte absent du plan |
+| `PERIODE_DOUBLON`, `PERIODE_EXISTE_DEJA`, `PERIODE_STATUT_INVALIDE` | bloquante | période répétée, déjà en base, statut incompatible avec `Mc` |
+| `ELEMENT_EMPLOYE_INCONNU`, `ELEMENT_RUBRIQUE_INCONNUE`, `ELEMENT_MONTANT_OU_TAUX`, `ELEMENT_DOUBLON`, `ELEMENT_SALAIRE_BASE`, `ELEMENT_PERSONNALISATION_EXISTANTE` | bloquante | référence, montant / taux, doublon, salaire de base, personnalisation existante |
+| `ELEMENT_EMPLOYE_SORTI` | avertissement | employé sorti : ligne ignorée |
+| `CUMUL_EMPLOYE_INCONNU`, `CUMUL_CODE_INCONNU`, `CUMUL_DOUBLON`, `CUMUL_TOTAUX_MANQUANTS`, `CUMUL_PERIODE_CLOSE_ABSENTE`, `CUMUL_BULLETIN_EXISTANT` | bloquante | référence, doublon, totaux manquants, période absente, bulletin existant |
+| `CUMUL_NEGATIF`, `CUMUL_INCOHERENT`, `CUMUL_SANS_EFFET` | avertissement | montant négatif, net imposable > brut, `Mc` = décembre |
+| `AVANCE_DOUBLON`, `AVANCE_EXISTE_DEJA`, `AVANCE_EMPLOYE_INCONNU`, `AVANCE_EMPLOYE_SORTI`, `AVANCE_RESTE_INVALIDE`, `AVANCE_ECHEANCES_INVALIDES`, `AVANCE_DECAISSEMENT_POSTERIEUR` | bloquante | référence, reste, échéances, date |
+| `AVANCE_SOLDEE`, `AVANCE_RETENU_INCOHERENT` | avertissement | avance soldée ignorée / retenu incohérent |
+| `ecart_avances_balance` | avertissement (bloquante si `ecartAuxiliairesBloquant`) | Σ restes ≠ compte d'avance de la balance |
+
+### Après l'import : paie de `Mc` + 1
+La première paie calculée dans EDIP est celle de `Mc` + 1 : salaire de base du contrat RH, retenue d'avance = mensualité d'origine (le reste à la dernière échéance), solde de congé = solde importé + acquis du mois, cadre « cumuls annuels » du PDF = cumuls importés + mois courant. Une période contenant un bulletin de reprise **ne peut être ni rouverte, ni recalculée, ni comptabilisée** (messages « période migrée »). Pendant le chargement, le calcul, la validation, la comptabilisation, le paiement, la réouverture et le décaissement d'avance sont refusés (« migration en cours », §6), de même que la création de congés et d'affectations.
+
+### Annulation
+Supprimés : bulletins de reprise et leurs lignes, personnalisations et rubriques personnalisées, avances, périodes, rubriques et lignes de schéma créés par le lot (les lignes de schéma désactivées sont réactivées). **Refus** si une donnée postérieure repose sur ces éléments : bulletin hors lot, élément variable (dont la retenue d'avance de `Mc` + 1), publication comptable sur une période du lot, ligne de bulletin ou rubrique personnalisée utilisant une rubrique du lot, avance dont le montant retenu a changé depuis l'import. Les paramétrages semés au démarrage restent intacts. Annuler le classeur 10 **avant** le 09.
+
+## 4 septies sexies. Compte de reprise
+
+Le **compte de reprise** (option de lot `compteReprise`, §4 quater) est le compte d'attente qui reçoit la ligne de contrepartie des pièces `A_NOUVEAU` non équilibrées. Dans l'assistant, il est **pré-rempli avec le compte d'attente de la norme comptable de l'institution** (par exemple `3792` en RCS_SFD) ; il reste modifiable.
+- Il doit exister au plan comptable (base ou classeur 02) et **ne pas figurer dans la balance d'ouverture**.
+- Lot sans compte de reprise : la validation échoue (`compte_reprise_requis`) et signale en cascade de nombreuses erreurs de pièces ; renseigner le compte puis recréer le lot.
+- Une fois les soldes concordants avec la balance, le compte de reprise est soldé (somme nulle par agence) ; sinon il porte exactement l'écart accepté, à solder par une opération diverse manuelle (§4 quater).
+- Jeux de test : `471000` (plan à 6 chiffres), compte d'attente de classe 47 ajouté par le générateur.
+
 ## 4 octies. Étape 6 — contrôles post-import et clôture du lot
 
 Après l'import (`IMPORTE`), l'assistant ouvre l'étape 6 « Contrôles post-import » : réconciliation **par agence** entre les fichiers du lot (staging, balance d'ouverture, projection auxiliaire) et les données chargées, en lecture directe de la base. Un module sans donnée pour le lot n'apparaît pas.
@@ -881,6 +1044,10 @@ Après l'import (`IMPORTE`), l'assistant ouvre l'étape 6 « Contrôles post-imp
 | `STOCK_VALEUR_BALANCE` | par compte de stock (agence du magasin) : balance (débit − crédit) / Σ valeur des stocks chargés par le lot | orange ; rouge si `ecartAuxiliairesBloquant` |
 | `IMMO_VALEUR_BALANCE` | par compte d'immobilisation : balance (débit − crédit) / Σ valeur brute des immobilisations du lot | orange ; rouge si `ecartAuxiliairesBloquant` |
 | `IMMO_AMORT_BALANCE` | par compte d'amortissement : balance (crédit − débit) / Σ cumul d'amortissements du lot | orange ; rouge si `ecartAuxiliairesBloquant` |
+| `EMPLOYES`, `CONTRATS_ACTIFS` | lignes du fichier (hors rejetées) / employés et contrats `ACTIF` créés, par agence | vert si égal ; orange si l'écart = lignes non chargées ; rouge sinon |
+| `MASSE_SALARIALE_CUMULEE` | Σ `BRUT` du fichier `CUMULS_PAIE` / Σ salaire brut des bulletins de reprise, par agence | rouge |
+| `AVANCES_SALAIRE` | Σ restes d'avances du fichier / Σ restes des avances créées, par agence | rouge |
+| `ECART_AVANCES_BALANCE` | Σ restes d'avances / solde débiteur du compte d'avance de la balance | orange ; rouge si `ecartAuxiliairesBloquant` |
 | `PARTS_SOCIALES` | Σ (valeur nominale × nombre) du fichier / Σ montants créés | rouge |
 
 - Les contrôles `STOCK_VALEUR_BALANCE`, `IMMO_VALEUR_BALANCE` et `IMMO_AMORT_BALANCE` ne portent que sur les comptes utilisés par les données chargées du lot ; un compte de stock ou d'immobilisation présent en balance mais utilisé par aucune ligne chargée n'est pas contrôlé. Module sans donnée pour le lot : contrôle absent.
@@ -994,6 +1161,13 @@ python3 -I scripts/migration-fixtures/generer_iter3.py --verifier-entetes .     
 ```
 
 Option de lot à saisir pour ce jeu : `compteReprise` = `471000` (6 chiffres). Ordre de dépôt : `01-Parametrage.xlsx`, `02-Comptabilite.xlsx`, `Gestionnaires.csv`, `Clients_<AG>.csv`, `Groupes.csv`, `MembresGroupe.csv`, `PartsSociales.csv` (CSV UTF-8, séparateur `;`, dates `dd/MM/yyyy`).
+
+### Jeu de test Côte d'Ivoire (paie : IRPP = 0)
+Le jeu de test d'une institution **ivoirienne** (zone UEMOA, norme RCS_SFD, agences `CI01` à `CI03`) se charge sans erreur : validation 0 erreur, import, étape 6 sans écart (relever dans le rapport les contrôles « à vérifier » éventuels). Pour la **paie**, le profil Côte d'Ivoire ne contient **pas de barème IRPP** : les bulletins calculés dans EDIP après l'import (paie de `Mc` + 1) ont donc **IRPP = 0**, et leur net à payer n'est pas comparable à celui de l'ancien système. Ce n'est pas une anomalie du chargement :
+- les cumuls importés (`CUMULS_PAIE`) sont repris tels que fournis, IRPP compris ;
+- pour une démonstration ou une recette avec impôt, utiliser le **profil Togo** (paramètres, cotisations et barème IRPP complets), qui est celui sur lequel la paie est prouvée ; ou paramétrer le barème ivoirien avant de calculer la première paie ;
+- le jeu de fichiers 09 / 10 est généré par défaut pour le Togo (`--bascule-mi-mois` pour couvrir une bascule en cours de mois).
+Le compte de reprise du jeu de test est `471000` (§4 septies sexies).
 
 ## 11. Test automatisé
 
