@@ -1,6 +1,6 @@
 # Migration de données EDIP — guide opérateur
 
-Itération 1 : socle (lots, verrou, réinitialisation) et classeur `01-Parametrage` (module commun : devises, agences, utilisateurs). Itération 2 : classeurs `02-Comptabilite` (plan comptable, journaux, balance d'ouverture, exercices générés) et `03-Clients` (gestionnaires, clients, groupes, membres, bénéficiaires, parts sociales). Itération 3 : classeur `04-Epargne` (produits, comptes, DAT, blocages, tontines) et pièces d'à-nouveaux. Avenant du 2026-10-19 : migration sur **base vide** et paramétrages des modules commun, comptabilité, client et épargne (profils, banques, rôles comptables, comptes bancaires, frais, seuils, dormance : §2 bis et §4 quinquies). Itération 4 : classeurs `06-Caisse` (caisses et soldes de bascule, §4 sexies) et `05-Credit` (paramétrages et encours, §4 septies), étape 6 « Contrôles post-import » avec rapport et clôture du lot (§4 octies). Les classeurs des autres modules (stock, RH, paie…) arrivent aux itérations suivantes sur les mêmes interfaces.
+Itération 1 : socle (lots, verrou, réinitialisation) et classeur `01-Parametrage` (module commun : devises, agences, utilisateurs). Itération 2 : classeurs `02-Comptabilite` (plan comptable, journaux, balance d'ouverture, exercices générés) et `03-Clients` (gestionnaires, clients, groupes, membres, bénéficiaires, parts sociales). Itération 3 : classeur `04-Epargne` (produits, comptes, DAT, blocages, tontines) et pièces d'à-nouveaux. Avenant du 2026-10-19 : migration sur **base vide** et paramétrages des modules commun, comptabilité, client et épargne (profils, banques, rôles comptables, comptes bancaires, frais, seuils, dormance : §2 bis et §4 quinquies). Itération 4 : classeurs `06-Caisse` (caisses et soldes de bascule, §4 sexies) et `05-Credit` (paramétrages et encours, §4 septies), étape 6 « Contrôles post-import » avec rapport et clôture du lot (§4 octies). Itération 4 bis : classeurs `07-Stock` (articles, magasins, stock d'ouverture, §4 septies bis) et `08-Immobilisation` (catégories, natures, immobilisations avec plan d'amortissement reconstitué, §4 septies ter). Les classeurs des autres modules (RH, paie…) arrivent aux itérations suivantes sur les mêmes interfaces.
 
 ## 1. Objet
 
@@ -704,6 +704,169 @@ Supprimés : dossiers, comptes crédit, échéances, garanties, provisions, hist
 ### Limite connue — provision de bascule
 La provision du fichier est enregistrée à la période (`aaaa-mm`) et à la date de la bascule, comptabilisée, dotation 0. La dotation de la période suivante se calcule par différence avec ce montant. Un calcul de provisions lancé **dans le mois de la bascule** (bascule en cours de mois) retrouve cette ligne comme période courante et la recalcule à partir de zéro (dotation de la totalité) : **lancer le premier calcul au mois suivant la bascule**.
 
+## 4 septies bis. Classeur `07-Stock` (module stock, ordre 700)
+
+Ordre de dépôt : après `01-Parametrage` et `02-Comptabilite` (agences, plan comptable, **balance d'ouverture**). Feuilles, dans l'ordre de chargement : `UNITES_MESURE`, `CATEGORIES`, `FAMILLES`, `MAGASINS`, `ARTICLES`, `STOCKS_INITIAUX`. Nom de feuille = code du dataset (la forme `UnitesMesure`, `StocksInitiaux` est aussi acceptée) ; en-têtes en MAJUSCULES_SNAKE (casse, accents, `_` et `*` final ignorés ; camelCase accepté). Référence complète des colonnes : `sfd-stock-service/src/main/resources/import/stock/COLONNES.md`.
+
+### Décisions de cadrage
+- **Stock d'ouverture seulement** : un mouvement `INVENTAIRE_INITIAL` par ligne de `STOCKS_INITIAUX`, validé, daté du **lendemain de la date de bascule** à 00:00, numéroté `MIG-<lot>-<n° de ligne>`. Aucun historique d'entrées / sorties n'est repris.
+- **Aucune écriture comptable** : ni message comptable, ni solde auxiliaire. La valeur du stock est portée par la **balance d'ouverture** du classeur 02 (comptes de stock) ; le chargement du stock ne fait que la rapprocher (voir « Cohérence »).
+- **Valorisation au CUMP uniquement** : FIFO, LIFO et prix standard sont refusés (`ARTICLE_VALORISATION_NON_SUPPORTEE`). La quantité compte au plus 3 décimales.
+- **Un stock par (article, magasin)** : plusieurs lignes d'un même couple sont possibles seulement avec des numéros de lot différents ; le stock de l'article est la somme des lots, son CUMP = valeur totale / quantité totale.
+- **Codes** : un code déjà présent en base (unité, catégorie, famille, magasin, article) est refusé (`…_EXISTE_DEJA`), jamais modifié. Les numéros de lot sont libres.
+- **Responsable de magasin** : `CODE_RESPONSABLE` est un texte libre, non relié aux employés (le RH est chargé plus tard).
+- Lignes chargées marquées `MIGRATION:<code du lot>` (`cree_par`).
+
+### Paramétrages (feuilles 1 à 4)
+| Feuille | Clé | Colonnes (* = obligatoire) | Dépend de |
+|---|---|---|---|
+| `UNITES_MESURE` | `CODE_UNITE` | `CODE_UNITE`* (10 car.), `LIBELLE`* (50), `SYMBOLE`, `CODE_UNITE_BASE` (unité du lot ou de la base, pas elle-même), `COEFFICIENT_CONVERSION` (> 0, défaut 1) | — |
+| `CATEGORIES` | `CODE_CATEGORIE` | `CODE_CATEGORIE`* (20), `LIBELLE`* (100), `CODE_CATEGORIE_PARENT` (sans cycle, 6 niveaux au plus), `DESCRIPTION` | — |
+| `FAMILLES` | `CODE_FAMILLE` | `CODE_FAMILLE`* (20), `LIBELLE`* (100), `CODE_CATEGORIE`, `COMPTE_STOCK_DEFAUT`, `COMPTE_ACHAT_DEFAUT`, `COMPTE_VARIATION_STOCK_DEFAUT` (comptes du plan, en base ou lot 02) | `CATEGORIES`, plan comptable |
+| `MAGASINS` | `CODE_MAGASIN` | `CODE_MAGASIN`* (20), `LIBELLE`* (100), `CODE_AGENCE`* (agence en base ou lot 01 : agence des écritures de stock), `TYPE_MAGASIN` (`PRINCIPAL` défaut, `SECONDAIRE`, `TRANSIT`, `RESERVE`), `ADRESSE`, `VILLE`, `TELEPHONE`, `EMAIL`, `CODE_RESPONSABLE` | Agences |
+
+### ARTICLES (après UNITES_MESURE, CATEGORIES, FAMILLES, plan comptable)
+| Colonne | Oblig. | Règle |
+|---|---|---|
+| CODE_ARTICLE | oui | 30 car., unique (`ARTICLE_DOUBLON`, `ARTICLE_EXISTE_DEJA`) |
+| DESIGNATION | oui | 200 car. |
+| CODE_UNITE | oui | unité du lot ou de la base (`ARTICLE_UNITE_INCONNUE`) |
+| TYPE_ARTICLE | non | `STOCKABLE` (défaut), `CONSOMMABLE`, `SERVICE`, `COMPOSE` |
+| CODE_CATEGORIE, CODE_FAMILLE | non | du lot ou de la base (`ARTICLE_CATEGORIE_INCONNUE`, `ARTICLE_FAMILLE_INCONNUE`) |
+| PRIX_ACHAT_HT, PRIX_VENTE_HT | non | ≥ 0, défaut 0 (`ARTICLE_VALEUR_INVALIDE`) |
+| TAUX_TVA | non | 0 à 100, défaut 18 |
+| METHODE_VALORISATION | non | `CUMP` seul |
+| STOCK_MINIMUM, STOCK_SECURITE, STOCK_MAXIMUM | non | ≥ 0 |
+| GESTION_LOT, PERISSABLE | non | oui / non, défaut non |
+| CODE_BARRE, REFERENCE_FOURNISSEUR | non | 50 car. |
+| COMPTE_STOCK, COMPTE_ACHAT, COMPTE_VARIATION_STOCK | non | compte du plan (`ARTICLE_COMPTE_INCONNU`) ; vide = compte de la famille |
+
+Un article `STOCKABLE` ou `CONSOMMABLE` doit avoir un compte de stock **et** un compte de variation de stock, sur l'article ou à défaut sur sa famille (`ARTICLE_COMPTES_MANQUANTS`).
+
+### STOCKS_INITIAUX (après ARTICLES, MAGASINS et BalanceOuverture)
+| Colonne | Oblig. | Règle |
+|---|---|---|
+| CODE_ARTICLE | oui | article du lot ou de la base, `STOCKABLE` ou `CONSOMMABLE` (`STOCK_INITIAL_ARTICLE_INCONNU`, `STOCK_INITIAL_ARTICLE_NON_STOCKABLE`) |
+| CODE_MAGASIN | oui | magasin du lot ou de la base (`STOCK_INITIAL_MAGASIN_INCONNU`) |
+| NUMERO_LOT | selon article | **obligatoire** si l'article est géré par lot (`STOCK_INITIAL_LOT_OBLIGATOIRE`), **interdit** sinon (`STOCK_INITIAL_LOT_INTERDIT`) |
+| DATE_PEREMPTION | non | avec un lot uniquement |
+| QUANTITE | oui | > 0, 3 décimales au plus (`STOCK_INITIAL_QUANTITE_INVALIDE`, `STOCK_INITIAL_QUANTITE_PRECISION`) ; **0 = ligne ignorée** (avertissement `STOCK_INITIAL_QUANTITE_NULLE`) |
+| CUMP | oui | coût unitaire moyen pondéré > 0 (`STOCK_INITIAL_CUMP_INVALIDE`) |
+| VALEUR | non | contrôle : doit égaler quantité × CUMP arrondi à 2 décimales, à 1 unité près (`STOCK_INITIAL_VALEUR_INCOHERENTE`) |
+
+Clé de la ligne : (article, magasin, lot) — doublon bloquant `STOCK_INITIAL_DOUBLON`. Un couple (article, magasin) qui porte déjà un stock en base est refusé (`STOCK_INITIAL_EXISTE_DEJA`).
+
+### Cohérence avec la balance
+Pour chaque (agence du magasin, compte de stock de l'article, ou à défaut de sa famille) : Σ (quantité × CUMP arrondi à 2 décimales) doit égaler le solde **débiteur** de ce compte dans `BalanceOuverture`. Écart → `STOCKS_INITIAUX_ECART_BALANCE` : **avertissement**, **bloquant** si l'option `ecartAuxiliairesBloquant` est cochée. Pour un jeu cohérent, la balance 02 doit donc porter au débit les comptes de stock, agence par agence, pour la valeur exacte du stock chargé.
+
+### Codes d'erreur propres au classeur 07
+| Code | Gravité | Cause |
+|---|---|---|
+| `UNITE_DOUBLON` / `UNITE_EXISTE_DEJA` | bloquante | code unité répété dans le lot / déjà en base |
+| `UNITE_BASE_INCONNUE` | bloquante | unité de base absente, ou égale à l'unité elle-même |
+| `UNITE_COEFFICIENT_INVALIDE` | bloquante | coefficient ≤ 0 |
+| `CATEGORIE_DOUBLON` / `CATEGORIE_EXISTE_DEJA` | bloquante | code catégorie répété / déjà en base |
+| `CATEGORIE_PARENT_INCONNUE` / `CATEGORIE_CYCLE` | bloquante | parent introuvable / hiérarchie circulaire |
+| `FAMILLE_DOUBLON` / `FAMILLE_EXISTE_DEJA` | bloquante | code famille répété / déjà en base |
+| `FAMILLE_CATEGORIE_INCONNUE` / `FAMILLE_COMPTE_INCONNU` | bloquante | catégorie ou compte absent |
+| `MAGASIN_DOUBLON` / `MAGASIN_EXISTE_DEJA` | bloquante | code magasin répété / déjà en base |
+| `MAGASIN_AGENCE_INCONNUE` | bloquante | agence absente de la base et du lot |
+| `ARTICLE_DOUBLON` / `ARTICLE_EXISTE_DEJA` | bloquante | code article répété / déjà en base |
+| `ARTICLE_UNITE_INCONNUE`, `ARTICLE_CATEGORIE_INCONNUE`, `ARTICLE_FAMILLE_INCONNUE`, `ARTICLE_COMPTE_INCONNU` | bloquante | référence introuvable |
+| `ARTICLE_VALEUR_INVALIDE` | bloquante | prix, TVA ou seuils hors bornes |
+| `ARTICLE_VALORISATION_NON_SUPPORTEE` | bloquante | méthode autre que `CUMP` |
+| `ARTICLE_COMPTES_MANQUANTS` | bloquante | pas de compte de stock ou de variation (article puis famille) |
+| `STOCK_INITIAL_ARTICLE_INCONNU` / `_ARTICLE_NON_STOCKABLE` | bloquante | article introuvable / de type service ou composé |
+| `STOCK_INITIAL_MAGASIN_INCONNU` | bloquante | magasin introuvable |
+| `STOCK_INITIAL_LOT_OBLIGATOIRE` / `_LOT_INTERDIT` | bloquante | lot manquant pour un article géré par lot / lot sur un article non géré par lot |
+| `STOCK_INITIAL_QUANTITE_INVALIDE` / `_QUANTITE_PRECISION` | bloquante | quantité négative / plus de 3 décimales |
+| `STOCK_INITIAL_QUANTITE_NULLE` | avertissement | quantité 0 : ligne ignorée |
+| `STOCK_INITIAL_CUMP_INVALIDE` | bloquante | CUMP ≤ 0 |
+| `STOCK_INITIAL_VALEUR_INCOHERENTE` | bloquante | `VALEUR` ≠ quantité × CUMP |
+| `STOCK_INITIAL_DOUBLON` / `STOCK_INITIAL_EXISTE_DEJA` | bloquante | (article, magasin, lot) répété / couple déjà en stock |
+| `stocks_initiaux_ecart_balance` | avertissement (bloquante si `ecartAuxiliairesBloquant`) | Σ valeur du stock ≠ compte de stock de la balance |
+
+### Annulation
+Supprimés : mouvements d'inventaire initial, lots, stocks, puis articles, magasins, familles, catégories et unités créés par le lot ; les séquences de numérotation (articles, magasins, familles, catégories, unités) sont ramenées comme avant le lot. **Refus** dès qu'une donnée postérieure, hors lot, repose sur les éléments chargés : mouvement de stock (sortie, réception, inventaire), bon de réception ou de sortie, inventaire physique, affectation, quota, composition d'article, transfert, emplacement, ou famille / catégorie / unité référencée par un élément hors lot. Le motif et la table concernée s'affichent sur l'écran du lot (§7) ; supprimer ou contre-passer l'opération, puis relancer. Le lien avec un article commercial n'est contrôlé que dans le monolithe.
+
+## 4 septies ter. Classeur `08-Immobilisation` (module immobilisation, ordre 900)
+
+Ordre de dépôt : après `01-Parametrage` et `02-Comptabilite` (agences, plan comptable, **balance d'ouverture**). Feuilles, dans l'ordre de chargement : `MODES_ACQUISITION`, `METHODES`, `ETATS_PHYSIQUES` (facultatives), `CATEGORIES_IMMO`, `NATURES`, `IMMOBILISATIONS`. Nom de feuille = code du dataset ; en-têtes en MAJUSCULES_SNAKE. Référence complète : `sfd-immobilisation-service/src/main/resources/import/immobilisation/COLONNES.md`.
+
+### Décisions de cadrage
+- **Immobilisations en service uniquement** : seules les immobilisations `EN_SERVICE` à la date de bascule sont reprises, y compris celles **totalement amorties** (VNC = 0). Aucune immobilisation cédée, mise au rebut ou sortie ; aucun historique de sorties.
+- **Cumul et VNC repris du fichier** : `CUMUL_AMORTISSEMENTS` (arrêté à la date de bascule) et `VNC` sont repris tels quels. Valeur brute = valeur d'origine + TVA immobilisée + frais accessoires ; VNC = brute − cumul (**contrôle toujours bloquant**, `IMMOBILISATION_VNC_INCOHERENTE`). Le cumul ne dépasse pas la base amortissable (brute − valeur résiduelle).
+- **Plan d'amortissement reconstitué** : le système recalcule, mois par mois, de la mise en service jusqu'au **dernier mois clos** (mois de la bascule si elle tombe le dernier jour du mois, sinon le mois précédent). Ces lignes sont marquées comptabilisées (pièce `MIG-<lot>`), **sans nouvelle écriture comptable**. La dernière ligne est ajustée pour que le cumul du plan égale exactement le cumul du fichier ; l'ajustement est signalé par l'avertissement `IMMOBILISATIONS_CUMUL_ECART_PLAN`. *Recommandation : basculer en fin de mois.* Le mois de bascule, si elle tombe en cours de mois, n'est pas inclus dans le cumul et sera doté entier après l'import.
+- **Dotation suivante sur la VNC importée** : la génération des amortissements du mois suivant part du cumul importé. Linéaire : base amortissable ÷ durée ; dégressif : coefficient × VNC de début d'exercice ÷ 12.
+- **Méthodes** : `LINEAIRE` et `DEGRESSIF` seuls ; `UNITE_OEUVRE` est refusée (`CATEGORIE_IMMO_METHODE_NON_SUPPORTEE`).
+- **Catégories sans code** : la clé d'une catégorie est son **libellé** (unique sans tenir compte de la casse). Les catégories et natures ne sont pas semées au démarrage : elles viennent de ce classeur.
+- **Comptes** : seule vérification, leur présence au plan comptable (base ou lot 02) ; aucun préfixe imposé (SYSCOHADA, plan SFD, COBAC…). Résolution : ligne de l'immobilisation, sinon nature, sinon catégorie.
+- Mouvement `ACQUISITION` créé pour chaque immobilisation, daté du lendemain de la bascule, sans publication comptable ; lignes marquées `MIGRATION:<code du lot>`. Responsable, service et emplacement sont des textes libres, non reliés au RH.
+
+### Feuilles facultatives de libellés
+`MODES_ACQUISITION` (`ACHAT`, `DON`, `APPORT`, `CREATION_INTERNE`, `LOCATION_FINANCEMENT`), `METHODES` (`LINEAIRE`, `DEGRESSIF`, `UNITE_OEUVRE`, avec `COEFFICIENT_FISCAL`) et `ETATS_PHYSIQUES` (`NEUF`, `BON`, `USE`, `HORS_SERVICE`, avec `COULEUR`) : colonnes `CODE`*, `LIBELLE`*, `DESCRIPTION`, `ORDRE`. Elles **renomment** les lignes système existantes (codes fixes) ; elles n'en créent ni n'en suppriment. Code inconnu : `MODE_ACQUISITION_CODE_INCONNU`, `METHODE_CODE_INCONNU` ou `ETAT_PHYSIQUE_CODE_INCONNU`. Les libellés modifiés **ne sont pas restaurés** à l'annulation.
+
+### CATEGORIES_IMMO (après PlanComptable)
+| Colonne | Oblig. | Règle |
+|---|---|---|
+| LIBELLE | oui | 255 car., clé unique (`CATEGORIE_IMMO_DOUBLON`, `CATEGORIE_IMMO_EXISTE_DEJA`) |
+| TYPE | non | `INCORPORELLE`, `CORPORELLE` (défaut), `FINANCIERE` |
+| COMPTE_IMMOBILISATION | oui | compte du plan (`CATEGORIE_IMMO_COMPTE_INCONNU`) |
+| COMPTE_AMORTISSEMENT, COMPTE_DOTATION | si amortissable | comptes du plan ; obligatoires pour une catégorie amortissable (`CATEGORIE_IMMO_COMPTES_MANQUANTS`) |
+| COMPTE_PLUS_VALUE_CESSION, COMPTE_MOINS_VALUE_CESSION | non | comptes du plan |
+| DUREE_AMORTISSEMENT_MOIS | oui | entier > 0 (`CATEGORIE_IMMO_DUREE_INVALIDE`) |
+| METHODE_AMORTISSEMENT | oui | `LINEAIRE` ou `DEGRESSIF` |
+| TAUX_DEFAUT, SEUIL_IMMOBILISATION | non | décimaux |
+| AMORTISSABLE | non | oui (défaut) / non |
+
+### NATURES (après CATEGORIES_IMMO)
+`CODE_NATURE`* (30 car., unique : `NATURE_DOUBLON`, `NATURE_EXISTE_DEJA`), `LIBELLE`*, `LIBELLE_CATEGORIE`* (catégorie du lot ou de la base : `NATURE_CATEGORIE_INCONNUE`) ; facultatifs : `COMPTE_IMMOBILISATION`, `COMPTE_AMORTISSEMENT`, `COMPTE_DOTATION` (vide = ceux de la catégorie ; `NATURE_COMPTE_INCONNU`), `DUREE_DEFAUT_MOIS`, `TAUX_DEFAUT`, `DESCRIPTION`.
+
+### IMMOBILISATIONS (après CATEGORIES_IMMO, NATURES, Agences, PlanComptable, BalanceOuverture)
+| Colonne | Oblig. | Règle |
+|---|---|---|
+| CODE_IMMO | oui | 50 car., unique (`IMMOBILISATION_DOUBLON`, `IMMOBILISATION_EXISTE_DEJA`) |
+| NUMERO_INVENTAIRE | non | unique s'il est renseigné (`IMMOBILISATION_INVENTAIRE_DOUBLON`, lot ou base) |
+| LIBELLE | oui | 255 car. |
+| LIBELLE_CATEGORIE | oui | catégorie du lot ou de la base (`IMMOBILISATION_CATEGORIE_INCONNUE`) |
+| CODE_NATURE | non | nature de la **même** catégorie (`IMMOBILISATION_NATURE_INCONNUE`, `IMMOBILISATION_NATURE_CATEGORIE_DIFFERENTE`) |
+| CODE_AGENCE | oui | agence du lot ou de la base (`IMMOBILISATION_AGENCE_INCONNUE`) |
+| DATE_ACQUISITION, DATE_MISE_SERVICE | oui | acquisition ≤ mise en service ≤ date de bascule (`IMMOBILISATION_DATES_INVALIDES`) ; la mise en service est le départ de l'amortissement |
+| MODE_ACQUISITION | non | `ACHAT` (défaut), `DON`, `APPORT`, `CREATION_INTERNE`, `LOCATION_FINANCEMENT` |
+| VALEUR_ORIGINE | oui | HT, > 0 |
+| TVA_IMMOBILISEE, FRAIS_ACCESSOIRES, VALEUR_RESIDUELLE | non | ≥ 0, défaut 0 ; résiduelle ≤ brute (`IMMOBILISATION_VALEUR_INVALIDE`) |
+| DUREE_AMORTISSEMENT_MOIS | non | vide = nature, sinon catégorie (`IMMOBILISATION_DUREE_INVALIDE`) |
+| METHODE_AMORTISSEMENT | non | `LINEAIRE` ou `DEGRESSIF` ; vide = catégorie |
+| COEFFICIENT_DEGRESSIF | non | dégressif seulement ; vide = barème selon la durée |
+| CUMUL_AMORTISSEMENTS | oui | 0 ≤ cumul ≤ base amortissable (`IMMOBILISATION_CUMUL_INVALIDE`) |
+| VNC | oui | = brute − cumul (`IMMOBILISATION_VNC_INCOHERENTE`, toujours bloquant) |
+| ETAT | non | `NEUF`, `BON` (défaut), `USE`, `HORS_SERVICE` |
+| FOURNISSEUR_NOM, NUMERO_FACTURE, NUMERO_SERIE, CODE_BARRE, SERVICE_AFFECTATION, EMPLACEMENT, RESPONSABLE_NOM | non | textes libres |
+| COMPTE_IMMOBILISATION, COMPTE_AMORTISSEMENT, COMPTE_DOTATION | non | comptes du plan ; vide = nature, sinon catégorie (`IMMOBILISATION_COMPTE_INCONNU`, `IMMOBILISATION_COMPTES_MANQUANTS`) |
+
+### Cohérence avec la balance
+Par (agence, compte résolu) : Σ **valeur brute** = solde **débiteur** du compte d'immobilisation dans `BalanceOuverture` (`IMMOBILISATIONS_ECART_BALANCE_VALEUR`) ; Σ **cumul d'amortissements** = solde **créditeur** du compte d'amortissement (`IMMOBILISATIONS_ECART_BALANCE_AMORT`). Écart : **avertissement**, **bloquant** si l'option `ecartAuxiliairesBloquant` est cochée.
+
+### Codes d'erreur propres au classeur 08
+| Code | Gravité | Cause |
+|---|---|---|
+| `CATEGORIE_IMMO_DOUBLON` / `_EXISTE_DEJA` | bloquante | libellé de catégorie répété / déjà en base |
+| `CATEGORIE_IMMO_COMPTE_INCONNU` / `_COMPTES_MANQUANTS` | bloquante | compte absent du plan / comptes d'amortissement ou de dotation manquants |
+| `CATEGORIE_IMMO_METHODE_NON_SUPPORTEE` / `_DUREE_INVALIDE` | bloquante | unité d'œuvre / durée ≤ 0 |
+| `NATURE_DOUBLON` / `NATURE_EXISTE_DEJA` | bloquante | code nature répété / déjà en base |
+| `NATURE_CATEGORIE_INCONNUE` / `NATURE_COMPTE_INCONNU` | bloquante | catégorie ou compte absent |
+| `IMMOBILISATION_DOUBLON` / `_EXISTE_DEJA` / `_INVENTAIRE_DOUBLON` | bloquante | code ou numéro d'inventaire répété ou déjà en base |
+| `IMMOBILISATION_CATEGORIE_INCONNUE`, `_NATURE_INCONNUE`, `_NATURE_CATEGORIE_DIFFERENTE`, `_AGENCE_INCONNUE` | bloquante | référence introuvable ou nature d'une autre catégorie |
+| `IMMOBILISATION_COMPTE_INCONNU` / `_COMPTES_MANQUANTS` | bloquante | compte absent du plan / aucun compte résolu |
+| `IMMOBILISATION_DATES_INVALIDES` | bloquante | dates incohérentes ou postérieures à la bascule |
+| `IMMOBILISATION_VALEUR_INVALIDE` / `_CUMUL_INVALIDE` / `_DUREE_INVALIDE` | bloquante | montants, cumul ou durée hors bornes |
+| `IMMOBILISATION_VNC_INCOHERENTE` | bloquante (toujours) | VNC ≠ brute − cumul |
+| `immobilisations_ecart_balance_valeur` / `_amort` | avertissement (bloquante si `ecartAuxiliairesBloquant`) | Σ brute ou Σ cumul ≠ balance |
+| `immobilisations_cumul_ecart_plan` | avertissement | le plan reconstitué diffère du cumul du fichier ; dernière ligne ajustée |
+
+### Annulation
+Supprimés : plans d'amortissement, mouvements d'acquisition, immobilisations, natures et catégories créés par le lot ; les séquences (code immobilisation, numéro d'inventaire, code nature) sont ramenées. **Refus** si une immobilisation du lot a une dotation, un mouvement (cession, transfert, rebut) ou une ligne d'inventaire postérieurs, si elle n'est plus `EN_SERVICE`, ou si une immobilisation ou une nature hors lot référence une catégorie ou une nature du lot : le motif s'affiche sur l'écran du lot (§7). Les feuilles facultatives de libellés ne sont pas annulées (voir plus haut).
+
 ## 4 octies. Étape 6 — contrôles post-import et clôture du lot
 
 Après l'import (`IMPORTE`), l'assistant ouvre l'étape 6 « Contrôles post-import » : réconciliation **par agence** entre les fichiers du lot (staging, balance d'ouverture, projection auxiliaire) et les données chargées, en lecture directe de la base. Un module sans donnée pour le lot n'apparaît pas.
@@ -715,8 +878,12 @@ Après l'import (`IMPORTE`), l'assistant ouvre l'étape 6 « Contrôles post-imp
 | `ENCOURS_CREDIT` | balance (débit − crédit) des collectifs crédit / Σ capital restant dû des dossiers (garanties exclues) | rouge si `ecartAuxiliairesBloquant`, orange sinon |
 | `DOSSIERS_CREDIT` | auxiliaires crédit du lot / dossiers créés, détail par statut | orange |
 | `CAISSES` | balance (débit − crédit) des comptes 57 / Σ soldes des caisses du lot | orange |
+| `STOCK_VALEUR_BALANCE` | par compte de stock (agence du magasin) : balance (débit − crédit) / Σ valeur des stocks chargés par le lot | orange ; rouge si `ecartAuxiliairesBloquant` |
+| `IMMO_VALEUR_BALANCE` | par compte d'immobilisation : balance (débit − crédit) / Σ valeur brute des immobilisations du lot | orange ; rouge si `ecartAuxiliairesBloquant` |
+| `IMMO_AMORT_BALANCE` | par compte d'amortissement : balance (crédit − débit) / Σ cumul d'amortissements du lot | orange ; rouge si `ecartAuxiliairesBloquant` |
 | `PARTS_SOCIALES` | Σ (valeur nominale × nombre) du fichier / Σ montants créés | rouge |
 
+- Les contrôles `STOCK_VALEUR_BALANCE`, `IMMO_VALEUR_BALANCE` et `IMMO_AMORT_BALANCE` ne portent que sur les comptes utilisés par les données chargées du lot ; un compte de stock ou d'immobilisation présent en balance mais utilisé par aucune ligne chargée n'est pas contrôlé. Module sans donnée pour le lot : contrôle absent.
 - **Rapport de migration** : bouton « Rapport » → classeur `rapport-<code du lot>-<horodatage>.xlsx` (feuilles Synthèse, Datasets, Erreurs, Séquences, Réconciliation) à archiver avec le procès-verbal de bascule.
 - **Clôturer le lot** : passe le lot en `CLOTURE` après confirmation. Un lot clôturé **ne peut plus être annulé** ; clôturer seulement après validation des contrôles et du rapport.
 
