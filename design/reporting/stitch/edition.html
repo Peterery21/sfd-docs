@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+
+<html class="h-full" lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Éditer les rapports — Reporting Réglementaire BCEAO</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "surface-variant": "#e4e2e3",
+            "info-bg": "#e0f2fe",
+            "on-surface-variant": "#44474c",
+            "surface-container-high": "#eae7e9",
+            "info-text": "#0369a1",
+            "primary-container": "#475569",
+            "surface-dim": "#dbd9db",
+            "success": "#10b981",
+            "primary-fixed": "#d5e3fc",
+            "text-muted": "#64748b",
+            "tertiary-container": "#665131",
+            "secondary-fixed-dim": "#b7c8e1",
+            "on-secondary-container": "#54647a",
+            "surface": "#fbf9fa",
+            "surface-container-low": "#f5f3f5",
+            "warning-text": "#b45309",
+            "on-tertiary-container": "#e2c59d",
+            "secondary": "#505f76",
+            "tertiary-fixed": "#fcdeb4",
+            "secondary-fixed": "#d3e4fe",
+            "on-error": "#ffffff",
+            "tertiary-fixed-dim": "#dfc29a",
+            "warning-bg": "#fef3c7",
+            "tertiary": "#4d3a1c",
+            "primary": "#303e51",
+            "danger-text": "#b91c1c",
+            "border-color": "#e9ebec",
+            "on-secondary-fixed-variant": "#38485d",
+            "surface-container-lowest": "#ffffff",
+            "on-primary-container": "#bbcae1",
+            "surface-bright": "#fbf9fa",
+            "error-container": "#ffdad6",
+            "danger": "#ef4444",
+            "text-main": "#212529",
+            "on-background": "#1b1b1d",
+            "inverse-primary": "#b9c7df",
+            "on-primary-fixed-variant": "#3a485b",
+            "on-secondary-fixed": "#0b1c30",
+            "on-tertiary-fixed-variant": "#574325",
+            "inverse-on-surface": "#f2f0f2",
+            "surface-container": "#efedef",
+            "danger-bg": "#fee2e2",
+            "error": "#ba1a1a",
+            "on-tertiary-fixed": "#281901",
+            "card-bg": "#ffffff",
+            "warning": "#f59e0b",
+            "page-bg": "#f3f6f9",
+            "background": "#fbf9fa",
+            "success-bg": "#d1fae5",
+            "secondary-container": "#d0e1fb",
+            "on-surface": "#1b1b1d",
+            "inverse-surface": "#303032",
+            "surface-tint": "#515f74",
+            "outline": "#75777d",
+            "on-tertiary": "#ffffff",
+            "on-primary-fixed": "#0d1c2e",
+            "on-primary": "#ffffff",
+            "on-secondary": "#ffffff",
+            "on-error-container": "#93000a",
+            "success-text": "#047857",
+            "info": "#0ea5e9",
+            "surface-container-highest": "#e4e2e3",
+            "primary-fixed-dim": "#b9c7df",
+            "outline-variant": "#c4c6cd"
+          },
+          borderRadius: {
+            DEFAULT: "0.125rem",
+            lg: "0.25rem",
+            xl: "0.5rem",
+            full: "0.75rem"
+          },
+          spacing: {
+            "space-md": "1rem",
+            "gutter": "1rem",
+            "margin": "1.5rem",
+            "space-xs": "0.25rem",
+            "space-xl": "2rem",
+            "space-lg": "1.5rem",
+            "space-sm": "0.5rem"
+          },
+          fontFamily: {
+            "headline-lg": ["Open Sans"],
+            "label": ["Open Sans"],
+            "kpi-value": ["Open Sans"],
+            "body-sm": ["Open Sans"],
+            "body": ["Open Sans"]
+          },
+          fontSize: {
+            "headline-lg": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+            "label": ["13px", { "lineHeight": "16px", "letterSpacing": "0.03em", "fontWeight": "600" }],
+            "kpi-value": ["18px", { "lineHeight": "24px", "fontWeight": "600" }],
+            "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+            "body": ["13px", { "lineHeight": "18px", "fontWeight": "400" }]
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-page-bg text-text-main font-body h-full flex flex-col selection:bg-primary selection:text-on-primary">
+<!-- TopNavBar -->
+<header class="bg-card-bg text-primary docked full-width top-0 sticky z-40 shadow-sm"><div class="w-full px-margin flex items-center justify-between h-14"><div class="flex items-center gap-space-lg"><a class="text-headline-lg font-headline-lg text-primary font-semibold tracking-tight" href="#">EDIP</a></div><div class="flex items-center gap-space-md"><span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-secondary-container text-on-secondary-container"><span class="w-2 h-2 rounded-full bg-success"></span>UEMOA · BCEAO — Togo · Paquet 2026.10.0 · Mode intégré</span><button class="p-2 text-text-muted hover:text-text-main hover:bg-page-bg rounded-lg transition-colors" title="Notifications"><span class="material-symbols-outlined text-[20px]">notifications</span></button><button class="p-2 text-text-muted hover:text-text-main hover:bg-page-bg rounded-lg transition-colors" title="Historique"><span class="material-symbols-outlined text-[20px]">history</span></button><div class="h-6 w-[1px] bg-border-color"></div><div class="flex items-center gap-2"><span class="text-xs font-semibold text-text-main hidden lg:inline">A. Kossi · Responsable conformité</span></div></div></div></header>
+<!-- Main Layout Container -->
+<div class="flex flex-1 overflow-hidden">
+<!-- SideNavBar -->
+<aside class="w-80 h-full bg-card-bg border-r border-border-color flex flex-col justify-between p-space-md hidden md:flex shrink-0"><div><div class="flex items-center gap-3 px-space-xs py-space-sm mb-space-md"><div class="w-10 h-10 rounded-lg bg-primary-container text-on-primary flex items-center justify-center font-bold">ED</div><div><h2 class="text-xs font-bold text-text-main">EDIP · SFD Lomé Centre</h2><p class="text-[11px] text-text-muted">Reporting réglementaire</p></div></div><div class="space-y-1"><a class="text-text-muted hover:bg-page-bg hover:text-text-main rounded-lg px-space-md py-space-sm flex items-center gap-space-sm transition-all duration-150" href="#"><span class="material-symbols-outlined text-[18px]">dashboard</span><span>Tableau de bord</span></a><a class="bg-secondary-container text-primary font-semibold rounded-lg px-space-md py-space-sm flex items-center gap-space-sm" href="#"><span class="material-symbols-outlined text-[18px]">edit_document</span><span>Éditer les rapports</span></a><a class="text-text-muted hover:bg-page-bg hover:text-text-main rounded-lg px-space-md py-space-sm flex items-center gap-space-sm transition-all duration-150" href="#"><span class="material-symbols-outlined text-[18px]">account_balance</span><span>États financiers</span></a><a class="text-text-muted hover:bg-page-bg hover:text-text-main rounded-lg px-space-md py-space-sm flex items-center gap-space-sm transition-all duration-150" href="#"><span class="material-symbols-outlined text-[18px]">balance</span><span>Ratios prudentiels</span></a><a class="text-text-muted hover:bg-page-bg hover:text-text-main rounded-lg px-space-md py-space-sm flex items-center gap-space-sm transition-all duration-150" href="#"><span class="material-symbols-outlined text-[18px]">folder_zip</span><span>Export groupé (ZIP)</span></a><a class="text-text-muted hover:bg-page-bg hover:text-text-main rounded-lg px-space-md py-space-sm flex items-center gap-space-sm transition-all duration-150" href="#"><span class="material-symbols-outlined text-[18px]">history</span><span>Historique des éditions</span></a><a class="text-text-muted hover:bg-page-bg hover:text-text-main rounded-lg px-space-md py-space-sm flex items-center gap-space-sm transition-all duration-150" href="#"><span class="material-symbols-outlined text-[18px]">database</span><span>Données importées</span></a></div></div><div class="space-y-space-md pt-space-md border-t border-border-color"><div class="text-[11px] font-bold text-text-muted uppercase px-space-xs">Configuration</div><div class="space-y-1"><a class="text-text-muted hover:text-text-main rounded-lg px-space-md py-2 flex items-center gap-space-sm text-xs" href="#"><span class="material-symbols-outlined text-[16px]">calculate</span><span>Formules de calcul</span></a><a class="text-text-muted hover:text-text-main rounded-lg px-space-md py-2 flex items-center gap-space-sm text-xs" href="#"><span class="material-symbols-outlined text-[16px]">tune</span><span>Paramètres</span></a></div></div></aside>
+<!-- Canvas Area -->
+<main class="flex-1 overflow-y-auto p-margin flex flex-col gap-space-lg">
+<!-- Breadcrumbs & Page Header -->
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-space-md">
+<div>
+<div class="flex items-center gap-2 text-xs text-text-muted mb-1">
+<span>Accueil</span>
+<span class="material-symbols-outlined text-[12px]">chevron_right</span>
+<span>Reporting Réglementaire</span>
+<span class="material-symbols-outlined text-[12px]">chevron_right</span>
+<span class="text-text-main font-semibold">Éditer les rapports</span>
+</div>
+<h1 class="text-headline-lg font-headline-lg text-text-main">Éditer les rapports — Reporting Réglementaire BCEAO</h1>
+</div>
+</div>
+<!-- Main Grid Split -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-lg items-start">
+<!-- Left Sidebar Card (320px equivalent ~ 4 cols) -->
+<div class="lg:col-span-4 bg-card-bg border border-border-color rounded-xl p-space-md shadow-sm"><div class="flex items-center justify-between mb-space-md pb-3 border-b border-border-color"><h3 class="text-xs font-semibold uppercase tracking-wider text-text-muted">Rapports de la zone</h3><span class="text-[11px] bg-secondary-container text-primary px-2 py-0.5 rounded font-semibold">11 Rapports</span></div><div class="space-y-space-md"><div><div class="text-[11px] font-bold text-text-muted uppercase mb-2">Mensuel</div><div class="space-y-1.5"><div class="p-2.5 rounded-lg bg-page-bg border border-border-color flex items-center justify-between cursor-pointer hover:border-primary transition-all"><div class="flex items-center gap-2"><span class="material-symbols-outlined text-primary text-[18px]">description</span><div><div class="text-xs font-semibold text-text-main">Limitation des risques</div><div class="text-[10px] text-text-muted">Échéance: 10/11/2026</div></div></div><span class="px-2 py-0.5 text-[10px] font-semibold rounded bg-info-bg text-info-text">Validé</span></div><div class="p-2.5 rounded-lg bg-page-bg border border-border-color flex items-center justify-between cursor-pointer hover:border-primary transition-all"><div class="flex items-center gap-2"><span class="material-symbols-outlined text-primary text-[18px]">description</span><div><div class="text-xs font-semibold text-text-main">Prêts aux dirigeants</div><div class="text-[10px] text-text-muted">Échéance: 12/11/2026</div></div></div><span class="px-2 py-0.5 text-[10px] font-semibold rounded bg-warning-bg text-warning-text">Brouillon</span></div><div class="p-2.5 rounded-lg bg-page-bg border border-border-color flex items-center justify-between cursor-pointer hover:border-primary transition-all"><div class="flex items-center gap-2"><span class="material-symbols-outlined text-primary text-[18px]">description</span><div><div class="text-xs font-semibold text-text-main">Signature unique</div><div class="text-[10px] text-text-muted">Échéance: 14/11/2026</div></div></div><span class="px-2 py-0.5 text-[10px] font-semibold rounded bg-info-bg text-info-text">En cours</span></div><div class="p-2.5 rounded-lg bg-surface-container-low border border-primary flex items-center justify-between cursor-pointer shadow-sm"><div class="flex items-center gap-2"><span class="material-symbols-outlined text-primary text-[18px]">fact_check</span><div><div class="text-xs font-semibold text-text-main">Coefficient de liquidité</div><div class="text-[10px] text-text-muted">Échéance: 15/11/2026</div></div></div><span class="px-2 py-0.5 text-[10px] font-semibold rounded bg-warning-bg text-warning-text">En cours</span></div><div class="p-2.5 rounded-lg bg-page-bg border border-border-color flex items-center justify-between cursor-pointer hover:border-primary transition-all"><div class="flex items-center gap-2"><span class="material-symbols-outlined text-primary text-[18px]">description</span><div><div class="text-xs font-semibold text-text-main">Capitalisation</div><div class="text-[10px] text-danger font-medium">Échéance: 05/11/2026 (Retard)</div></div></div><span class="px-2 py-0.5 text-[10px] font-semibold rounded bg-danger-bg text-danger-text">En retard</span></div></div></div><div><div class="text-[11px] font-bold text-text-muted uppercase mb-2">Trimestriel</div><div class="space-y-1.5"><div class="p-2.5 rounded-lg bg-page-bg border border-border-color flex items-center justify-between cursor-pointer hover:border-primary transition-all"><div class="flex items-center gap-2"><span class="material-symbols-outlined text-text-muted text-[18px]">account_balance_wallet</span><div><div class="text-xs font-semibold text-text-main">Couverture MLT</div><div class="text-[10px] text-text-muted">Échéance: 30/11/2026</div></div></div><span class="px-2 py-0.5 text-[10px] font-semibold rounded bg-info-bg text-info-text">Validé</span></div><div class="p-2.5 rounded-lg bg-page-bg border border-border-color flex items-center justify-between cursor-pointer hover:border-primary transition-all"><div class="flex items-center gap-2"><span class="material-symbols-outlined text-text-muted text-[18px]">monitoring</span><div><div class="text-xs font-semibold text-text-main">Opérations autres</div><div class="text-[10px] text-text-muted">Échéance: 30/11/2026</div></div></div><span class="px-2 py-0.5 text-[10px] font-semibold rounded bg-warning-bg text-warning-text">Brouillon</span></div><div class="p-2.5 rounded-lg bg-page-bg border border-border-color flex items-center justify-between cursor-pointer hover:border-primary transition-all"><div class="flex items-center gap-2"><span class="material-symbols-outlined text-text-muted text-[18px]">monitoring</span><div><div class="text-xs font-semibold text-text-main">Participations</div><div class="text-[10px] text-text-muted">Échéance: 30/11/2026</div></div></div><span class="px-2 py-0.5 text-[10px] font-semibold rounded bg-surface-variant text-on-surface-variant">À faire</span></div><div class="p-2.5 rounded-lg bg-page-bg border border-border-color flex items-center justify-between cursor-pointer hover:border-primary transition-all"><div class="flex items-center gap-2"><span class="material-symbols-outlined text-text-muted text-[18px]">monitoring</span><div><div class="text-xs font-semibold text-text-main">Immobilisations</div><div class="text-[10px] text-text-muted">Échéance: 30/11/2026</div></div></div><span class="px-2 py-0.5 text-[10px] font-semibold rounded bg-surface-variant text-on-surface-variant">À faire</span></div></div></div><div><div class="text-[11px] font-bold text-text-muted uppercase mb-2">Annuel</div><div class="space-y-1.5"><div class="p-2.5 rounded-lg bg-page-bg border border-border-color flex items-center justify-between cursor-pointer hover:border-primary transition-all"><div class="flex items-center gap-2"><span class="material-symbols-outlined text-text-muted text-[18px]">assessment</span><div><div class="text-xs font-semibold text-text-main">Bilan</div><div class="text-[10px] text-text-muted">Échéance: 31/03/2027</div></div></div><span class="px-2 py-0.5 text-[10px] font-semibold rounded bg-surface-variant text-on-surface-variant">À faire</span></div><div class="p-2.5 rounded-lg bg-page-bg border border-border-color flex items-center justify-between cursor-pointer hover:border-primary transition-all"><div class="flex items-center gap-2"><span class="material-symbols-outlined text-text-muted text-[18px]">assessment</span><div><div class="text-xs font-semibold text-text-main">Récapitulatif des ratios</div><div class="text-[10px] text-text-muted">Échéance: 31/03/2027</div></div></div><span class="px-2 py-0.5 text-[10px] font-semibold rounded bg-warning-bg text-warning-text">Brouillon</span></div></div></div></div></div>
+<!-- Right Area -->
+<div class="lg:col-span-8 flex flex-col gap-space-lg">
+<!-- Report Header Card -->
+<div class="bg-card-bg border border-border-color rounded-xl p-space-md shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-space-md">
+<div class="space-y-1"><div class="flex items-center gap-2"><span class="text-xs font-bold text-primary">Instr. BCEAO n°010-08-2010, annexe V</span><span class="bg-warning-bg text-warning-text text-[11px] font-semibold px-2 py-0.5 rounded-full flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-warning"></span>à valider</span></div><h2 class="text-headline-lg font-headline-lg text-text-main">UEMOA-REP-PRU-05 — Coefficient de liquidité</h2><p class="text-xs text-text-muted">Référentiel : RCSFD</p></div>
+<div class="flex items-center gap-space-sm">
+<div class="flex items-center bg-page-bg border border-border-color rounded-lg px-3 py-1.5 text-xs font-semibold text-text-main">
+<span class="material-symbols-outlined text-[16px] mr-2 text-text-muted">calendar_month</span>
+<span>Octobre 2026</span>
+<span class="material-symbols-outlined text-[16px] ml-2 text-text-muted">expand_more</span>
+</div>
+<button class="bg-primary text-on-primary text-xs font-semibold px-4 py-2 rounded-lg hover:bg-primary-container transition-colors shadow-sm flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">refresh</span>
+                Générer
+              </button>
+</div>
+</div>
+<!-- KPI summary strip -->
+<!-- Results Table -->
+<div class="bg-card-bg border border-border-color rounded-xl shadow-sm overflow-hidden">
+<div class="p-space-md border-b border-border-color flex items-center justify-between">
+<h3 class="text-xs font-semibold uppercase tracking-wider text-text-muted">Résultat de l'édition</h3>
+<div class="text-xs text-text-muted">Valeurs en FCFA</div>
+</div>
+<div class="overflow-x-auto"><table class="w-full text-left border-collapse"><thead><tr class="bg-page-bg text-text-muted text-[11px] font-bold uppercase border-b border-border-color"><th class="py-3 px-4">Code</th><th class="py-3 px-4">Libellé</th><th class="py-3 px-4 text-right">N (Oct 2026)</th><th class="py-3 px-4 text-right">N-1 (Sep 2026)</th><th class="py-3 px-4 text-right">Variation</th><th class="py-3 px-4 text-center">Norme</th><th class="py-3 px-4 text-center">Conformité</th></tr></thead><tbody class="divide-y divide-border-color text-xs text-text-main"><tr class="h-[44px] hover:bg-page-bg transition-colors"><td class="py-2.5 px-4 font-semibold text-primary">R5_NUM</td><td class="py-2.5 px-4 font-medium">Valeurs réalisables et disponibles</td><td class="py-2.5 px-4 text-right font-semibold">1 842 600 000 FCFA</td><td class="py-2.5 px-4 text-right text-text-muted">1 760 200 000</td><td class="py-2.5 px-4 text-right text-success">+4,7 %</td><td class="py-2.5 px-4 text-center text-text-muted">-</td><td class="py-2.5 px-4 text-center">-</td></tr><tr class="h-[44px] hover:bg-page-bg transition-colors"><td class="py-2.5 px-4 font-semibold text-primary">R5_DEN</td><td class="py-2.5 px-4 font-medium">Passif exigible à 3 mois</td><td class="py-2.5 px-4 text-right font-semibold">1 523 400 000</td><td class="py-2.5 px-4 text-right text-text-muted">1 498 000 000</td><td class="py-2.5 px-4 text-right text-success">+1,7 %</td><td class="py-2.5 px-4 text-center text-text-muted">-</td><td class="py-2.5 px-4 text-center">-</td></tr><tr class="h-[44px] hover:bg-page-bg transition-colors"><td class="py-2.5 px-4 font-semibold text-primary">R5_COEF</td><td class="py-2.5 px-4 font-medium">Coefficient de liquidité</td><td class="py-2.5 px-4 text-right font-semibold">120,9 %</td><td class="py-2.5 px-4 text-right text-text-muted">117,5 %</td><td class="py-2.5 px-4 text-right text-text-muted">-</td><td class="py-2.5 px-4 text-center text-text-muted">&gt;= 100 %</td><td class="py-2.5 px-4 text-center"><span class="inline-block px-2 py-0.5 rounded text-[10px] font-semibold bg-success-bg text-success-text">Conforme</span></td></tr></tbody></table></div>
+</div>
+<!-- Panel "Contrôles de cohérence réglementaire BCEAO" -->
+<div class="bg-card-bg border border-border-color rounded-xl p-space-md shadow-sm">
+<div class="flex items-center justify-between mb-space-md pb-3 border-b border-border-color">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px]">verified_user</span>
+<h3 class="text-xs font-semibold uppercase tracking-wider text-text-muted">Contrôles de cohérence</h3>
+</div>
+<span class="text-xs font-semibold text-danger bg-danger-bg px-2.5 py-1 rounded">1 Anomalie Critique</span>
+</div>
+<div class="space-y-space-md">
+<!-- Check 1: Critical Failing -->
+<div class="p-3.5 rounded-lg bg-danger-bg border border-danger/30 flex items-start justify-between gap-4"><div class="flex items-start gap-3"><span class="material-symbols-outlined text-danger text-[20px] mt-0.5">error</span><div><div class="text-xs font-bold text-danger-text">Équilibre du bilan : écart de 12 500 FCFA</div><p class="text-[11px] text-text-main mt-0.5">Anomalie bloquante détectée sur la sommation des actifs et des passifs.</p></div></div><span class="px-2 py-0.5 text-[10px] font-semibold rounded bg-danger-bg text-danger-text">Non conforme</span></div>
+<!-- Check 2: Success -->
+<div class="p-3.5 rounded-lg bg-page-bg border border-border-color flex items-start justify-between gap-4">
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-success text-[20px] mt-0.5">check_circle</span>
+<div>
+<div class="text-xs font-bold text-text-main">Équilibre actif / passif</div>
+<p class="text-[11px] text-text-muted mt-0.5">Total actif = total passif sur la période.</p>
+</div>
+</div>
+<span class="text-xs text-success font-semibold flex items-center gap-1 self-center">
+<span class="material-symbols-outlined text-[14px]">done</span> Validé
+                </span>
+</div>
+<!-- Check 3: Warning -->
+<div class="p-3.5 rounded-lg bg-page-bg border border-border-color flex items-start justify-between gap-4">
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-warning text-[20px] mt-0.5">warning</span>
+<div>
+<div class="text-xs font-bold text-text-main">Évolution des créances en souffrance</div>
+<p class="text-[11px] text-text-muted mt-0.5">Hausse de 12% des impayés de classe 3 non provisionnés à 100%.</p>
+</div>
+</div>
+<button class="bg-card-bg text-text-main text-[11px] font-semibold px-3 py-1.5 rounded border border-border-color hover:bg-page-bg transition-colors shrink-0">
+                  Analyser
+                </button>
+</div>
+</div>
+</div>
+<!-- Action buttons footer -->
+<div class="bg-card-bg border border-border-color rounded-xl p-space-md shadow-sm flex flex-col sm:flex-row items-center justify-between gap-space-md">
+<div class="text-xs text-text-muted">
+              Statut actuel: <span class="font-semibold text-warning-text">Brouillon en cours de révision</span>
+</div>
+<div class="flex flex-wrap items-center gap-space-sm w-full sm:w-auto justify-end">
+<div class="relative inline-block text-left">
+<button class="bg-card-bg border border-border-color text-text-main text-xs font-semibold px-4 py-2.5 rounded-lg hover:bg-page-bg transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">download</span>
+                  Exporter
+                  <span class="material-symbols-outlined text-[16px]">expand_more</span>
+</button>
+</div>
+<button class="bg-card-bg border border-border-color text-text-main text-xs font-semibold px-4 py-2.5 rounded-lg hover:bg-page-bg transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">rule</span>
+                Valider en interne
+              </button>
+<button class="bg-card-bg border border-border-color text-text-main text-xs font-semibold px-4 py-2.5 rounded-lg hover:bg-page-bg transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">lock</span>
+                Clôturer la période
+              </button>
+<button class="bg-primary text-on-primary text-xs font-semibold px-5 py-2.5 rounded-lg hover:bg-primary-container transition-colors shadow-sm flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">send</span>
+                Soumettre à la BCEAO
+              </button>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

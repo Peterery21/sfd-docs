@@ -46,3 +46,28 @@ Les textes de badge utilisent toujours la teinte foncée (WCAG AA).
 - Validation bloquée tant qu'un contrôle de cohérence de niveau CRITIQUE est en échec (voir `edition`).
 - Formules : libellé métier en premier, code en second ; origine = badge PAQUET (gris) / PERSONNALISEE (alerte) / AJOUTEE (info) ; « En clair » = `libelleClair` ; aperçu en direct = `ApercuFormuleDto`.
 - Menu « Données importées » visible seulement en mode STANDALONE.
+
+## Designs Stitch (MCP `mcp__stitch__*`)
+Projet Stitch « EDIP — Reporting réglementaire » : `projects/770809064070056787` ([ouvrir](https://stitch.withgoogle.com/projects/770809064070056787)).
+Design system (créé depuis `.stitch/DESIGN.md`, desktop) : `assets/016cc0a5f4f347fbb040973be5ff767d`.
+Fichiers : `stitch/<ecran>.html` + `stitch/<ecran>.png` (2560 px de large = rendu desktop Stitch ; modèle Gemini 3.5 Flash-Lite, le modèle par défaut expire).
+
+| Écran | Fichiers `stitch/` | ID écran Stitch |
+|---|---|---|
+| Tableau de bord | `dashboard` | `b0d5deb4a7f944fa960c2a3fdbd77890` |
+| Éditer les rapports | `edition` | `fc7b4735ad234b039db71d4cdaa2fa60` |
+| Formules de calcul | `formules` | `0a3185b529994f389e747f1caed1d96a` |
+| États financiers | `etats-financiers` | `133787e2a710406e8c82dd2958fe530c` |
+| Export groupé (ZIP) | `export-zip` | `825e3909a4694b7dab7eecea1f3ea7d8` |
+| Données importées | `donnees-importees` | `425724baec514b99b4ec8a142a1fe8f6` |
+| Paramètres | `parametres` | `bf45df92567a4808bab758f47ee317a8` |
+| Historique des éditions | `historique` | `21545dcda90547e0a80d4791696feb56` |
+| Ratios prudentiels (nouveau) | `ratios-prudentiels` | `c09195d7effb43f5974ed3ebde15b0c4` |
+
+Lien d'un écran : `https://stitch.withgoogle.com/projects/770809064070056787?node-id=<ID>`.
+
+Chaque `edit_screens` de Stitch crée en général une nouvelle version d'écran (nouvel id) : les ids ci-dessus sont les versions finales (v2 corrigée après revue de contenu). Les anciennes versions restent dans le projet.
+
+Corrections de fond appliquées (revue orchestrateur) : menu et bandeau du module, normes UEMOA exactes (Instr. 010-08-2010 et 016-12-2010, codes `UEMOA-REP-PRU-01…10`), lignes `R5_NUM/R5_DEN/R5_COEF`, comptes RCSFD (10 Valeurs en caisse, 11 Banques, 25 Comptes des membres), statuts du contrat (À faire, Brouillon, En cours, Validé, Soumis, Clôturé, Rejeté), exports PDF/Excel uniquement, plus de XBRL, de « synchronisé » ni d'agrément.
+
+Limites : les valeurs chiffrées, les noms de signataires et les dates sont des **données de démonstration** ; la page est à lire comme une maquette de structure. `edition` : le tableau ne montre que le rapport sélectionné (PRU-05). Écarts possibles restants : certains libellés de contrôle (« Évolution des créances en souffrance ») et le bloc « Indicateurs UEMOA clés » du tableau de bord sont de remplissage Stitch, non issus du contrat. Les anciennes maquettes S3 (`../*.html`) restent la référence de contenu.
