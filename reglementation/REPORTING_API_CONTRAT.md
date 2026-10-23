@@ -146,7 +146,7 @@ ValidationFormuleRequest { codeRapport; codeLigne?; comptes?; expression? }
 ValidationFormuleDto { valide: boolean; libelleClair: string;
   erreurs: { type: 'SYNTAXE'|'REFERENCE_INCONNUE'|'CYCLE'|'DIVISION_ZERO_POSSIBLE'|'COMPTE_INCONNU'; message: string; token?: string }[] }
 ApercuFormuleRequest { codeRapport; formule: FormuleSaisieDto; periodeDebut: string; periodeFin: string; codeAgence?: string }
-ApercuFormuleDto { valeur: number|null; conformite: 'CONFORME'|'NON_CONFORME'|'SANS_NORME'; erreurs: string[];
+ApercuFormuleDto { valeur: number|null; conformite: 'CONFORME'|'NON_CONFORME'|'SANS_NORME'|'ERREUR'; erreurs: string[];
   contributeurs: { compte: string; libelle: string; solde: number }[] }
 HistoriqueFormuleDto { date; utilisateur; action: 'MODIFICATION'|'REINITIALISATION'|'CREATION'|'SUPPRESSION'; avant: Partial<FormuleSaisieDto>; apres: Partial<FormuleSaisieDto> }
 ```
