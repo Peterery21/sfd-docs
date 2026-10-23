@@ -43,6 +43,27 @@ Ce registre se remplit au fil de l'implémentation et sera remis en fin de proje
 | O3 | TFT association SYCEBNL (FE-FH) et TRT : aucune table officielle. | Choix produit. | ETF-113 |
 | O4 | Un SFD associatif doit-il aussi produire des états OHADA ? | Non (AUDCIF art. 5, SYCEBNL art. 2), sauf DSF fiscale. | ETF-119/120 |
 
+## Moteur de calcul (S4) : règles à valider
+| # | Point | Retenu provisoirement |
+|---|---|---|
+| M1 | Solde d'un compte = débit − crédit, lu selon le sens de la ligne (D/SOLDE : débit − crédit ; C : crédit − débit). | Règle appliquée partout. |
+| M2 | Préfixe `-` (provisions, amortissements) : on déduit −\|solde\| ; un compte couvert à la fois par `+` et `-` (ex. `11,-119`) est compté une seule fois, en déduction. | Oui. |
+| M3 | Compte de résultat infra-annuel : solde cumulé depuis l'ouverture de l'exercice, ou mouvement de la seule période ? | Cumul. |
+| M4 | Variation = (N − N-1) / \|N-1\| × 100 ; certains états demandent-ils une variation absolue ? | Relative. |
+| M5 | Contrôle « encours crédit du rapport = module Crédit » : quels postes comparer (net ou brut, comptes ordinaires débiteurs) ? | ALERTE, pas CRITIQUE ; tolérance 0,01. |
+| M6 | Catégories d'assujetti : celles du paquet UEMOA (`MUTUALISTE_AFFILIEE`…) ne coïncident pas avec `categorieAssujetti` (ART44, IMF…). | La norme générale s'applique tant que les listes ne sont pas alignées. |
+| M7 | Plages `exclut` CEMAC « A à B » lues comme les sous-comptes de réseau dont le 5e chiffre est 9. | Oui. |
+| M8 | Lignes avec des comptes mais sans `sens` (OHADA N34, UEMOA D1E_HORS_PART). | ERREUR, aucune inférence. |
+
+## Lacunes des paquets et des modules constatées par le moteur
+- **Aucun ratio prudentiel UEMOA n'est calculable** (R1, R3 à R6, R8 à R10). Ils dépendent de DIMF-2000-BIL B2N, F1A et G10, lignes sans formule, et des totaux absents I11, I12 et I13. Seul R7 se calcule. Il faut fournir ces lignes et leur hiérarchie parent/filles.
+- Lignes calculables : UEMOA 429 sur 602, CEMAC 397 sur 467, RDC 70 sur 98, OHADA 290 sur 452. Le reste est sans formule ou dépend d'une ligne sans formule.
+- UEMOA allégée : D1E, D1L, D32 à D35 portent `NON_TROUVE` ; R2 en dépend.
+- CEMAC : XG07 (62) recouvre XG06 (624), d'où un double comptage dans XG01.
+- RDC : 46 et 47 sont lus en C au passif et en D à l'actif ; un solde débiteur apparaît donc négatif au passif. Il faut des suffixes dr/cr.
+- 18 données CROSS_SERVICE CEMAC, dont 15 ne sont pas branchées : provisions complémentaires, plus gros risques, participations, capital libéré, membres H/F, encours de dépôts, taux. Il faut décider quel module les fournit.
+- Comptabilité : pas de balance consolidée sans agence ni à une date donnée, et appel N+1 lent (timeout 60 s).
+
 ## Transverse
 - T1 Mapping des secteurs du wizard : ENTREPRISE et ASSOCIATION → paquet OHADA (SYSCOHADA ou SYCEBNL), quel que soit le pays ; ASSURANCE → suit la zone, sans paquet dédié (décision S2, non sourcée).
 - T2 Périodicités libres (« NON TROUVÉ ») normalisées en `A_CONFIRMER`.
