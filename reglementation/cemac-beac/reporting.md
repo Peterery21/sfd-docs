@@ -742,3 +742,33 @@ Patches appliqués à `paquet-draft.yml` : NJ09 et HK08 en `<=` (+ 65 % affilié
 - BIC : Instr. BEAC 014/2020 non lue.
 - FOGADAC : textes 2025 primaires à lire pour confirmer l'exclusion EMF.
 - Surcharges GA, CG, TD, CF, GQ ; délais de publication des comptes annuels.
+
+## Complément 2026-10-23 : barème de provisionnement EMF (recherche Tavily, scan primaire relu)
+**Le texte en vigueur est le règlement COBAC EMF R-2017/07** (classification, comptabilisation et provisionnement des créances des EMF). Son art. 30 abroge le R-2002/18. Le barème 15/45/75/100 % cité plus haut est donc **périmé**.
+Source : scan primaire, copie tierce http://kalieu-elongo.com/wp-content/uploads/2018/07/reglement_cobac_emf_r-2017_07_relatif_a_la_classification_a_la_comptabilisation_et_au_provisionnement_des_creances_des_emf.pdf (pages 2 à 9). Les EMF l'appliquent bien : états financiers de La Régionale 2020 et document d'information ACEP 2025 (bvm-ac.org).
+
+| Classe | Critère | Provision | Article |
+|---|---|---|---|
+| Impayées | Échéance impayée depuis 45 jours au plus (90 jours pour l'immobilier) | Aucun taux dans le texte | art. 7 |
+| Immobilisées | Créances sur l'État ou garanties par lui, échues depuis plus de 45 jours | Facultative | art. 6, 17-1 |
+| Douteuses | Impayé de plus de 45 jours (90 pour l'immobilier), contentieux ou déchéance du terme. Contagion à tout l'encours de la contrepartie | Voir les lignes suivantes | art. 8, 9 |
+| Douteuses couvertes par des garanties 1-2 (espèces, nantissement de titres d'État) | — | 0 % | art. 17-2a |
+| Douteuses couvertes par des garanties 3-5 (contre-garantie d'établissement de crédit CEMAC, garantie multilatérale, sûretés réelles dont hypothèque de 1er ou 2e rang) | — | 25 % la 1re année, 50 % la 2e, 75 % la 3e, 100 % la 4e (taux cumulés, appliqués aux risques bruts) | art. 17-2b, 18, 21 |
+| Douteuses sans garantie éligible (y compris les cautions personnelles) | — | 100 % dans un délai d'un an au plus | art. 17-2c |
+| Douteuses partiellement couvertes | — | 100 % de la part non couverte dans un délai d'un an | art. 17-2d |
+
+Autres règles :
+- Une créance entièrement provisionnée depuis plus de 3 ans passe en irrécouvrable (art. 10).
+- Les EMF déjà en activité disposent d'une transition de 24 mois (art. 28).
+
+**Calcul retenu pour EDIP** (c'est une inférence ; aucun texte ne définit les « provisions complémentaires ») :
+- CS02 = somme, par contrepartie douteuse, de trois termes :
+  - 100 % de la part non couverte ;
+  - le taux cumulé (selon l'année depuis le déclassement) appliqué à la part couverte par des garanties 3-5 ;
+  - 0 % de la part couverte par des garanties 1-2.
+- JT18, KL19 et VL08 = provisions requises moins provisions constituées (compte 39 et assimilés), avec un plancher à 0.
+
+Confiance :
+- **HAUTE** : abrogation du R-2002/18, seuils, taux.
+- **MOYENNE** : définition des provisions complémentaires.
+- Le texte ne repose que sur une source primaire, non recoupée sur sgcobac.org ni beac.int.
