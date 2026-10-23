@@ -193,7 +193,7 @@ ImportLotDto { id; periodeFin; importeLe; importePar; nbComptes; equilibree: boo
 EtatFinancierDto { type; referentiel: string; periodeFin; source: 'INTEGRE'|'STANDALONE'; equilibre: boolean|null;
   lignes: { code; libelle; niveau: number; brut?: number; amortProv?: number; net: number; netN1?: number; note?: string }[] }
 ```
-En mode intégré, les données viennent des endpoints compta (`/etats-financiers/*`). En mode standalone, elles viennent des formules du rapport EF du paquet, appliquées à la balance importée.
+(v1.2, décision orchestrateur) Les deux modes passent par le moteur, avec les formules des rapports EF du paquet de la zone. En INTEGRE, il s'applique à la balance de reporting compta (`GET /comptabilite/reporting/balance`, consolidée ou par agence). En STANDALONE, il s'applique à la balance importée. Les endpoints compta `/etats-financiers/*` (par exercice et par agence) restent réservés aux écrans compta. Chaque ligne peut porter un `erreur?: string` ; dans ce cas `net` vaut null.
 
 ## 4. Règles communes
 - Les erreurs suivent le format standard du service (`message` lisible, i18n côté Angular).
