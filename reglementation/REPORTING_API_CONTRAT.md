@@ -1,4 +1,4 @@
-# Refonte reporting réglementaire : contrat d'API et format des paquets (v1, 2026-10-23)
+# Refonte reporting réglementaire : contrat d'API et format des paquets (v1.1, 2026-10-23)
 
 Ce contrat est fixé par l'orchestrateur et lie toutes les sessions : backend (S2, S4, S6) et Angular (S5, S7). On ne le modifie pas sans passer par l'orchestrateur. Préfixe : `/api/reporting`.
 
@@ -70,6 +70,15 @@ ajouter: [ {rapport complet au format ci-dessus} ]
 modifier: [ {code: <rapport>, lignes: [ {code: <ligne>, ...champs remplacés} ] } ]
 desactiver: [<code rapport>]
 ```
+
+### Syntaxe des expressions (v1.1 : normalisée par `outils/convert_paquets.py`)
+- **Tokenisation par plus long code connu.** Les codes peuvent contenir `-` (`N34-EBE`, `UEMOA-REP-PRU-05`). Le moteur reconnaît donc d'abord le plus long code connu à la position courante, et ne lit `-` comme opérateur que dans les autres cas. Ne jamais découper sur les espaces.
+- **Référence locale** : `CODE`, une ligne du même rapport.
+- **Référence qualifiée** : `RAPPORT.LIGNE`. Le convertisseur qualifie toute référence hors du rapport, si bien qu'aucune référence implicite ne reste dans les paquets.
+- **Alias** : `@NOM`, résolu par le `alias` du package.yml selon `ReportingParametre.categorieAssujetti`. Par exemple, `@FPN` vaut `CEMAC-REP-006.JT24` en CAT1 et `CEMAC-REP-007.KL25` par défaut.
+- **Période précédente** : suffixe `[N-1]` (`EBNL-A-BILAN-ACTIF.BX[N-1]`).
+- **Fonctions** : `MIN(a,b)`, `MAX(a,b)`. Opérateurs : `+ - * / ( )`. Constantes décimales autorisées.
+- **Ligne sans `comptes`, sans `expression` ni `sourceDonnees`** : c'est une lacune du paquet. Le moteur renvoie `conformite: ERREUR` avec le message « formule non définie », jamais 0. Certaines lignes sont dans ce cas, par exemple UEMOA DIMF-2000-BIL B2N, F1A et G10, ainsi que les totaux de DIMF-2011, DIMF-2012 et DIMF-2013. S2 et S4 les complètent en appliquant « parent = somme des filles » lorsque les lignes filles existent ; sinon, elles passent en CROSS_SERVICE.
 
 ### Instanciation (façon l10n d'Odoo)
 - `LocalisationRegistry` parse le paquet une seule fois au démarrage. Il garde une map immuable, avec un checksum SHA-256 par rapport et par ligne.
