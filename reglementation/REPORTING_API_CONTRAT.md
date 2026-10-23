@@ -164,7 +164,8 @@ HistoriqueFormuleDto { date; utilisateur; action: 'MODIFICATION'|'REINITIALISATI
 StatutRapportPeriodeDto { codeRapport; libelle; periodicite; echeance: string|null; enRetard: boolean;
   derniereEditionId: number|null; statut: 'A_FAIRE'|'BROUILLON'|'EN_COURS'|'VALIDE'|'SOUMIS'|'CLOTURE'|'REJETE'; scoreQualite: number|null }
 ControleCoherenceDto { code; libelle; niveau: 'CRITIQUE'|'ALERTE'|'INFO'; ok: boolean; valeurRapport?: number; valeurReference?: number; ecart?: number; source: string }
-ExportZipRequest { periodeDebut; periodeFin; codesRapport: string[]; formats: ('PDF'|'XLSX')[]; genererManquants: boolean }
+ExportZipRequest { periodeDebut?; periodeFin; codesRapport: string[]; formats: ('PDF'|'XLSX')[]; genererManquants: boolean }
+// periodeDebut absent : chaque rapport prend le début propre à sa périodicité (MENSUELLE 1 mois, TRIMESTRIELLE 3, SEMESTRIELLE 6, ANNUELLE 12, autre 1) ; manifest.rapports[].periodeDebut par rapport.
 ```
 `RapportLigneDto` reçoit en plus : `valeurPrecedente`, `variation`, `conformite: 'CONFORME'|'NON_CONFORME'|'SANS_NORME'|'ERREUR'`, `erreur?: string`, `confiance`.
 
