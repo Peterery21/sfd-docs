@@ -64,6 +64,11 @@ Ce registre se remplit au fil de l'implémentation et sera remis en fin de proje
 - 18 données CROSS_SERVICE CEMAC, dont 15 ne sont pas branchées : provisions complémentaires, plus gros risques, participations, capital libéré, membres H/F, encours de dépôts, taux. Il faut décider quel module les fournit.
 - Comptabilité : pas de balance consolidée sans agence ni à une date donnée, et appel N+1 lent (timeout 60 s).
 
+## États financiers et exports (S6)
+- E1 : il existe deux TFT/CAFG. La liasse compta (écran compta SYSCOHADA) et `SYSN-TFT` du paquet (états réglementaires) peuvent diverger. Pour le régulateur, c'est le paquet qui fait foi ; la liasse compta reste un outil de gestion.
+- E2 : en balance consolidée, les comptes de liaison inter-agences ne sont pas éliminés. Les soldes sont justes, mais les totaux débit et crédit sont gonflés.
+- E3 : la pièce « Détermination du résultat » (clôture) est exclue de la balance de reporting au 31/12, pour garder les classes 6 et 7 ; à-nouveaux et régularisations conservés.
+
 ## Transverse
 - T1 Mapping des secteurs du wizard : ENTREPRISE et ASSOCIATION → paquet OHADA (SYSCOHADA ou SYCEBNL), quel que soit le pays ; ASSURANCE → suit la zone, sans paquet dédié (décision S2, non sourcée).
 - T2 Périodicités libres (« NON TROUVÉ ») normalisées en `A_CONFIRMER`.
