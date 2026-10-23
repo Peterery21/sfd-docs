@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+
+<html class="h-full" lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SFD UEMOA Reporting BCEAO - Togo (XOF)</title>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "outline": "#75777d",
+            "inverse-on-surface": "#f2f0f2",
+            "inverse-surface": "#303032",
+            "info-text": "#0369a1",
+            "warning": "#f59e0b",
+            "surface-container-low": "#f5f3f5",
+            "tertiary": "#4d3a1c",
+            "on-error": "#ffffff",
+            "on-primary-fixed": "#0d1c2e",
+            "secondary-fixed-dim": "#b7c8e1",
+            "on-tertiary-container": "#e2c59d",
+            "inverse-primary": "#b9c7df",
+            "primary-container": "#475569",
+            "surface-tint": "#515f74",
+            "on-secondary": "#ffffff",
+            "on-secondary-fixed": "#0b1c30",
+            "text-main": "#212529",
+            "primary-fixed": "#d5e3fc",
+            "on-tertiary-fixed-variant": "#574325",
+            "info": "#0ea5e9",
+            "success-bg": "#d1fae5",
+            "secondary-container": "#d0e1fb",
+            "primary": "#303e51",
+            "surface-container-highest": "#e4e2e3",
+            "primary-fixed-dim": "#b9c7df",
+            "info-bg": "#e0f2fe",
+            "surface-dim": "#dbd9db",
+            "error": "#ba1a1a",
+            "background": "#fbf9fa",
+            "surface-container": "#efedef",
+            "danger": "#ef4444",
+            "on-primary-fixed-variant": "#3a485b",
+            "border-color": "#e9ebec",
+            "surface-container-high": "#eae7e9",
+            "surface": "#fbf9fa",
+            "on-tertiary": "#ffffff",
+            "warning-bg": "#fef3c7",
+            "tertiary-container": "#665131",
+            "tertiary-fixed-dim": "#dfc29a",
+            "on-primary-container": "#bbcae1",
+            "danger-bg": "#fee2e2",
+            "surface-variant": "#e4e2e3",
+            "on-tertiary-fixed": "#281901",
+            "on-primary": "#ffffff",
+            "on-error-container": "#93000a",
+            "text-muted": "#64748b",
+            "surface-bright": "#fbf9fa",
+            "success": "#10b981",
+            "on-secondary-fixed-variant": "#38485d",
+            "on-secondary-container": "#54647a",
+            "on-background": "#1b1b1d",
+            "card-bg": "#ffffff",
+            "on-surface": "#1b1b1d",
+            "secondary-fixed": "#d3e4fe",
+            "secondary": "#505f76",
+            "warning-text": "#b45309",
+            "tertiary-fixed": "#fcdeb4",
+            "error-container": "#ffdad6",
+            "danger-text": "#b91c1c",
+            "on-surface-variant": "#44474c",
+            "outline-variant": "#c4c6cd",
+            "surface-container-lowest": "#ffffff",
+            "success-text": "#047857",
+            "page-bg": "#f3f6f9"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.125rem",
+            "lg": "0.25rem",
+            "xl": "0.5rem",
+            "full": "0.75rem"
+          },
+          "spacing": {
+            "margin": "1.5rem",
+            "gutter": "1rem",
+            "space-xs": "0.25rem",
+            "space-md": "1rem",
+            "space-lg": "1.5rem",
+            "space-xl": "2rem",
+            "space-sm": "0.5rem"
+          },
+          "fontFamily": {
+            "body": ["Open Sans"],
+            "headline-lg": ["Open Sans"],
+            "body-sm": ["Open Sans"],
+            "label": ["Open Sans"],
+            "kpi-value": ["Open Sans"]
+          },
+          "fontSize": {
+            "body": ["13px", { "lineHeight": "18px", "fontWeight": "400" }],
+            "headline-lg": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+            "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+            "label": ["13px", { "lineHeight": "16px", "letterSpacing": "0.03em", "fontWeight": "600" }],
+            "kpi-value": ["18px", { "lineHeight": "24px", "fontWeight": "600" }]
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-page-bg text-on-background font-body h-full flex flex-col overflow-x-hidden antialiased">
+<!-- TopNavBar -->
+<header class="w-full flex justify-between items-center px-margin py-space-sm bg-card-bg dark:bg-inverse-surface shadow-[0_1px_2px_rgba(56,65,74,0.15)] dark:shadow-none z-50 fixed top-0 left-0 right-0">
+<div class="flex items-center gap-space-lg">
+<div class="text-headline-lg font-headline-lg font-bold text-primary dark:text-primary-fixed flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-xl" data-icon="account_balance">account_balance</span>
+<span>SFD UEMOA Reporting BCEAO - Togo (XOF)</span>
+</div>
+<div class="relative hidden lg:block w-72">
+<span class="material-symbols-outlined absolute left-3 top-2.5 text-outline text-sm" data-icon="search">search</span>
+<input class="w-full pl-9 pr-4 py-1.5 bg-page-bg dark:bg-surface-variant text-body rounded-lg border border-border-color dark:border-outline-variant focus:outline-none focus:ring-1 focus:ring-primary" placeholder="Rechercher un rapport, un ratio..." type="text"/>
+</div>
+</div>
+<div class="hidden md:flex items-center gap-space-lg">
+<nav class="flex items-center gap-space-lg">
+<a class="text-primary dark:text-primary-fixed font-label border-b-2 border-primary dark:border-primary-fixed pb-1" href="#">Tableau de bord</a>
+<a class="text-secondary dark:text-on-surface-variant font-body hover:text-primary dark:hover:text-primary-fixed transition-colors duration-150" href="#">Rapports BCEAO</a>
+<a class="text-secondary dark:text-on-surface-variant font-body hover:text-primary dark:hover:text-primary-fixed transition-colors duration-150" href="#">Comptabilité</a>
+<a class="text-secondary dark:text-on-surface-variant font-body hover:text-primary dark:hover:text-primary-fixed transition-colors duration-150" href="#">Prudence &amp; Ratios</a>
+<a class="text-secondary dark:text-on-surface-variant font-body hover:text-primary dark:hover:text-primary-fixed transition-colors duration-150" href="#">Audit &amp; Contrôle</a>
+</nav>
+<div class="h-6 w-px bg-border-color"></div>
+<div class="flex items-center gap-space-sm">
+<button class="p-2 text-secondary hover:text-primary rounded-lg hover:bg-page-bg transition-colors" title="Notifications">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="p-2 text-secondary hover:text-primary rounded-lg hover:bg-page-bg transition-colors" title="Aide">
+<span class="material-symbols-outlined" data-icon="help_outline">help_outline</span>
+</button>
+<button class="p-2 text-secondary hover:text-primary rounded-lg hover:bg-page-bg transition-colors" title="Paramètres">
+<span class="material-symbols-outlined" data-icon="tune">tune</span>
+</button>
+</div>
+<div class="flex items-center gap-space-sm pl-2">
+<img class="w-8 h-8 rounded-full object-cover border border-border-color" data-alt="Professional portrait of a male financial administrator in a corporate back office setting in Lomé, Togo, wearing a neat suit and tie, smiling confidently while reviewing regulatory documents." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCvJBLLmpZ8_5o5k2j8_zuzitg93v_3akTYUsBgzncm2fet3oLJ_Px-O9-GHjTmequulTjsA1yALlZPe1tVLm3Bxg2fgyWcEMvtMwN4DQcgixmfs2Ve8_HvPO9nQaK7FhIzlryJ0HdceQ6QZD9HiLPk2uM3XtMwvbb_cwiH_mQAMOnhXV8ZtjKZ0SNX4WDtim1v_a9huT95PpimNmQmLIdx_g8O8CHrK-_rloJCWvsEONpUH5k43GZt_vwvEifqkhzSTYFnZ6xXTQ"/>
+<div class="hidden xl:block text-left">
+<p class="text-label font-label text-text-main">K. Mensah</p>
+<p class="text-[11px] text-text-muted">Admin Financier</p>
+</div>
+</div>
+</div>
+</header>
+<div class="flex flex-1 pt-14">
+<!-- SideNavBar -->
+<aside class="fixed top-14 left-0 h-[calc(100vh-3.5rem)] w-72 flex flex-col justify-between border-r border-border-color dark:border-outline-variant bg-card-bg dark:bg-inverse-surface z-40 p-space-md overflow-y-auto hidden md:flex">
+<div>
+<div class="flex items-center gap-space-sm mb-space-lg p-2 bg-page-bg rounded-lg border border-border-color">
+<div class="w-10 h-10 rounded bg-primary-container text-white flex items-center justify-center font-bold text-sm">TG</div>
+<div>
+<h2 class="text-label font-label text-text-main">SFD Microfinance Togo</h2>
+<p class="text-[11px] text-text-muted">Agrément BCEAO N° TG/042-SFD</p>
+</div>
+</div>
+<nav class="space-y-1">
+<a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg bg-secondary-container dark:bg-primary-container text-primary dark:text-inverse-primary font-label" href="#">
+<span class="material-symbols-outlined" data-icon="calendar_month">calendar_month</span>
+<span>États Mensuels (M-Dec)</span>
+</a>
+<a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-secondary dark:text-on-surface-variant font-body hover:bg-page-bg dark:hover:bg-surface-container-high hover:text-primary transition-all duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="date_range">date_range</span>
+<span>États Trimestriels (T4)</span>
+</a>
+<a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-secondary dark:text-on-surface-variant font-body hover:bg-page-bg dark:hover:bg-surface-container-high hover:text-primary transition-all duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="account_balance">account_balance</span>
+<span>États Annuels BCEAO</span>
+</a>
+<a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-secondary dark:text-on-surface-variant font-body hover:bg-page-bg dark:hover:bg-surface-container-high hover:text-primary transition-all duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="verified">verified</span>
+<span>Ratios Prudentiels</span>
+</a>
+<a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-secondary dark:text-on-surface-variant font-body hover:bg-page-bg dark:hover:bg-surface-container-high hover:text-primary transition-all duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="rule">rule</span>
+<span>Contrôles de Cohérence</span>
+</a>
+<a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-secondary dark:text-on-surface-variant font-body hover:bg-page-bg dark:hover:bg-surface-container-high hover:text-primary transition-all duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="history">history</span>
+<span>Historique &amp; Dépôts</span>
+</a>
+</nav>
+</div>
+<div class="pt-space-md border-t border-border-color space-y-2">
+<button class="w-full py-2 px-3 bg-primary text-white rounded-lg text-label font-label flex items-center justify-center gap-space-sm hover:bg-primary-container transition-colors shadow-sm">
+<span class="material-symbols-outlined text-sm" data-icon="add_circle">add_circle</span>
+<span>Générer Nouveau Rapport</span>
+</button>
+<div class="space-y-1 pt-2">
+<a class="flex items-center gap-space-sm px-2 py-1.5 rounded text-secondary hover:text-primary text-body" href="#">
+<span class="material-symbols-outlined text-sm" data-icon="settings">settings</span>
+<span>Paramètres SFD</span>
+</a>
+<a class="flex items-center gap-space-sm px-2 py-1.5 rounded text-secondary hover:text-primary text-body" href="#">
+<span class="material-symbols-outlined text-sm" data-icon="support_agent">support_agent</span>
+<span>Support Réglementaire</span>
+</a>
+</div>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="flex-1 md:ml-72 p-margin space-y-space-lg pb-16">
+<!-- Breadcrumb Header -->
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-space-md bg-card-bg p-space-lg rounded-xl border border-border-color shadow-[0_1px_2px_rgba(56,65,74,0.15)]">
+<div>
+<div class="flex items-center gap-space-sm text-text-muted text-body mb-1">
+<span>Tableau de bord</span>
+<span class="material-symbols-outlined text-xs" data-icon="chevron_right">chevron_right</span>
+<span class="text-primary font-semibold">Reporting Réglementaire BCEAO</span>
+</div>
+<h1 class="text-headline-lg font-headline-lg text-text-main">Tableau de bord — Reporting Réglementaire BCEAO</h1>
+<p class="text-body text-text-muted mt-1">Zone UEMOA · Togo (TG014) | Arrêté au 31 Décembre 2026</p>
+</div>
+<div class="flex items-center gap-space-sm">
+<button class="px-space-md py-2 border border-border-color rounded-lg text-body font-label text-secondary hover:bg-page-bg transition-colors flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-sm" data-icon="download">download</span>
+<span>Exporter XBRL/PDF</span>
+</button>
+<button class="px-space-md py-2 bg-primary text-white rounded-lg text-body font-label hover:bg-primary-container transition-colors flex items-center gap-space-xs shadow-sm">
+<span class="material-symbols-outlined text-sm" data-icon="send">send</span>
+<span>Soumettre BCEAO</span>
+</button>
+</div>
+</div>
+<!-- KPI Strip -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-md">
+<!-- KPI 1 -->
+<div class="bg-card-bg p-space-lg rounded-xl border border-border-color shadow-[0_1px_2px_rgba(56,65,74,0.15)] flex items-center justify-between">
+<div>
+<p class="text-text-muted text-body uppercase tracking-wider">Rapports à faire</p>
+<h3 class="text-kpi-value font-kpi-value text-text-main text-2xl mt-1">5</h3>
+<p class="text-[11px] text-text-muted mt-1">Échéances du cycle en cours</p>
+</div>
+<div class="p-3 bg-secondary-container text-primary rounded-xl flex items-center justify-center">
+<span class="material-symbols-outlined text-2xl" data-icon="assignment">assignment</span>
+</div>
+</div>
+<!-- KPI 2 -->
+<div class="bg-card-bg p-space-lg rounded-xl border border-border-color shadow-[0_1px_2px_rgba(56,65,74,0.15)] flex items-center justify-between">
+<div>
+<p class="text-text-muted text-body uppercase tracking-wider">En retard</p>
+<h3 class="text-kpi-value font-kpi-value text-danger-text text-2xl mt-1">2</h3>
+<p class="text-[11px] text-danger-text mt-1">Nécessite régularisation urgente</p>
+</div>
+<div class="p-3 bg-danger-bg text-danger-text rounded-xl flex items-center justify-center">
+<span class="material-symbols-outlined text-2xl" data-icon="warning">warning</span>
+</div>
+</div>
+<!-- KPI 3 -->
+<div class="bg-card-bg p-space-lg rounded-xl border border-border-color shadow-[0_1px_2px_rgba(56,65,74,0.15)] flex items-center justify-between">
+<div>
+<p class="text-text-muted text-body uppercase tracking-wider">Ratios conformes</p>
+<h3 class="text-kpi-value font-kpi-value text-success-text text-2xl mt-1">7 / 9</h3>
+<p class="text-[11px] text-success-text mt-1">2 alertes de seuil mineures</p>
+</div>
+<div class="p-3 bg-success-bg text-success-text rounded-xl flex items-center justify-center">
+<span class="material-symbols-outlined text-2xl" data-icon="check_circle">check_circle</span>
+</div>
+</div>
+</div>
+<!-- Two-column or structured layout -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-space-lg">
+<!-- Left Column (Wider - 2 cols) -->
+<div class="lg:col-span-2 space-y-space-lg">
+<div class="bg-card-bg rounded-xl border border-border-color shadow-[0_1px_2px_rgba(56,65,74,0.15)] overflow-hidden">
+<div class="px-space-lg py-space-md border-b border-border-color flex items-center justify-between bg-page-bg">
+<div>
+<h2 class="text-headline-lg font-headline-lg text-text-main text-base">Dernières éditions</h2>
+<p class="text-[11px] text-text-muted">Suivi des états réglementaires générés pour la BCEAO</p>
+</div>
+<div class="flex items-center gap-2">
+<button class="px-2.5 py-1 text-xs border border-border-color rounded bg-card-bg text-secondary hover:text-primary">Filtrer</button>
+<button class="px-2.5 py-1 text-xs border border-border-color rounded bg-card-bg text-secondary hover:text-primary">Tout voir</button>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-page-bg text-secondary border-b border-border-color text-label font-label">
+<th class="py-3 px-4">Code &amp; Intitulé du Rapport</th>
+<th class="py-3 px-4">Période</th>
+<th class="py-3 px-4">Échéance</th>
+<th class="py-3 px-4">Statut</th>
+<th class="py-3 px-4 text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-border-color text-body">
+<tr class="hover:bg-page-bg/50 transition-colors">
+<td class="py-3 px-4">
+<span class="font-semibold text-primary">REP-FIN-01</span>
+<p class="text-[11px] text-text-muted">Situation Mensuelle Comptable (SMC)</p>
+</td>
+<td class="py-3 px-4 text-secondary">Novembre 2026</td>
+<td class="py-3 px-4 text-secondary">15/12/2026</td>
+<td class="py-3 px-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-success-bg text-success-text">
+                        Validé
+                      </span>
+</td>
+<td class="py-3 px-4 text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1 text-secondary hover:text-primary rounded" title="Voir">
+<span class="material-symbols-outlined text-sm" data-icon="visibility">visibility</span>
+</button>
+<button class="p-1 text-secondary hover:text-primary rounded" title="Éditer">
+<span class="material-symbols-outlined text-sm" data-icon="edit">edit</span>
+</button>
+</div>
+</td>
+</tr>
+<tr class="hover:bg-page-bg/50 transition-colors">
+<td class="py-3 px-4">
+<span class="font-semibold text-primary">REP-PRU-04</span>
+<p class="text-[11px] text-text-muted">État Trimestriel des Ratios Prudentiels</p>
+</td>
+<td class="py-3 px-4 text-secondary">T3 2026</td>
+<td class="py-3 px-4 text-secondary">30/10/2026</td>
+<td class="py-3 px-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-success-bg text-success-text">
+                        Validé
+                      </span>
+</td>
+<td class="py-3 px-4 text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1 text-secondary hover:text-primary rounded" title="Voir">
+<span class="material-symbols-outlined text-sm" data-icon="visibility">visibility</span>
+</button>
+<button class="p-1 text-secondary hover:text-primary rounded" title="Éditer">
+<span class="material-symbols-outlined text-sm" data-icon="edit">edit</span>
+</button>
+</div>
+</td>
+</tr>
+<tr class="hover:bg-page-bg/50 transition-colors">
+<td class="py-3 px-4">
+<span class="font-semibold text-primary">REP-TRE-10</span>
+<p class="text-[11px] text-text-muted">Rapport Décadaire de Trésorerie</p>
+</td>
+<td class="py-3 px-4 text-secondary">Décembre (D3)</td>
+<td class="py-3 px-4 text-secondary">05/01/2027</td>
+<td class="py-3 px-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-secondary-container text-primary">
+                        Brouillon
+                      </span>
+</td>
+<td class="py-3 px-4 text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1 text-secondary hover:text-primary rounded" title="Voir">
+<span class="material-symbols-outlined text-sm" data-icon="visibility">visibility</span>
+</button>
+<button class="p-1 text-secondary hover:text-primary rounded" title="Éditer">
+<span class="material-symbols-outlined text-sm" data-icon="edit">edit</span>
+</button>
+</div>
+</td>
+</tr>
+<tr class="hover:bg-page-bg/50 transition-colors">
+<td class="py-3 px-4">
+<span class="font-semibold text-primary">REP-RIS-02</span>
+<p class="text-[11px] text-text-muted">État de la Qualité du Portefeuille de Crédit</p>
+</td>
+<td class="py-3 px-4 text-secondary">Novembre 2026</td>
+<td class="py-3 px-4 text-secondary">10/12/2026</td>
+<td class="py-3 px-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-danger-bg text-danger-text">
+                        En retard
+                      </span>
+</td>
+<td class="py-3 px-4 text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1 text-secondary hover:text-primary rounded" title="Voir">
+<span class="material-symbols-outlined text-sm" data-icon="visibility">visibility</span>
+</button>
+<button class="p-1 text-secondary hover:text-primary rounded" title="Éditer">
+<span class="material-symbols-outlined text-sm" data-icon="edit">edit</span>
+</button>
+</div>
+</td>
+</tr>
+<tr class="hover:bg-page-bg/50 transition-colors">
+<td class="py-3 px-4">
+<span class="font-semibold text-primary">REP-DIR-08</span>
+<p class="text-[11px] text-text-muted">Liste des Dirigeants et Mandataires Sociaux</p>
+</td>
+<td class="py-3 px-4 text-secondary">Annuel 2026</td>
+<td class="py-3 px-4 text-secondary">20/12/2026</td>
+<td class="py-3 px-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-danger-bg text-danger-text">
+                        En retard
+                      </span>
+</td>
+<td class="py-3 px-4 text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1 text-secondary hover:text-primary rounded" title="Voir">
+<span class="material-symbols-outlined text-sm" data-icon="visibility">visibility</span>
+</button>
+<button class="p-1 text-secondary hover:text-primary rounded" title="Éditer">
+<span class="material-symbols-outlined text-sm" data-icon="edit">edit</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="px-space-lg py-space-sm bg-page-bg border-t border-border-color flex items-center justify-between text-xs text-text-muted">
+<span>Affichage de 1 à 5 sur 18 rapports</span>
+<div class="flex gap-1">
+<button class="px-2 py-1 bg-card-bg border border-border-color rounded disabled:opacity-50" disabled="">Précédent</button>
+<button class="px-2 py-1 bg-primary text-white rounded">1</button>
+<button class="px-2 py-1 bg-card-bg border border-border-color rounded hover:bg-page-bg">2</button>
+<button class="px-2 py-1 bg-card-bg border border-border-color rounded hover:bg-page-bg">Suivant</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column (Upcoming Deadlines) -->
+<div class="space-y-space-lg">
+<div class="bg-card-bg rounded-xl border border-border-color shadow-[0_1px_2px_rgba(56,65,74,0.15)] p-space-lg space-y-space-md">
+<div class="flex items-center justify-between pb-space-sm border-b border-border-color">
+<h2 class="text-headline-lg font-headline-lg text-text-main text-base">Échéances réglementaires à venir</h2>
+<span class="material-symbols-outlined text-secondary text-sm" data-icon="schedule">schedule</span>
+</div>
+<div class="space-y-3">
+<!-- Item 1 -->
+<div class="p-3 bg-page-bg rounded-lg border border-border-color flex items-start justify-between gap-3">
+<div class="space-y-1">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-warning-bg text-warning-text uppercase tracking-wider">J-3</span>
+<h4 class="text-body font-label text-text-main">Rapport Décadaire de Trésorerie</h4>
+<p class="text-[11px] text-text-muted">Période : Décembre (Fin de mois)</p>
+</div>
+<button class="text-primary hover:bg-secondary-container p-1 rounded transition-colors" title="Préparer">
+<span class="material-symbols-outlined text-sm" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+<!-- Item 2 -->
+<div class="p-3 bg-page-bg rounded-lg border border-border-color flex items-start justify-between gap-3">
+<div class="space-y-1">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-secondary-container text-primary uppercase tracking-wider">J-7</span>
+<h4 class="text-body font-label text-text-main">Situation Mensuelle SCM</h4>
+<p class="text-[11px] text-text-muted">Période : Arrêté Décembre 2026</p>
+</div>
+<button class="text-primary hover:bg-secondary-container p-1 rounded transition-colors" title="Préparer">
+<span class="material-symbols-outlined text-sm" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+<!-- Item 3 -->
+<div class="p-3 bg-page-bg rounded-lg border border-border-color flex items-start justify-between gap-3">
+<div class="space-y-1">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-secondary-container text-primary uppercase tracking-wider">J-14</span>
+<h4 class="text-body font-label text-text-main">Ratios Prudentiels</h4>
+<p class="text-[11px] text-text-muted">Période : Trimestre T4 2026</p>
+</div>
+<button class="text-primary hover:bg-secondary-container p-1 rounded transition-colors" title="Préparer">
+<span class="material-symbols-outlined text-sm" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+<!-- Item 4 -->
+<div class="p-3 bg-page-bg rounded-lg border border-border-color flex items-start justify-between gap-3">
+<div class="space-y-1">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-surface-variant text-secondary uppercase tracking-wider">J-25</span>
+<h4 class="text-body font-label text-text-main">Bilan Annuel et Annexes BCEAO</h4>
+<p class="text-[11px] text-text-muted">Exercice clos au 31/12/2026</p>
+</div>
+<button class="text-primary hover:bg-secondary-container p-1 rounded transition-colors" title="Préparer">
+<span class="material-symbols-outlined text-sm" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+</div>
+<div class="pt-2">
+<a class="w-full py-2 border border-border-color rounded-lg text-body font-label text-secondary hover:text-primary hover:bg-page-bg transition-colors flex items-center justify-center gap-1" href="#">
+<span>Voir le calendrier réglementaire complet</span>
+<span class="material-symbols-outlined text-xs" data-icon="open_in_new">open_in_new</span>
+</a>
+</div>
+</div>
+<!-- Quick Regulatory Status Summary Card -->
+<div class="bg-card-bg rounded-xl border border-border-color shadow-[0_1px_2px_rgba(56,65,74,0.15)] p-space-lg space-y-space-md">
+<h2 class="text-headline-lg font-headline-lg text-text-main text-base">Indicateurs UEMOA clés</h2>
+<div class="space-y-3 text-body">
+<div class="flex justify-between items-center py-1 border-b border-border-color">
+<span class="text-secondary">Fonds Propres Minimum (XOF)</span>
+<span class="font-semibold text-primary">1 000 000 000</span>
+</div>
+<div class="flex justify-between items-center py-1 border-b border-border-color">
+<span class="text-secondary">Ratio de Couverture des Risques</span>
+<span class="font-semibold text-success-text">114.2%</span>
+</div>
+<div class="flex justify-between items-center py-1 border-b border-border-color">
+<span class="text-secondary">Coefficient de Liquidité</span>
+<span class="font-semibold text-success-text">88.5%</span>
+</div>
+<div class="flex justify-between items-center py-1">
+<span class="text-secondary">Portefeuille à Risque (PAR &gt; 30j)</span>
+<span class="font-semibold text-warning-text">3.4%</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+<script>
+    // Simple interactive enhancer for material symbols activation
+    document.addEventListener("DOMContentLoaded", () => {
+      document.querySelectorAll("[data-icon]").forEach(el => {
+        const iconName = el.getAttribute("data-icon");
+        el.textContent = iconName;
+        el.classList.add("material-symbols-outlined");
+      });
+    });
+  </script>
+</body></html>

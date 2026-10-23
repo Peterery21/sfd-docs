@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+
+<html class="h-full" lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Éditer les rapports — Reporting Réglementaire BCEAO | SFD Core Banking</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "surface-variant": "#e4e2e3",
+            "info-bg": "#e0f2fe",
+            "on-surface-variant": "#44474c",
+            "surface-container-high": "#eae7e9",
+            "info-text": "#0369a1",
+            "primary-container": "#475569",
+            "surface-dim": "#dbd9db",
+            "success": "#10b981",
+            "primary-fixed": "#d5e3fc",
+            "text-muted": "#64748b",
+            "tertiary-container": "#665131",
+            "secondary-fixed-dim": "#b7c8e1",
+            "on-secondary-container": "#54647a",
+            "surface": "#fbf9fa",
+            "surface-container-low": "#f5f3f5",
+            "warning-text": "#b45309",
+            "on-tertiary-container": "#e2c59d",
+            "secondary": "#505f76",
+            "tertiary-fixed": "#fcdeb4",
+            "secondary-fixed": "#d3e4fe",
+            "on-error": "#ffffff",
+            "tertiary-fixed-dim": "#dfc29a",
+            "warning-bg": "#fef3c7",
+            "tertiary": "#4d3a1c",
+            "primary": "#303e51",
+            "danger-text": "#b91c1c",
+            "border-color": "#e9ebec",
+            "on-secondary-fixed-variant": "#38485d",
+            "surface-container-lowest": "#ffffff",
+            "on-primary-container": "#bbcae1",
+            "surface-bright": "#fbf9fa",
+            "error-container": "#ffdad6",
+            "danger": "#ef4444",
+            "text-main": "#212529",
+            "on-background": "#1b1b1d",
+            "inverse-primary": "#b9c7df",
+            "on-primary-fixed-variant": "#3a485b",
+            "on-secondary-fixed": "#0b1c30",
+            "on-tertiary-fixed-variant": "#574325",
+            "inverse-on-surface": "#f2f0f2",
+            "surface-container": "#efedef",
+            "danger-bg": "#fee2e2",
+            "error": "#ba1a1a",
+            "on-tertiary-fixed": "#281901",
+            "card-bg": "#ffffff",
+            "warning": "#f59e0b",
+            "page-bg": "#f3f6f9",
+            "background": "#fbf9fa",
+            "success-bg": "#d1fae5",
+            "secondary-container": "#d0e1fb",
+            "on-surface": "#1b1b1d",
+            "inverse-surface": "#303032",
+            "surface-tint": "#515f74",
+            "outline": "#75777d",
+            "on-tertiary": "#ffffff",
+            "on-primary-fixed": "#0d1c2e",
+            "on-primary": "#ffffff",
+            "on-secondary": "#ffffff",
+            "on-error-container": "#93000a",
+            "success-text": "#047857",
+            "info": "#0ea5e9",
+            "surface-container-highest": "#e4e2e3",
+            "primary-fixed-dim": "#b9c7df",
+            "outline-variant": "#c4c6cd"
+          },
+          borderRadius: {
+            DEFAULT: "0.125rem",
+            lg: "0.25rem",
+            xl: "0.5rem",
+            full: "0.75rem"
+          },
+          spacing: {
+            "space-md": "1rem",
+            "gutter": "1rem",
+            "margin": "1.5rem",
+            "space-xs": "0.25rem",
+            "space-xl": "2rem",
+            "space-lg": "1.5rem",
+            "space-sm": "0.5rem"
+          },
+          fontFamily: {
+            "headline-lg": ["Open Sans"],
+            "label": ["Open Sans"],
+            "kpi-value": ["Open Sans"],
+            "body-sm": ["Open Sans"],
+            "body": ["Open Sans"]
+          },
+          fontSize: {
+            "headline-lg": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+            "label": ["13px", { "lineHeight": "16px", "letterSpacing": "0.03em", "fontWeight": "600" }],
+            "kpi-value": ["18px", { "lineHeight": "24px", "fontWeight": "600" }],
+            "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+            "body": ["13px", { "lineHeight": "18px", "fontWeight": "400" }]
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-page-bg text-text-main font-body h-full flex flex-col selection:bg-primary selection:text-on-primary">
+<!-- TopNavBar -->
+<header class="bg-card-bg text-primary docked full-width top-0 sticky z-40 shadow-sm">
+<div class="w-full px-margin flex items-center justify-between h-14">
+<div class="flex items-center gap-space-lg">
+<a class="text-headline-lg font-headline-lg text-primary font-semibold tracking-tight" href="#">SFD Core Banking · UEMOA</a>
+<nav class="hidden md:flex items-center gap-space-md pt-2">
+<a class="text-text-muted hover:text-text-main pb-4 transition-colors duration-150" href="#">Tableau de bord</a>
+<a class="text-text-muted hover:text-text-main pb-4 transition-colors duration-150" href="#">Comptabilité</a>
+<a class="text-text-muted hover:text-text-main pb-4 transition-colors duration-150" href="#">Portefeuille</a>
+<a class="border-b-2 border-primary text-primary font-semibold pb-4" href="#">Reporting BCEAO</a>
+<a class="text-text-muted hover:text-text-main pb-4 transition-colors duration-150" href="#">Paramètres</a>
+</nav>
+</div>
+<div class="flex items-center gap-space-md">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-secondary-container text-on-secondary-container">
+<span class="w-2 h-2 rounded-full bg-success"></span>
+          UEMOA · BCEAO — Togo
+        </span>
+<button class="p-2 text-text-muted hover:text-text-main hover:bg-page-bg rounded-lg transition-colors" title="Notifications">
+<span class="material-symbols-outlined text-[20px]">notifications</span>
+</button>
+<button class="p-2 text-text-muted hover:text-text-main hover:bg-page-bg rounded-lg transition-colors" title="Historique">
+<span class="material-symbols-outlined text-[20px]">history</span>
+</button>
+<button class="p-2 text-text-muted hover:text-text-main hover:bg-page-bg rounded-lg transition-colors" title="Comptabilité Générale">
+<span class="material-symbols-outlined text-[20px]">account_balance</span>
+</button>
+<div class="h-6 w-[1px] bg-border-color"></div>
+<div class="flex items-center gap-2">
+<img class="w-8 h-8 rounded-full object-cover border border-border-color" data-alt="Professional portrait photograph of a male regulatory compliance manager in a modern banking office in Lomé Togo, wearing a sharp navy suit and tie, smiling confidently with a blurred corporate background of financial charts." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBHmSM8bHU6iw_xjuWxUrNNozVoNUi7fIt7Gs64JorN8euP3e1FLkhymbqHj2nYm5kFcsDF1PEUdQGg1Z-_USXqYYsIGRovRDORxF1dN2RseRQ00sGOx9pHrjXfQ0CtOgvw7eQJSl2uMn_fpqZlYz2f4tAlwqVtbMVZth9jqbnhf-5pm6Cw2A1z3tpaiixMpxFSQDhIBvKTiFgz7ZD_YA5nMQlcuNtYCbglmT6BFEVu8N0UkyhTtW47pcl-kQ7P2QoqSh6gajRQtg"/>
+<span class="text-xs font-semibold text-text-main hidden lg:inline">K. Mensah</span>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Layout Container -->
+<div class="flex flex-1 overflow-hidden">
+<!-- SideNavBar -->
+<aside class="w-80 h-full bg-card-bg border-r border-border-color flex flex-col justify-between p-space-md hidden md:flex shrink-0">
+<div>
+<div class="flex items-center gap-3 px-space-xs py-space-sm mb-space-md">
+<div class="w-10 h-10 rounded-lg bg-primary-container text-on-primary flex items-center justify-center font-bold">
+            TG
+          </div>
+<div>
+<h2 class="text-xs font-bold text-text-main">Direction du Contrôle SFD</h2>
+<p class="text-[11px] text-text-muted">Zone UEMOA · Togo (TG014)</p>
+</div>
+</div>
+<div class="space-y-1">
+<a class="bg-secondary-container text-primary font-semibold rounded-lg px-space-md py-space-sm flex items-center gap-space-sm" href="#">
+<span class="material-symbols-outlined text-[18px]">assignment</span>
+<span>Situation Mensuelle</span>
+</a>
+<a class="text-text-muted hover:bg-page-bg hover:text-text-main rounded-lg px-space-md py-space-sm flex items-center gap-space-sm transition-all duration-150" href="#">
+<span class="material-symbols-outlined text-[18px]">balance</span>
+<span>Prudences Trimestrielles</span>
+</a>
+<a class="text-text-muted hover:bg-page-bg hover:text-text-main rounded-lg px-space-md py-space-sm flex items-center gap-space-sm transition-all duration-150" href="#">
+<span class="material-symbols-outlined text-[18px]">pie_chart</span>
+<span>Ratios Annuels BCEAO</span>
+</a>
+<a class="text-text-muted hover:bg-page-bg hover:text-text-main rounded-lg px-space-md py-space-sm flex items-center gap-space-sm transition-all duration-150" href="#">
+<span class="material-symbols-outlined text-[18px]">verified_user</span>
+<span>Contrôles de Cohérence</span>
+</a>
+<a class="text-text-muted hover:bg-page-bg hover:text-text-main rounded-lg px-space-md py-space-sm flex items-center gap-space-sm transition-all duration-150" href="#">
+<span class="material-symbols-outlined text-[18px]">folder_shared</span>
+<span>Historique des Dépôts</span>
+</a>
+<a class="text-text-muted hover:bg-page-bg hover:text-text-main rounded-lg px-space-md py-space-sm flex items-center gap-space-sm transition-all duration-150" href="#">
+<span class="material-symbols-outlined text-[18px]">tune</span>
+<span>Paramètres Réglementaires</span>
+</a>
+</div>
+</div>
+<div class="space-y-space-md pt-space-md border-t border-border-color">
+<button class="w-full bg-primary text-on-primary py-2.5 px-space-md rounded-lg text-xs font-semibold hover:bg-primary-container transition-colors flex items-center justify-center gap-2 shadow-sm">
+<span class="material-symbols-outlined text-[16px]">add_circle</span>
+          Nouveau Rapport BCEAO
+        </button>
+<div class="space-y-1">
+<a class="text-text-muted hover:text-text-main rounded-lg px-space-md py-2 flex items-center gap-space-sm text-xs" href="#">
+<span class="material-symbols-outlined text-[16px]">help_outline</span>
+<span>Assistance Normes</span>
+</a>
+<a class="text-danger hover:bg-danger-bg rounded-lg px-space-md py-2 flex items-center gap-space-sm text-xs transition-colors" href="#">
+<span class="material-symbols-outlined text-[16px]">logout</span>
+<span>Déconnexion</span>
+</a>
+</div>
+</div>
+</aside>
+<!-- Canvas Area -->
+<main class="flex-1 overflow-y-auto p-margin flex flex-col gap-space-lg">
+<!-- Breadcrumbs & Page Header -->
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-space-md">
+<div>
+<div class="flex items-center gap-2 text-xs text-text-muted mb-1">
+<span>Accueil</span>
+<span class="material-symbols-outlined text-[12px]">chevron_right</span>
+<span>Reporting Réglementaire</span>
+<span class="material-symbols-outlined text-[12px]">chevron_right</span>
+<span class="text-text-main font-semibold">Éditer les rapports</span>
+</div>
+<h1 class="text-headline-lg font-headline-lg text-text-main">Éditer les rapports — Reporting Réglementaire BCEAO</h1>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-xs text-text-muted">Dernière synchro:</span>
+<span class="text-xs font-semibold bg-card-bg px-2 py-1 rounded border border-border-color">14/10/2026 à 08:30</span>
+</div>
+</div>
+<!-- Main Grid Split -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-lg items-start">
+<!-- Left Sidebar Card (320px equivalent ~ 4 cols) -->
+<div class="lg:col-span-4 bg-card-bg border border-border-color rounded-xl p-space-md shadow-sm">
+<div class="flex items-center justify-between mb-space-md pb-3 border-b border-border-color">
+<h3 class="text-xs font-semibold uppercase tracking-wider text-text-muted">Sélection des Rapports</h3>
+<span class="text-[11px] bg-secondary-container text-primary px-2 py-0.5 rounded font-semibold">5 Périodicités</span>
+</div>
+<div class="space-y-space-md">
+<!-- Mensuel Group -->
+<div>
+<div class="text-[11px] font-bold text-text-muted uppercase mb-2">Mensuel</div>
+<div class="space-y-1.5">
+<div class="p-2.5 rounded-lg bg-page-bg border border-border-color flex items-center justify-between cursor-pointer hover:border-primary transition-all">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[18px]">description</span>
+<div>
+<div class="text-xs font-semibold text-text-main">Situation mensuelle</div>
+<div class="text-[10px] text-danger font-medium">Échéance: 10/11/2026 (Retard)</div>
+</div>
+</div>
+<span class="px-2 py-0.5 text-[10px] font-semibold rounded bg-danger-bg text-danger-text">À faire</span>
+</div>
+<div class="p-2.5 rounded-lg bg-surface-container-low border border-primary flex items-center justify-between cursor-pointer shadow-sm">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[18px]">fact_check</span>
+<div>
+<div class="text-xs font-semibold text-text-main">Ratios prudentiels</div>
+<div class="text-[10px] text-text-muted">Échéance: 15/11/2026</div>
+</div>
+</div>
+<span class="px-2 py-0.5 text-[10px] font-semibold rounded bg-warning-bg text-warning-text">Brouillon</span>
+</div>
+</div>
+</div>
+<!-- Trimestriel Group -->
+<div>
+<div class="text-[11px] font-bold text-text-muted uppercase mb-2">Trimestriel</div>
+<div class="space-y-1.5">
+<div class="p-2.5 rounded-lg bg-page-bg border border-border-color flex items-center justify-between cursor-pointer hover:border-primary transition-all">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-text-muted text-[18px]">account_balance_wallet</span>
+<div>
+<div class="text-xs font-semibold text-text-main">Bilan trimestriel</div>
+<div class="text-[10px] text-text-muted">Échéance: 30/11/2026</div>
+</div>
+</div>
+<span class="px-2 py-0.5 text-[10px] font-semibold rounded bg-info-bg text-info-text">Validé</span>
+</div>
+<div class="p-2.5 rounded-lg bg-page-bg border border-border-color flex items-center justify-between cursor-pointer hover:border-primary transition-all">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-text-muted text-[18px]">monitoring</span>
+<div>
+<div class="text-xs font-semibold text-text-main">Grands risques</div>
+<div class="text-[10px] text-text-muted">Échéance: 30/11/2026</div>
+</div>
+</div>
+<span class="px-2 py-0.5 text-[10px] font-semibold rounded bg-success-bg text-success-text">Soumis</span>
+</div>
+</div>
+</div>
+<!-- Annuel Group -->
+<div>
+<div class="text-[11px] font-bold text-text-muted uppercase mb-2">Annuel</div>
+<div class="space-y-1.5">
+<div class="p-2.5 rounded-lg bg-page-bg border border-border-color flex items-center justify-between cursor-pointer hover:border-primary transition-all">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-text-muted text-[18px]">assessment</span>
+<div>
+<div class="text-xs font-semibold text-text-main">États financiers annuels</div>
+<div class="text-[10px] text-text-muted">Échéance: 31/03/2027</div>
+</div>
+</div>
+<span class="px-2 py-0.5 text-[10px] font-semibold rounded bg-surface-variant text-on-surface-variant">À faire</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Area -->
+<div class="lg:col-span-8 flex flex-col gap-space-lg">
+<!-- Report Header Card -->
+<div class="bg-card-bg border border-border-color rounded-xl p-space-md shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-space-md">
+<div class="space-y-1">
+<div class="flex items-center gap-2">
+<span class="text-xs font-bold text-primary">Instruction BCEAO</span>
+<span class="bg-success-bg text-success-text text-[11px] font-semibold px-2 py-0.5 rounded-full flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-success"></span>
+                  Confiance élevée
+                </span>
+</div>
+<h2 class="text-headline-lg font-headline-lg text-text-main">Ratios Prudentiels &amp; Situation Financière</h2>
+<p class="text-xs text-text-muted">Référentiel comptable révisé PCEC-SFD (UEMOA)</p>
+</div>
+<div class="flex items-center gap-space-sm">
+<div class="flex items-center bg-page-bg border border-border-color rounded-lg px-3 py-1.5 text-xs font-semibold text-text-main">
+<span class="material-symbols-outlined text-[16px] mr-2 text-text-muted">calendar_month</span>
+<span>Octobre 2026</span>
+<span class="material-symbols-outlined text-[16px] ml-2 text-text-muted">expand_more</span>
+</div>
+<button class="bg-primary text-on-primary text-xs font-semibold px-4 py-2 rounded-lg hover:bg-primary-container transition-colors shadow-sm flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">refresh</span>
+                Générer
+              </button>
+</div>
+</div>
+<!-- KPI summary strip -->
+<div class="grid grid-cols-2 md:grid-cols-4 gap-space-md">
+<div class="bg-card-bg border border-border-color rounded-xl p-space-md shadow-sm">
+<div class="text-[11px] font-bold text-text-muted uppercase mb-1">Total Actif Net</div>
+<div class="text-kpi-value font-kpi-value text-text-main">14 850 200 F</div>
+<div class="text-[11px] text-success font-medium mt-1 flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">trending_up</span> +4.2% vs N-1
+              </div>
+</div>
+<div class="bg-card-bg border border-border-color rounded-xl p-space-md shadow-sm">
+<div class="text-[11px] font-bold text-text-muted uppercase mb-1">Total Dépôts Collectés</div>
+<div class="text-kpi-value font-kpi-value text-text-main">9 420 150 F</div>
+<div class="text-[11px] text-success font-medium mt-1 flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">trending_up</span> +2.8% vs N-1
+              </div>
+</div>
+<div class="bg-card-bg border border-border-color rounded-xl p-space-md shadow-sm">
+<div class="text-[11px] font-bold text-text-muted uppercase mb-1">Encours Brut de Crédit</div>
+<div class="text-kpi-value font-kpi-value text-text-main">11 200 400 F</div>
+<div class="text-[11px] text-text-muted font-medium mt-1 flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">remove</span> 0.0% stable
+              </div>
+</div>
+<div class="bg-card-bg border border-border-color rounded-xl p-space-md shadow-sm">
+<div class="text-[11px] font-bold text-text-muted uppercase mb-1">Taux PAR 30</div>
+<div class="text-kpi-value font-kpi-value text-danger">4.85%</div>
+<div class="text-[11px] text-danger font-medium mt-1 flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">warning</span> Seuil max: 3%
+              </div>
+</div>
+</div>
+<!-- Results Table -->
+<div class="bg-card-bg border border-border-color rounded-xl shadow-sm overflow-hidden">
+<div class="p-space-md border-b border-border-color flex items-center justify-between">
+<h3 class="text-xs font-semibold uppercase tracking-wider text-text-muted">Tableau des Ratios Prudentiels Principaux</h3>
+<div class="text-xs text-text-muted">Valeurs en FCFA</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-page-bg text-text-muted text-[11px] font-bold uppercase border-b border-border-color">
+<th class="py-3 px-4">Code</th>
+<th class="py-3 px-4">Libellé</th>
+<th class="py-3 px-4 text-right">N (Oct 2026)</th>
+<th class="py-3 px-4 text-right">N-1 (Sep 2026)</th>
+<th class="py-3 px-4 text-right">Variation</th>
+<th class="py-3 px-4 text-center">Norme</th>
+<th class="py-3 px-4 text-center">Conformité</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-border-color text-xs text-text-main">
+<tr class="h-[44px] hover:bg-page-bg transition-colors">
+<td class="py-2.5 px-4 font-semibold text-primary">RP01</td>
+<td class="py-2.5 px-4 font-medium">Couverture des immobilisations</td>
+<td class="py-2.5 px-4 text-right font-semibold">125.4%</td>
+<td class="py-2.5 px-4 text-right text-text-muted">122.1%</td>
+<td class="py-2.5 px-4 text-right text-success">+3.3%</td>
+<td class="py-2.5 px-4 text-center text-text-muted">&gt;= 100%</td>
+<td class="py-2.5 px-4 text-center">
+<span class="inline-block px-2 py-0.5 rounded text-[10px] font-semibold bg-success-bg text-success-text">Conforme</span>
+</td>
+</tr>
+<tr class="h-[44px] hover:bg-page-bg transition-colors">
+<td class="py-2.5 px-4 font-semibold text-primary">RP02</td>
+<td class="py-2.5 px-4 font-medium">Fonds Propres Minimum</td>
+<td class="py-2.5 px-4 text-right font-semibold">2 450 000 F</td>
+<td class="py-2.5 px-4 text-right text-text-muted">2 400 000 F</td>
+<td class="py-2.5 px-4 text-right text-success">+2.0%</td>
+<td class="py-2.5 px-4 text-center text-text-muted">&gt;= 1B F</td>
+<td class="py-2.5 px-4 text-center">
+<span class="inline-block px-2 py-0.5 rounded text-[10px] font-semibold bg-success-bg text-success-text">Conforme</span>
+</td>
+</tr>
+<tr class="h-[44px] hover:bg-page-bg transition-colors">
+<td class="py-2.5 px-4 font-semibold text-primary">RP03</td>
+<td class="py-2.5 px-4 font-medium">Coefficient de liquidité globale</td>
+<td class="py-2.5 px-4 text-right font-semibold">82.1%</td>
+<td class="py-2.5 px-4 text-right text-text-muted">84.5%</td>
+<td class="py-2.5 px-4 text-right text-danger">-2.4%</td>
+<td class="py-2.5 px-4 text-center text-text-muted">&gt;= 75%</td>
+<td class="py-2.5 px-4 text-center">
+<span class="inline-block px-2 py-0.5 rounded text-[10px] font-semibold bg-success-bg text-success-text">Conforme</span>
+</td>
+</tr>
+<tr class="h-[44px] hover:bg-page-bg transition-colors bg-danger-bg/20">
+<td class="py-2.5 px-4 font-semibold text-danger">RP04</td>
+<td class="py-2.5 px-4 font-medium">Risque de crédit / un même bénéficiaire</td>
+<td class="py-2.5 px-4 text-right font-semibold text-danger">22.5%</td>
+<td class="py-2.5 px-4 text-right text-text-muted">19.0%</td>
+<td class="py-2.5 px-4 text-right text-danger">+3.5%</td>
+<td class="py-2.5 px-4 text-center text-text-muted">&lt;= 20%</td>
+<td class="py-2.5 px-4 text-center">
+<span class="inline-block px-2 py-0.5 rounded text-[10px] font-semibold bg-danger-bg text-danger-text">Non Conforme</span>
+</td>
+</tr>
+<tr class="h-[44px] hover:bg-page-bg transition-colors">
+<td class="py-2.5 px-4 font-semibold text-primary">RP05</td>
+<td class="py-2.5 px-4 font-medium">Division des risques (Total &gt; 15%)</td>
+<td class="py-2.5 px-4 text-right font-semibold">3.2 times</td>
+<td class="py-2.5 px-4 text-right text-text-muted">3.0 times</td>
+<td class="py-2.5 px-4 text-right text-success">+6.6%</td>
+<td class="py-2.5 px-4 text-center text-text-muted">&lt;= 8 max</td>
+<td class="py-2.5 px-4 text-center">
+<span class="inline-block px-2 py-0.5 rounded text-[10px] font-semibold bg-success-bg text-success-text">Conforme</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Panel "Contrôles de cohérence réglementaire BCEAO" -->
+<div class="bg-card-bg border border-border-color rounded-xl p-space-md shadow-sm">
+<div class="flex items-center justify-between mb-space-md pb-3 border-b border-border-color">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px]">verified_user</span>
+<h3 class="text-xs font-semibold uppercase tracking-wider text-text-muted">Contrôles de cohérence réglementaire BCEAO</h3>
+</div>
+<span class="text-xs font-semibold text-danger bg-danger-bg px-2.5 py-1 rounded">1 Anomalie Critique</span>
+</div>
+<div class="space-y-space-md">
+<!-- Check 1: Critical Failing -->
+<div class="p-3.5 rounded-lg bg-danger-bg border border-danger/30 flex items-start justify-between gap-4">
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-danger text-[20px] mt-0.5">error</span>
+<div>
+<div class="text-xs font-bold text-danger-text">Cohérence Bilan / Hors-Bilan (Règle C-01)</div>
+<p class="text-[11px] text-text-main mt-0.5">Écart constaté de 145 000 FCFA entre les engagements par signature déclarés au tableau T2 et le grand livre général.</p>
+</div>
+</div>
+<button class="bg-card-bg text-danger text-[11px] font-semibold px-3 py-1.5 rounded border border-danger/30 hover:bg-danger hover:text-white transition-colors shrink-0">
+                  Corriger
+                </button>
+</div>
+<!-- Check 2: Success -->
+<div class="p-3.5 rounded-lg bg-page-bg border border-border-color flex items-start justify-between gap-4">
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-success text-[20px] mt-0.5">check_circle</span>
+<div>
+<div class="text-xs font-bold text-text-main">Justification des comptes de liaison (Règle C-02)</div>
+<p class="text-[11px] text-text-muted mt-0.5">Tous les soldes inter-agences sont apurés ou justifiés à la date de clôture d'octobre 2026.</p>
+</div>
+</div>
+<span class="text-xs text-success font-semibold flex items-center gap-1 self-center">
+<span class="material-symbols-outlined text-[14px]">done</span> Validé
+                </span>
+</div>
+<!-- Check 3: Warning -->
+<div class="p-3.5 rounded-lg bg-page-bg border border-border-color flex items-start justify-between gap-4">
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-warning text-[20px] mt-0.5">warning</span>
+<div>
+<div class="text-xs font-bold text-text-main">Évolution des créances en souffrance (Règle C-03)</div>
+<p class="text-[11px] text-text-muted mt-0.5">Hausse de 12% des impayés de classe 3 non provisionnés à 100%.</p>
+</div>
+</div>
+<button class="bg-card-bg text-text-main text-[11px] font-semibold px-3 py-1.5 rounded border border-border-color hover:bg-page-bg transition-colors shrink-0">
+                  Analyser
+                </button>
+</div>
+</div>
+</div>
+<!-- Action buttons footer -->
+<div class="bg-card-bg border border-border-color rounded-xl p-space-md shadow-sm flex flex-col sm:flex-row items-center justify-between gap-space-md">
+<div class="text-xs text-text-muted">
+              Statut actuel: <span class="font-semibold text-warning-text">Brouillon en cours de révision</span>
+</div>
+<div class="flex flex-wrap items-center gap-space-sm w-full sm:w-auto justify-end">
+<div class="relative inline-block text-left">
+<button class="bg-card-bg border border-border-color text-text-main text-xs font-semibold px-4 py-2.5 rounded-lg hover:bg-page-bg transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">download</span>
+                  Exporter
+                  <span class="material-symbols-outlined text-[16px]">expand_more</span>
+</button>
+</div>
+<button class="bg-card-bg border border-border-color text-text-main text-xs font-semibold px-4 py-2.5 rounded-lg hover:bg-page-bg transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">rule</span>
+                Valider en interne
+              </button>
+<button class="bg-card-bg border border-border-color text-text-main text-xs font-semibold px-4 py-2.5 rounded-lg hover:bg-page-bg transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">lock</span>
+                Clôturer la période
+              </button>
+<button class="bg-primary text-on-primary text-xs font-semibold px-5 py-2.5 rounded-lg hover:bg-primary-container transition-colors shadow-sm flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">send</span>
+                Soumettre à la BCEAO
+              </button>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

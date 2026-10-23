@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+
+<html class="h-full" lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Système Financier Décentralisé - États Financiers</title>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "primary-fixed-dim": "#b9c7df",
+            "on-primary-fixed": "#0d1c2e",
+            "secondary-fixed": "#d3e4fe",
+            "info-bg": "#e0f2fe",
+            "on-tertiary-fixed-variant": "#574325",
+            "inverse-on-surface": "#f2f0f2",
+            "on-secondary-fixed": "#0b1c30",
+            "on-error-container": "#93000a",
+            "on-primary-fixed-variant": "#3a485b",
+            "warning-bg": "#fef3c7",
+            "border-color": "#e9ebec",
+            "text-main": "#212529",
+            "surface-container-high": "#eae7e9",
+            "on-surface": "#1b1b1d",
+            "on-tertiary-fixed": "#281901",
+            "surface-container-highest": "#e4e2e3",
+            "danger-text": "#b91c1c",
+            "background": "#fbf9fa",
+            "surface-container-lowest": "#ffffff",
+            "primary-fixed": "#d5e3fc",
+            "surface-bright": "#fbf9fa",
+            "tertiary-fixed-dim": "#dfc29a",
+            "surface-container-low": "#f5f3f5",
+            "success": "#10b981",
+            "success-bg": "#d1fae5",
+            "danger": "#ef4444",
+            "success-text": "#047857",
+            "danger-bg": "#fee2e2",
+            "error": "#ba1a1a",
+            "warning": "#f59e0b",
+            "primary": "#303e51",
+            "on-secondary-fixed-variant": "#38485d",
+            "surface": "#fbf9fa",
+            "on-primary-container": "#bbcae1",
+            "surface-dim": "#dbd9db",
+            "surface-container": "#efedef",
+            "secondary-fixed-dim": "#b7c8e1",
+            "error-container": "#ffdad6",
+            "info-text": "#0369a1",
+            "on-primary": "#ffffff",
+            "on-secondary": "#ffffff",
+            "tertiary": "#4d3a1c",
+            "on-surface-variant": "#44474c",
+            "warning-text": "#b45309",
+            "surface-variant": "#e4e2e3",
+            "tertiary-fixed": "#fcdeb4",
+            "card-bg": "#ffffff",
+            "outline-variant": "#c4c6cd",
+            "on-tertiary-container": "#e2c59d",
+            "on-background": "#1b1b1d",
+            "inverse-surface": "#303032",
+            "on-tertiary": "#ffffff",
+            "inverse-primary": "#b9c7df",
+            "secondary": "#505f76",
+            "tertiary-container": "#665131",
+            "text-muted": "#64748b",
+            "page-bg": "#f3f6f9",
+            "on-secondary-container": "#54647a",
+            "secondary-container": "#d0e1fb",
+            "surface-tint": "#515f74",
+            "outline": "#75777d",
+            "primary-container": "#475569",
+            "on-error": "#ffffff",
+            "info": "#0ea5e9"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.125rem",
+            "lg": "0.25rem",
+            "xl": "0.5rem",
+            "full": "0.75rem"
+          },
+          "spacing": {
+            "space-sm": "0.5rem",
+            "margin": "1.5rem",
+            "space-xs": "0.25rem",
+            "gutter": "1rem",
+            "space-md": "1rem",
+            "space-xl": "2rem",
+            "space-lg": "1.5rem"
+          },
+          "fontFamily": {
+            "label": ["Open Sans"],
+            "body": ["Open Sans"],
+            "headline-lg": ["Open Sans"],
+            "kpi-value": ["Open Sans"],
+            "body-sm": ["Open Sans"]
+          },
+          "fontSize": {
+            "label": ["13px", { "lineHeight": "16px", "letterSpacing": "0.03em", "fontWeight": "600" }],
+            "body": ["13px", { "lineHeight": "18px", "fontWeight": "400" }],
+            "headline-lg": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+            "kpi-value": ["18px", { "lineHeight": "24px", "fontWeight": "600" }],
+            "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }]
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="h-full bg-page-bg font-body text-text-main antialiased flex flex-col">
+<!-- TopAppBar -->
+<header class="bg-surface dark:bg-inverse-surface shadow-sm flex justify-between items-center w-full px-6 h-16 sticky top-0 z-50">
+<div class="flex items-center space-x-4">
+<button class="p-2 text-on-surface-variant hover:bg-surface-container rounded-lg transition-all duration-200">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<span class="text-headline-lg font-headline-lg font-bold text-primary dark:text-inverse-primary">Système Financier Décentralisé</span>
+</div>
+<div class="flex items-center space-x-3">
+<div class="flex items-center space-x-2 bg-surface-container-low px-3 py-1.5 rounded-lg border border-border-color">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">verified_user</span>
+<span class="font-label text-label text-on-surface">SYSCOHADA Référentiel</span>
+</div>
+<div class="h-6 w-[1px] bg-border-color"></div>
+<button class="p-2 text-on-surface-variant hover:bg-surface-container rounded-lg transition-all duration-200 relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-1 right-1 w-2 h-2 bg-danger rounded-full"></span>
+</button>
+<div class="flex items-center space-x-2 pl-2">
+<div class="w-8 h-8 rounded-full bg-primary-container text-on-primary flex items-center justify-center font-bold text-label">
+          AD
+        </div>
+<span class="font-label text-label hidden md:inline">Admin Principal</span>
+</div>
+</div>
+</header>
+<div class="flex flex-1 overflow-hidden">
+<!-- SideNavBar -->
+<aside class="hidden md:flex flex-col w-64 h-full p-space-md bg-surface-container-low dark:bg-inverse-surface border-r border-border-color dark:border-outline shrink-0">
+<div class="flex items-center space-x-3 px-2 mb-6">
+<div class="w-10 h-10 rounded-lg bg-primary text-on-primary flex items-center justify-center font-bold text-headline-lg">
+          P
+        </div>
+<div>
+<h2 class="text-headline-lg font-headline-lg font-bold text-primary dark:text-inverse-primary text-sm">Portefeuille PCSFD</h2>
+<p class="font-body text-body text-text-muted text-xs">SYSCOHADA Référentiel</p>
+</div>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center space-x-3 px-3 py-2.5 text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-all duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label text-label">Tableau de bord</span>
+</a>
+<a class="flex items-center space-x-3 px-3 py-2.5 bg-secondary-container dark:bg-secondary text-on-secondary-container dark:text-on-secondary font-bold rounded-lg transition-all duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">account_balance</span>
+<span class="font-label text-label">Bilan</span>
+</a>
+<a class="flex items-center space-x-3 px-3 py-2.5 text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-all duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined">description</span>
+<span class="font-label text-label">Compte de résultat</span>
+</a>
+<a class="flex items-center space-x-3 px-3 py-2.5 text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-all duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span class="font-label text-label">TFT &amp; Notes</span>
+</a>
+<a class="flex items-center space-x-3 px-3 py-2.5 text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-all duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined">verified</span>
+<span class="font-label text-label">Conformité</span>
+</a>
+</nav>
+<div class="pt-4 border-t border-border-color">
+<button class="w-full flex items-center justify-center space-x-2 bg-primary text-on-primary py-2.5 px-4 rounded-lg font-label text-label hover:bg-opacity-90 transition-all duration-200 shadow-sm">
+<span class="material-symbols-outlined text-sm">download</span>
+<span>Exporter États</span>
+</button>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="flex-1 overflow-y-auto p-6 space-y-6">
+<!-- Breadcrumb & Header Section -->
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-surface p-6 rounded-xl border border-border-color shadow-sm">
+<div class="space-y-1">
+<div class="flex items-center space-x-2 text-text-muted font-body text-xs">
+<span>Accueil</span>
+<span class="material-symbols-outlined text-xs">chevron_right</span>
+<span>Reporting Financier</span>
+<span class="material-symbols-outlined text-xs">chevron_right</span>
+<span class="text-primary font-semibold">États financiers</span>
+</div>
+<h1 class="text-headline-lg font-headline-lg text-text-main flex items-center gap-3">
+            États financiers (SYSCOHADA / PCSFD)
+          </h1>
+<p class="text-body text-text-muted">Unité monétaire : Francs CFA (FCFA) — Arrêté au 31 Décembre 2026</p>
+</div>
+<div class="flex flex-wrap items-center gap-3">
+<div class="bg-surface-container-low px-3 py-2 rounded-lg border border-border-color flex items-center space-x-2">
+<span class="material-symbols-outlined text-text-muted text-sm">calendar_today</span>
+<span class="font-label text-label">Exercice 2026</span>
+</div>
+<div class="flex items-center space-x-2">
+<button class="flex items-center space-x-1.5 bg-surface border border-border-color hover:bg-surface-container text-on-surface px-3 py-2 rounded-lg font-label text-label transition-all shadow-sm">
+<span class="material-symbols-outlined text-sm">print</span>
+<span>Exporter PDF/Excel</span>
+</button>
+<button class="flex items-center space-x-1.5 bg-primary text-on-primary hover:bg-opacity-90 px-3 py-2 rounded-lg font-label text-label transition-all shadow-sm">
+<span class="material-symbols-outlined text-sm">lock</span>
+<span>Clôturer l'exercice</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Status Banner & Balance Validation -->
+<div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 bg-surface p-4 rounded-xl border border-border-color shadow-sm">
+<div class="flex items-center space-x-3">
+<div class="w-10 h-10 rounded-lg bg-success-bg text-success flex items-center justify-center">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<div>
+<div class="flex items-center space-x-2">
+<span class="font-label text-label text-success-text bg-success-bg px-2 py-0.5 rounded text-xs">Bilan équilibré</span>
+<span class="text-xs text-text-muted">• Contrôle SYSCOHADA validé sans écart</span>
+</div>
+<p class="text-body text-text-muted text-xs mt-0.5">Actif Net (42 850 420 000 FCFA) = Passif Net (42 850 420 000 FCFA)</p>
+</div>
+</div>
+<div class="flex items-center space-x-4 text-xs font-label">
+<span class="text-text-muted">Écart constaté : <strong class="text-success">0 FCFA</strong></span>
+<span class="text-text-muted">Taux de couverture : <strong class="text-primary">124.5%</strong></span>
+</div>
+</div>
+<!-- Navigation Tabs Custom -->
+<div class="bg-surface rounded-xl border border-border-color shadow-sm overflow-hidden">
+<div class="flex border-b border-border-color overflow-x-auto">
+<button class="px-6 py-3.5 border-b-2 border-primary text-primary font-label text-label flex items-center space-x-2 bg-surface-container-low">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">balance</span>
+<span>Bilan</span>
+</button>
+<button class="px-6 py-3.5 border-b-2 border-transparent text-text-muted hover:text-on-surface font-label text-label flex items-center space-x-2 transition-all">
+<span class="material-symbols-outlined text-sm">receipt_long</span>
+<span>Compte de résultat</span>
+</button>
+<button class="px-6 py-3.5 border-b-2 border-transparent text-text-muted hover:text-on-surface font-label text-label flex items-center space-x-2 transition-all">
+<span class="material-symbols-outlined text-sm">account_tree</span>
+<span>Tableau des Flux de Trésorerie (TFT)</span>
+</button>
+<button class="px-6 py-3.5 border-b-2 border-transparent text-text-muted hover:text-on-surface font-label text-label flex items-center space-x-2 transition-all">
+<span class="material-symbols-outlined text-sm">note</span>
+<span>Notes annexes</span>
+</button>
+</div>
+<!-- Bilan Tab Content -->
+<div class="p-6 space-y-8">
+<!-- Section ACTIF -->
+<div class="space-y-4">
+<div class="flex items-center justify-between border-b pb-2">
+<h3 class="font-headline-lg text-headline-lg text-primary flex items-center gap-2">
+<span class="w-2 h-5 bg-primary rounded-sm"></span>
+                ACTIF
+              </h3>
+<span class="text-xs text-text-muted font-label">Montants en Francs CFA (FCFA)</span>
+</div>
+<div class="overflow-x-auto border border-border-color rounded-lg">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-page-bg text-text-muted font-label text-label h-[44px]">
+<th class="px-4 py-2 w-20">Code</th>
+<th class="px-4 py-2">Libellé de la rubrique</th>
+<th class="px-4 py-2 text-right">Brut</th>
+<th class="px-4 py-2 text-right">Amort.-Prov.</th>
+<th class="px-4 py-2 text-right">Net N</th>
+<th class="px-4 py-2 text-right">Net N-1</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-border-color text-body font-body">
+<!-- Actif Immobilisé -->
+<tr class="bg-surface-container-low font-semibold">
+<td class="px-4 py-2.5">AD</td>
+<td class="px-4 py-2.5" colspan="5">ACTIF IMMOBILISÉ</td>
+</tr>
+<tr class="hover:bg-surface-container-low/50 transition-colors h-[44px]">
+<td class="px-4 py-2 font-mono text-text-muted">20</td>
+<td class="px-4 py-2">Frais d'établissement et charges immobilisées</td>
+<td class="px-4 py-2 text-right tabular-nums">450 000 000</td>
+<td class="px-4 py-2 text-right tabular-nums text-danger-text">150 000 000</td>
+<td class="px-4 py-2 text-right tabular-nums font-semibold">300 000 000</td>
+<td class="px-4 py-2 text-right tabular-nums text-text-muted">280 000 000</td>
+</tr>
+<tr class="hover:bg-surface-container-low/50 transition-colors h-[44px]">
+<td class="px-4 py-2 font-mono text-text-muted">21</td>
+<td class="px-4 py-2">Immobilisations incorporelles</td>
+<td class="px-4 py-2 text-right tabular-nums">1 200 000 000</td>
+<td class="px-4 py-2 text-right tabular-nums text-danger-text">400 000 000</td>
+<td class="px-4 py-2 text-right tabular-nums font-semibold">800 000 000</td>
+<td class="px-4 py-2 text-right tabular-nums text-text-muted">750 000 000</td>
+</tr>
+<tr class="hover:bg-surface-container-low/50 transition-colors h-[44px]">
+<td class="px-4 py-2 font-mono text-text-muted">22</td>
+<td class="px-4 py-2">Immobilisations corporelles</td>
+<td class="px-4 py-2 text-right tabular-nums">8 500 000 000</td>
+<td class="px-4 py-2 text-right tabular-nums text-danger-text">2 500 000 000</td>
+<td class="px-4 py-2 text-right tabular-nums font-semibold">6 000 000 000</td>
+<td class="px-4 py-2 text-right tabular-nums text-text-muted">5 800 000 000</td>
+</tr>
+<tr class="hover:bg-surface-container-low/50 transition-colors h-[44px]">
+<td class="px-4 py-2 font-mono text-text-muted">26/27</td>
+<td class="px-4 py-2">Immobilisations financières &amp; Prêts</td>
+<td class="px-4 py-2 text-right tabular-nums">3 500 000 000</td>
+<td class="px-4 py-2 text-right tabular-nums text-danger-text">200 000 000</td>
+<td class="px-4 py-2 text-right tabular-nums font-semibold">3 300 000 000</td>
+<td class="px-4 py-2 text-right tabular-nums text-text-muted">3 100 000 000</td>
+</tr>
+<!-- Subtotal Actif Immobilisé -->
+<tr class="bg-surface-container font-bold h-[44px]">
+<td class="px-4 py-2 text-primary">-</td>
+<td class="px-4 py-2 text-primary">TOTAL ACTIF IMMOBILISÉ</td>
+<td class="px-4 py-2 text-right tabular-nums">13 650 000 000</td>
+<td class="px-4 py-2 text-right tabular-nums text-danger-text">3 250 000 000</td>
+<td class="px-4 py-2 text-right tabular-nums text-primary">10 400 000 000</td>
+<td class="px-4 py-2 text-right tabular-nums text-text-muted">9 930 000 000</td>
+</tr>
+<!-- Actif Circulant -->
+<tr class="bg-surface-container-low font-semibold">
+<td class="px-4 py-2.5">AZ</td>
+<td class="px-4 py-2.5" colspan="5">ACTIF CIRCULANT ET TRÉSORERIE</td>
+</tr>
+<tr class="hover:bg-surface-container-low/50 transition-colors h-[44px]">
+<td class="px-4 py-2 font-mono text-text-muted">30</td>
+<td class="px-4 py-2">Créances sur la clientèle et organismes financiers</td>
+<td class="px-4 py-2 text-right tabular-nums">24 500 000 000</td>
+<td class="px-4 py-2 text-right tabular-nums text-danger-text">1 200 000 000</td>
+<td class="px-4 py-2 text-right tabular-nums font-semibold">23 300 000 000</td>
+<td class="px-4 py-2 text-right tabular-nums text-text-muted">21 400 000 000</td>
+</tr>
+<tr class="hover:bg-surface-container-low/50 transition-colors h-[44px]">
+<td class="px-4 py-2 font-mono text-text-muted">40</td>
+<td class="px-4 py-2">Valeurs mobilières de placement &amp; Titres</td>
+<td class="px-4 py-2 text-right tabular-nums">4 100 000 000</td>
+<td class="px-4 py-2 text-right tabular-nums text-danger-text">50 000 000</td>
+<td class="px-4 py-2 text-right tabular-nums font-semibold">4 050 000 000</td>
+<td class="px-4 py-2 text-right tabular-nums text-text-muted">3 800 000 000</td>
+</tr>
+<tr class="hover:bg-surface-container-low/50 transition-colors h-[44px]">
+<td class="px-4 py-2 font-mono text-text-muted">50</td>
+<td class="px-4 py-2">Disponibilités (Banques, CCP, Caisse)</td>
+<td class="px-4 py-2 text-right tabular-nums">5 100 420 000</td>
+<td class="px-4 py-2 text-right tabular-nums text-danger-text">0</td>
+<td class="px-4 py-2 text-right tabular-nums font-semibold">5 100 420 000</td>
+<td class="px-4 py-2 text-right tabular-nums text-text-muted">4 650 000 000</td>
+</tr>
+<!-- Subtotal Actif Circulant -->
+<tr class="bg-surface-container font-bold h-[44px]">
+<td class="px-4 py-2 text-primary">-</td>
+<td class="px-4 py-2 text-primary">TOTAL ACTIF CIRCULANT &amp; TRÉSORERIE</td>
+<td class="px-4 py-2 text-right tabular-nums">33 700 420 000</td>
+<td class="px-4 py-2 text-right tabular-nums text-danger-text">1 250 000 000</td>
+<td class="px-4 py-2 text-right tabular-nums text-primary">32 450 420 000</td>
+<td class="px-4 py-2 text-right tabular-nums text-text-muted">29 850 000 000</td>
+</tr>
+<!-- Total Actif General -->
+<tr class="bg-primary text-on-primary font-bold text-sm h-[48px]">
+<td class="px-4 py-2">TOTAL</td>
+<td class="px-4 py-2">TOTAL GÉNÉRAL ACTIF</td>
+<td class="px-4 py-2 text-right tabular-nums">47 350 420 000</td>
+<td class="px-4 py-2 text-right tabular-nums">4 500 000 000</td>
+<td class="px-4 py-2 text-right tabular-nums">42 850 420 000</td>
+<td class="px-4 py-2 text-right tabular-nums">39 780 000 000</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Section PASSIF -->
+<div class="space-y-4 pt-4">
+<div class="flex items-center justify-between border-b pb-2">
+<h3 class="font-headline-lg text-headline-lg text-primary flex items-center gap-2">
+<span class="w-2 h-5 bg-secondary rounded-sm"></span>
+                PASSIF ET CAPITAUX PROPRES
+              </h3>
+<span class="text-xs text-text-muted font-label">Montants en Francs CFA (FCFA)</span>
+</div>
+<div class="overflow-x-auto border border-border-color rounded-lg">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-page-bg text-text-muted font-label text-label h-[44px]">
+<th class="px-4 py-2 w-20">Code</th>
+<th class="px-4 py-2">Libellé de la rubrique</th>
+<th class="px-4 py-2 text-right">Net N</th>
+<th class="px-4 py-2 text-right">Net N-1</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-border-color text-body font-body">
+<!-- Capitaux Propres -->
+<tr class="bg-surface-container-low font-semibold">
+<td class="px-4 py-2.5">PC</td>
+<td class="px-4 py-2.5" colspan="3">CAPITAUX PROPRES ET RESSOURCES ASSIMILÉES</td>
+</tr>
+<tr class="hover:bg-surface-container-low/50 transition-colors h-[44px]">
+<td class="px-4 py-2 font-mono text-text-muted">10</td>
+<td class="px-4 py-2">Capital social et dotations</td>
+<td class="px-4 py-2 text-right tabular-nums font-semibold">10 000 000 000</td>
+<td class="px-4 py-2 text-right tabular-nums text-text-muted">10 000 000 000</td>
+</tr>
+<tr class="hover:bg-surface-container-low/50 transition-colors h-[44px]">
+<td class="px-4 py-2 font-mono text-text-muted">11/12</td>
+<td class="px-4 py-2">Réserves et primes d'émission</td>
+<td class="px-4 py-2 text-right tabular-nums font-semibold">4 500 000 000</td>
+<td class="px-4 py-2 text-right tabular-nums text-text-muted">4 100 000 000</td>
+</tr>
+<tr class="hover:bg-surface-container-low/50 transition-colors h-[44px]">
+<td class="px-4 py-2 font-mono text-text-muted">13</td>
+<td class="px-4 py-2">Report à nouveau (+ ou -)</td>
+<td class="px-4 py-2 text-right tabular-nums font-semibold">850 420 000</td>
+<td class="px-4 py-2 text-right tabular-nums text-text-muted">500 000 000</td>
+</tr>
+<tr class="hover:bg-surface-container-low/50 transition-colors h-[44px]">
+<td class="px-4 py-2 font-mono text-text-muted">14</td>
+<td class="px-4 py-2">Résultat net de l'exercice (bénéfice ou perte)</td>
+<td class="px-4 py-2 text-right tabular-nums font-semibold text-success-text">3 500 000 000</td>
+<td class="px-4 py-2 text-right tabular-nums text-text-muted">3 180 000 000</td>
+</tr>
+<!-- Subtotal Passif Stable -->
+<tr class="bg-surface-container font-bold h-[44px]">
+<td class="px-4 py-2 text-primary">-</td>
+<td class="px-4 py-2 text-primary">TOTAL PASSIF STABLE (CAPITAUX PROPRES)</td>
+<td class="px-4 py-2 text-right tabular-nums text-primary">18 850 420 000</td>
+<td class="px-4 py-2 text-right tabular-nums text-text-muted">17 780 000 000</td>
+</tr>
+<!-- Passif Circulant -->
+<tr class="bg-surface-container-low font-semibold">
+<td class="px-4 py-2.5">PD</td>
+<td class="px-4 py-2.5" colspan="3">PASSIF CIRCULANT ET DETTES ENVERS LA CLIENTÈLE</td>
+</tr>
+<tr class="hover:bg-surface-container-low/50 transition-colors h-[44px]">
+<td class="px-4 py-2 font-mono text-text-muted">16</td>
+<td class="px-4 py-2">Dettes financières &amp; Emprunts auprès des institutions</td>
+<td class="px-4 py-2 text-right tabular-nums font-semibold">6 000 000 000</td>
+<td class="px-4 py-2 text-right tabular-nums text-text-muted">5 500 000 000</td>
+</tr>
+<tr class="hover:bg-surface-container-low/50 transition-colors h-[44px]">
+<td class="px-4 py-2 font-mono text-text-muted">37</td>
+<td class="px-4 py-2">Dépôts de la clientèle (Épargne et comptes courants)</td>
+<td class="px-4 py-2 text-right tabular-nums font-semibold">15 500 000 000</td>
+<td class="px-4 py-2 text-right tabular-nums text-text-muted">14 200 000 000</td>
+</tr>
+<tr class="hover:bg-surface-container-low/50 transition-colors h-[44px]">
+<td class="px-4 py-2 font-mono text-text-muted">45</td>
+<td class="px-4 py-2">Dettes diverses et comptes rattachés</td>
+<td class="px-4 py-2 text-right tabular-nums font-semibold">2 500 000 000</td>
+<td class="px-4 py-2 text-right tabular-nums text-text-muted">2 300 000 000</td>
+</tr>
+<!-- Subtotal Passif Circulant -->
+<tr class="bg-surface-container font-bold h-[44px]">
+<td class="px-4 py-2 text-primary">-</td>
+<td class="px-4 py-2 text-primary">TOTAL PASSIF CIRCULANT</td>
+<td class="px-4 py-2 text-right tabular-nums text-primary">24 000 000 000</td>
+<td class="px-4 py-2 text-right tabular-nums text-text-muted">22 000 000 000</td>
+</tr>
+<!-- Total Passif General -->
+<tr class="bg-secondary text-on-secondary font-bold text-sm h-[48px]">
+<td class="px-4 py-2">TOTAL</td>
+<td class="px-4 py-2">TOTAL GÉNÉRAL PASSIF</td>
+<td class="px-4 py-2 text-right tabular-nums">42 850 420 000</td>
+<td class="px-4 py-2 text-right tabular-nums">39 780 000 000</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

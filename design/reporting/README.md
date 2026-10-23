@@ -46,3 +46,24 @@ Les textes de badge utilisent toujours la teinte foncée (WCAG AA).
 - Validation bloquée tant qu'un contrôle de cohérence de niveau CRITIQUE est en échec (voir `edition`).
 - Formules : libellé métier en premier, code en second ; origine = badge PAQUET (gris) / PERSONNALISEE (alerte) / AJOUTEE (info) ; « En clair » = `libelleClair` ; aperçu en direct = `ApercuFormuleDto`.
 - Menu « Données importées » visible seulement en mode STANDALONE.
+
+## Designs Stitch (MCP `mcp__stitch__*`)
+Projet Stitch « EDIP — Reporting réglementaire » : `projects/770809064070056787` ([ouvrir](https://stitch.withgoogle.com/projects/770809064070056787)).
+Design system (créé depuis `.stitch/DESIGN.md`, desktop) : `assets/016cc0a5f4f347fbb040973be5ff767d`.
+Fichiers : `stitch/<ecran>.html` + `stitch/<ecran>.png` (2560 px de large = rendu desktop Stitch ; modèle Gemini 3.5 Flash-Lite, le modèle par défaut expire).
+
+| Écran | Fichiers `stitch/` | ID écran Stitch |
+|---|---|---|
+| Tableau de bord | `dashboard` | `c32fe05dab9246e9b9b971086cee5fb2` |
+| Éditer les rapports | `edition` | `9937138db0aa41019b2c749a7917d3e9` |
+| Formules de calcul | `formules` | `3defac686f0b48119081c483de452ff4` |
+| États financiers | `etats-financiers` | `dc6602a32d284f2c8724d99743e4c4bc` |
+| Export groupé (ZIP) | `export-zip` | `ef11916c0846495a9a9bae5be666f7de` |
+| Données importées | `donnees-importees` | `8a81d87a808641289fa63673bb0c7a34` |
+| Paramètres | `parametres` | `cb7d8fd724a243b49f7ef6a4aaa9554b` |
+| Historique des éditions | `historique` | `43fc6ea0603b434ca5fb6cc703806a20` |
+| Ratios prudentiels (nouveau) | `ratios-prudentiels` | `fcdbd53735eb4f82970278686beaca98` |
+
+Lien d'un écran : `https://stitch.withgoogle.com/projects/770809064070056787?node-id=<ID>`.
+
+Écarts connus par rapport aux maquettes S3 (à trancher à l'implémentation, S3 reste la référence de contenu) : pas de passe `edit_screens` ; menus latéral/haut inventés par Stitch (à ignorer, le shell EDIP existe) ; certains libellés/codes de démonstration sont fictifs (codes ratios RP01…, RAT-01) ; `edition` montre un rapport « ratios » et non la situation mensuelle ; Ratios : numérateur/dénominateur avec comptes d'exemple (ACT-100…) non issus de `sfd-docs/reglementation/`.

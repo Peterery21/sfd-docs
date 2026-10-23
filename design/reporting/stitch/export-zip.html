@@ -1,0 +1,495 @@
+<html class="h-full" lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SFD UEMOA Reporting - Export groupé (ZIP)</title>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+              "on-surface-variant": "#44474c",
+              "on-primary": "#ffffff",
+              "card-bg": "#ffffff",
+              "on-secondary": "#ffffff",
+              "tertiary": "#4d3a1c",
+              "on-error": "#ffffff",
+              "surface-container-highest": "#e4e2e3",
+              "surface-variant": "#e4e2e3",
+              "error": "#ba1a1a",
+              "on-primary-fixed": "#0d1c2e",
+              "secondary-container": "#d0e1fb",
+              "text-main": "#212529",
+              "surface": "#fbf9fa",
+              "border-color": "#e9ebec",
+              "secondary-fixed": "#d3e4fe",
+              "info-bg": "#e0f2fe",
+              "danger-text": "#b91c1c",
+              "tertiary-fixed": "#fcdeb4",
+              "surface-container": "#efedef",
+              "on-primary-container": "#bbcae1",
+              "surface-container-lowest": "#ffffff",
+              "inverse-on-surface": "#f2f0f2",
+              "info": "#0ea5e9",
+              "success": "#10b981",
+              "on-error-container": "#93000a",
+              "page-bg": "#f3f6f9",
+              "on-background": "#1b1b1d",
+              "surface-dim": "#dbd9db",
+              "primary": "#303e51",
+              "info-text": "#0369a1",
+              "warning-text": "#b45309",
+              "tertiary-fixed-dim": "#dfc29a",
+              "error-container": "#ffdad6",
+              "secondary": "#505f76",
+              "surface-bright": "#fbf9fa",
+              "on-surface": "#1b1b1d",
+              "primary-fixed": "#d5e3fc",
+              "on-tertiary": "#ffffff",
+              "surface-tint": "#515f74",
+              "text-muted": "#64748b",
+              "primary-container": "#475569",
+              "danger": "#ef4444",
+              "on-primary-fixed-variant": "#3a485b",
+              "warning": "#f59e0b",
+              "on-tertiary-fixed-variant": "#574325",
+              "warning-bg": "#fef3c7",
+              "on-tertiary-fixed": "#281901",
+              "on-secondary-fixed-variant": "#38485d",
+              "secondary-fixed-dim": "#b7c8e1",
+              "surface-container-low": "#f5f3f5",
+              "background": "#fbf9fa",
+              "success-bg": "#d1fae5",
+              "outline-variant": "#c4c6cd",
+              "on-secondary-fixed": "#0b1c30",
+              "surface-container-high": "#eae7e9",
+              "danger-bg": "#fee2e2",
+              "outline": "#75777d",
+              "tertiary-container": "#665131",
+              "primary-fixed-dim": "#b9c7df",
+              "success-text": "#047857",
+              "on-secondary-container": "#54647a",
+              "inverse-primary": "#b9c7df",
+              "inverse-surface": "#303032",
+              "on-tertiary-container": "#e2c59d"
+            },
+            "borderRadius": {
+              "DEFAULT": "0.125rem",
+              "lg": "0.25rem",
+              "xl": "0.5rem",
+              "full": "0.75rem"
+            },
+            "spacing": {
+              "space-md": "1rem",
+              "gutter": "1rem",
+              "space-xs": "0.25rem",
+              "space-sm": "0.5rem",
+              "margin": "1.5rem",
+              "space-lg": "1.5rem",
+              "space-xl": "2rem"
+            },
+            "fontFamily": {
+              "body-sm": ["Open Sans"],
+              "label": ["Open Sans"],
+              "headline-lg": ["Open Sans"],
+              "body": ["Open Sans"],
+              "kpi-value": ["Open Sans"]
+            },
+            "fontSize": {
+              "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+              "label": ["13px", {"lineHeight": "16px", "letterSpacing": "0.03em", "fontWeight": "600"}],
+              "headline-lg": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+              "body": ["13px", {"lineHeight": "18px", "fontWeight": "400"}],
+              "kpi-value": ["18px", {"lineHeight": "24px", "fontWeight": "600"}]
+            }
+          }
+        }
+      }
+    </script>
+</head>
+<body class="bg-page-bg font-body text-on-surface h-full flex flex-col m-0 overflow-hidden">
+<!-- TopNavBar -->
+<header class="bg-surface dark:bg-inverse-surface shadow-sm flex justify-between items-center w-full px-6 py-3 max-w-full z-20">
+<div class="flex items-center gap-4">
+<span class="font-headline-lg text-headline-lg font-semibold text-primary dark:text-inverse-primary">SFD UEMOA Reporting</span>
+<div class="relative ml-4">
+<span class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-on-surface-variant">
+<span class="material-symbols-outlined text-sm">search</span>
+</span>
+<input class="bg-surface-container-low dark:bg-surface-dim text-on-surface placeholder-on-surface-variant text-body rounded-lg pl-9 pr-4 py-1.5 focus:outline-none focus:ring-1 focus:ring-primary w-80 border-0" placeholder="Rechercher un rapport, un indicateur..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-on-surface-variant dark:text-surface-variant hover:text-primary dark:hover:text-inverse-primary transition-colors duration-150 relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-0 right-0 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<button class="text-on-surface-variant dark:text-surface-variant hover:text-primary dark:hover:text-inverse-primary transition-colors duration-150">
+<span class="material-symbols-outlined">help</span>
+</button>
+<div class="h-6 w-[1px] bg-border-color"></div>
+<button class="bg-primary-container text-on-primary-container px-3 py-1.5 rounded-lg font-label text-label flex items-center gap-2 hover:opacity-90 transition-opacity">
+<span class="material-symbols-outlined text-sm">download</span>
+                Export All
+            </button>
+<button class="text-on-surface-variant dark:text-surface-variant hover:text-primary dark:hover:text-inverse-primary transition-colors duration-150 flex items-center gap-1">
+<span class="material-symbols-outlined">settings</span>
+</button>
+<div class="flex items-center gap-2 pl-2">
+<img class="w-8 h-8 rounded-full object-cover border border-border-color" data-alt="Operator Avatar professional portrait placeholder showing a diverse back-office financial administrator in a corporate office setting with soft natural lighting and neutral background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA5Ei--MKj1qLanPuBptVni1sOgLbu0szLmGzgh9MKyLjqTXz31Iw53p-7nkNltVpPHSpFZp-Nn2GCrleHMGP57e6-ExxPrkm1vFsHx3-VqY-UyxfgGDL-h3seyHpAkZYZVuC6zxbEN8GCPdmb3MY4Rl1LLDIzj3VNBLPuM6J8L_6gVJN66DuPAHxxsHBpTliCl2DQBzdYO5y1YG9g52mY6YFHlbTDDL-2ta42QEmckcgG6FWJGfK_HDbd8aWB8FCzdUuiChgwl8A"/>
+</div>
+</div>
+</header>
+<div class="flex flex-1 overflow-hidden">
+<!-- SideNavBar -->
+<aside class="hidden md:flex flex-col justify-between w-64 p-4 h-full bg-surface-container-low dark:bg-surface-dim border-r border-border-color dark:border-outline shrink-0">
+<div class="flex flex-col gap-6">
+<div class="flex items-center gap-3 px-2">
+<div class="w-9 h-9 rounded-lg bg-primary text-on-primary flex items-center justify-center font-bold text-headline-lg">
+                        S
+                    </div>
+<div>
+<h1 class="font-headline-lg text-headline-lg font-semibold text-primary dark:text-inverse-primary leading-tight">SFD UEMOA</h1>
+<p class="font-body-sm text-on-surface-variant text-xs">Regulatory Module</p>
+</div>
+</div>
+<nav class="flex flex-col gap-1">
+<a class="flex items-center gap-3 px-3 py-2.5 font-label text-label text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-high hover:text-on-surface rounded-lg transition-all duration-150" href="#">
+<span class="material-symbols-outlined">analytics</span>
+                        BCEAO Universal
+                    </a>
+<a class="flex items-center gap-3 px-3 py-2.5 font-label text-label bg-primary-container text-on-primary-container font-semibold rounded-lg transition-all duration-150" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">shield</span>
+                        PRUDENTIEL
+                    </a>
+<a class="flex items-center gap-3 px-3 py-2.5 font-label text-label text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-high hover:text-on-surface rounded-lg transition-all duration-150" href="#">
+<span class="material-symbols-outlined">description</span>
+                        RECO
+                    </a>
+<a class="flex items-center gap-3 px-3 py-2.5 font-label text-label text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-high hover:text-on-surface rounded-lg transition-all duration-150" href="#">
+<span class="material-symbols-outlined">account_balance</span>
+                        ETATS FINANCIERS
+                    </a>
+<a class="flex items-center gap-3 px-3 py-2.5 font-label text-label text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-high hover:text-on-surface rounded-lg transition-all duration-150" href="#">
+<span class="material-symbols-outlined">settings</span>
+                        PARAMETRES
+                    </a>
+</nav>
+</div>
+<div class="flex flex-col gap-2 pt-4 border-t border-border-color">
+<button class="flex items-center gap-3 px-3 py-2 font-label text-label text-on-surface-variant hover:bg-surface-container-high rounded-lg transition-all">
+<span class="material-symbols-outlined">help</span>
+                    Help
+                </button>
+<button class="flex items-center gap-3 px-3 py-2 font-label text-label text-danger hover:bg-danger-bg rounded-lg transition-all">
+<span class="material-symbols-outlined">logout</span>
+                    Logout
+                </button>
+<div class="mt-2 px-3 py-2 bg-surface-container rounded-lg flex items-center justify-between text-xs text-on-surface-variant">
+<span>Env: Production</span>
+<span class="w-2 h-2 rounded-full bg-success"></span>
+</div>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="flex-1 flex flex-col overflow-y-auto bg-page-bg p-6">
+<!-- Breadcrumbs & Header -->
+<div class="flex flex-col gap-4 mb-6">
+<div class="flex items-center text-xs text-on-surface-variant gap-2">
+<a class="hover:text-primary transition-colors" href="#">Accueil</a>
+<span>&gt;</span>
+<a class="hover:text-primary transition-colors" href="#">Reporting Réglementaire</a>
+<span>&gt;</span>
+<span class="text-primary font-semibold">Export groupé (ZIP)</span>
+</div>
+<div class="flex flex-wrap justify-between items-center gap-4 bg-card-bg p-6 rounded-xl border border-border-color shadow-sm">
+<div>
+<div class="flex items-center gap-3">
+<h2 class="text-xl font-bold text-primary font-headline-lg">Export groupé (ZIP) - Rapports Réglementaires</h2>
+<span class="bg-primary-fixed text-on-primary-fixed text-xs px-2.5 py-1 rounded font-semibold">UEMOA v2.4</span>
+</div>
+<p class="text-body-sm text-on-surface-variant mt-1">Sélectionnez les états réglementaires à inclure dans l'archive ZIP compressée pour la transmission institutionnelle.</p>
+</div>
+<div class="flex items-center gap-3">
+<button class="bg-primary hover:bg-primary-container text-on-primary px-5 py-2.5 rounded-lg font-label text-label flex items-center gap-2 shadow-sm transition-all" onclick="alert('Archive ZIP générée avec succès.')">
+<span class="material-symbols-outlined text-sm">archive</span>
+                            Télécharger le ZIP
+                        </button>
+</div>
+</div>
+</div>
+<!-- Configuration Card & Period Selector -->
+<div class="bg-card-bg rounded-xl border border-border-color shadow-sm p-6 mb-6">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
+<div>
+<label class="block font-label text-label text-on-surface mb-2">Exercice et Période cible</label>
+<div class="relative">
+<select class="w-full bg-surface-container-low border border-border-color rounded-lg px-3 py-2 text-body font-body text-on-surface focus:outline-none focus:ring-1 focus:ring-primary">
+<option>Exercice 2026 - Période : Décembre 2026</option>
+<option>Exercice 2026 - Période : Novembre 2026</option>
+<option>Exercice 2026 - Période : Trimestre 4 2026</option>
+<option>Exercice 2025 - Période : Annuel 2025</option>
+</select>
+</div>
+</div>
+<div>
+<label class="block font-label text-label text-on-surface mb-2">Options de génération</label>
+<div class="flex items-center h-10">
+<label class="flex items-center gap-2 cursor-pointer select-none">
+<input checked="" class="rounded border-outline text-primary focus:ring-primary w-4 h-4" type="checkbox"/>
+<span class="text-body text-on-surface">Générer les rapports manquants automatiquement</span>
+</label>
+</div>
+</div>
+<div class="flex flex-col justify-end">
+<div class="bg-surface-container-low p-3 rounded-lg border border-border-color flex items-center justify-between">
+<span class="text-body-sm text-on-surface-variant">Sélection actuelle:</span>
+<span class="font-kpi-value text-primary font-bold">5 rapports sur 8</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Checklist Table / Cards -->
+<div class="bg-card-bg rounded-xl border border-border-color shadow-sm overflow-hidden flex-1 flex flex-col mb-6">
+<div class="px-6 py-4 border-b border-border-color flex justify-between items-center bg-surface-container-low">
+<div class="flex items-center gap-3">
+<h3 class="font-headline-lg text-headline-lg text-primary">Liste des États Réglementaires</h3>
+<span class="text-xs bg-secondary-container text-on-secondary-container px-2 py-0.5 rounded font-semibold">BCEAO Standard</span>
+</div>
+<div class="flex items-center gap-2">
+<button class="text-xs text-primary hover:underline font-semibold" onclick="toggleAll(true)">Tout sélectionner</button>
+<span class="text-border-color">|</span>
+<button class="text-xs text-on-surface-variant hover:underline font-semibold" onclick="toggleAll(false)">Tout désélectionner</button>
+</div>
+</div>
+<div class="overflow-x-auto flex-1">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-page-bg border-b border-border-color text-on-surface-variant font-label text-label">
+<th class="py-3 px-4 w-12 text-center">
+<input checked="" class="rounded border-outline text-primary focus:ring-primary w-4 h-4" id="select-all-checkbox" type="checkbox"/>
+</th>
+<th class="py-3 px-4">Code &amp; Intitulé du Rapport</th>
+<th class="py-3 px-4">Module Source</th>
+<th class="py-3 px-4">Statut</th>
+<th class="py-3 px-4">Dernière mise à jour</th>
+<th class="py-3 px-4">Formats inclus</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-border-color text-body">
+<!-- Row 1 -->
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="py-3 px-4 text-center">
+<input checked="" class="report-checkbox rounded border-outline text-primary focus:ring-primary w-4 h-4" type="checkbox"/>
+</td>
+<td class="py-3 px-4">
+<div class="font-semibold text-primary">Situation Mensuelle SCM</div>
+<div class="text-xs text-on-surface-variant">Bilan comptable synthétique mensuel</div>
+</td>
+<td class="py-3 px-4 text-on-surface-variant text-xs">Comptabilité Générale</td>
+<td class="py-3 px-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-success-bg text-success-text">
+<span class="w-1.5 h-1.5 rounded-full bg-success"></span>
+                                        Validé
+                                    </span>
+</td>
+<td class="py-3 px-4 text-xs text-on-surface-variant">12/01/2027 14:22</td>
+<td class="py-3 px-4">
+<div class="flex items-center gap-3">
+<label class="flex items-center gap-1 text-xs cursor-pointer"><input checked="" class="rounded text-primary w-3.5 h-3.5" type="checkbox"/> PDF</label>
+<label class="flex items-center gap-1 text-xs cursor-pointer"><input checked="" class="rounded text-primary w-3.5 h-3.5" type="checkbox"/> XLSX</label>
+</div>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="py-3 px-4 text-center">
+<input checked="" class="report-checkbox rounded border-outline text-primary focus:ring-primary w-4 h-4" type="checkbox"/>
+</td>
+<td class="py-3 px-4">
+<div class="font-semibold text-primary">Ratios Prudentiels (Dispositif UEMOA)</div>
+<div class="text-xs text-on-surface-variant">Fonds propres, couverture des risques et liquidité</div>
+</td>
+<td class="py-3 px-4 text-on-surface-variant text-xs">Prudentiel</td>
+<td class="py-3 px-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-success-bg text-success-text">
+<span class="w-1.5 h-1.5 rounded-full bg-success"></span>
+                                        Validé
+                                    </span>
+</td>
+<td class="py-3 px-4 text-xs text-on-surface-variant">14/01/2027 09:10</td>
+<td class="py-3 px-4">
+<div class="flex items-center gap-3">
+<label class="flex items-center gap-1 text-xs cursor-pointer"><input checked="" class="rounded text-primary w-3.5 h-3.5" type="checkbox"/> PDF</label>
+<label class="flex items-center gap-1 text-xs cursor-pointer"><input checked="" class="rounded text-primary w-3.5 h-3.5" type="checkbox"/> XLSX</label>
+</div>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="py-3 px-4 text-center">
+<input checked="" class="report-checkbox rounded border-outline text-primary focus:ring-primary w-4 h-4" type="checkbox"/>
+</td>
+<td class="py-3 px-4">
+<div class="font-semibold text-primary">Bilan &amp; Compte de Résultat</div>
+<div class="text-xs text-on-surface-variant">États financiers de synthèse annuels/périodiques</div>
+</td>
+<td class="py-3 px-4 text-on-surface-variant text-xs">États Financiers</td>
+<td class="py-3 px-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-warning-bg text-warning-text">
+<span class="w-1.5 h-1.5 rounded-full bg-warning"></span>
+                                        En cours
+                                    </span>
+</td>
+<td class="py-3 px-4 text-xs text-on-surface-variant">15/01/2027 18:45</td>
+<td class="py-3 px-4">
+<div class="flex items-center gap-3">
+<label class="flex items-center gap-1 text-xs cursor-pointer"><input checked="" class="rounded text-primary w-3.5 h-3.5" type="checkbox"/> PDF</label>
+<label class="flex items-center gap-1 text-xs cursor-pointer"><input checked="" class="rounded text-primary w-3.5 h-3.5" type="checkbox"/> XLSX</label>
+</div>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="py-3 px-4 text-center">
+<input checked="" class="report-checkbox rounded border-outline text-primary focus:ring-primary w-4 h-4" type="checkbox"/>
+</td>
+<td class="py-3 px-4">
+<div class="font-semibold text-primary">Déclaration des Grands Risques</div>
+<div class="text-xs text-on-surface-variant">État nominatif des concours par bénéficiaire</div>
+</td>
+<td class="py-3 px-4 text-on-surface-variant text-xs">Engagements</td>
+<td class="py-3 px-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-success-bg text-success-text">
+<span class="w-1.5 h-1.5 rounded-full bg-success"></span>
+                                        Validé
+                                    </span>
+</td>
+<td class="py-3 px-4 text-xs text-on-surface-variant">10/01/2027 11:05</td>
+<td class="py-3 px-4">
+<div class="flex items-center gap-3">
+<label class="flex items-center gap-1 text-xs cursor-pointer"><input checked="" class="rounded text-primary w-3.5 h-3.5" type="checkbox"/> PDF</label>
+<label class="flex items-center gap-1 text-xs cursor-pointer"><input checked="" class="rounded text-primary w-3.5 h-3.5" type="checkbox"/> XLSX</label>
+</div>
+</td>
+</tr>
+<!-- Row 5 -->
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="py-3 px-4 text-center">
+<input checked="" class="report-checkbox rounded border-outline text-primary focus:ring-primary w-4 h-4" type="checkbox"/>
+</td>
+<td class="py-3 px-4">
+<div class="font-semibold text-primary">Rapport sur le Contrôle Interne</div>
+<div class="text-xs text-on-surface-variant">Évaluation de dispositif de maîtrise des risques</div>
+</td>
+<td class="py-3 px-4 text-on-surface-variant text-xs">Audit &amp; Contrôle</td>
+<td class="py-3 px-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-surface-container-highest text-on-surface-variant">
+<span class="w-1.5 h-1.5 rounded-full bg-outline"></span>
+                                        Brouillon
+                                    </span>
+</td>
+<td class="py-3 px-4 text-xs text-on-surface-variant">08/01/2027 16:30</td>
+<td class="py-3 px-4">
+<div class="flex items-center gap-3">
+<label class="flex items-center gap-1 text-xs cursor-pointer"><input checked="" class="rounded text-primary w-3.5 h-3.5" type="checkbox"/> PDF</label>
+<label class="flex items-center gap-1 text-xs cursor-pointer"><input class="rounded text-primary w-3.5 h-3.5" type="checkbox"/> XLSX</label>
+</div>
+</td>
+</tr>
+<!-- Row 6 -->
+<tr class="hover:bg-surface-container-low transition-colors opacity-60">
+<td class="py-3 px-4 text-center">
+<input class="report-checkbox rounded border-outline text-primary focus:ring-primary w-4 h-4" type="checkbox"/>
+</td>
+<td class="py-3 px-4">
+<div class="font-semibold text-primary">État de la Qualité du Portefeuille (EPCP)</div>
+<div class="text-xs text-on-surface-variant">Analyse par classe de risque et ancienneté d'impayés</div>
+</td>
+<td class="py-3 px-4 text-on-surface-variant text-xs">Crédits</td>
+<td class="py-3 px-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-surface-container-highest text-on-surface-variant">
+<span class="w-1.5 h-1.5 rounded-full bg-outline"></span>
+                                        Brouillon
+                                    </span>
+</td>
+<td class="py-3 px-4 text-xs text-on-surface-variant">-</td>
+<td class="py-3 px-4">
+<div class="flex items-center gap-3">
+<label class="flex items-center gap-1 text-xs cursor-pointer"><input checked="" class="rounded text-primary w-3.5 h-3.5" type="checkbox"/> PDF</label>
+<label class="flex items-center gap-1 text-xs cursor-pointer"><input class="rounded text-primary w-3.5 h-3.5" type="checkbox"/> XLSX</label>
+</div>
+</td>
+</tr>
+<!-- Row 7 -->
+<tr class="hover:bg-surface-container-low transition-colors opacity-60">
+<td class="py-3 px-4 text-center">
+<input class="report-checkbox rounded border-outline text-primary focus:ring-primary w-4 h-4" type="checkbox"/>
+</td>
+<td class="py-3 px-4">
+<div class="font-semibold text-primary">Tableau des Emplois et Ressources (TER)</div>
+<div class="text-xs text-on-surface-variant">Adossement des emplois à long terme</div>
+</td>
+<td class="py-3 px-4 text-on-surface-variant text-xs">Trésorerie</td>
+<td class="py-3 px-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-surface-container-highest text-on-surface-variant">
+<span class="w-1.5 h-1.5 rounded-full bg-outline"></span>
+                                        Brouillon
+                                    </span>
+</td>
+<td class="py-3 px-4 text-xs text-on-surface-variant">-</td>
+<td class="py-3 px-4">
+<div class="flex items-center gap-3">
+<label class="flex items-center gap-1 text-xs cursor-pointer"><input checked="" class="rounded text-primary w-3.5 h-3.5" type="checkbox"/> PDF</label>
+<label class="flex items-center gap-1 text-xs cursor-pointer"><input class="rounded text-primary w-3.5 h-3.5" type="checkbox"/> XLSX</label>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Footer Action Bar inside card -->
+<div class="px-6 py-4 border-t border-border-color bg-surface-container-low flex justify-between items-center">
+<div class="text-xs text-on-surface-variant flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">info</span>
+                        L'archive ZIP inclura la structure de répertoires normalisée exigée par la commission bancaire UEMOA.
+                    </div>
+<button class="bg-primary hover:bg-primary-container text-on-primary px-6 py-2.5 rounded-lg font-label text-label flex items-center gap-2 shadow-sm transition-all" onclick="alert('Archive ZIP générée avec succès.')">
+<span class="material-symbols-outlined text-sm">archive</span>
+                        Télécharger le ZIP (5 sélectionnés)
+                    </button>
+</div>
+</div>
+</main>
+</div>
+<script>
+        function toggleAll(select) {
+            const checkboxes = document.querySelectorAll('.report-checkbox');
+            checkboxes.forEach(cb => {
+                cb.checked = select;
+                const row = cb.closest('tr');
+                if(select) {
+                    row.classList.remove('opacity-60');
+                } else {
+                    row.classList.add('opacity-60');
+                }
+            });
+            document.getElementById('select-all-checkbox').checked = select;
+        }
+
+        document.querySelectorAll('.report-checkbox').forEach(cb => {
+            cb.addEventListener('change', (e) => {
+                const row = e.target.closest('tr');
+                if(e.target.checked) {
+                    row.classList.remove('opacity-60');
+                } else {
+                    row.classList.add('opacity-60');
+                }
+            });
+        });
+    </script>
+</body></html>

@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+
+<html class="h-full" lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SFD UEMOA ERP - Paramètres du reporting</title>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "on-secondary": "#ffffff",
+            "success-bg": "#d1fae5",
+            "secondary-fixed": "#d3e4fe",
+            "surface-container-lowest": "#ffffff",
+            "on-secondary-fixed": "#0b1c30",
+            "surface": "#fbf9fa",
+            "success": "#10b981",
+            "outline": "#75777d",
+            "surface-variant": "#e4e2e3",
+            "info-bg": "#e0f2fe",
+            "secondary": "#505f76",
+            "primary-fixed-dim": "#b9c7df",
+            "text-muted": "#64748b",
+            "on-error-container": "#93000a",
+            "danger": "#ef4444",
+            "background": "#fbf9fa",
+            "surface-tint": "#515f74",
+            "surface-container-high": "#eae7e9",
+            "on-secondary-container": "#54647a",
+            "secondary-container": "#d0e1fb",
+            "primary-container": "#475569",
+            "on-surface": "#1b1b1d",
+            "on-surface-variant": "#44474c",
+            "on-primary-fixed-variant": "#3a485b",
+            "tertiary-fixed-dim": "#dfc29a",
+            "danger-text": "#b91c1c",
+            "inverse-surface": "#303032",
+            "warning-text": "#b45309",
+            "success-text": "#047857",
+            "on-primary": "#ffffff",
+            "info": "#0ea5e9",
+            "text-main": "#212529",
+            "page-bg": "#f3f6f9",
+            "surface-container": "#efedef",
+            "info-text": "#0369a1",
+            "tertiary-fixed": "#fcdeb4",
+            "error": "#ba1a1a",
+            "on-tertiary-container": "#e2c59d",
+            "surface-dim": "#dbd9db",
+            "surface-container-highest": "#e4e2e3",
+            "inverse-on-surface": "#f2f0f2",
+            "warning": "#f59e0b",
+            "on-tertiary": "#ffffff",
+            "on-primary-fixed": "#0d1c2e",
+            "inverse-primary": "#b9c7df",
+            "border-color": "#e9ebec",
+            "tertiary-container": "#665131",
+            "on-primary-container": "#bbcae1",
+            "outline-variant": "#c4c6cd",
+            "on-background": "#1b1b1d",
+            "warning-bg": "#fef3c7",
+            "secondary-fixed-dim": "#b7c8e1",
+            "on-tertiary-fixed": "#281901",
+            "primary-fixed": "#d5e3fc",
+            "surface-container-low": "#f5f3f5",
+            "error-container": "#ffdad6",
+            "danger-bg": "#fee2e2",
+            "primary": "#303e51",
+            "on-error": "#ffffff",
+            "surface-bright": "#fbf9fa",
+            "card-bg": "#ffffff",
+            "on-secondary-fixed-variant": "#38485d",
+            "on-tertiary-fixed-variant": "#574325",
+            "tertiary": "#4d3a1c"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.125rem",
+            "lg": "0.25rem",
+            "xl": "0.5rem",
+            "full": "0.75rem"
+          },
+          "spacing": {
+            "space-sm": "0.5rem",
+            "space-lg": "1.5rem",
+            "gutter": "1rem",
+            "space-xl": "2rem",
+            "space-xs": "0.25rem",
+            "space-md": "1rem",
+            "margin": "1.5rem"
+          },
+          "fontFamily": {
+            "kpi-value": ["Open Sans"],
+            "headline-lg": ["Open Sans"],
+            "body-sm": ["Open Sans"],
+            "body": ["Open Sans"],
+            "label": ["Open Sans"]
+          },
+          "fontSize": {
+            "kpi-value": ["18px", { "lineHeight": "24px", "fontWeight": "600" }],
+            "headline-lg": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+            "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+            "body": ["13px", { "lineHeight": "18px", "fontWeight": "400" }],
+            "label": ["13px", { "lineHeight": "16px", "letterSpacing": "0.03em", "fontWeight": "600" }]
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="h-full bg-page-bg font-body text-on-surface antialiased flex flex-col">
+<!-- TopNavBar -->
+<header class="bg-surface dark:bg-surface font-body text-body shadow-sm flex justify-between items-center px-gutter w-full h-16 max-w-full mx-auto shrink-0 z-20">
+<div class="flex items-center gap-space-lg">
+<h1 class="font-headline-lg text-headline-lg font-extrabold text-primary dark:text-inverse-primary tracking-tight">SFD UEMOA ERP</h1>
+<div class="hidden md:flex items-center gap-space-md">
+<a class="text-on-surface-variant dark:text-surface-variant hover:text-primary dark:hover:text-inverse-primary transition-all duration-200" href="#">Tableau de bord</a>
+<a class="text-on-surface-variant dark:text-surface-variant hover:text-primary dark:hover:text-inverse-primary transition-all duration-200" href="#">Crédits</a>
+<a class="text-on-surface-variant dark:text-surface-variant hover:text-primary dark:hover:text-inverse-primary transition-all duration-200" href="#">Épargne</a>
+<a class="text-on-surface-variant dark:text-surface-variant hover:text-primary dark:hover:text-inverse-primary transition-all duration-200" href="#">ComptabilitÉ</a>
+</div>
+</div>
+<div class="flex items-center gap-space-md">
+<button class="hidden lg:flex items-center gap-space-xs px-3 py-1.5 bg-primary text-on-primary rounded-lg font-label text-label hover:bg-opacity-90 transition-all duration-200">
+<span class="material-symbols-outlined" style="font-size: 16px;">add</span>
+        Nouvelle opération
+      </button>
+<button aria-label="Aide" class="p-2 text-on-surface-variant hover:text-primary transition-all duration-200">
+<span class="material-symbols-outlined">help</span>
+</button>
+<button aria-label="Notifications" class="p-2 text-on-surface-variant hover:text-primary transition-all duration-200 relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-1 right-1 w-2 h-2 bg-danger rounded-full"></span>
+</button>
+<button aria-label="Settings" class="p-2 text-on-surface-variant hover:text-primary transition-all duration-200">
+<span class="material-symbols-outlined">settings</span>
+</button>
+<div class="h-8 w-[1px] bg-border-color mx-1"></div>
+<div class="flex items-center gap-space-sm pl-1">
+<div class="w-9 h-9 rounded-full bg-primary-fixed flex items-center justify-center text-on-primary-fixed font-bold text-sm" data-alt="Professional corporate headshot of a smiling West African male banking operator in a crisp white shirt and dark suit jacket, neutral soft gray studio background, professional corporate lighting, high fidelity enterprise software profile avatar style.">
+          OP
+        </div>
+<div class="hidden xl:block text-left">
+<div class="font-label text-label text-on-surface">M. Kouassi</div>
+<div class="text-[11px] text-text-muted">Opérateur Senior</div>
+</div>
+</div>
+</div>
+</header>
+<div class="flex flex-1 overflow-hidden">
+<!-- SideNavBar -->
+<aside class="hidden md:flex flex-col justify-between w-64 h-full p-space-md bg-surface-container-low dark:bg-surface-container border-r border-border-color dark:border-outline shrink-0 overflow-y-auto">
+<div class="flex flex-col gap-space-lg">
+<div class="flex items-center gap-space-sm px-2 py-1">
+<div class="w-8 h-8 rounded bg-primary text-on-primary flex items-center justify-center font-bold">U</div>
+<div>
+<div class="font-bold text-sm text-primary">SFD UEMOA</div>
+<div class="text-[11px] text-text-muted">Back-Office Central</div>
+</div>
+</div>
+<nav class="flex flex-col gap-1">
+<a class="flex items-center gap-space-md text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-high px-3 py-2 rounded-lg transition-all duration-200" href="#">
+<span class="material-symbols-outlined">assessment</span>
+<span class="font-label text-label">Reporting BCEAO</span>
+</a>
+<a class="flex items-center gap-space-md text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-high px-3 py-2 rounded-lg transition-all duration-200" href="#">
+<span class="material-symbols-outlined">pie_chart</span>
+<span class="font-label text-label">Ratios prudentiels</span>
+</a>
+<a class="flex items-center gap-space-md text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-high px-3 py-2 rounded-lg transition-all duration-200" href="#">
+<span class="material-symbols-outlined">badge</span>
+<span class="font-label text-label">Signataires</span>
+</a>
+<a class="flex items-center gap-space-md bg-secondary-container dark:bg-secondary text-on-secondary-container dark:text-on-secondary font-bold rounded-lg px-3 py-2 transition-all duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">tune</span>
+<span class="font-label text-label">Configurations</span>
+</a>
+<a class="flex items-center gap-space-md text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-high px-3 py-2 rounded-lg transition-all duration-200" href="#">
+<span class="material-symbols-outlined">history</span>
+<span class="font-label text-label">Audit système</span>
+</a>
+</nav>
+</div>
+<div class="flex flex-col gap-1 pt-space-md border-t border-border-color">
+<button class="w-full text-left flex items-center gap-space-md text-on-surface-variant hover:bg-surface-container-high px-3 py-2 rounded-lg transition-all duration-200">
+<span class="material-symbols-outlined">help</span>
+<span class="font-label text-label">Aide &amp; Support</span>
+</button>
+<button class="w-full text-left flex items-center gap-space-md text-danger-text hover:bg-danger-bg px-3 py-2 rounded-lg transition-all duration-200">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-label text-label">Déconnexion</span>
+</button>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="flex-1 flex flex-col overflow-y-auto">
+<!-- Page Header & Breadcrumb -->
+<div class="px-space-xl py-space-lg bg-surface border-b border-border-color flex flex-col md:flex-row md:items-center md:justify-between gap-space-md">
+<div>
+<div class="text-xs text-text-muted mb-1 flex items-center gap-space-xs font-semibold">
+<span>Accueil</span>
+<span class="material-symbols-outlined" style="font-size: 14px;">chevron_right</span>
+<span>Reporting Réglementaire</span>
+<span class="material-symbols-outlined" style="font-size: 14px;">chevron_right</span>
+<span class="text-primary font-bold">Paramètres du reporting</span>
+</div>
+<h2 class="text-2xl font-extrabold text-on-surface tracking-tight">Paramètres du reporting</h2>
+</div>
+<div class="flex items-center gap-space-md">
+<button class="px-space-md py-2 border border-outline-variant text-on-surface bg-card-bg rounded-lg font-label text-label hover:bg-surface-container-low transition-all duration-200 flex items-center gap-space-xs">
+<span class="material-symbols-outlined" style="font-size: 16px;">refresh</span>
+            Actualiser
+          </button>
+<button class="px-space-md py-2 bg-primary text-on-primary rounded-lg font-label text-label hover:bg-opacity-90 transition-all duration-200 flex items-center gap-space-xs shadow-sm">
+<span class="material-symbols-outlined" style="font-size: 16px;">save</span>
+            Enregistrer les modifications
+          </button>
+</div>
+</div>
+<!-- Main Canvas Container -->
+<div class="p-space-xl max-w-7xl w-full mx-auto flex flex-col gap-space-lg pb-16">
+<!-- 2. Bloc d'information institutionnelle en lecture seule -->
+<div class="bg-card-bg border border-border-color rounded-xl p-space-lg shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-space-md">
+<div class="flex items-center gap-space-md">
+<div class="w-12 h-12 rounded-lg bg-primary-fixed flex items-center justify-center text-primary font-bold text-lg">
+              TG
+            </div>
+<div>
+<div class="text-xs text-text-muted uppercase tracking-wider font-semibold">UEMOA · BCEAO — Togo</div>
+<h3 class="text-lg font-bold text-on-surface">Institution de Microfinance - COFINA Togo S.A.</h3>
+<div class="text-xs text-text-muted mt-0.5">Code institution: <span class="font-mono font-bold text-on-surface">TG014</span></div>
+</div>
+</div>
+<div class="flex items-center gap-space-md bg-success-bg px-4 py-2.5 rounded-lg border border-success/30">
+<span class="w-2.5 h-2.5 rounded-full bg-success animate-pulse"></span>
+<div class="flex flex-col">
+<span class="font-label text-label text-success-text">Connecté BCEAO</span>
+<span class="text-[11px] text-success-text/80">Canal sécurisé v2.3 actif</span>
+</div>
+</div>
+</div>
+<!-- 3. Section Mode de source des données du reporting -->
+<div class="bg-card-bg border border-border-color rounded-xl p-space-lg shadow-sm">
+<h3 class="text-headline-lg font-headline-lg text-on-surface mb-1">Mode de source des données du reporting</h3>
+<p class="text-body-sm text-text-muted mb-space-lg">Sélectionnez le canal d'alimentation des états réglementaires transmis à la Banque Centrale.</p>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-space-md">
+<!-- Radio Option 1 -->
+<label class="relative flex flex-col p-space-md rounded-xl border-2 border-primary bg-surface-container-lowest cursor-pointer hover:border-primary transition-all duration-200">
+<div class="flex items-start justify-between mb-2">
+<div class="flex items-center gap-space-sm">
+<input checked="" class="text-primary focus:ring-primary h-4 w-4" name="source_mode" type="radio"/>
+<span class="font-bold text-on-surface text-base">Mode Intégré (Recommandé)</span>
+</div>
+<span class="bg-primary-fixed text-on-primary-fixed text-[11px] font-bold px-2 py-0.5 rounded">Actif</span>
+</div>
+<p class="text-body-sm text-text-muted pl-6">
+                Extraction automatique des données directement depuis le noyau central SFD Core Banking avec contrôle de cohérence instantané.
+              </p>
+</label>
+<!-- Radio Option 2 -->
+<label class="relative flex flex-col p-space-md rounded-xl border border-border-color bg-surface-container-lowest cursor-pointer hover:border-outline transition-all duration-200">
+<div class="flex items-start justify-between mb-2">
+<div class="flex items-center gap-space-sm">
+<input class="text-primary focus:ring-primary h-4 w-4" name="source_mode" type="radio"/>
+<span class="font-bold text-on-surface text-base">Mode Standalone / Fichiers externes</span>
+</div>
+</div>
+<p class="text-body-sm text-text-muted pl-6">
+                Alimentation manuelle par téléversement de fichiers de structure normalisée (XML / Excel / CSV validés).
+              </p>
+</label>
+</div>
+</div>
+<!-- 4. Section Informations d'en-tête de l'institution -->
+<div class="bg-card-bg border border-border-color rounded-xl p-space-lg shadow-sm">
+<h3 class="text-headline-lg font-headline-lg text-on-surface mb-1">Informations d'en-tête de l'institution</h3>
+<p class="text-body-sm text-text-muted mb-space-lg">Paramètres généraux identifiant l'établissement sur les rapports réglementaires BCEAO.</p>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-space-lg">
+<div class="flex flex-col gap-space-xs">
+<label class="font-label text-label text-on-surface">Raison sociale de l'institution</label>
+<input class="bg-surface-container-lowest border border-border-color rounded-lg px-3 py-2 text-on-surface focus:border-primary focus:ring-1 focus:ring-primary" type="text" value="COFINA TOGO S.A. - Système Financier Décentralisé"/>
+</div>
+<div class="flex flex-col gap-space-xs">
+<label class="font-label text-label text-on-surface">Code SFD (Identifiant BCEAO)</label>
+<input class="bg-surface-container-lowest border border-border-color rounded-lg px-3 py-2 text-on-surface font-mono focus:border-primary focus:ring-1 focus:ring-primary" type="text" value="TG-014-2018-S"/>
+</div>
+<div class="flex flex-col gap-space-xs md:col-span-2">
+<label class="font-label text-label text-on-surface">Adresse complète du siège social</label>
+<input class="bg-surface-container-lowest border border-border-color rounded-lg px-3 py-2 text-on-surface focus:border-primary focus:ring-1 focus:ring-primary" type="text" value="Boulevard du Mono, Immeuble La Grâce, 4èmeétage, B.P. 3214, Lomé, Togo"/>
+</div>
+<div class="flex flex-col gap-space-xs">
+<label class="font-label text-label text-on-surface">Devise de déclaration</label>
+<select class="bg-surface-container-lowest border border-border-color rounded-lg px-3 py-2 text-on-surface focus:border-primary focus:ring-1 focus:ring-primary">
+<option selected="">XOF (FCFA — Franc CFA en milliers)</option>
+<option>EUR — Euro</option>
+</select>
+</div>
+<div class="flex flex-col gap-space-xs">
+<label class="font-label text-label text-on-surface">Périodicité de transmission standard</label>
+<select class="bg-surface-container-lowest border border-border-color rounded-lg px-3 py-2 text-on-surface focus:border-primary focus:ring-1 focus:ring-primary">
+<option selected="">Mensuelle &amp; Trimestrielle (Standard UEMOA)</option>
+<option>Trimestrielle uniquement</option>
+<option>Annuelle</option>
+</select>
+</div>
+</div>
+</div>
+<!-- 5. Section Signataires habilités & Mandataires Sociaux -->
+<div class="bg-card-bg border border-border-color rounded-xl p-space-lg shadow-sm">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-md mb-space-lg">
+<div>
+<h3 class="text-headline-lg font-headline-lg text-on-surface mb-1">Signataires habilités &amp; Mandataires Sociaux</h3>
+<p class="text-body-sm text-text-muted">Liste des personnes habilitées à valider et signer les états financiers réglementaires transmis.</p>
+</div>
+<button class="px-space-md py-2 bg-secondary text-on-secondary rounded-lg font-label text-label hover:bg-opacity-90 transition-all duration-200 flex items-center gap-space-xs self-start">
+<span class="material-symbols-outlined" style="font-size: 16px;">person_add</span>
+              Ajouter un signataire
+            </button>
+</div>
+<!-- Data Table -->
+<div class="overflow-x-auto border border-border-color rounded-lg">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-page-bg text-text-muted font-label text-[12px] uppercase border-b border-border-color">
+<th class="py-3 px-4 font-semibold">Nom &amp; Prénoms</th>
+<th class="py-3 px-4 font-semibold">Fonction institutionnelle</th>
+<th class="py-3 px-4 font-semibold">Numéro d'agrément / Mandat</th>
+<th class="py-3 px-4 font-semibold">Statut</th>
+<th class="py-3 px-4 font-semibold text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-border-color text-body text-on-surface">
+<tr class="hover:bg-surface-container-low transition-colors h-[44px]">
+<td class="py-2.5 px-4 font-bold">M. Jean-Marc DOSSOU</td>
+<td class="py-2.5 px-4 text-text-muted">Directeur Général</td>
+<td class="py-2.5 px-4 font-mono text-xs">AG-2021-8891</td>
+<td class="py-2.5 px-4">
+<span class="inline-flex items-center gap-1 bg-success-bg text-success-text px-2 py-0.5 rounded text-[11px] font-bold">
+<span class="w-1.5 h-1.5 rounded-full bg-success"></span>
+                      Actif / Validé
+                    </span>
+</td>
+<td class="py-2.5 px-4 text-right">
+<button class="text-primary hover:text-opacity-70 p-1">
+<span class="material-symbols-outlined" style="font-size: 18px;">edit</span>
+</button>
+<button class="text-danger hover:text-opacity-70 p-1 ml-1">
+<span class="material-symbols-outlined" style="font-size: 18px;">delete</span>
+</button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors h-[44px]">
+<td class="py-2.5 px-4 font-bold">Mme. Akossiwa MENSAH</td>
+<td class="py-2.5 px-4 text-text-muted">Directrice Financière &amp; Comptable</td>
+<td class="py-2.5 px-4 font-mono text-xs">AG-2022-1042</td>
+<td class="py-2.5 px-4">
+<span class="inline-flex items-center gap-1 bg-success-bg text-success-text px-2 py-0.5 rounded text-[11px] font-bold">
+<span class="w-1.5 h-1.5 rounded-full bg-success"></span>
+                      Actif / Validé
+                    </span>
+</td>
+<td class="py-2.5 px-4 text-right">
+<button class="text-primary hover:text-opacity-70 p-1">
+<span class="material-symbols-outlined" style="font-size: 18px;">edit</span>
+</button>
+<button class="text-danger hover:text-opacity-70 p-1 ml-1">
+<span class="material-symbols-outlined" style="font-size: 18px;">delete</span>
+</button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors h-[44px]">
+<td class="py-2.5 px-4 font-bold">M. Ousmane DIALLO</td>
+<td class="py-2.5 px-4 text-text-muted">Responsable Conformité &amp; Contrôle Permanent</td>
+<td class="py-2.5 px-4 font-mono text-xs">AG-2023-3312</td>
+<td class="py-2.5 px-4">
+<span class="inline-flex items-center gap-1 bg-warning-bg text-warning-text px-2 py-0.5 rounded text-[11px] font-bold">
+<span class="w-1.5 h-1.5 rounded-full bg-warning"></span>
+                      En attente BCEAO
+                    </span>
+</td>
+<td class="py-2.5 px-4 text-right">
+<button class="text-primary hover:text-opacity-70 p-1">
+<span class="material-symbols-outlined" style="font-size: 18px;">edit</span>
+</button>
+<button class="text-danger hover:text-opacity-70 p-1 ml-1">
+<span class="material-symbols-outlined" style="font-size: 18px;">delete</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>
