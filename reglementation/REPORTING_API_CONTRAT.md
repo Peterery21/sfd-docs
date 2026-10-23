@@ -22,6 +22,7 @@ version: 2026.10.0              # semver ; changement = resynchro MISSING
 pays: [BJ, BF, CI, GW, ML, NE, SN, TG]
 typesAssujettis: [TOUS, ART44, AUTRES_SFD, RESEAUX, IMF_CB]
 conventions: {...}              # texte libre repris des brouillons
+variantes: {defaut: ALLEGEE, parCategorie: {ART44: DEVELOPPEE}}   # UEMOA : choix comptes vs comptesAllegee selon categorieAssujetti
 transmission: {...}             # facultatif
 sanctions: [...]                # facultatif
 ```
@@ -47,7 +48,9 @@ lignes:
     section: Numérateur          # facultatif, regroupement d'affichage
     ordre: 10
     comptes: "10,11,-119"        # préfixes ; '-' soustrait ; suffixe dr/cr = solde débiteur/créditeur seul
-    comptesAllegee: null         # variante RCSFD allégée (SFD non art. 44)
+    comptesAllegee: null         # variante RCSFD allégée ; si présente et variante = ALLEGEE, remplace comptes
+    aConfirmerArt44: false       # comptes du développé non confirmés (UI : badge « à confirmer »)
+    planEdipIncomplet: false     # comptes absents du plan EDIP (valeur 0 → avertissement de contrôle)
     sens: D                      # D | C | SOLDE (sens de lecture du solde)
     colonnes: [BRUT, AMORT_PROV, NET, NET_N1]   # facultatif (bilans)
     expression: null             # exclusif avec comptes : codes de lignes, + - * / ( ), MIN(a,b), MAX(a,b), constantes ; référence à un autre rapport : AUTRE_CODE.LIGNE
