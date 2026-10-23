@@ -14,6 +14,8 @@ Ce registre se remplit au fil de l'implémentation et sera remis en fin de proje
 | U8 | Variante de compte : le passage de l'allégée à la développée doit-il être automatique (encours ≥ 2 Md FCFA sur 2 exercices), ou rester une saisie ? | Saisie manuelle de `categorieAssujetti` dans Paramètres. | Instr. 007-06-2010 / 021-12-2010 ; S2 |
 | U9 | Lignes sans code officiel : DIMF-2006 à 2010, 2011-1, 2014, 2018. | Code technique `LIGNE_<ordre>`, calcul en ERREUR. | S2 |
 | U10 | Surcharges pays : rapports nationaux CI-PAYS-001 à 006 sans lignes ; BJ et SN décrits en texte libre. | Rapports affichés, sans calcul. | pays/*.yml ; S2 |
+| U11 | La variante allégée ne contient pas certains postes de la développée (149 lignes `allegee:false`). Valeur proposée : 0 explicite, avec un avertissement « absent du plan allégé ». | à valider | S2b, revue |
+| U12 | Classe 9 (hors-bilan) : le RCSFD allégé n'en publie pas. La liste vient du modèle DIMF-2000-HB (copie CI) : à confirmer avec la BCEAO avant de l'ajouter au plan EDIP. | confiance BASSE | S2b |
 | U7 | FGDR : taux de 0,29 % et plafond de 300 000 FCFA (décision de 2017). Une révision postérieure n'est pas exclue. | Valeurs de 2017. | T08-T10 |
 
 ## CEMAC (COBAC, PCEMF)
