@@ -1,4 +1,10 @@
-"""Convertit les paquet-draft.yml (Lot 0) au format localisation/ du contrat v1."""
+"""Convertit les paquet-draft.yml (Lot 0) au format localisation/ du contrat v1.
+
+ATTENTION (S2b) : les paquets de sfd-reporting-service ont été complétés à la main depuis cette conversion (comptes ex fusionnés en dr/cr,
+champ `parent`, CROSS_SERVICE explicites, exclusions CEMAC, sens OHADA N34, SAISIE SMT…). Relancer ce script écraserait ces corrections :
+les paquets font désormais foi, ce script ne sert plus que de point de départ pour une nouvelle zone. Le champ `parent` (code de la ligne
+parente) passe tel quel dans `ligne()`.
+"""
 import sys, os, re, yaml
 DOCS, OUT = sys.argv[1], sys.argv[2]
 ZONES = {'uemoa-bceao': 'UEMOA-BCEAO', 'cemac-beac': 'CEMAC-COBAC', 'rdc-bcc': 'RDC-BCC', 'syscohada-sycebnl': 'OHADA'}

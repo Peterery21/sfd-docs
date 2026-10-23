@@ -1,0 +1,151 @@
+zone: UEMOA-BCEAO
+objet: Comptes de classe 9 (hors-bilan) à ajouter au plan comptable EDIP UEMOA, destinés à l'orchestrateur (plan compta)
+source:
+  etatRCSFD: annexe 1.1 / 2.4 (DIMF 2000 hors-bilan, code AC0) telle que transcrite dans sfd-docs/reglementation/uemoa-bceao/reporting.md §b.2 (copie du Trésor de Côte d'Ivoire, développée, jeu allégé «
+    idem »)
+  constat: 'Le PDF RCSFD allégé cb-umoa (nov. 2009) n''a PAS de classe 9 : son plan de comptes s''arrête à la classe 7 (vérifié sur le texte extrait : CLASSE 1 à 7). La liste ci-dessous ne vient donc ni
+    du PDF allégé ni d''un plan de comptes : elle est lue dans le modèle de hors-bilan (DIMF 2000-HB, copie du Trésor de Côte d''Ivoire, développée) ; les libellés sont ceux des postes, pas ceux des comptes.'
+  confiance: BASSE
+comptes:
+- compte: '901'
+  poste: N1A
+  libelle: ENGAGEMENTS DE FINANCEMENT DONNES EN FAVEUR DES INSTITUTIONS FINANCIERES
+- compte: '902'
+  poste: N1H
+  libelle: ENGAGEMENTS DE FINANCEMENT RECUS DES INSTITUTIONS FINANCIERES
+- compte: '903'
+  poste: N1J
+  libelle: ENGAGEMENTS DE FINANCEMENT DONNES EN FAVEUR DES MEMBRES, BENEFICIAIRES OU CLIENTS
+- compte: '904'
+  poste: N1K
+  libelle: ENGAGEMENTS DE FINANCEMENT RECUS DES MEMBRES, BENEFICIAIRES OU CLIENTS
+- compte: '911'
+  poste: N2A
+  libelle: Engagements de garantie d'ordre des institutions financières
+- compte: '912'
+  poste: N2H
+  libelle: Engagements de garantie reçus des institutions financières
+- compte: '913'
+  poste: N2J
+  libelle: Engagements de garantie d'ordre des membres, bénéficiaires ou clients
+- compte: '914'
+  poste: N2M
+  libelle: Engagements de garantie reçus des membres, bénéficiaires ou clients
+- compte: '9211'
+  poste: N3A
+  libelle: 'Engagements sur titres : titres à livrer'
+- compte: '9212'
+  poste: N3A
+  libelle: 'Engagements sur titres : titres à livrer'
+- compte: '9219'
+  poste: N3A
+  libelle: 'Engagements sur titres : titres à livrer'
+- compte: '9211'
+  poste: N3B
+  libelle: Intervention à l'émission (titres à livrer)
+- compte: '9212'
+  poste: N3C
+  libelle: Marché gris (titres à livrer)
+- compte: '9219'
+  poste: N3D
+  libelle: Autres titres à livrer
+- compte: '9221'
+  poste: N3E
+  libelle: 'Engagements sur titres : titres à recevoir'
+- compte: '9222'
+  poste: N3E
+  libelle: 'Engagements sur titres : titres à recevoir'
+- compte: '9229'
+  poste: N3E
+  libelle: 'Engagements sur titres : titres à recevoir'
+- compte: '9221'
+  poste: NRF
+  libelle: Intervention à l'émission (titres à recevoir)
+- compte: '9222'
+  poste: NRG
+  libelle: Marché gris (titres à recevoir)
+- compte: '9229'
+  poste: N3H
+  libelle: 'Autres titres à recevoir [libellé du modèle : Autres titres à livrer]'
+- compte: '9311'
+  poste: P1A
+  libelle: Francs CFA achetés non encore reçus
+- compte: '9312'
+  poste: P1B
+  libelle: Devises achetées non encore reçues
+- compte: '9313'
+  poste: P1C
+  libelle: Francs CFA vendus non encore livres
+- compte: '9314'
+  poste: P1D
+  libelle: Devises vendues non encore livrées
+- compte: '9331'
+  poste: P1E
+  libelle: Devises prêtées non encore livrées
+- compte: '9332'
+  poste: P1F
+  libelle: Devises empruntées non encore reçues
+- compte: '9321'
+  poste: P1G
+  libelle: Opérations de change à terme francs CFA à recevoir contre devises à livrer
+- compte: '9322'
+  poste: P1H
+  libelle: Opérations de change à terme devises à recevoir contre FCFA à livrer
+- compte: '9323'
+  poste: P1J
+  libelle: Opérations de change à terme devises à recevoir contre devises à livrer
+- compte: '9324'
+  poste: P1K
+  libelle: Opérations de change à terme devises à livrer contre devises à recevoir
+- compte: '9341'
+  poste: P1L
+  libelle: Report/déport non couru à recevoir
+- compte: '9342'
+  poste: P1M
+  libelle: Report/déport non couru à payer
+- compte: '9351'
+  poste: P1R
+  libelle: Intérêts non courus en devises couverts à recevoir
+- compte: '9352'
+  poste: P1S
+  libelle: Intérêts non courus en devises couverts à payer
+- compte: '936'
+  poste: P1V
+  libelle: Ajustements devises hors bilan
+- compte: '951'
+  poste: Q1A
+  libelle: Autres engagements donnés
+- compte: '952'
+  poste: Q1B
+  libelle: Autres engagements reçus
+- compte: '9611'
+  poste: Q1C
+  libelle: Valeurs à l'encaissement non disponibles
+- compte: '9613'
+  poste: Q1C
+  libelle: Valeurs à l'encaissement non disponibles
+- compte: '9612'
+  poste: Q1F
+  libelle: Comptes exigibles après encaissements
+- compte: '9614'
+  poste: Q1F
+  libelle: Comptes exigibles après encaissements
+- compte: '9621'
+  poste: Q1J
+  libelle: Comptes de suivi des engagements de financement consortiaux
+- compte: '9631'
+  poste: Q1K
+  libelle: Comptes de suivi des engagements de garantie consortiaux
+- compte: '9651'
+  poste: Q1L
+  libelle: Comptes de suivi des crédits consortiaux
+- compte: '9661'
+  poste: Q1M
+  libelle: Crédits distribués pour le compte de tiers
+- compte: '99'
+  poste: N90
+  libelle: ENGAGEMENTS DOUTEUX
+pointsAValider:
+- 'Libellés officiels des comptes de classe 9 : à lire dans le RCSFD développé (version officielle BCEAO / Commission Bancaire), pas disponible ici'
+- 'Sens normal des soldes (SOLDE retenu par S2 sur le hors-bilan) : à confirmer'
+origine: modele-DIMF-2000-HB-copie-CI
