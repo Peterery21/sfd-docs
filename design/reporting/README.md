@@ -57,7 +57,7 @@ Fichiers : `stitch/<ecran>.html` + `stitch/<ecran>.png` (2560 px de large = rend
 | Tableau de bord | `dashboard` | `b0d5deb4a7f944fa960c2a3fdbd77890` |
 | Éditer les rapports | `edition` | `fc7b4735ad234b039db71d4cdaa2fa60` |
 | Formules de calcul | `formules` | `0a3185b529994f389e747f1caed1d96a` |
-| États financiers | `etats-financiers` | `133787e2a710406e8c82dd2958fe530c` |
+| États financiers | `etats-financiers` | `5799a6f1efea437681b3b91fac3c3e76` |
 | Export groupé (ZIP) | `export-zip` | `825e3909a4694b7dab7eecea1f3ea7d8` |
 | Données importées | `donnees-importees` | `425724baec514b99b4ec8a142a1fe8f6` |
 | Paramètres | `parametres` | `bf45df92567a4808bab758f47ee317a8` |
@@ -71,3 +71,8 @@ Chaque `edit_screens` de Stitch crée en général une nouvelle version d'écran
 Corrections de fond appliquées (revue orchestrateur) : menu et bandeau du module, normes UEMOA exactes (Instr. 010-08-2010 et 016-12-2010, codes `UEMOA-REP-PRU-01…10`), lignes `R5_NUM/R5_DEN/R5_COEF`, comptes RCSFD (10 Valeurs en caisse, 11 Banques, 25 Comptes des membres), statuts du contrat (À faire, Brouillon, En cours, Validé, Soumis, Clôturé, Rejeté), exports PDF/Excel uniquement, plus de XBRL, de « synchronisé » ni d'agrément.
 
 Limites : les valeurs chiffrées, les noms de signataires et les dates sont des **données de démonstration** ; la page est à lire comme une maquette de structure. `edition` : le tableau ne montre que le rapport sélectionné (PRU-05). Écarts possibles restants : certains libellés de contrôle (« Évolution des créances en souffrance ») et le bloc « Indicateurs UEMOA clés » du tableau de bord sont de remplissage Stitch, non issus du contrat. Les anciennes maquettes S3 (`../*.html`) restent la référence de contenu.
+
+## Règles de lecture des designs Stitch
+- **Seule la zone de contenu fait foi.** Barre latérale, barre du haut, nom de l'application et chip de zone des écrans Stitch sont ignorés : dans l'Angular, le contenu s'insère dans le layout EDIP existant.
+- **Paramètres et Formules de calcul** : la référence reste la version déjà implémentée (maquettes S3 en HTML, puis S5 Angular). Les écrans Stitch correspondants ne servent que d'**inspiration visuelle**.
+- Contenu corrigé sur Ratios prudentiels, Éditer les rapports, Tableau de bord, États financiers (RCSFD, DIMF-2000-BIL), Export ZIP, Données importées et Historique (normes UEMOA 010-08-2010 / 016-12-2010, codes `UEMOA-REP-PRU-01…10`, comptes RCSFD, statuts du contrat, pas de XBRL).
