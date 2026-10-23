@@ -3,7 +3,7 @@
 <html class="h-full" lang="fr"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Données importées — Assistant d'intégration SYSCOHADA</title>
+<title>Données importées</title>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
@@ -118,174 +118,36 @@
 <aside class="hidden md:flex flex-col justify-between h-screen w-64 bg-surface-container-low dark:bg-surface-container border-r border-border-color dark:border-outline shrink-0 z-20">
 <div class="flex flex-col h-full">
 <!-- Header branding -->
-<div class="flex items-center gap-3 px-4 h-16 border-b border-border-color">
-<div class="w-8 h-8 rounded-lg bg-primary text-on-primary flex items-center justify-center font-bold">SFD</div>
-<div>
-<h1 class="text-headline-lg font-headline-lg font-extrabold text-primary dark:text-inverse-primary tracking-tight">MicroFinance ERP</h1>
-<p class="text-[11px] text-text-muted">Back-office Opérationnel</p>
-</div>
-</div>
+<div class="flex items-center gap-3 px-4 h-16 border-b border-border-color"><div class="w-8 h-8 rounded-lg bg-primary text-on-primary flex items-center justify-center font-bold">ED</div><div><h1 class="text-headline-lg font-headline-lg font-extrabold text-primary dark:text-inverse-primary tracking-tight">EDIP · SFD</h1><p class="text-[11px] text-text-muted">Lomé Centre</p></div></div>
 <!-- Navigation Items -->
-<nav class="flex-1 overflow-y-auto px-3 py-4 space-y-1">
-<a class="flex items-center gap-3 px-3 py-2.5 text-on-surface-variant hover:text-on-surface hover:bg-surface-container rounded-lg transition-all duration-200" href="#">
-<span class="material-symbols-outlined text-[20px]">dashboard</span>
-<span class="font-body text-body">Tableau de bord</span>
-</a>
-<a class="flex items-center gap-3 px-3 py-2.5 text-on-surface-variant hover:text-on-surface hover:bg-surface-container rounded-lg transition-all duration-200" href="#">
-<span class="material-symbols-outlined text-[20px]">group</span>
-<span class="font-body text-body">Clients</span>
-</a>
-<a class="flex items-center gap-3 px-3 py-2.5 text-on-surface-variant hover:text-on-surface hover:bg-surface-container rounded-lg transition-all duration-200" href="#">
-<span class="material-symbols-outlined text-[20px]">credit_card</span>
-<span class="font-body text-body">Crédits</span>
-</a>
-<a class="flex items-center gap-3 px-3 py-2.5 text-on-surface-variant hover:text-on-surface hover:bg-surface-container rounded-lg transition-all duration-200" href="#">
-<span class="material-symbols-outlined text-[20px]">savings</span>
-<span class="font-body text-body">Épargne</span>
-</a>
-<a class="flex items-center gap-3 px-3 py-2.5 text-on-surface-variant hover:text-on-surface hover:bg-surface-container rounded-lg transition-all duration-200" href="#">
-<span class="material-symbols-outlined text-[20px]">account_balance</span>
-<span class="font-body text-body">Comptabilité</span>
-</a>
-<a class="flex items-center gap-3 px-3 py-2.5 bg-primary-container text-on-primary-container font-bold rounded-lg transition-all duration-200" href="#">
-<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">upload_file</span>
-<span class="font-body text-body">Imports &amp; Exports</span>
-</a>
-</nav>
+<nav class="flex-1 overflow-y-auto px-3 py-4 space-y-1"><a class="flex items-center gap-3 px-3 py-2.5 text-on-surface-variant hover:text-on-surface hover:bg-surface-container rounded-lg transition-all duration-200" href="#"><span class="material-symbols-outlined text-[20px]">dashboard</span><span class="font-body text-body">Tableau de bord</span></a><a class="flex items-center gap-3 px-3 py-2.5 text-on-surface-variant hover:text-on-surface hover:bg-surface-container rounded-lg transition-all duration-200" href="#"><span class="material-symbols-outlined text-[20px]">edit_document</span><span class="font-body text-body">Éditer les rapports</span></a><a class="flex items-center gap-3 px-3 py-2.5 text-on-surface-variant hover:text-on-surface hover:bg-surface-container rounded-lg transition-all duration-200" href="#"><span class="material-symbols-outlined text-[20px]">account_balance</span><span class="font-body text-body">États financiers</span></a><a class="flex items-center gap-3 px-3 py-2.5 text-on-surface-variant hover:text-on-surface hover:bg-surface-container rounded-lg transition-all duration-200" href="#"><span class="material-symbols-outlined text-[20px]">trending_up</span><span class="font-body text-body">Ratios prudentiels</span></a><a class="flex items-center gap-3 px-3 py-2.5 text-on-surface-variant hover:text-on-surface hover:bg-surface-container rounded-lg transition-all duration-200" href="#"><span class="material-symbols-outlined text-[20px]">folder_zip</span><span class="font-body text-body">Export groupé (ZIP)</span></a><a class="flex items-center gap-3 px-3 py-2.5 text-on-surface-variant hover:text-on-surface hover:bg-surface-container rounded-lg transition-all duration-200" href="#"><span class="material-symbols-outlined text-[20px]">history</span><span class="font-body text-body">Historique des éditions</span></a><a class="flex items-center gap-3 px-3 py-2.5 bg-primary-container text-on-primary-container font-bold rounded-lg transition-all duration-200" href="#"><span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">upload_file</span><span class="font-body text-body">Données importées</span></a><div class="pt-3 pb-1 px-3 text-[11px] font-bold text-text-muted uppercase tracking-wider">Configuration</div><a class="flex items-center gap-3 px-3 py-2.5 text-on-surface-variant hover:text-on-surface hover:bg-surface-container rounded-lg transition-all duration-200" href="#"><span class="material-symbols-outlined text-[20px]">calculate</span><span class="font-body text-body">Formules de calcul</span></a><a class="flex items-center gap-3 px-3 py-2.5 text-on-surface-variant hover:text-on-surface hover:bg-surface-container rounded-lg transition-all duration-200" href="#"><span class="material-symbols-outlined text-[20px]">settings</span><span class="font-body text-body">Paramètres</span></a></nav>
 <!-- CTA Section inside SideNav -->
-<div class="px-4 py-3">
-<button class="w-full bg-primary hover:bg-primary/90 text-on-primary font-label text-label py-2.5 px-4 rounded-lg flex items-center justify-center gap-2 shadow-sm transition-all">
-<span class="material-symbols-outlined text-[18px]">add</span>
-<span>Nouveau rapport</span>
-</button>
-</div>
 <!-- Footer Navigation -->
-<div class="px-3 py-4 border-t border-border-color space-y-1">
-<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container rounded-lg transition-all duration-200" href="#">
-<span class="material-symbols-outlined text-[18px]">settings</span>
-<span class="font-body text-body">Paramètres</span>
-</a>
-<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container rounded-lg transition-all duration-200" href="#">
-<span class="material-symbols-outlined text-[18px]">logout</span>
-<span class="font-body text-body">Déconnexion</span>
-</a>
-</div>
 </div>
 </aside>
 <!-- Main Content Canvas Area -->
 <div class="flex-1 flex flex-col h-screen overflow-hidden">
 <!-- TopAppBar -->
-<header class="bg-surface dark:bg-surface-container flex justify-between items-center w-full px-margin h-16 shadow-sm dark:shadow-none shrink-0 z-10">
-<div class="flex items-center gap-4">
-<button class="md:hidden text-on-surface-variant p-2 rounded-lg hover:bg-surface-container">
-<span class="material-symbols-outlined">menu</span>
-</button>
-<div>
-<span class="text-headline-lg font-headline-lg font-bold text-primary dark:text-inverse-primary">Données importées</span>
-<div class="flex items-center gap-2 text-xs text-text-muted mt-0.5">
-<span>SYSCOHADA UEMOA</span>
-<span>•</span>
-<span>Établissement: SFD Crédit Solidaire</span>
-</div>
-</div>
-</div>
-<div class="flex items-center gap-3">
-<button class="p-2 text-on-surface-variant hover:bg-surface-container hover:text-on-surface rounded-full transition-all" title="Rechercher">
-<span class="material-symbols-outlined text-[20px]">search</span>
-</button>
-<button class="p-2 text-on-surface-variant hover:bg-surface-container hover:text-on-surface rounded-full transition-all relative" title="Notifications">
-<span class="material-symbols-outlined text-[20px]">notifications</span>
-<span class="absolute top-1.5 right-1.5 w-2 h-2 bg-error rounded-full"></span>
-</button>
-<button class="p-2 text-on-surface-variant hover:bg-surface-container hover:text-on-surface rounded-full transition-all" title="Aide">
-<span class="material-symbols-outlined text-[20px]">help</span>
-</button>
-<div class="h-6 w-px bg-border-color mx-1"></div>
-<div class="flex items-center gap-2.5 pl-1">
-<div class="w-8 h-8 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center font-bold text-xs">
-                        OP
-                    </div>
-<div class="hidden lg:block text-left">
-<div class="text-xs font-bold text-on-surface">Amadou Diallo</div>
-<div class="text-[10px] text-text-muted">Opérateur Back-office</div>
-</div>
-</div>
-</div>
-</header>
+<header class="bg-surface dark:bg-surface-container flex justify-between items-center w-full px-margin h-16 shadow-sm dark:shadow-none shrink-0 z-10"><div class="flex items-center gap-4"><button class="md:hidden text-on-surface-variant p-2 rounded-lg hover:bg-surface-container"><span class="material-symbols-outlined">menu</span></button><div><span class="px-3 py-1 bg-surface-container rounded-full text-xs font-semibold text-primary">UEMOA · BCEAO — Togo · Paquet 2026.10.0 · Mode standalone</span></div></div><div class="flex items-center gap-3"><div class="flex items-center gap-2.5 pl-1"><div class="w-8 h-8 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center font-bold text-xs">AK</div><div class="hidden lg:block text-left"><div class="text-xs font-bold text-on-surface">A. Kossi</div><div class="text-[10px] text-text-muted">Responsable conformité</div></div></div></div></header>
 <!-- Scrollable Dashboard Content -->
 <main class="flex-1 overflow-y-auto p-space-xl space-y-space-xl">
 <!-- Breadcrumb & Page Banner Header -->
 <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-card-bg p-space-lg rounded-xl border border-border-color shadow-sm">
 <div>
-<div class="flex items-center gap-2 text-xs text-text-muted mb-1">
-<span>Comptabilité</span>
+<div class="flex items-center gap-2 text-xs text-text-muted mb-1"><span>Accueil</span>
 <span class="material-symbols-outlined text-[14px]">chevron_right</span>
-<span>Intégrations</span>
+<span>Reporting réglementaire</span>
 <span class="material-symbols-outlined text-[14px]">chevron_right</span>
-<span class="text-primary font-semibold">Assistant SYSCOHADA</span>
-</div>
-<h2 class="text-xl font-headline-lg font-bold text-primary">Données importées — Assistant d'intégration SYSCOHADA</h2>
-<p class="text-body-sm text-text-muted mt-1">Validation et contrôle de conformité des états financiers mensuels aux normes de la BCEAO.</p>
+<span class="text-primary font-semibold">Données importées</span></div>
+<h2 class="text-xl font-headline-lg font-bold text-primary">Données importées</h2>
+<p class="text-body-sm text-text-muted mt-1">Validation et contrôle de conformité des états financiers mensuels aux normes.</p>
 </div>
 <div class="flex items-center gap-3">
-<button class="px-4 py-2 bg-surface-container hover:bg-surface-container-high text-on-surface font-label text-label rounded-lg transition-all flex items-center gap-2 border border-border-color">
-<span class="material-symbols-outlined text-[16px]">download</span>
-<span>Télécharger rapport d'erreurs</span>
-</button>
-<button class="px-4 py-2 bg-primary hover:bg-primary/90 text-on-primary font-label text-label rounded-lg transition-all flex items-center gap-2 shadow-sm">
-<span class="material-symbols-outlined text-[16px]">refresh</span>
-<span>Relancer l'import</span>
-</button>
 </div>
 </div>
 <!-- 4-Step Horizontal Wizard Stepper -->
 <div class="bg-card-bg p-space-lg rounded-xl border border-border-color shadow-sm">
-<div class="grid grid-cols-1 md:grid-cols-4 gap-4 relative">
-<!-- Step 1: Completed -->
-<div class="flex items-start gap-3 p-3 rounded-lg bg-success-bg/30 border border-success/30">
-<div class="w-8 h-8 rounded-full bg-success text-on-tertiary flex items-center justify-center shrink-0 font-bold text-xs">
-<span class="material-symbols-outlined text-[18px]">check</span>
-</div>
-<div>
-<div class="text-[11px] font-bold text-success-text uppercase tracking-wider">Étape 1</div>
-<div class="text-body-sm font-semibold text-on-surface">Télécharger le modèle</div>
-<div class="text-[11px] text-text-muted mt-0.5">Modèle SYSCOHADA v2.4 validé</div>
-</div>
-</div>
-<!-- Step 2: Completed -->
-<div class="flex items-start gap-3 p-3 rounded-lg bg-success-bg/30 border border-success/30">
-<div class="w-8 h-8 rounded-full bg-success text-on-tertiary flex items-center justify-center shrink-0 font-bold text-xs">
-<span class="material-symbols-outlined text-[18px]">check</span>
-</div>
-<div>
-<div class="text-[11px] font-bold text-success-text uppercase tracking-wider">Étape 2</div>
-<div class="text-body-sm font-semibold text-on-surface">Déposer le fichier</div>
-<div class="text-[11px] text-text-muted mt-0.5 truncate max-w-[180px]">Fichier_Comptable_Dec2026.xlsx</div>
-</div>
-</div>
-<!-- Step 3: Active -->
-<div class="flex items-start gap-3 p-3 rounded-lg bg-primary-container/10 border-2 border-primary shadow-sm">
-<div class="w-8 h-8 rounded-full bg-primary text-on-primary flex items-center justify-center shrink-0 font-bold text-xs">
-                            3
-                        </div>
-<div>
-<div class="text-[11px] font-bold text-primary uppercase tracking-wider">Étape 3 (Active)</div>
-<div class="text-body-sm font-semibold text-on-surface">Contrôles de cohérence</div>
-<div class="text-[11px] text-warning-text font-medium mt-0.5">1 avertissement détecté</div>
-</div>
-</div>
-<!-- Step 4: Pending -->
-<div class="flex items-start gap-3 p-3 rounded-lg bg-surface-container-low border border-border-color opacity-70">
-<div class="w-8 h-8 rounded-full bg-surface-variant text-on-surface-variant flex items-center justify-center shrink-0 font-bold text-xs">
-                            4
-                        </div>
-<div>
-<div class="text-[11px] font-bold text-text-muted uppercase tracking-wider">Étape 4</div>
-<div class="text-body-sm font-semibold text-on-surface">Confirmer l'intégration</div>
-<div class="text-[11px] text-text-muted mt-0.5">En attente des contrôles</div>
-</div>
-</div>
-</div>
+<div class="grid grid-cols-1 md:grid-cols-4 gap-4 relative"><div class="flex items-start gap-3 p-3 rounded-lg bg-success-bg/30 border border-success/30"><div class="w-8 h-8 rounded-full bg-success text-on-tertiary flex items-center justify-center shrink-0 font-bold text-xs"><span class="material-symbols-outlined text-[18px]">check</span></div><div><div class="text-[11px] font-bold text-success-text uppercase tracking-wider">Étape 1</div><div class="text-body-sm font-semibold text-on-surface">Télécharger le modèle</div><div class="text-[11px] text-text-muted mt-0.5">Modèle validé</div></div></div><div class="flex items-start gap-3 p-3 rounded-lg bg-success-bg/30 border border-success/30"><div class="w-8 h-8 rounded-full bg-success text-on-tertiary flex items-center justify-center shrink-0 font-bold text-xs"><span class="material-symbols-outlined text-[18px]">check</span></div><div><div class="text-[11px] font-bold text-success-text uppercase tracking-wider">Étape 2</div><div class="text-body-sm font-semibold text-on-surface">Déposer le fichier</div><div class="text-[11px] text-text-muted mt-0.5 truncate max-w-[180px]">balance_octobre_2026.xlsx</div></div></div><div class="flex items-start gap-3 p-3 rounded-lg bg-primary-container/10 border-2 border-primary shadow-sm"><div class="w-8 h-8 rounded-full bg-primary text-on-primary flex items-center justify-center shrink-0 font-bold text-xs">3</div><div><div class="text-[11px] font-bold text-primary uppercase tracking-wider">Étape 3 (Active)</div><div class="text-body-sm font-semibold text-on-surface">Contrôler</div><div class="text-[11px] text-warning-text font-medium mt-0.5">1 avertissement détecté</div></div></div><div class="flex items-start gap-3 p-3 rounded-lg bg-surface-container-low border border-border-color opacity-70"><div class="w-8 h-8 rounded-full bg-surface-variant text-on-surface-variant flex items-center justify-center shrink-0 font-bold text-xs">4</div><div><div class="text-[11px] font-bold text-text-muted uppercase tracking-wider">Étape 4</div><div class="text-body-sm font-semibold text-on-surface">Confirmer</div><div class="text-[11px] text-text-muted mt-0.5">En attente</div></div></div></div>
 </div>
 <!-- Active Step 3 Detailed Verification Panel -->
 <div class="bg-card-bg rounded-xl border border-border-color shadow-sm overflow-hidden">
@@ -293,7 +155,7 @@
 <div class="flex items-center gap-3">
 <span class="material-symbols-outlined text-primary text-[24px]">verified_user</span>
 <div>
-<h3 class="text-headline-lg font-headline-lg font-bold text-primary">Rapport d'analyse de cohérence SYSCOHADA</h3>
+<h3 class="text-headline-lg font-headline-lg font-bold text-primary">Contrôles de l'import</h3>
 <p class="text-body-sm text-text-muted">Vérification automatique des équilibres comptables, nomenclatures et annexes obligatoires.</p>
 </div>
 </div>
@@ -309,67 +171,7 @@
 </div>
 </div>
 <!-- Check results grid/list -->
-<div class="p-space-lg space-y-4">
-<!-- Rule 1: Conforme -->
-<div class="p-4 rounded-lg border border-success/30 bg-success-bg/10 flex flex-col md:flex-row md:items-center justify-between gap-4">
-<div class="flex items-start gap-3.5">
-<div class="w-8 h-8 rounded-full bg-success text-on-tertiary flex items-center justify-center shrink-0 mt-0.5">
-<span class="material-symbols-outlined text-[18px]">check_circle</span>
-</div>
-<div>
-<div class="flex items-center gap-2">
-<h4 class="font-bold text-on-surface text-body-sm">Équilibre Actif / Passif</h4>
-<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-success-bg text-success-text uppercase tracking-wider">Conforme</span>
-</div>
-<p class="text-text-muted text-body mt-0.5">Total Actif (1 450 230 400 XOF) parfaitement égal au Total Passif &amp; Capitaux Propres (1 450 230 400 XOF).</p>
-</div>
-</div>
-<div class="text-right text-xs font-mono text-text-muted bg-surface px-3 py-1.5 rounded border border-border-color shrink-0">
-                            Règle: SYS_EQ_01
-                        </div>
-</div>
-<!-- Rule 2: Sans erreur -->
-<div class="p-4 rounded-lg border border-success/30 bg-success-bg/10 flex flex-col md:flex-row md:items-center justify-between gap-4">
-<div class="flex items-start gap-3.5">
-<div class="w-8 h-8 rounded-full bg-success text-on-tertiary flex items-center justify-center shrink-0 mt-0.5">
-<span class="material-symbols-outlined text-[18px]">check_circle</span>
-</div>
-<div>
-<div class="flex items-center gap-2">
-<h4 class="font-bold text-on-surface text-body-sm">Comptes inconnus hors nomenclature</h4>
-<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-success-bg text-success-text uppercase tracking-wider">0 erreur</span>
-</div>
-<p class="text-text-muted text-body mt-0.5">Tous les numéros de comptes déclarés appartiennent au plan comptable révisé UEMOA 2026.</p>
-</div>
-</div>
-<div class="text-right text-xs font-mono text-text-muted bg-surface px-3 py-1.5 rounded border border-border-color shrink-0">
-                            Règle: SYS_PCG_04
-                        </div>
-</div>
-<!-- Rule 3: Avertissement -->
-<div class="p-4 rounded-lg border border-warning/30 bg-warning-bg/10 flex flex-col md:flex-row md:items-center justify-between gap-4">
-<div class="flex items-start gap-3.5">
-<div class="w-8 h-8 rounded-full bg-warning text-on-tertiary flex items-center justify-center shrink-0 mt-0.5">
-<span class="material-symbols-outlined text-[18px]">warning</span>
-</div>
-<div>
-<div class="flex items-center gap-2">
-<h4 class="font-bold text-on-surface text-body-sm">Annexes obligatoires</h4>
-<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-warning-bg text-warning-text uppercase tracking-wider">1 avertissement</span>
-</div>
-<p class="text-text-muted text-body mt-0.5">L'état des créances en souffrance (Tableau T-08) contient des notes explicatives incomplètes pour la ligne 42b.</p>
-</div>
-</div>
-<div class="flex items-center gap-3">
-<button class="px-3 py-1 bg-surface hover:bg-surface-container text-primary font-label text-[11px] rounded border border-border-color transition-all">
-                                Voir détail
-                            </button>
-<div class="text-right text-xs font-mono text-text-muted bg-surface px-3 py-1.5 rounded border border-border-color shrink-0">
-                                Règle: ANNEX_09
-                            </div>
-</div>
-</div>
-</div>
+<div class="p-space-lg space-y-4"><div class="p-4 rounded-lg border border-success/30 bg-success-bg/10 flex flex-col md:flex-row md:items-center justify-between gap-4"><div class="flex items-start gap-3.5"><div class="w-8 h-8 rounded-full bg-success text-on-tertiary flex items-center justify-center shrink-0 mt-0.5"><span class="material-symbols-outlined text-[18px]">check_circle</span></div><div><div class="flex items-center gap-2"><h4 class="font-bold text-on-surface text-body-sm">Équilibre de la balance</h4><span class="px-2 py-0.5 rounded text-[10px] font-bold bg-success-bg text-success-text uppercase tracking-wider">OK</span></div><p class="text-text-muted text-body mt-0.5">Total Débit égal au Total Crédit (Comptes 10 à 99).</p></div></div></div><div class="p-4 rounded-lg border border-warning/30 bg-warning-bg/10 flex flex-col md:flex-row md:items-center justify-between gap-4"><div class="flex items-start gap-3.5"><div class="w-8 h-8 rounded-full bg-warning text-on-tertiary flex items-center justify-center shrink-0 mt-0.5"><span class="material-symbols-outlined text-[18px]">warning</span></div><div><div class="flex items-center gap-2"><h4 class="font-bold text-on-surface text-body-sm">Comptes inconnus</h4><span class="px-2 py-0.5 rounded text-[10px] font-bold bg-warning-bg text-warning-text uppercase tracking-wider">1 erreur</span></div><p class="text-text-muted text-body mt-0.5">Compte 2599 absent du RCSFD</p></div></div><div class="flex items-center gap-3"></div></div><div class="p-4 rounded-lg border border-warning/30 bg-warning-bg/10 flex flex-col md:flex-row md:items-center justify-between gap-4"><div class="flex items-start gap-3.5"><div class="w-8 h-8 rounded-full bg-warning text-on-tertiary flex items-center justify-center shrink-0 mt-0.5"><span class="material-symbols-outlined text-[18px]">warning</span></div><div><div class="flex items-center gap-2"><h4 class="font-bold text-on-surface text-body-sm">Annexes manquantes — 1</h4><span class="px-2 py-0.5 rounded text-[10px] font-bold bg-warning-bg text-warning-text uppercase tracking-wider">1 avertissement</span></div><p class="text-text-muted text-body mt-0.5">L'annexe des créances en souffrance nécessite un complément.</p></div></div><div class="flex items-center gap-3"></div></div></div>
 </div>
 <!-- Bottom Section: Table of Past Imports -->
 <div class="bg-card-bg rounded-xl border border-border-color shadow-sm overflow-hidden mb-space-xl">
@@ -379,10 +181,7 @@
 <p class="text-body-sm text-text-muted">Journal des transferts de données comptables pour la période en cours.</p>
 </div>
 <div class="flex items-center gap-2">
-<div class="relative">
-<span class="material-symbols-outlined absolute left-2.5 top-2 text-[16px] text-text-muted">search</span>
-<input class="pl-8 pr-3 py-1.5 text-xs bg-surface border border-border-color rounded-lg text-on-surface focus:outline-none focus:ring-1 focus:ring-primary" placeholder="Filtrer l'historique..." type="text"/>
-</div>
+<div class="relative"><div class="flex items-start gap-3 p-3 rounded-lg bg-success-bg/30 border border-success/30"><div class="w-8 h-8 rounded-full bg-success text-on-tertiary flex items-center justify-center shrink-0 font-bold text-xs"><span class="material-symbols-outlined text-[18px]">check</span></div><div><div class="text-[11px] font-bold text-success-text uppercase tracking-wider">Étape 1</div><div class="text-body-sm font-semibold text-on-surface">Télécharger le modèle</div><div class="text-[11px] text-text-muted mt-0.5">Modèle validé</div></div></div><div class="flex items-start gap-3 p-3 rounded-lg bg-success-bg/30 border border-success/30"><div class="w-8 h-8 rounded-full bg-success text-on-tertiary flex items-center justify-center shrink-0 font-bold text-xs"><span class="material-symbols-outlined text-[18px]">check</span></div><div><div class="text-[11px] font-bold text-success-text uppercase tracking-wider">Étape 2</div><div class="text-body-sm font-semibold text-on-surface">Déposer le fichier</div><div class="text-[11px] text-text-muted mt-0.5 truncate max-w-[180px]">balance_octobre_2026.xlsx</div></div></div><div class="flex items-start gap-3 p-3 rounded-lg bg-primary-container/10 border-2 border-primary shadow-sm"><div class="w-8 h-8 rounded-full bg-primary text-on-primary flex items-center justify-center shrink-0 font-bold text-xs">3</div><div><div class="text-[11px] font-bold text-primary uppercase tracking-wider">Étape 3 (Active)</div><div class="text-body-sm font-semibold text-on-surface">Contrôler</div><div class="text-[11px] text-warning-text font-medium mt-0.5">1 avertissement détecté</div></div></div><div class="flex items-start gap-3 p-3 rounded-lg bg-surface-container-low border border-border-color opacity-70"><div class="w-8 h-8 rounded-full bg-surface-variant text-on-surface-variant flex items-center justify-center shrink-0 font-bold text-xs">4</div><div><div class="text-[11px] font-bold text-text-muted uppercase tracking-wider">Étape 4</div><div class="text-body-sm font-semibold text-on-surface">Confirmer</div><div class="text-[11px] text-text-muted mt-0.5">En attente</div></div></div></div>
 </div>
 </div>
 <div class="overflow-x-auto">
@@ -397,112 +196,7 @@
 <th class="py-3 px-6 font-semibold text-center">Actions</th>
 </tr>
 </thead>
-<tbody class="divide-y divide-border-color text-body-sm">
-<!-- Row 1 -->
-<tr class="hover:bg-surface-container-low/50 transition-colors h-[44px]">
-<td class="py-2.5 px-6 font-mono text-xs text-text-muted">14/12/2026 14:32</td>
-<td class="py-2.5 px-6 font-medium text-on-surface flex items-center gap-2">
-<span class="material-symbols-outlined text-[16px] text-primary">description</span>
-                                    Fichier_Comptable_Dec2026.xlsx
-                                </td>
-<td class="py-2.5 px-6 text-on-surface-variant font-mono text-xs">Décembre 2026</td>
-<td class="py-2.5 px-6">
-<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-warning-bg text-warning-text">
-<span class="w-1.5 h-1.5 rounded-full bg-warning"></span>
-                                        En cours
-                                    </span>
-</td>
-<td class="py-2.5 px-6 text-right font-mono text-xs">1 240 / 1 240</td>
-<td class="py-2.5 px-6 text-center">
-<div class="flex items-center justify-center gap-1">
-<button class="p-1 hover:bg-surface-container rounded text-text-muted hover:text-on-surface transition-colors" title="Voir détails">
-<span class="material-symbols-outlined text-[18px]">visibility</span>
-</button>
-<button class="p-1 hover:bg-surface-container rounded text-text-muted hover:text-on-surface transition-colors" title="Télécharger">
-<span class="material-symbols-outlined text-[18px]">download</span>
-</button>
-</div>
-</td>
-</tr>
-<!-- Row 2 -->
-<tr class="hover:bg-surface-container-low/50 transition-colors h-[44px]">
-<td class="py-2.5 px-6 font-mono text-xs text-text-muted">02/12/2026 09:15</td>
-<td class="py-2.5 px-6 font-medium text-on-surface flex items-center gap-2">
-<span class="material-symbols-outlined text-[16px] text-primary">description</span>
-                                    Bilan_Provisoire_Nov2026.xlsx
-                                </td>
-<td class="py-2.5 px-6 text-on-surface-variant font-mono text-xs">Novembre 2026</td>
-<td class="py-2.5 px-6">
-<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-success-bg text-success-text">
-<span class="w-1.5 h-1.5 rounded-full bg-success"></span>
-                                        Validé
-                                    </span>
-</td>
-<td class="py-2.5 px-6 text-right font-mono text-xs">1 198 / 1 198</td>
-<td class="py-2.5 px-6 text-center">
-<div class="flex items-center justify-center gap-1">
-<button class="p-1 hover:bg-surface-container rounded text-text-muted hover:text-on-surface transition-colors" title="Voir détails">
-<span class="material-symbols-outlined text-[18px]">visibility</span>
-</button>
-<button class="p-1 hover:bg-surface-container rounded text-text-muted hover:text-on-surface transition-colors" title="Télécharger">
-<span class="material-symbols-outlined text-[18px]">download</span>
-</button>
-</div>
-</td>
-</tr>
-<!-- Row 3 -->
-<tr class="hover:bg-surface-container-low/50 transition-colors h-[44px]">
-<td class="py-2.5 px-6 font-mono text-xs text-text-muted">28/11/2026 16:40</td>
-<td class="py-2.5 px-6 font-medium text-on-surface flex items-center gap-2">
-<span class="material-symbols-outlined text-[16px] text-primary">description</span>
-                                    Annexes_BCEAO_Q3.xlsx
-                                </td>
-<td class="py-2.5 px-6 text-on-surface-variant font-mono text-xs">Trimestre 3</td>
-<td class="py-2.5 px-6">
-<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-danger-bg text-danger-text">
-<span class="w-1.5 h-1.5 rounded-full bg-danger"></span>
-                                        Erreur
-                                    </span>
-</td>
-<td class="py-2.5 px-6 text-right font-mono text-xs">850 / 920</td>
-<td class="py-2.5 px-6 text-center">
-<div class="flex items-center justify-center gap-1">
-<button class="p-1 hover:bg-surface-container rounded text-text-muted hover:text-on-surface transition-colors" title="Voir détails">
-<span class="material-symbols-outlined text-[18px]">visibility</span>
-</button>
-<button class="p-1 hover:bg-surface-container rounded text-text-muted hover:text-on-surface transition-colors" title="Télécharger">
-<span class="material-symbols-outlined text-[18px]">download</span>
-</button>
-</div>
-</td>
-</tr>
-<!-- Row 4 -->
-<tr class="hover:bg-surface-container-low/50 transition-colors h-[44px]">
-<td class="py-2.5 px-6 font-mono text-xs text-text-muted">05/11/2026 11:20</td>
-<td class="py-2.5 px-6 font-medium text-on-surface flex items-center gap-2">
-<span class="material-symbols-outlined text-[16px] text-primary">description</span>
-                                    Bilan_Provisoire_Oct2026.xlsx
-                                </td>
-<td class="py-2.5 px-6 text-on-surface-variant font-mono text-xs">Octobre 2026</td>
-<td class="py-2.5 px-6">
-<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-success-bg text-success-text">
-<span class="w-1.5 h-1.5 rounded-full bg-success"></span>
-                                        Validé
-                                    </span>
-</td>
-<td class="py-2.5 px-6 text-right font-mono text-xs">1 150 / 1 150</td>
-<td class="py-2.5 px-6 text-center">
-<div class="flex items-center justify-center gap-1">
-<button class="p-1 hover:bg-surface-container rounded text-text-muted hover:text-on-surface transition-colors" title="Voir détails">
-<span class="material-symbols-outlined text-[18px]">visibility</span>
-</button>
-<button class="p-1 hover:bg-surface-container rounded text-text-muted hover:text-on-surface transition-colors" title="Télécharger">
-<span class="material-symbols-outlined text-[18px]">download</span>
-</button>
-</div>
-</td>
-</tr>
-</tbody>
+<tbody class="divide-y divide-border-color text-body-sm"><tr class="hover:bg-surface-container-low/50 transition-colors h-[44px]"><td class="py-2.5 px-6 font-mono text-xs text-text-muted">28/10/2026 10:15</td><td class="py-2.5 px-6 font-medium text-on-surface flex items-center gap-2"><span class="material-symbols-outlined text-[16px] text-primary">description</span>balance_octobre_2026.xlsx</td><td class="py-2.5 px-6 text-on-surface-variant font-mono text-xs">Octobre 2026</td><td class="py-2.5 px-6"><span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-warning-bg text-warning-text"><span class="w-1.5 h-1.5 rounded-full bg-warning"></span>En cours</span></td><td class="py-2.5 px-6 text-right font-mono text-xs">1 150 / 1 150</td><td class="py-2.5 px-6 text-center"><div class="flex items-center justify-center gap-1"><button class="p-1 hover:bg-surface-container rounded text-text-muted hover:text-on-surface transition-colors" title="Voir détails"><span class="material-symbols-outlined text-[18px]">visibility</span></button><button class="p-1 hover:bg-surface-container rounded text-text-muted hover:text-on-surface transition-colors" title="Télécharger"><span class="material-symbols-outlined text-[18px]">download</span></button></div></td></tr><tr class="hover:bg-surface-container-low/50 transition-colors h-[44px]"><td class="py-2.5 px-6 font-mono text-xs text-text-muted">28/09/2026 14:20</td><td class="py-2.5 px-6 font-medium text-on-surface flex items-center gap-2"><span class="material-symbols-outlined text-[16px] text-primary">description</span>balance_septembre_2026.xlsx</td><td class="py-2.5 px-6 text-on-surface-variant font-mono text-xs">Septembre 2026</td><td class="py-2.5 px-6"><span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-success-bg text-success-text"><span class="w-1.5 h-1.5 rounded-full bg-success"></span>Validé</span></td><td class="py-2.5 px-6 text-right font-mono text-xs">1 120 / 1 120</td><td class="py-2.5 px-6 text-center"><div class="flex items-center justify-center gap-1"><button class="p-1 hover:bg-surface-container rounded text-text-muted hover:text-on-surface transition-colors" title="Voir détails"><span class="material-symbols-outlined text-[18px]">visibility</span></button><button class="p-1 hover:bg-surface-container rounded text-text-muted hover:text-on-surface transition-colors" title="Télécharger"><span class="material-symbols-outlined text-[18px]">download</span></button></div></td></tr></tbody>
 </table>
 </div>
 <!-- Table Pagination Footer -->

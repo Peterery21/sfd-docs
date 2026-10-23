@@ -115,99 +115,13 @@
 </head>
 <body class="bg-page-bg text-on-background font-body h-full flex flex-col overflow-x-hidden antialiased">
 <!-- TopNavBar -->
-<header class="w-full flex justify-between items-center px-margin py-space-sm bg-card-bg dark:bg-inverse-surface shadow-[0_1px_2px_rgba(56,65,74,0.15)] dark:shadow-none z-50 fixed top-0 left-0 right-0">
-<div class="flex items-center gap-space-lg">
-<div class="text-headline-lg font-headline-lg font-bold text-primary dark:text-primary-fixed flex items-center gap-space-sm">
-<span class="material-symbols-outlined text-xl" data-icon="account_balance">account_balance</span>
-<span>SFD UEMOA Reporting BCEAO - Togo (XOF)</span>
-</div>
-<div class="relative hidden lg:block w-72">
-<span class="material-symbols-outlined absolute left-3 top-2.5 text-outline text-sm" data-icon="search">search</span>
-<input class="w-full pl-9 pr-4 py-1.5 bg-page-bg dark:bg-surface-variant text-body rounded-lg border border-border-color dark:border-outline-variant focus:outline-none focus:ring-1 focus:ring-primary" placeholder="Rechercher un rapport, un ratio..." type="text"/>
-</div>
-</div>
-<div class="hidden md:flex items-center gap-space-lg">
-<nav class="flex items-center gap-space-lg">
-<a class="text-primary dark:text-primary-fixed font-label border-b-2 border-primary dark:border-primary-fixed pb-1" href="#">Tableau de bord</a>
-<a class="text-secondary dark:text-on-surface-variant font-body hover:text-primary dark:hover:text-primary-fixed transition-colors duration-150" href="#">Rapports BCEAO</a>
-<a class="text-secondary dark:text-on-surface-variant font-body hover:text-primary dark:hover:text-primary-fixed transition-colors duration-150" href="#">Comptabilité</a>
-<a class="text-secondary dark:text-on-surface-variant font-body hover:text-primary dark:hover:text-primary-fixed transition-colors duration-150" href="#">Prudence &amp; Ratios</a>
-<a class="text-secondary dark:text-on-surface-variant font-body hover:text-primary dark:hover:text-primary-fixed transition-colors duration-150" href="#">Audit &amp; Contrôle</a>
-</nav>
-<div class="h-6 w-px bg-border-color"></div>
-<div class="flex items-center gap-space-sm">
-<button class="p-2 text-secondary hover:text-primary rounded-lg hover:bg-page-bg transition-colors" title="Notifications">
-<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
-</button>
-<button class="p-2 text-secondary hover:text-primary rounded-lg hover:bg-page-bg transition-colors" title="Aide">
-<span class="material-symbols-outlined" data-icon="help_outline">help_outline</span>
-</button>
-<button class="p-2 text-secondary hover:text-primary rounded-lg hover:bg-page-bg transition-colors" title="Paramètres">
-<span class="material-symbols-outlined" data-icon="tune">tune</span>
-</button>
-</div>
-<div class="flex items-center gap-space-sm pl-2">
-<img class="w-8 h-8 rounded-full object-cover border border-border-color" data-alt="Professional portrait of a male financial administrator in a corporate back office setting in Lomé, Togo, wearing a neat suit and tie, smiling confidently while reviewing regulatory documents." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCvJBLLmpZ8_5o5k2j8_zuzitg93v_3akTYUsBgzncm2fet3oLJ_Px-O9-GHjTmequulTjsA1yALlZPe1tVLm3Bxg2fgyWcEMvtMwN4DQcgixmfs2Ve8_HvPO9nQaK7FhIzlryJ0HdceQ6QZD9HiLPk2uM3XtMwvbb_cwiH_mQAMOnhXV8ZtjKZ0SNX4WDtim1v_a9huT95PpimNmQmLIdx_g8O8CHrK-_rloJCWvsEONpUH5k43GZt_vwvEifqkhzSTYFnZ6xXTQ"/>
-<div class="hidden xl:block text-left">
-<p class="text-label font-label text-text-main">K. Mensah</p>
-<p class="text-[11px] text-text-muted">Admin Financier</p>
-</div>
-</div>
-</div>
-</header>
+<header class="w-full flex justify-between items-center px-margin py-space-sm bg-card-bg dark:bg-inverse-surface shadow-[0_1px_2px_rgba(56,65,74,0.15)] dark:shadow-none z-50 fixed top-0 left-0 right-0"><div class="flex items-center gap-space-lg"><div class="text-headline-lg font-headline-lg font-bold text-primary dark:text-primary-fixed flex items-center gap-space-sm"><span class="material-symbols-outlined text-xl" data-icon="account_balance">account_balance</span><span>EDIP</span></div></div><div class="hidden md:flex items-center gap-space-lg"><span class="inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-medium bg-secondary-container text-primary">UEMOA · BCEAO — Togo · Paquet 2026.10.0 · Mode intégré</span><div class="flex items-center gap-space-sm pl-2"><div class="text-right"><p class="text-label font-label text-text-main">A. Kossi</p><p class="text-[11px] text-text-muted">Responsable conformité</p></div></div></div></header>
 <div class="flex flex-1 pt-14">
 <!-- SideNavBar -->
 <aside class="fixed top-14 left-0 h-[calc(100vh-3.5rem)] w-72 flex flex-col justify-between border-r border-border-color dark:border-outline-variant bg-card-bg dark:bg-inverse-surface z-40 p-space-md overflow-y-auto hidden md:flex">
 <div>
-<div class="flex items-center gap-space-sm mb-space-lg p-2 bg-page-bg rounded-lg border border-border-color">
-<div class="w-10 h-10 rounded bg-primary-container text-white flex items-center justify-center font-bold text-sm">TG</div>
-<div>
-<h2 class="text-label font-label text-text-main">SFD Microfinance Togo</h2>
-<p class="text-[11px] text-text-muted">Agrément BCEAO N° TG/042-SFD</p>
-</div>
-</div>
-<nav class="space-y-1">
-<a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg bg-secondary-container dark:bg-primary-container text-primary dark:text-inverse-primary font-label" href="#">
-<span class="material-symbols-outlined" data-icon="calendar_month">calendar_month</span>
-<span>États Mensuels (M-Dec)</span>
-</a>
-<a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-secondary dark:text-on-surface-variant font-body hover:bg-page-bg dark:hover:bg-surface-container-high hover:text-primary transition-all duration-150" href="#">
-<span class="material-symbols-outlined" data-icon="date_range">date_range</span>
-<span>États Trimestriels (T4)</span>
-</a>
-<a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-secondary dark:text-on-surface-variant font-body hover:bg-page-bg dark:hover:bg-surface-container-high hover:text-primary transition-all duration-150" href="#">
-<span class="material-symbols-outlined" data-icon="account_balance">account_balance</span>
-<span>États Annuels BCEAO</span>
-</a>
-<a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-secondary dark:text-on-surface-variant font-body hover:bg-page-bg dark:hover:bg-surface-container-high hover:text-primary transition-all duration-150" href="#">
-<span class="material-symbols-outlined" data-icon="verified">verified</span>
-<span>Ratios Prudentiels</span>
-</a>
-<a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-secondary dark:text-on-surface-variant font-body hover:bg-page-bg dark:hover:bg-surface-container-high hover:text-primary transition-all duration-150" href="#">
-<span class="material-symbols-outlined" data-icon="rule">rule</span>
-<span>Contrôles de Cohérence</span>
-</a>
-<a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-secondary dark:text-on-surface-variant font-body hover:bg-page-bg dark:hover:bg-surface-container-high hover:text-primary transition-all duration-150" href="#">
-<span class="material-symbols-outlined" data-icon="history">history</span>
-<span>Historique &amp; Dépôts</span>
-</a>
-</nav>
-</div>
-<div class="pt-space-md border-t border-border-color space-y-2">
-<button class="w-full py-2 px-3 bg-primary text-white rounded-lg text-label font-label flex items-center justify-center gap-space-sm hover:bg-primary-container transition-colors shadow-sm">
-<span class="material-symbols-outlined text-sm" data-icon="add_circle">add_circle</span>
-<span>Générer Nouveau Rapport</span>
-</button>
-<div class="space-y-1 pt-2">
-<a class="flex items-center gap-space-sm px-2 py-1.5 rounded text-secondary hover:text-primary text-body" href="#">
-<span class="material-symbols-outlined text-sm" data-icon="settings">settings</span>
-<span>Paramètres SFD</span>
-</a>
-<a class="flex items-center gap-space-sm px-2 py-1.5 rounded text-secondary hover:text-primary text-body" href="#">
-<span class="material-symbols-outlined text-sm" data-icon="support_agent">support_agent</span>
-<span>Support Réglementaire</span>
-</a>
-</div>
+<div class="flex items-center gap-space-sm mb-space-lg p-2 bg-page-bg rounded-lg border border-border-color"><div class="w-10 h-10 rounded bg-primary-container text-white flex items-center justify-center font-bold text-sm">EL</div><div><h2 class="text-label font-label text-text-main">EDIP · SFD Lomé Centre</h2><p class="text-[11px] text-text-muted">Reporting réglementaire</p></div></div>
+<nav class="space-y-1"><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg bg-secondary-container dark:bg-primary-container text-primary dark:text-inverse-primary font-label" href="#"><span class="material-symbols-outlined" data-icon="dashboard">dashboard</span><span>Tableau de bord</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-secondary dark:text-on-surface-variant font-body hover:bg-page-bg dark:hover:bg-surface-container-high hover:text-primary transition-all duration-150" href="#"><span class="material-symbols-outlined" data-icon="edit_document">edit_document</span><span>Éditer les rapports</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-secondary dark:text-on-surface-variant font-body hover:bg-page-bg dark:hover:bg-surface-container-high hover:text-primary transition-all duration-150" href="#"><span class="material-symbols-outlined" data-icon="account_balance">account_balance</span><span>États financiers</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-secondary dark:text-on-surface-variant font-body hover:bg-page-bg dark:hover:bg-surface-container-high hover:text-primary transition-all duration-150" href="#"><span class="material-symbols-outlined" data-icon="verified">verified</span><span>Ratios prudentiels</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-secondary dark:text-on-surface-variant font-body hover:bg-page-bg dark:hover:bg-surface-container-high hover:text-primary transition-all duration-150" href="#"><span class="material-symbols-outlined" data-icon="folder_zip">folder_zip</span><span>Export groupé (ZIP)</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-secondary dark:text-on-surface-variant font-body hover:bg-page-bg dark:hover:bg-surface-container-high hover:text-primary transition-all duration-150" href="#"><span class="material-symbols-outlined" data-icon="history">history</span><span>Historique des éditions</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-secondary dark:text-on-surface-variant font-body hover:bg-page-bg dark:hover:bg-surface-container-high hover:text-primary transition-all duration-150" href="#"><span class="material-symbols-outlined" data-icon="database">database</span><span>Données importées</span></a><div class="pt-2 pb-1 px-2 text-[10px] font-bold text-text-muted uppercase tracking-wider">Configuration</div><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-secondary dark:text-on-surface-variant font-body hover:bg-page-bg dark:hover:bg-surface-container-high hover:text-primary transition-all duration-150" href="#"><span class="material-symbols-outlined" data-icon="calculate">calculate</span><span>Formules de calcul</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-secondary dark:text-on-surface-variant font-body hover:bg-page-bg dark:hover:bg-surface-container-high hover:text-primary transition-all duration-150" href="#"><span class="material-symbols-outlined" data-icon="settings">settings</span><span>Paramètres</span></a></nav>
 </div>
 </aside>
 <!-- Main Content Canvas -->
@@ -215,24 +129,11 @@
 <!-- Breadcrumb Header -->
 <div class="flex flex-col md:flex-row md:items-center justify-between gap-space-md bg-card-bg p-space-lg rounded-xl border border-border-color shadow-[0_1px_2px_rgba(56,65,74,0.15)]">
 <div>
-<div class="flex items-center gap-space-sm text-text-muted text-body mb-1">
-<span>Tableau de bord</span>
-<span class="material-symbols-outlined text-xs" data-icon="chevron_right">chevron_right</span>
-<span class="text-primary font-semibold">Reporting Réglementaire BCEAO</span>
-</div>
+<div class="flex items-center gap-space-sm text-text-muted text-body mb-1"></div>
 <h1 class="text-headline-lg font-headline-lg text-text-main">Tableau de bord — Reporting Réglementaire BCEAO</h1>
-<p class="text-body text-text-muted mt-1">Zone UEMOA · Togo (TG014) | Arrêté au 31 Décembre 2026</p>
+<p class="text-body text-text-muted mt-1">Zone UEMOA · Togo</p>
 </div>
-<div class="flex items-center gap-space-sm">
-<button class="px-space-md py-2 border border-border-color rounded-lg text-body font-label text-secondary hover:bg-page-bg transition-colors flex items-center gap-space-xs">
-<span class="material-symbols-outlined text-sm" data-icon="download">download</span>
-<span>Exporter XBRL/PDF</span>
-</button>
-<button class="px-space-md py-2 bg-primary text-white rounded-lg text-body font-label hover:bg-primary-container transition-colors flex items-center gap-space-xs shadow-sm">
-<span class="material-symbols-outlined text-sm" data-icon="send">send</span>
-<span>Soumettre BCEAO</span>
-</button>
-</div>
+<div class="flex items-center gap-space-sm"></div>
 </div>
 <!-- KPI Strip -->
 <div class="grid grid-cols-1 md:grid-cols-3 gap-space-md">
@@ -262,7 +163,7 @@
 <div class="bg-card-bg p-space-lg rounded-xl border border-border-color shadow-[0_1px_2px_rgba(56,65,74,0.15)] flex items-center justify-between">
 <div>
 <p class="text-text-muted text-body uppercase tracking-wider">Ratios conformes</p>
-<h3 class="text-kpi-value font-kpi-value text-success-text text-2xl mt-1">7 / 9</h3>
+<h3 class="text-kpi-value font-kpi-value text-success-text text-2xl mt-1">8 / 9</h3>
 <p class="text-[11px] text-success-text mt-1">2 alertes de seuil mineures</p>
 </div>
 <div class="p-3 bg-success-bg text-success-text rounded-xl flex items-center justify-center">
@@ -296,123 +197,7 @@
 <th class="py-3 px-4 text-right">Actions</th>
 </tr>
 </thead>
-<tbody class="divide-y divide-border-color text-body">
-<tr class="hover:bg-page-bg/50 transition-colors">
-<td class="py-3 px-4">
-<span class="font-semibold text-primary">REP-FIN-01</span>
-<p class="text-[11px] text-text-muted">Situation Mensuelle Comptable (SMC)</p>
-</td>
-<td class="py-3 px-4 text-secondary">Novembre 2026</td>
-<td class="py-3 px-4 text-secondary">15/12/2026</td>
-<td class="py-3 px-4">
-<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-success-bg text-success-text">
-                        Validé
-                      </span>
-</td>
-<td class="py-3 px-4 text-right">
-<div class="flex items-center justify-end gap-1">
-<button class="p-1 text-secondary hover:text-primary rounded" title="Voir">
-<span class="material-symbols-outlined text-sm" data-icon="visibility">visibility</span>
-</button>
-<button class="p-1 text-secondary hover:text-primary rounded" title="Éditer">
-<span class="material-symbols-outlined text-sm" data-icon="edit">edit</span>
-</button>
-</div>
-</td>
-</tr>
-<tr class="hover:bg-page-bg/50 transition-colors">
-<td class="py-3 px-4">
-<span class="font-semibold text-primary">REP-PRU-04</span>
-<p class="text-[11px] text-text-muted">État Trimestriel des Ratios Prudentiels</p>
-</td>
-<td class="py-3 px-4 text-secondary">T3 2026</td>
-<td class="py-3 px-4 text-secondary">30/10/2026</td>
-<td class="py-3 px-4">
-<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-success-bg text-success-text">
-                        Validé
-                      </span>
-</td>
-<td class="py-3 px-4 text-right">
-<div class="flex items-center justify-end gap-1">
-<button class="p-1 text-secondary hover:text-primary rounded" title="Voir">
-<span class="material-symbols-outlined text-sm" data-icon="visibility">visibility</span>
-</button>
-<button class="p-1 text-secondary hover:text-primary rounded" title="Éditer">
-<span class="material-symbols-outlined text-sm" data-icon="edit">edit</span>
-</button>
-</div>
-</td>
-</tr>
-<tr class="hover:bg-page-bg/50 transition-colors">
-<td class="py-3 px-4">
-<span class="font-semibold text-primary">REP-TRE-10</span>
-<p class="text-[11px] text-text-muted">Rapport Décadaire de Trésorerie</p>
-</td>
-<td class="py-3 px-4 text-secondary">Décembre (D3)</td>
-<td class="py-3 px-4 text-secondary">05/01/2027</td>
-<td class="py-3 px-4">
-<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-secondary-container text-primary">
-                        Brouillon
-                      </span>
-</td>
-<td class="py-3 px-4 text-right">
-<div class="flex items-center justify-end gap-1">
-<button class="p-1 text-secondary hover:text-primary rounded" title="Voir">
-<span class="material-symbols-outlined text-sm" data-icon="visibility">visibility</span>
-</button>
-<button class="p-1 text-secondary hover:text-primary rounded" title="Éditer">
-<span class="material-symbols-outlined text-sm" data-icon="edit">edit</span>
-</button>
-</div>
-</td>
-</tr>
-<tr class="hover:bg-page-bg/50 transition-colors">
-<td class="py-3 px-4">
-<span class="font-semibold text-primary">REP-RIS-02</span>
-<p class="text-[11px] text-text-muted">État de la Qualité du Portefeuille de Crédit</p>
-</td>
-<td class="py-3 px-4 text-secondary">Novembre 2026</td>
-<td class="py-3 px-4 text-secondary">10/12/2026</td>
-<td class="py-3 px-4">
-<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-danger-bg text-danger-text">
-                        En retard
-                      </span>
-</td>
-<td class="py-3 px-4 text-right">
-<div class="flex items-center justify-end gap-1">
-<button class="p-1 text-secondary hover:text-primary rounded" title="Voir">
-<span class="material-symbols-outlined text-sm" data-icon="visibility">visibility</span>
-</button>
-<button class="p-1 text-secondary hover:text-primary rounded" title="Éditer">
-<span class="material-symbols-outlined text-sm" data-icon="edit">edit</span>
-</button>
-</div>
-</td>
-</tr>
-<tr class="hover:bg-page-bg/50 transition-colors">
-<td class="py-3 px-4">
-<span class="font-semibold text-primary">REP-DIR-08</span>
-<p class="text-[11px] text-text-muted">Liste des Dirigeants et Mandataires Sociaux</p>
-</td>
-<td class="py-3 px-4 text-secondary">Annuel 2026</td>
-<td class="py-3 px-4 text-secondary">20/12/2026</td>
-<td class="py-3 px-4">
-<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-danger-bg text-danger-text">
-                        En retard
-                      </span>
-</td>
-<td class="py-3 px-4 text-right">
-<div class="flex items-center justify-end gap-1">
-<button class="p-1 text-secondary hover:text-primary rounded" title="Voir">
-<span class="material-symbols-outlined text-sm" data-icon="visibility">visibility</span>
-</button>
-<button class="p-1 text-secondary hover:text-primary rounded" title="Éditer">
-<span class="material-symbols-outlined text-sm" data-icon="edit">edit</span>
-</button>
-</div>
-</td>
-</tr>
-</tbody>
+<tbody class="divide-y divide-border-color text-body"><tr class="hover:bg-page-bg/50 transition-colors"><td class="py-3 px-4"><span class="font-semibold text-primary">UEMOA-REP-PRU-01</span><p class="text-[11px] text-text-muted">Limitation des risques</p></td><td class="py-3 px-4 text-secondary">Octobre 2026</td><td class="py-3 px-4 text-secondary">15/11/2026</td><td class="py-3 px-4"><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-success-bg text-success-text">Validé</span></td><td class="py-3 px-4 text-right"><div class="flex items-center justify-end gap-1"><button class="p-1 text-secondary hover:text-primary rounded" title="Voir"><span class="material-symbols-outlined text-sm" data-icon="visibility">visibility</span></button><button class="p-1 text-secondary hover:text-primary rounded" title="Éditer"><span class="material-symbols-outlined text-sm" data-icon="edit">edit</span></button></div></td></tr><tr class="hover:bg-page-bg/50 transition-colors"><td class="py-3 px-4"><span class="font-semibold text-primary">UEMOA-REP-PRU-05</span><p class="text-[11px] text-text-muted">Coefficient de liquidité</p></td><td class="py-3 px-4 text-secondary">Octobre 2026</td><td class="py-3 px-4 text-secondary">15/11/2026</td><td class="py-3 px-4"><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-secondary-container text-primary">En cours</span></td><td class="py-3 px-4 text-right"><div class="flex items-center justify-end gap-1"><button class="p-1 text-secondary hover:text-primary rounded" title="Voir"><span class="material-symbols-outlined text-sm" data-icon="visibility">visibility</span></button><button class="p-1 text-secondary hover:text-primary rounded" title="Éditer"><span class="material-symbols-outlined text-sm" data-icon="edit">edit</span></button></div></td></tr><tr class="hover:bg-page-bg/50 transition-colors"><td class="py-3 px-4"><span class="font-semibold text-primary">UEMOA-REP-PRU-08</span><p class="text-[11px] text-text-muted">Capitalisation</p></td><td class="py-3 px-4 text-secondary">Octobre 2026</td><td class="py-3 px-4 text-secondary text-danger-text">05/11/2026 (En retard)</td><td class="py-3 px-4"><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-secondary-container text-primary">En cours</span></td><td class="py-3 px-4 text-right"><div class="flex items-center justify-end gap-1"><button class="p-1 text-secondary hover:text-primary rounded" title="Voir"><span class="material-symbols-outlined text-sm" data-icon="visibility">visibility</span></button><button class="p-1 text-secondary hover:text-primary rounded" title="Éditer"><span class="material-symbols-outlined text-sm" data-icon="edit">edit</span></button></div></td></tr><tr class="hover:bg-page-bg/50 transition-colors"><td class="py-3 px-4"><span class="font-semibold text-primary">UEMOA-REP-PRU-02</span><p class="text-[11px] text-text-muted">Couverture des emplois MLT</p></td><td class="py-3 px-4 text-secondary">T3 2026</td><td class="py-3 px-4 text-secondary">30/10/2026</td><td class="py-3 px-4"><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-container text-white">Soumis</span></td><td class="py-3 px-4 text-right"><div class="flex items-center justify-end gap-1"><button class="p-1 text-secondary hover:text-primary rounded" title="Voir"><span class="material-symbols-outlined text-sm" data-icon="visibility">visibility</span></button><button class="p-1 text-secondary hover:text-primary rounded" title="Éditer"><span class="material-symbols-outlined text-sm" data-icon="edit">edit</span></button></div></td></tr><tr class="hover:bg-page-bg/50 transition-colors"><td class="py-3 px-4"><span class="font-semibold text-primary">DIMF-2000-BIL</span><p class="text-[11px] text-text-muted">Bilan</p></td><td class="py-3 px-4 text-secondary">Exercice 2025</td><td class="py-3 px-4 text-secondary">31/03/2026</td><td class="py-3 px-4"><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-surface-variant text-secondary">Clôturé</span></td><td class="py-3 px-4 text-right"><div class="flex items-center justify-end gap-1"><button class="p-1 text-secondary hover:text-primary rounded" title="Voir"><span class="material-symbols-outlined text-sm" data-icon="visibility">visibility</span></button><button class="p-1 text-secondary hover:text-primary rounded" title="Éditer"><span class="material-symbols-outlined text-sm" data-icon="edit">edit</span></button></div></td></tr></tbody>
 </table>
 </div>
 <div class="px-space-lg py-space-sm bg-page-bg border-t border-border-color flex items-center justify-between text-xs text-text-muted">
@@ -433,80 +218,12 @@
 <h2 class="text-headline-lg font-headline-lg text-text-main text-base">Échéances réglementaires à venir</h2>
 <span class="material-symbols-outlined text-secondary text-sm" data-icon="schedule">schedule</span>
 </div>
-<div class="space-y-3">
-<!-- Item 1 -->
-<div class="p-3 bg-page-bg rounded-lg border border-border-color flex items-start justify-between gap-3">
-<div class="space-y-1">
-<span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-warning-bg text-warning-text uppercase tracking-wider">J-3</span>
-<h4 class="text-body font-label text-text-main">Rapport Décadaire de Trésorerie</h4>
-<p class="text-[11px] text-text-muted">Période : Décembre (Fin de mois)</p>
-</div>
-<button class="text-primary hover:bg-secondary-container p-1 rounded transition-colors" title="Préparer">
-<span class="material-symbols-outlined text-sm" data-icon="arrow_forward">arrow_forward</span>
-</button>
-</div>
-<!-- Item 2 -->
-<div class="p-3 bg-page-bg rounded-lg border border-border-color flex items-start justify-between gap-3">
-<div class="space-y-1">
-<span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-secondary-container text-primary uppercase tracking-wider">J-7</span>
-<h4 class="text-body font-label text-text-main">Situation Mensuelle SCM</h4>
-<p class="text-[11px] text-text-muted">Période : Arrêté Décembre 2026</p>
-</div>
-<button class="text-primary hover:bg-secondary-container p-1 rounded transition-colors" title="Préparer">
-<span class="material-symbols-outlined text-sm" data-icon="arrow_forward">arrow_forward</span>
-</button>
-</div>
-<!-- Item 3 -->
-<div class="p-3 bg-page-bg rounded-lg border border-border-color flex items-start justify-between gap-3">
-<div class="space-y-1">
-<span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-secondary-container text-primary uppercase tracking-wider">J-14</span>
-<h4 class="text-body font-label text-text-main">Ratios Prudentiels</h4>
-<p class="text-[11px] text-text-muted">Période : Trimestre T4 2026</p>
-</div>
-<button class="text-primary hover:bg-secondary-container p-1 rounded transition-colors" title="Préparer">
-<span class="material-symbols-outlined text-sm" data-icon="arrow_forward">arrow_forward</span>
-</button>
-</div>
-<!-- Item 4 -->
-<div class="p-3 bg-page-bg rounded-lg border border-border-color flex items-start justify-between gap-3">
-<div class="space-y-1">
-<span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-surface-variant text-secondary uppercase tracking-wider">J-25</span>
-<h4 class="text-body font-label text-text-main">Bilan Annuel et Annexes BCEAO</h4>
-<p class="text-[11px] text-text-muted">Exercice clos au 31/12/2026</p>
-</div>
-<button class="text-primary hover:bg-secondary-container p-1 rounded transition-colors" title="Préparer">
-<span class="material-symbols-outlined text-sm" data-icon="arrow_forward">arrow_forward</span>
-</button>
-</div>
-</div>
-<div class="pt-2">
-<a class="w-full py-2 border border-border-color rounded-lg text-body font-label text-secondary hover:text-primary hover:bg-page-bg transition-colors flex items-center justify-center gap-1" href="#">
-<span>Voir le calendrier réglementaire complet</span>
-<span class="material-symbols-outlined text-xs" data-icon="open_in_new">open_in_new</span>
-</a>
-</div>
+<div class="space-y-3"><div class="p-3 bg-page-bg rounded-lg border border-border-color flex items-start justify-between gap-3"><div class="space-y-1"><span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-warning-bg text-warning-text uppercase tracking-wider">J-3</span><h4 class="text-body font-label text-text-main">UEMOA-REP-PRU-01 Limitation des risques</h4><p class="text-[11px] text-text-muted">Période : Mensuelle</p></div><button class="text-primary hover:bg-secondary-container p-1 rounded transition-colors" title="Préparer"><span class="material-symbols-outlined text-sm" data-icon="arrow_forward">arrow_forward</span></button></div><div class="p-3 bg-page-bg rounded-lg border border-border-color flex items-start justify-between gap-3"><div class="space-y-1"><span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-secondary-container text-primary uppercase tracking-wider">J-7</span><h4 class="text-body font-label text-text-main">UEMOA-REP-PRU-05 Coefficient de liquidité</h4><p class="text-[11px] text-text-muted">Période : Mensuelle</p></div><button class="text-primary hover:bg-secondary-container p-1 rounded transition-colors" title="Préparer"><span class="material-symbols-outlined text-sm" data-icon="arrow_forward">arrow_forward</span></button></div><div class="p-3 bg-page-bg rounded-lg border border-border-color flex items-start justify-between gap-3"><div class="space-y-1"><span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-secondary-container text-primary uppercase tracking-wider">J-14</span><h4 class="text-body font-label text-text-main">UEMOA-REP-PRU-08 Capitalisation</h4><p class="text-[11px] text-text-muted">Période : Mensuelle</p></div><button class="text-primary hover:bg-secondary-container p-1 rounded transition-colors" title="Préparer"><span class="material-symbols-outlined text-sm" data-icon="arrow_forward">arrow_forward</span></button></div><div class="p-3 bg-page-bg rounded-lg border border-border-color flex items-start justify-between gap-3"><div class="space-y-1"><span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-surface-variant text-secondary uppercase tracking-wider">J-21</span><h4 class="text-body font-label text-text-main">UEMOA-REP-PRU-02</h4><p class="text-[11px] text-text-muted">Période : Trimestrielle</p></div><button class="text-primary hover:bg-secondary-container p-1 rounded transition-colors" title="Préparer"><span class="material-symbols-outlined text-sm" data-icon="arrow_forward">arrow_forward</span></button></div></div>
 </div>
 <!-- Quick Regulatory Status Summary Card -->
 <div class="bg-card-bg rounded-xl border border-border-color shadow-[0_1px_2px_rgba(56,65,74,0.15)] p-space-lg space-y-space-md">
 <h2 class="text-headline-lg font-headline-lg text-text-main text-base">Indicateurs UEMOA clés</h2>
-<div class="space-y-3 text-body">
-<div class="flex justify-between items-center py-1 border-b border-border-color">
-<span class="text-secondary">Fonds Propres Minimum (XOF)</span>
-<span class="font-semibold text-primary">1 000 000 000</span>
-</div>
-<div class="flex justify-between items-center py-1 border-b border-border-color">
-<span class="text-secondary">Ratio de Couverture des Risques</span>
-<span class="font-semibold text-success-text">114.2%</span>
-</div>
-<div class="flex justify-between items-center py-1 border-b border-border-color">
-<span class="text-secondary">Coefficient de Liquidité</span>
-<span class="font-semibold text-success-text">88.5%</span>
-</div>
-<div class="flex justify-between items-center py-1">
-<span class="text-secondary">Portefeuille à Risque (PAR &gt; 30j)</span>
-<span class="font-semibold text-warning-text">3.4%</span>
-</div>
-</div>
+<div class="space-y-3 text-body"><div class="p-3 bg-page-bg rounded-lg border border-border-color flex items-start justify-between gap-3"><div class="space-y-1"><span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-warning-bg text-warning-text uppercase tracking-wider">J-3</span><h4 class="text-body font-label text-text-main">UEMOA-REP-PRU-01 Limitation des risques</h4><p class="text-[11px] text-text-muted">Période : Mensuelle</p></div><button class="text-primary hover:bg-secondary-container p-1 rounded transition-colors" title="Préparer"><span class="material-symbols-outlined text-sm" data-icon="arrow_forward">arrow_forward</span></button></div><div class="p-3 bg-page-bg rounded-lg border border-border-color flex items-start justify-between gap-3"><div class="space-y-1"><span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-secondary-container text-primary uppercase tracking-wider">J-7</span><h4 class="text-body font-label text-text-main">UEMOA-REP-PRU-05 Coefficient de liquidité</h4><p class="text-[11px] text-text-muted">Période : Mensuelle</p></div><button class="text-primary hover:bg-secondary-container p-1 rounded transition-colors" title="Préparer"><span class="material-symbols-outlined text-sm" data-icon="arrow_forward">arrow_forward</span></button></div><div class="p-3 bg-page-bg rounded-lg border border-border-color flex items-start justify-between gap-3"><div class="space-y-1"><span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-secondary-container text-primary uppercase tracking-wider">J-14</span><h4 class="text-body font-label text-text-main">UEMOA-REP-PRU-08 Capitalisation</h4><p class="text-[11px] text-text-muted">Période : Mensuelle</p></div><button class="text-primary hover:bg-secondary-container p-1 rounded transition-colors" title="Préparer"><span class="material-symbols-outlined text-sm" data-icon="arrow_forward">arrow_forward</span></button></div><div class="p-3 bg-page-bg rounded-lg border border-border-color flex items-start justify-between gap-3"><div class="space-y-1"><span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-surface-variant text-secondary uppercase tracking-wider">J-21</span><h4 class="text-body font-label text-text-main">UEMOA-REP-PRU-02</h4><p class="text-[11px] text-text-muted">Période : Trimestrielle</p></div><button class="text-primary hover:bg-secondary-container p-1 rounded transition-colors" title="Préparer"><span class="material-symbols-outlined text-sm" data-icon="arrow_forward">arrow_forward</span></button></div></div>
 </div>
 </div>
 </div>

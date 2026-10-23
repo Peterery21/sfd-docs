@@ -54,16 +54,20 @@ Fichiers : `stitch/<ecran>.html` + `stitch/<ecran>.png` (2560 px de large = rend
 
 | Écran | Fichiers `stitch/` | ID écran Stitch |
 |---|---|---|
-| Tableau de bord | `dashboard` | `c32fe05dab9246e9b9b971086cee5fb2` |
-| Éditer les rapports | `edition` | `9937138db0aa41019b2c749a7917d3e9` |
-| Formules de calcul | `formules` | `3defac686f0b48119081c483de452ff4` |
-| États financiers | `etats-financiers` | `dc6602a32d284f2c8724d99743e4c4bc` |
-| Export groupé (ZIP) | `export-zip` | `ef11916c0846495a9a9bae5be666f7de` |
-| Données importées | `donnees-importees` | `8a81d87a808641289fa63673bb0c7a34` |
-| Paramètres | `parametres` | `cb7d8fd724a243b49f7ef6a4aaa9554b` |
-| Historique des éditions | `historique` | `43fc6ea0603b434ca5fb6cc703806a20` |
-| Ratios prudentiels (nouveau) | `ratios-prudentiels` | `fcdbd53735eb4f82970278686beaca98` |
+| Tableau de bord | `dashboard` | `b0d5deb4a7f944fa960c2a3fdbd77890` |
+| Éditer les rapports | `edition` | `fc7b4735ad234b039db71d4cdaa2fa60` |
+| Formules de calcul | `formules` | `0a3185b529994f389e747f1caed1d96a` |
+| États financiers | `etats-financiers` | `133787e2a710406e8c82dd2958fe530c` |
+| Export groupé (ZIP) | `export-zip` | `825e3909a4694b7dab7eecea1f3ea7d8` |
+| Données importées | `donnees-importees` | `425724baec514b99b4ec8a142a1fe8f6` |
+| Paramètres | `parametres` | `bf45df92567a4808bab758f47ee317a8` |
+| Historique des éditions | `historique` | `21545dcda90547e0a80d4791696feb56` |
+| Ratios prudentiels (nouveau) | `ratios-prudentiels` | `c09195d7effb43f5974ed3ebde15b0c4` |
 
 Lien d'un écran : `https://stitch.withgoogle.com/projects/770809064070056787?node-id=<ID>`.
 
-Écarts connus par rapport aux maquettes S3 (à trancher à l'implémentation, S3 reste la référence de contenu) : pas de passe `edit_screens` ; menus latéral/haut inventés par Stitch (à ignorer, le shell EDIP existe) ; certains libellés/codes de démonstration sont fictifs (codes ratios RP01…, RAT-01) ; `edition` montre un rapport « ratios » et non la situation mensuelle ; Ratios : numérateur/dénominateur avec comptes d'exemple (ACT-100…) non issus de `sfd-docs/reglementation/`.
+Chaque `edit_screens` de Stitch crée en général une nouvelle version d'écran (nouvel id) : les ids ci-dessus sont les versions finales (v2 corrigée après revue de contenu). Les anciennes versions restent dans le projet.
+
+Corrections de fond appliquées (revue orchestrateur) : menu et bandeau du module, normes UEMOA exactes (Instr. 010-08-2010 et 016-12-2010, codes `UEMOA-REP-PRU-01…10`), lignes `R5_NUM/R5_DEN/R5_COEF`, comptes RCSFD (10 Valeurs en caisse, 11 Banques, 25 Comptes des membres), statuts du contrat (À faire, Brouillon, En cours, Validé, Soumis, Clôturé, Rejeté), exports PDF/Excel uniquement, plus de XBRL, de « synchronisé » ni d'agrément.
+
+Limites : les valeurs chiffrées, les noms de signataires et les dates sont des **données de démonstration** ; la page est à lire comme une maquette de structure. `edition` : le tableau ne montre que le rapport sélectionné (PRU-05). Écarts possibles restants : certains libellés de contrôle (« Évolution des créances en souffrance ») et le bloc « Indicateurs UEMOA clés » du tableau de bord sont de remplissage Stitch, non issus du contrat. Les anciennes maquettes S3 (`../*.html`) restent la référence de contenu.

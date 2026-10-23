@@ -3,208 +3,186 @@
 <html class="h-full" lang="fr"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Formules de calcul — Reporting Réglementaire BCEAO | SFD UEMOA</title>
+<title>Formules de calcul — Reporting Réglementaire BCEAO | EDIP · SFD Lomé Centre</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <script id="tailwind-config">
-    tailwind.config = {
-      darkMode: "class",
-      theme: {
-        extend: {
-          "colors": {
-            "warning-text": "#b45309",
-            "on-tertiary-fixed-variant": "#574325",
-            "inverse-surface": "#303032",
-            "on-surface": "#1b1b1d",
-            "on-tertiary": "#ffffff",
-            "inverse-primary": "#b9c7df",
-            "primary-fixed-dim": "#b9c7df",
-            "on-background": "#1b1b1d",
-            "info": "#0ea5e9",
-            "on-secondary-container": "#54647a",
-            "surface-tint": "#515f74",
-            "danger-bg": "#fee2e2",
-            "success": "#10b981",
-            "surface-container-highest": "#e4e2e3",
-            "surface": "#fbf9fa",
-            "surface-dim": "#dbd9db",
-            "outline-variant": "#c4c6cd",
-            "page-bg": "#f3f6f9",
-            "success-bg": "#d1fae5",
-            "surface-container-high": "#eae7e9",
-            "on-primary": "#ffffff",
-            "error-container": "#ffdad6",
-            "secondary-fixed-dim": "#b7c8e1",
-            "on-secondary-fixed-variant": "#38485d",
-            "info-bg": "#e0f2fe",
-            "surface-variant": "#e4e2e3",
-            "tertiary-container": "#665131",
-            "on-secondary": "#ffffff",
-            "border-color": "#e9ebec",
-            "tertiary": "#4d3a1c",
-            "tertiary-fixed": "#fcdeb4",
-            "surface-container-low": "#f5f3f5",
-            "secondary-container": "#d0e1fb",
-            "on-error": "#ffffff",
-            "on-primary-fixed": "#0d1c2e",
-            "on-primary-fixed-variant": "#3a485b",
-            "warning-bg": "#fef3c7",
-            "primary-fixed": "#d5e3fc",
-            "secondary": "#505f76",
-            "tertiary-fixed-dim": "#dfc29a",
-            "warning": "#f59e0b",
-            "inverse-on-surface": "#f2f0f2",
-            "text-main": "#212529",
-            "danger-text": "#b91c1c",
-            "danger": "#ef4444",
-            "on-secondary-fixed": "#0b1c30",
-            "primary-container": "#475569",
-            "error": "#ba1a1a",
-            "outline": "#75777d",
-            "success-text": "#047857",
-            "primary": "#303e51",
-            "on-surface-variant": "#44474c",
-            "on-tertiary-fixed": "#281901",
-            "on-primary-container": "#bbcae1",
-            "background": "#fbf9fa",
-            "card-bg": "#ffffff",
-            "surface-container-lowest": "#ffffff",
-            "on-tertiary-container": "#e2c59d",
-            "on-error-container": "#93000a",
-            "info-text": "#0369a1",
-            "surface-container": "#efedef",
-            "text-muted": "#64748b",
-            "surface-bright": "#fbf9fa",
-            "secondary-fixed": "#d3e4fe"
-          },
-          "borderRadius": {
-            "DEFAULT": "0.125rem",
-            "lg": "0.25rem",
-            "xl": "0.5rem",
-            "full": "0.75rem"
-          },
-          "spacing": {
-            "space-sm": "0.5rem",
-            "margin": "1.5rem",
-            "gutter": "1rem",
-            "space-xl": "2rem",
-            "space-md": "1rem",
-            "space-lg": "1.5rem",
-            "space-xs": "0.25rem"
-          },
-          "fontFamily": {
-            "headline-lg": ["Open Sans"],
-            "body": ["Open Sans"],
-            "label": ["Open Sans"],
-            "body-sm": ["Open Sans"],
-            "kpi-value": ["Open Sans"]
-          },
-          "fontSize": {
-            "headline-lg": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
-            "body": ["13px", { "lineHeight": "18px", "fontWeight": "400" }],
-            "label": ["13px", { "lineHeight": "16px", "letterSpacing": "0.03em", "fontWeight": "600" }],
-            "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
-            "kpi-value": ["18px", { "lineHeight": "24px", "fontWeight": "600" }]
-          }
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+          "success-text": "#047857",
+          "on-primary-fixed": "#0d1c2e",
+          "tertiary-fixed": "#fcdeb4",
+          "secondary-container": "#d0e1fb",
+          "on-surface": "#1b1b1d",
+          "info-bg": "#e0f2fe",
+          "info": "#0ea5e9",
+          "inverse-on-surface": "#f2f0f2",
+          "secondary": "#505f76",
+          "on-tertiary-fixed": "#281901",
+          "on-secondary-container": "#54647a",
+          "on-error": "#ffffff",
+          "surface-bright": "#fbf9fa",
+          "danger-text": "#b91c1c",
+          "on-surface-variant": "#44474c",
+          "surface-variant": "#e4e2e3",
+          "danger-bg": "#fee2e2",
+          "on-primary-container": "#bbcae1",
+          "text-muted": "#64748b",
+          "surface-container-lowest": "#ffffff",
+          "primary": "#303e51",
+          "surface-container": "#efedef",
+          "warning-text": "#b45309",
+          "tertiary-container": "#665131",
+          "inverse-surface": "#303032",
+          "inverse-primary": "#b9c7df",
+          "info-text": "#0369a1",
+          "secondary-fixed-dim": "#b7c8e1",
+          "primary-fixed": "#d5e3fc",
+          "secondary-fixed": "#d3e4fe",
+          "border-color": "#e9ebec",
+          "page-bg": "#f3f6f9",
+          "error-container": "#ffdad6",
+          "danger": "#ef4444",
+          "on-tertiary-fixed-variant": "#574325",
+          "surface": "#fbf9fa",
+          "text-main": "#212529",
+          "error": "#ba1a1a",
+          "primary-container": "#475569",
+          "outline-variant": "#c4c6cd",
+          "on-tertiary-container": "#e2c59d",
+          "surface-tint": "#515f74",
+          "surface-container-low": "#f5f3f5",
+          "warning": "#f59e0b",
+          "on-secondary-fixed-variant": "#38485d",
+          "surface-container-high": "#eae7e9",
+          "primary-fixed-dim": "#b9c7df",
+          "on-background": "#1b1b1d",
+          "warning-bg": "#fef3c7",
+          "on-secondary": "#ffffff",
+          "background": "#fbf9fa",
+          "success": "#10b981",
+          "tertiary-fixed-dim": "#dfc29a",
+          "outline": "#75777d",
+          "on-tertiary": "#ffffff",
+          "success-bg": "#d1fae5",
+          "card-bg": "#ffffff",
+          "surface-dim": "#dbd9db",
+          "on-primary-fixed-variant": "#3a485b",
+          "on-error-container": "#93000a",
+          "on-secondary-fixed": "#0b1c30",
+          "surface-container-highest": "#e4e2e3",
+          "tertiary": "#4d3a1c",
+          "on-primary": "#ffffff"
         },
-      },
+        "borderRadius": {
+          "DEFAULT": "0.125rem",
+          "lg": "0.25rem",
+          "xl": "0.5rem",
+          "full": "0.75rem"
+        },
+        "spacing": {
+          "space-md": "1rem",
+          "margin": "1.5rem",
+          "gutter": "1rem",
+          "space-xl": "2rem",
+          "space-xs": "0.25rem",
+          "space-sm": "0.5rem",
+          "space-lg": "1.5rem"
+        },
+        "fontFamily": {
+          "label": ["Open Sans"],
+          "kpi-value": ["Open Sans"],
+          "headline-lg": ["Open Sans"],
+          "body": ["Open Sans"],
+          "body-sm": ["Open Sans"]
+        },
+        "fontSize": {
+          "label": ["13px", { "lineHeight": "16px", "letterSpacing": "0.03em", "fontWeight": "600" }],
+          "kpi-value": ["18px", { "lineHeight": "24px", "fontWeight": "600" }],
+          "headline-lg": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+          "body": ["13px", { "lineHeight": "18px", "fontWeight": "400" }],
+          "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }]
+        }
+      }
     }
-  </script>
+  }
+</script>
 <style>
-    body { font-family: 'Open Sans', sans-serif; background-color: #f3f6f9; color: #1b1b1d; }
-  </style>
+  body { font-family: 'Open Sans', sans-serif; background-color: #f3f6f9; color: #1b1b1d; }
+</style>
 </head>
 <body class="h-full flex flex-col overflow-hidden">
 <!-- TopAppBar -->
 <header class="bg-surface dark:bg-surface text-primary dark:text-inverse-primary border-b border-border-color dark:border-outline shadow-sm flex justify-between items-center w-full px-6 py-3 max-w-full z-20">
 <div class="flex items-center space-x-6">
-<span class="font-headline-lg text-headline-lg font-bold text-primary dark:text-inverse-primary">SFD UEMOA Back-Office</span>
-<div class="hidden lg:flex items-center space-x-1">
-<a class="px-3 py-1.5 rounded text-on-surface-variant dark:text-surface-variant hover:text-primary transition-colors duration-150 font-label text-label" href="#">Dashboard</a>
-<a class="px-3 py-1.5 rounded text-on-surface-variant dark:text-surface-variant hover:text-primary transition-colors duration-150 font-label text-label" href="#">Comptabilité</a>
-<a class="px-3 py-1.5 rounded text-primary font-bold border-b-2 border-primary pb-1 transition-colors duration-150 font-label text-label" href="#">Rapports</a>
-<a class="px-3 py-1.5 rounded text-on-surface-variant dark:text-surface-variant hover:text-primary transition-colors duration-150 font-label text-label" href="#">Paramètres</a>
-</div>
+<span class="font-headline-lg text-headline-lg font-bold text-primary dark:text-inverse-primary">EDIP · SFD Lomé Centre</span>
 </div>
 <div class="flex items-center space-x-4">
-<div class="hidden md:flex items-center bg-surface-container-low px-3 py-1 rounded-full border border-border-color text-xs font-semibold text-secondary">
+<div class="flex items-center bg-surface-container-low px-3 py-1 rounded-full border border-border-color text-xs font-semibold text-secondary">
 <span class="material-symbols-outlined text-sm mr-1.5 text-primary" data-icon="public">public</span>
-        UEMOA · BCEAO — Togo
+        UEMOA · BCEAO — Togo · Paquet 2026.10.0 · Mode intégré
       </div>
-<div class="flex items-center space-x-2">
-<button aria-label="Notifications" class="p-2 rounded hover:bg-surface-container transition-colors">
-<span class="material-symbols-outlined text-xl" data-icon="notifications">notifications</span>
-</button>
-<button aria-label="Paramètres" class="p-2 rounded hover:bg-surface-container transition-colors">
-<span class="material-symbols-outlined text-xl" data-icon="settings">settings</span>
-</button>
-<button aria-label="Aide" class="p-2 rounded hover:bg-surface-container transition-colors">
-<span class="material-symbols-outlined text-xl" data-icon="help">help</span>
-</button>
+<div class="flex items-center space-x-3 pl-3 border-l border-border-color">
+<div class="text-left">
+<p class="text-xs font-bold leading-tight">A. Kossi</p>
+<p class="text-[11px] text-text-muted">Responsable conformité</p>
 </div>
-<div class="flex items-center space-x-3 pl-2 border-l border-border-color">
-<img class="w-9 h-9 rounded-full object-cover border border-border-color" data-alt="Professional headshot of a smiling African woman financial analyst in a modern office environment wearing a navy blue blazer, bright professional lighting, high clarity, corporate aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAGaY7JrkhWUv4RfGA2TlsviCH1Ne5LP57aq3KqDnWqwkxcXH5nklHLNk9RVVd-AIs92ZfPx3vQIb--g-E3vBMrWLELHum5Mh989KoTHfJxKZ1sqV5nwLhsFWuiWzfjVtlgg24iuiByxb4uDXNZFSSJpdJ6AYmFF-2sGfFySmJo54DVe7R8dX0zo-EybeiJpRPsNb3eKRiANkIgSD3bPrYJi5YDkfdd67M4MiVq37LNGvFBWBHG3uH7to32jkrGzbqgMd6EP-Ys-Q"/>
-<div class="hidden xl:block text-left">
-<p class="text-xs font-bold leading-tight">Ablavi Mensah</p>
-<p class="text-[11px] text-text-muted">Analyste Senior</p>
-</div>
-</div>
-<div class="flex items-center space-x-2">
-<button class="px-3 py-1.5 bg-primary text-on-primary rounded font-label text-label hover:bg-primary-container transition-colors">Enregistrer</button>
-<button class="px-3 py-1.5 bg-surface-container text-on-surface rounded font-label text-label hover:bg-surface-dim transition-colors">Annuler</button>
 </div>
 </div>
 </header>
 <div class="flex flex-1 overflow-hidden">
 <!-- SideNavBar -->
-<aside class="flex flex-col justify-between w-64 h-full p-4 bg-surface-container-low dark:bg-surface-container border-r border-border-color dark:border-outline shrink-0">
+<aside class="flex flex-col justify-between w-64 h-full p-4 bg-surface-container-low dark:bg-surface-container border-r border-border-color dark:border-outline shrink-0 overflow-y-auto">
 <div class="flex flex-col space-y-6">
-<div class="flex items-center space-x-3 px-2 py-1">
-<div class="w-8 h-8 rounded bg-primary text-on-primary flex items-center justify-center font-bold text-sm">SFD</div>
-<div>
-<h1 class="font-headline-lg text-headline-lg font-bold text-primary dark:text-inverse-primary leading-tight">SFD UEMOA</h1>
-<p class="text-[11px] text-text-muted">Module Financier</p>
-</div>
-</div>
+<div class="flex flex-col space-y-1">
+<p class="text-[11px] font-bold text-text-muted px-3 uppercase tracking-wider mb-1">Reporting réglementaire</p>
 <nav class="flex flex-col space-y-1">
-<a class="flex items-center space-x-3 px-3 py-2.5 text-on-surface-variant dark:text-surface-variant hover:bg-surface-variant hover:text-on-surface transition-all duration-150 font-body text-body" href="#">
-<span class="material-symbols-outlined text-xl" data-icon="calculate">calculate</span>
-<span>Formules de rapport</span>
+<a class="flex items-center space-x-3 px-3 py-2 text-on-surface-variant hover:bg-surface-variant hover:text-on-surface transition-all duration-150 font-body text-body rounded" href="#">
+<span class="material-symbols-outlined text-xl" data-icon="dashboard">dashboard</span>
+<span>Tableau de bord</span>
 </a>
-<a class="flex items-center space-x-3 px-3 py-2.5 bg-secondary-container dark:bg-secondary text-on-secondary-container dark:text-on-secondary font-bold rounded-lg transition-all duration-150 font-body text-body" href="#">
-<span class="material-symbols-outlined text-xl" data-icon="account_balance" style="font-variation-settings: 'FILL' 1;">account_balance</span>
-<span>Plan comptable</span>
+<a class="flex items-center space-x-3 px-3 py-2 text-on-surface-variant hover:bg-surface-variant hover:text-on-surface transition-all duration-150 font-body text-body rounded" href="#">
+<span class="material-symbols-outlined text-xl" data-icon="edit_document">edit_document</span>
+<span>Éditer les rapports</span>
 </a>
-<a class="flex items-center space-x-3 px-3 py-2.5 text-on-surface-variant dark:text-surface-variant hover:bg-surface-variant hover:text-on-surface transition-all duration-150 font-body text-body" href="#">
-<span class="material-symbols-outlined text-xl" data-icon="description">description</span>
-<span>Etats réglementaires BCEAO</span>
+<a class="flex items-center space-x-3 px-3 py-2 text-on-surface-variant hover:bg-surface-variant hover:text-on-surface transition-all duration-150 font-body text-body rounded" href="#">
+<span class="material-symbols-outlined text-xl" data-icon="account_balance">account_balance</span>
+<span>États financiers</span>
 </a>
-<a class="flex items-center space-x-3 px-3 py-2.5 text-on-surface-variant dark:text-surface-variant hover:bg-surface-variant hover:text-on-surface transition-all duration-150 font-body text-body" href="#">
-<span class="material-symbols-outlined text-xl" data-icon="verified">verified</span>
-<span>Contrôles de conformité</span>
+<a class="flex items-center space-x-3 px-3 py-2 text-on-surface-variant hover:bg-surface-variant hover:text-on-surface transition-all duration-150 font-body text-body rounded" href="#">
+<span class="material-symbols-outlined text-xl" data-icon="shield">shield</span>
+<span>Ratios prudentiels</span>
 </a>
-<a class="flex items-center space-x-3 px-3 py-2.5 text-on-surface-variant dark:text-surface-variant hover:bg-surface-variant hover:text-on-surface transition-all duration-150 font-body text-body" href="#">
-<span class="material-symbols-outlined text-xl" data-icon="tune">tune</span>
-<span>Paramétrage global</span>
+<a class="flex items-center space-x-3 px-3 py-2 text-on-surface-variant hover:bg-surface-variant hover:text-on-surface transition-all duration-150 font-body text-body rounded" href="#">
+<span class="material-symbols-outlined text-xl" data-icon="folder_zip">folder_zip</span>
+<span>Export groupé (ZIP)</span>
+</a>
+<a class="flex items-center space-x-3 px-3 py-2 text-on-surface-variant hover:bg-surface-variant hover:text-on-surface transition-all duration-150 font-body text-body rounded" href="#">
+<span class="material-symbols-outlined text-xl" data-icon="history">history</span>
+<span>Historique des éditions</span>
+</a>
+<a class="flex items-center space-x-3 px-3 py-2 text-on-surface-variant hover:bg-surface-variant hover:text-on-surface transition-all duration-150 font-body text-body rounded" href="#">
+<span class="material-symbols-outlined text-xl" data-icon="database">database</span>
+<span>Données importées</span>
 </a>
 </nav>
 </div>
-<div class="flex flex-col space-y-3">
-<button class="w-full py-2 bg-primary text-on-primary rounded font-label text-label flex items-center justify-center space-x-2 shadow-sm hover:bg-primary-container transition-colors">
-<span class="material-symbols-outlined text-base" data-icon="add">add</span>
-<span>Nouveau rapport</span>
-</button>
-<div class="pt-3 border-t border-border-color flex flex-col space-y-1">
-<a class="flex items-center space-x-3 px-3 py-2 text-on-surface-variant hover:text-on-surface transition-colors font-body text-body" href="#">
-<span class="material-symbols-outlined text-lg" data-icon="help">help</span>
-<span>Aide</span>
+<div class="flex flex-col space-y-1 pt-3 border-t border-border-color">
+<p class="text-[11px] font-bold text-text-muted px-3 uppercase tracking-wider mb-1">Configuration</p>
+<nav class="flex flex-col space-y-1">
+<a class="flex items-center space-x-3 px-3 py-2.5 bg-secondary-container dark:bg-secondary text-on-secondary-container dark:text-on-secondary font-bold rounded-lg transition-all duration-150 font-body text-body" href="#">
+<span class="material-symbols-outlined text-xl" data-icon="calculate" style="font-variation-settings: 'FILL' 1;">calculate</span>
+<span>Formules de calcul</span>
 </a>
-<a class="flex items-center space-x-3 px-3 py-2 text-danger hover:bg-danger-bg rounded transition-colors font-body text-body" href="#">
-<span class="material-symbols-outlined text-lg" data-icon="logout">logout</span>
-<span>Déconnexion</span>
+<a class="flex items-center space-x-3 px-3 py-2 text-on-surface-variant hover:bg-surface-variant hover:text-on-surface transition-all duration-150 font-body text-body rounded" href="#">
+<span class="material-symbols-outlined text-xl" data-icon="settings">settings</span>
+<span>Paramètres</span>
 </a>
+</nav>
 </div>
 </div>
 </aside>
@@ -223,10 +201,6 @@
 <h2 class="font-headline-lg text-xl text-primary font-bold">Formules de calcul — Reporting Réglementaire BCEAO</h2>
 </div>
 <div class="flex items-center space-x-3">
-<span class="px-2.5 py-1 bg-success-bg text-success-text rounded text-xs font-semibold flex items-center space-x-1">
-<span class="material-symbols-outlined text-sm" data-icon="check_circle">check_circle</span>
-<span>Module synchronisé BCEAO v2.4</span>
-</span>
 </div>
 </div>
 <!-- Three-column layout body -->
@@ -238,60 +212,43 @@
 <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-outline">
 <span class="material-symbols-outlined text-base" data-icon="search">search</span>
 </span>
-<input class="w-full pl-9 pr-3 py-2 bg-surface border border-border-color rounded text-body focus:outline-none focus:border-primary" placeholder="Filtrer code, libellé..." type="text"/>
+<input class="w-full pl-9 pr-3 py-2 bg-surface border border-border-color rounded text-body focus:outline-none focus:border-primary" placeholder="Filtrer code, libellé..." type="text" value="UEMOA-REP-PRU-05"/>
 </div>
-<div class="flex items-center justify-between text-xs text-text-muted">
-<span>12 formules listées</span>
-<span class="text-primary font-bold cursor-pointer hover:underline">Tout voir</span>
+<div class="flex items-center justify-between text-xs text-text-muted"><span>4 formules listées</span>
+<span class="text-primary font-bold cursor-pointer hover:underline">Tout voir</span></div>
 </div>
-</div>
-<div class="flex-1 overflow-y-auto divide-y divide-border-color">
-<!-- Item 1: Active -->
-<div class="p-3 bg-secondary-container bg-opacity-40 border-l-4 border-primary cursor-pointer transition-colors">
+<div class="flex-1 overflow-y-auto divide-y divide-border-color"><div class="p-3 bg-secondary-container bg-opacity-40 border-l-4 border-primary cursor-pointer transition-colors">
 <div class="flex justify-between items-start mb-1">
-<span class="font-bold text-xs text-primary">RAT-01</span>
-<span class="px-2 py-0.5 bg-success-bg text-success-text text-[10px] font-semibold rounded">Validé</span>
-</div>
-<p class="text-body font-semibold text-text-main line-clamp-1">Ratio de liquidité immédiate</p>
-<p class="text-[11px] text-text-muted mt-1">Actif circulant / Passif exigible</p>
-</div>
-<!-- Item 2 -->
-<div class="p-3 hover:bg-surface-container-low cursor-pointer transition-colors">
-<div class="flex justify-between items-start mb-1">
-<span class="font-bold text-xs text-secondary">RAT-02</span>
+<span class="font-bold text-xs text-primary">UEMOA-REP-PRU-05</span>
 <span class="px-2 py-0.5 bg-warning-bg text-warning-text text-[10px] font-semibold rounded">Personnalisée</span>
 </div>
-<p class="text-body font-semibold text-text-main line-clamp-1">Taux de couverture des créances en souffrance</p>
-<p class="text-[11px] text-text-muted mt-1">Provisions / Créances douteuses</p>
+<p class="text-body font-semibold text-text-main line-clamp-1">Coefficient de liquidité</p>
+<p class="text-[11px] text-text-muted mt-1">Actif circulant / Passif exigible</p>
 </div>
-<!-- Item 3 -->
 <div class="p-3 hover:bg-surface-container-low cursor-pointer transition-colors">
 <div class="flex justify-between items-start mb-1">
-<span class="font-bold text-xs text-secondary">PRU-T04</span>
-<span class="px-2 py-0.5 bg-info-bg text-info-text text-[10px] font-semibold rounded">Conforme</span>
-</div>
-<p class="text-body font-semibold text-text-main line-clamp-1">Fonds Propres Net de Base</p>
-<p class="text-[11px] text-text-muted mt-1">Capital social + Réserves consolidées</p>
-</div>
-<!-- Item 4 -->
-<div class="p-3 hover:bg-surface-container-low cursor-pointer transition-colors">
-<div class="flex justify-between items-start mb-1">
-<span class="font-bold text-xs text-secondary">RAT-05</span>
-<span class="px-2 py-0.5 bg-danger-bg text-danger-text text-[10px] font-semibold rounded">Alerte</span>
-</div>
-<p class="text-body font-semibold text-text-main line-clamp-1">Coefficient d'emploi des ressources</p>
-<p class="text-[11px] text-text-muted mt-1">Crédits / Dépenses globales</p>
-</div>
-<!-- More items mock -->
-<div class="p-3 hover:bg-surface-container-low cursor-pointer transition-colors">
-<div class="flex justify-between items-start mb-1">
-<span class="font-bold text-xs text-secondary">RAT-06</span>
+<span class="font-bold text-xs text-secondary">UEMOA-REP-PRU-01</span>
 <span class="px-2 py-0.5 bg-surface-container text-text-muted text-[10px] font-semibold rounded">Paquet</span>
 </div>
-<p class="text-body font-semibold text-text-main line-clamp-1">Ratio de solvabilité globale</p>
-<p class="text-[11px] text-text-muted mt-1">Fonds propres / Total actifs pondérés</p>
+<p class="text-body font-semibold text-text-main line-clamp-1">Limitation des risques</p>
+<p class="text-[11px] text-text-muted mt-1">Fonds propres nets / Risques</p>
 </div>
+<div class="p-3 hover:bg-surface-container-low cursor-pointer transition-colors">
+<div class="flex justify-between items-start mb-1">
+<span class="font-bold text-xs text-secondary">UEMOA-REP-PRU-02</span>
+<span class="px-2 py-0.5 bg-surface-container text-text-muted text-[10px] font-semibold rounded">Paquet</span>
 </div>
+<p class="text-body font-semibold text-text-main line-clamp-1">Couverture des emplois MLT</p>
+<p class="text-[11px] text-text-muted mt-1">Ressources stables / Emplois stables</p>
+</div>
+<div class="p-3 hover:bg-surface-container-low cursor-pointer transition-colors">
+<div class="flex justify-between items-start mb-1">
+<span class="font-bold text-xs text-secondary">UEMOA-REP-PRU-08</span>
+<span class="px-2 py-0.5 bg-surface-container text-text-muted text-[10px] font-semibold rounded">Paquet</span>
+</div>
+<p class="text-body font-semibold text-text-main line-clamp-1">Capitalisation</p>
+<p class="text-[11px] text-text-muted mt-1">Fonds propres / Total bilan</p>
+</div></div>
 </section>
 <!-- Column 2: Center Table (Formulas Overview) -->
 <section class="col-span-5 bg-card-bg border border-border-color rounded-xl flex flex-col overflow-hidden shadow-sm">
@@ -314,78 +271,58 @@
 <th class="p-3 font-semibold text-right">Action</th>
 </tr>
 </thead>
-<tbody class="divide-y divide-border-color text-body">
-<!-- Row 1 -->
-<tr class="hover:bg-surface-container-low h-[44px] bg-secondary-container bg-opacity-20">
+<tbody class="divide-y divide-border-color text-body"><tr class="hover:bg-surface-container-low h-[44px]">
 <td class="p-3">
-<div class="font-semibold text-primary">Ratio de liquidité immédiate</div>
-<div class="text-[11px] text-text-muted">RUB-RAT-01</div>
+<div class="font-semibold text-text-main">Valeurs réalisables et disponibles</div>
+<div class="text-[11px] text-text-muted">R5_NUM</div>
 </td>
 <td class="p-3">
 <span class="px-2 py-0.5 bg-surface-container text-on-surface-variant text-[11px] rounded font-medium">Paquet</span>
+</td>
+<td class="p-3 text-xs font-semibold">-</td>
+<td class="p-3 text-right">
+<button class="p-1 hover:bg-surface-container rounded text-outline"><span class="material-symbols-outlined text-lg" data-icon="visibility">visibility</span></button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low h-[44px]">
+<td class="p-3">
+<div class="font-semibold text-text-main">Passif exigible à 3 mois</div>
+<div class="text-[11px] text-text-muted">R5_DEN</div>
+</td>
+<td class="p-3">
+<span class="px-2 py-0.5 bg-surface-container text-on-surface-variant text-[11px] rounded font-medium">Paquet</span>
+</td>
+<td class="p-3 text-xs font-semibold">-</td>
+<td class="p-3 text-right">
+<button class="p-1 hover:bg-surface-container rounded text-outline"><span class="material-symbols-outlined text-lg" data-icon="visibility">visibility</span></button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low h-[44px] bg-secondary-container bg-opacity-20">
+<td class="p-3">
+<div class="font-semibold text-primary">Coefficient de liquidité</div>
+<div class="text-[11px] text-text-muted">R5_COEF</div>
+</td>
+<td class="p-3">
+<span class="px-2 py-0.5 bg-warning-bg text-warning-text text-[11px] rounded font-medium">Personnalisée</span>
 </td>
 <td class="p-3 text-xs font-semibold">≥ 100%</td>
 <td class="p-3 text-right">
 <button class="p-1 hover:bg-surface-container rounded text-primary"><span class="material-symbols-outlined text-lg" data-icon="edit">edit</span></button>
 </td>
 </tr>
-<!-- Row 2 -->
 <tr class="hover:bg-surface-container-low h-[44px]">
 <td class="p-3">
-<div class="font-semibold text-text-main">Taux de couverture des créances</div>
-<div class="text-[11px] text-text-muted">RUB-RAT-02</div>
-</td>
-<td class="p-3">
-<span class="px-2 py-0.5 bg-warning-bg text-warning-text text-[11px] rounded font-medium">Personnalisée</span>
-</td>
-<td class="p-3 text-xs font-semibold">≥ 75%</td>
-<td class="p-3 text-right">
-<button class="p-1 hover:bg-surface-container rounded text-outline"><span class="material-symbols-outlined text-lg" data-icon="visibility">visibility</span></button>
-</td>
-</tr>
-<!-- Row 3 -->
-<tr class="hover:bg-surface-container-low h-[44px]">
-<td class="p-3">
-<div class="font-semibold text-text-main">Fonds Propres Net</div>
-<div class="text-[11px] text-text-muted">RUB-PRU-04</div>
+<div class="font-semibold text-text-main">Part de la caisse dans les disponibles</div>
+<div class="text-[11px] text-text-muted">R5_X1</div>
 </td>
 <td class="p-3">
 <span class="px-2 py-0.5 bg-info-bg text-info-text text-[11px] rounded font-medium">Ajoutée</span>
 </td>
-<td class="p-3 text-xs font-semibold">≥ 500M CFA</td>
+<td class="p-3 text-xs font-semibold">-</td>
 <td class="p-3 text-right">
 <button class="p-1 hover:bg-surface-container rounded text-outline"><span class="material-symbols-outlined text-lg" data-icon="visibility">visibility</span></button>
 </td>
-</tr>
-<!-- Row 4 -->
-<tr class="hover:bg-surface-container-low h-[44px]">
-<td class="p-3">
-<div class="font-semibold text-text-main">Coefficient d'emploi</div>
-<div class="text-[11px] text-text-muted">RUB-RAT-05</div>
-</td>
-<td class="p-3">
-<span class="px-2 py-0.5 bg-surface-container text-on-surface-variant text-[11px] rounded font-medium">Paquet</span>
-</td>
-<td class="p-3 text-xs font-semibold">≤ 80%</td>
-<td class="p-3 text-right">
-<button class="p-1 hover:bg-surface-container rounded text-outline"><span class="material-symbols-outlined text-lg" data-icon="visibility">visibility</span></button>
-</td>
-</tr>
-<!-- Row 5 -->
-<tr class="hover:bg-surface-container-low h-[44px]">
-<td class="p-3">
-<div class="font-semibold text-text-main">Couverture des emplois à long terme</div>
-<div class="text-[11px] text-text-muted">RUB-RAT-08</div>
-</td>
-<td class="p-3">
-<span class="px-2 py-0.5 bg-surface-container text-on-surface-variant text-[11px] rounded font-medium">Paquet</span>
-</td>
-<td class="p-3 text-xs font-semibold">≥ 60%</td>
-<td class="p-3 text-right">
-<button class="p-1 hover:bg-surface-container rounded text-outline"><span class="material-symbols-outlined text-lg" data-icon="visibility">visibility</span></button>
-</td>
-</tr>
-</tbody>
+</tr></tbody>
 </table>
 </div>
 </section>
@@ -394,34 +331,42 @@
 <div class="p-4 border-b border-border-color bg-surface flex justify-between items-center">
 <div>
 <h3 class="font-bold text-sm text-primary">Constructeur visuel de formule</h3>
-<p class="text-[11px] text-text-muted">Édition active : RAT-01 Liquidité</p>
+<p class="text-[11px] text-text-muted">UEMOA-REP-PRU-05 Coefficient de liquidité</p>
 </div>
-<span class="px-2 py-0.5 bg-success-bg text-success-text text-xs font-bold rounded">Actif</span>
+<span class="px-2 py-0.5 bg-warning-bg text-warning-text text-[11px] font-bold rounded">à confirmer art. 44</span>
 </div>
 <div class="flex-1 overflow-y-auto p-4 space-y-4">
-<!-- Selection of accounts chips -->
+<!-- Builder block 1: Solde des comptes -->
 <div>
-<label class="block text-xs font-semibold text-text-muted mb-2">Sélection des comptes &amp; soldes</label>
+<label class="block text-xs font-semibold text-text-muted mb-2">Solde des comptes</label>
 <div class="flex flex-wrap gap-1.5 mb-2">
 <button class="px-2.5 py-1 bg-secondary-container text-on-secondary-container rounded text-xs font-medium flex items-center space-x-1 hover:bg-primary-container hover:text-on-primary transition-colors">
-<span>ACT-100 Disponibilités</span>
+<span>10 Valeurs en caisse</span>
 <span class="material-symbols-outlined text-xs">add</span>
 </button>
-<button class="px-2.5 py-1 bg-surface-container text-on-surface rounded text-xs font-medium flex items-center space-x-1 hover:bg-primary-container hover:text-on-primary transition-colors">
-<span>ACT-200 Créances</span>
+<button class="px-2.5 py-1 bg-secondary-container text-on-secondary-container rounded text-xs font-medium flex items-center space-x-1 hover:bg-primary-container hover:text-on-primary transition-colors">
+<span>11 Banques</span>
 <span class="material-symbols-outlined text-xs">add</span>
 </button>
-<button class="px-2.5 py-1 bg-surface-container text-on-surface rounded text-xs font-medium flex items-center space-x-1 hover:bg-primary-container hover:text-on-primary transition-colors">
-<span>PAS-100 Dépôts</span>
+<button class="px-2.5 py-1 bg-secondary-container text-on-secondary-container rounded text-xs font-medium flex items-center space-x-1 hover:bg-primary-container hover:text-on-primary transition-colors">
+<span>12 Placements</span>
 <span class="material-symbols-outlined text-xs">add</span>
 </button>
 </div>
 <div class="flex items-center space-x-2">
-<select class="text-xs bg-surface border border-border-color rounded px-2 py-1 flex-1">
+<select class="text-xs bg-surface border border-border-color rounded px-2 py-1 flex-1 font-medium">
 <option>Sens : Débit (D)</option>
 <option>Sens : Crédit (C)</option>
 </select>
 <button class="px-3 py-1 bg-primary text-on-primary rounded text-xs font-semibold">Ajouter au bloc</button>
+</div>
+</div>
+<!-- Builder block 2: Indicateur -->
+<div>
+<label class="block text-xs font-semibold text-text-muted mb-1.5">Indicateur</label>
+<div class="flex items-center space-x-2">
+<input class="text-xs bg-surface border border-border-color rounded px-2 py-1 flex-1 font-mono font-semibold" type="text" value="R5_DEN"/>
+<button class="px-3 py-1 bg-surface-container text-on-surface rounded text-xs font-semibold hover:bg-surface-dim">Insérer</button>
 </div>
 </div>
 <!-- Operators toolbar -->
@@ -436,39 +381,48 @@
 <button class="py-1 bg-surface-container hover:bg-surface-dim rounded font-bold text-xs">)</button>
 </div>
 </div>
+<!-- Expression technical -->
+<div>
+<label class="block text-xs font-semibold text-text-muted mb-1">Expression technique</label>
+<div class="p-3 bg-surface-container-low border border-border-color rounded font-mono text-xs text-primary font-bold">
+                SOLDE("10,11,12", D) / R5_DEN * 100
+              </div>
+</div>
 <!-- Plain-language expression display -->
 <div>
 <label class="block text-xs font-semibold text-text-muted mb-1">Expression en langage naturel</label>
-<div class="p-3 bg-surface-container-low border border-border-color rounded font-mono text-xs text-primary font-bold">
-                ( [ACT-100] + [ACT-200] ) / [PAS-100]
+<div class="p-3 bg-surface-container-low border border-border-color rounded text-xs text-text-main font-semibold">
+                (Caisse + Banques + Placements) ÷ Dépôts à vue × 100
               </div>
 </div>
 <!-- Live preview value -->
 <div class="p-3 bg-surface border border-border-color rounded space-y-2">
 <div class="flex justify-between items-center">
 <span class="text-xs font-semibold text-text-muted">Aperçu en direct (FCFA)</span>
-<span class="text-sm font-bold text-success-text">114.5%</span>
+<span class="text-sm font-bold text-success-text">120,9 %</span>
 </div>
 <div class="text-[11px] text-text-muted space-y-1 pt-1 border-t border-border-color">
 <div class="flex justify-between">
-<span>ACT-100 (Disponibilités)</span>
-<span>450 000 000</span>
+<span>10 (Valeurs en caisse)</span>
+<span>45 000 000</span>
 </div>
 <div class="flex justify-between">
-<span>ACT-200 (Créances court terme)</span>
-<span>120 000 000</span>
+<span>11 (Banques)</span>
+<span>320 000 000</span>
 </div>
 <div class="flex justify-between">
-<span>PAS-100 (Passif exigible)</span>
-<span>500 000 000</span>
+<span>12 (Placements)</span>
+<span>150 000 000</span>
 </div>
+<div class="flex justify-between font-semibold text-text-main pt-1 border-t border-border-color"><span>R5_DEN (Passif exigible)</span>
+<span>426 000 000</span></div>
 </div>
 </div>
 <!-- Validation message and regulatory norm selector -->
 <div class="space-y-2">
 <label class="block text-xs font-semibold text-text-muted">Norme réglementaire BCEAO</label>
 <div class="flex items-center space-x-2">
-<input class="text-xs bg-surface border border-border-color rounded px-2 py-1.5 flex-1 font-semibold text-success-text" type="text" value="doit être ≥ 8 %"/>
+<input class="text-xs bg-surface border border-border-color rounded px-2 py-1.5 flex-1 font-semibold text-success-text" type="text" value="doit être ≥ 100 %"/>
 <span class="material-symbols-outlined text-success text-lg" data-icon="verified">verified</span>
 </div>
 <p class="text-[11px] text-success-text flex items-center space-x-1">
@@ -479,7 +433,7 @@
 <!-- Comparison -->
 <div class="p-2.5 bg-warning-bg rounded border border-warning text-xs text-warning-text flex justify-between items-center">
 <span>Comparaison vs formule d'origine</span>
-<span class="font-bold">+2.4% écart</span>
+<span class="font-bold">+4.1% écart</span>
 </div>
 </div>
 <!-- Footer Actions -->
