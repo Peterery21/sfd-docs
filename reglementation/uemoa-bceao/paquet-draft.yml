@@ -1,0 +1,3489 @@
+# Paquet de localisation UEMOA-BCEAO — BROUILLON (recherche du 2026-10-19)
+# Source de vérité des formules : sfd-docs/reglementation/uemoa-bceao/reporting.md
+# NE PAS COMMITER tel quel : A CONFIRMER signalé dans le champ statut / note. Aucun compte déduit par analogie ; inconnu = NON_TROUVE.
+# Écrasement prévu du fichier zones/uemoa-bceao.yml (concordances actuelles fausses, voir reporting.md §d).
+zone: UEMOA-BCEAO
+regulateur: 'BCEAO / Commission Bancaire de l''UMOA (tutelle nationale : Ministre des Finances)'
+planComptable: RCSFD-UMOA
+version: 2026-10-19-draft
+pays:
+- BJ
+- BF
+- CI
+- GW
+- ML
+- NE
+- SN
+- TG
+conventions:
+  comptes: préfixes RCSFD séparés par virgule ; '-' = à soustraire ; comptesEx = comptes 'extraits' (solde du sens de la rubrique)
+  expression: références de lignes par code (A-Z0-9_), opérateurs + - * / et parenthèses ; MIN() = extension à implémenter
+  extensions-a-valider:
+  - comptesAllegee
+  - comptesEx
+  - normesParCategorie
+  - filtre d'échéance résiduelle (R2, R5)
+  - agrégation MOYENNE_PERIODE (IND-F09..F16)
+  periodicite: ANNUELLE | MENSUELLE | TRIMESTRIELLE | EVENEMENT | A_CONFIRMER
+  resolutionCodes: un même poste porte le même code dans tous les états (principe RCSFD) ; les expressions se résolvent sur DIMF-2000-BIL, DIMF-2000-HB, DIMF-2080 puis sur les états annexes
+  assujettis: TOUS | ART44 | AUTRES_SFD | FAITIERES | RESEAUX | IMF
+  delaiJours: jours calendaires ; 180 = 6 mois ; 30 = 1 mois ; null = non trouvé ou échéance fixe (voir echeance)
+rapports:
+- code: DIMF-2000-BIL
+  libelle: Bilan (DIMF 2000) — développée (art. 44) et allégée
+  periodicite: ANNUELLE
+  delaiJours: 180
+  assujettis:
+  - TOUS
+  layout: BILAN_BICOLONNE
+  source: Instr. BCEAO 025-02-2009, 030-02-2009 (art. 2-8), 001-02-2018 ; RCSFD (annexes) ; annexes 1.1, 2.1-2.3
+  codeEtat: AA0 (actif) / AB0 (passif)
+  colonnes:
+  - BRUT
+  - AMT_PROV
+  - NET
+  - NET_N1
+  versions:
+    DEVELOPPEE: SFD art. 44 (encours >= 2 Md FCFA sur 2 exercices) ; option possible pour les autres
+    ALLEGEE: encours dépôts ou crédit < 50 M FCFA sur 2 exercices (Instr. 021-12-2010)
+  note: comptes = version développée ; comptesAllegee = version allégée si différente ; allegee:false = poste absent de l'allégée. comptesEx = comptes 'extraits' (solde débiteur compté à l'actif, créditeur
+    au passif, selon la rubrique). Les montants NET = concordance telle que publiée (provisions et amortissements déjà déduits par les signes -).
+  lignes:
+  - code: A01
+    libelle: OPERATIONS DE TRESORERIE ET AVEC LES INSTITUTIONS FINANCIERES
+    comptes: 101,1101,111111,111121,1121,1131,111117,111127,1137,1147,1157,1167,1177,1261,1271,1281,1267,1277,1287,1311,1331,1317,1337,1517,1527,1537,1547,1557,1567,1577,191,192,193,194,-199
+    comptesEx: 1141,1151,1161,1171,1511,1521,1531,1541,1551,1561,1571
+    sens: DEBIT
+    comptesAllegee: 1011,1131,1261,1271,1281,1311,1331,1137,1147,1167,1177,1267,1277,1287,1317,1337,1547,191,192,193,194,-199
+    comptesExAllegee: 1141,1161,1171,1541,1561,1571,1567,1577
+  - code: A10
+    libelle: Valeur en caisse
+    comptes: '10'
+    sens: DEBIT
+  - code: A11
+    libelle: Billets et monnaies
+    comptes: '101'
+    sens: DEBIT
+    comptesAllegee: '1011'
+  - code: A12
+    libelle: Comptes ordinaires débiteurs
+    comptes: 1101,1111,1121,1131
+    comptesEx: 1141,1151,1161,1171
+    sens: DEBIT
+    comptesAllegee: '1131'
+    comptesExAllegee: 1141,1161,1171,1541,1561,1571
+  - code: A2A
+    libelle: Autres comptes de dépôts débiteurs
+    comptes: 1261,1271,1281
+    sens: DEBIT
+  - code: A2H
+    libelle: Dépôts à terme constitués
+    comptes: '1261'
+    sens: DEBIT
+  - code: A2I
+    libelle: Dépôts de garantie constitués
+    comptes: '1271'
+    sens: DEBIT
+  - code: A2J
+    libelle: Autres dépôts constitués
+    comptes: '1281'
+    sens: DEBIT
+  - code: A3A
+    libelle: Comptes de prêts
+    comptes: 1311,1331
+    sens: DEBIT
+  - code: A3B
+    libelle: Prêts à moins d'un an
+    comptes: '1311'
+    sens: DEBIT
+  - code: A3C
+    libelle: Prêts à terme
+    comptes: '1331'
+    sens: DEBIT
+  - code: A60
+    libelle: Créances rattachées
+    comptes: 111117,111127,1137,1147,1157,1167,1177,1267,1277,1287,1317,1337,1517,1527,1537,1547,1557,1567,1577
+    sens: DEBIT
+    comptesAllegee: 1167,1177,1267,1277,1287,1317,1337,1547,1567,1577
+  - code: A70
+    libelle: Prêts en souffrance (prêts immobilisés + souffrance, nets de provisions)
+    comptes: 191,192,193,194,-1991,-1992,-1993
+    sens: DEBIT
+    comptesAllegee: 191,192,193,194,-199
+    note: A70 = total ; A71 à A73 = ventilation ; A70 - somme(A71..A73) = 191 (RCSFD annexe 1, UEMOA-REP-T25)
+  - code: A71
+    libelle: Prêts en souffrance de 6 mois au plus
+    comptes: 192,-1991
+    sens: DEBIT
+  - code: A72
+    libelle: Prêts en souffrance de plus de 6 mois à 12 mois au plus
+    comptes: 193,-1992
+    sens: DEBIT
+  - code: A73
+    libelle: Prêts en souffrance de plus de 12 mois à 24 mois au plus
+    comptes: 194,-1993
+    sens: DEBIT
+  - code: B01
+    libelle: OPERATIONS AVEC LES MEMBRES, BENEFICIAIRES OU CLIENTS
+    comptes: 20221,20227,2031,2041,2037,2047,291,292,293,294,-299
+    comptesEx: '2511'
+    sens: DEBIT
+    comptesAllegee: 2022,2023,20227,2031,2037,291,292,293,294,-2991,-2992,-2993
+    comptesExAllegee: '2511'
+  - code: B2D
+    libelle: Crédits à court terme
+    comptes: 20221,20231
+    sens: DEBIT
+    comptesAllegee: 2022,2023
+  - code: B2N
+    libelle: Comptes ordinaires (débiteurs)
+    comptes: null
+    comptesEx: '2511'
+    sens: DEBIT
+  - code: B30
+    libelle: Crédits à moyen terme
+    comptes: '2031'
+    sens: DEBIT
+  - code: B40
+    libelle: Crédits à long terme
+    comptes: '2041'
+    sens: DEBIT
+    allegee: false
+  - code: B65
+    libelle: Créances rattachées
+    comptes: 20227,20237,2037,2047
+    sens: DEBIT
+    comptesAllegee: 20227,2037
+  - code: B70
+    libelle: Crédits en souffrance (nets de provisions)
+    comptes: 291,292,293,294,-2991,-2992,-2993
+    sens: DEBIT
+    note: B70 = total ; B71 à B73 = ventilation ; reste = 291 (UEMOA-REP-T25)
+  - code: B71
+    libelle: Crédits en souffrance de 6 mois au plus
+    comptes: 292,-2991
+    sens: DEBIT
+  - code: B72
+    libelle: Crédits en souffrance de plus de 6 mois à 12 mois au plus
+    comptes: 293,-2992
+    sens: DEBIT
+  - code: B73
+    libelle: Crédits en souffrance de plus de 12 mois à 24 mois au plus
+    comptes: 294,-2993
+    sens: DEBIT
+  - code: C01
+    libelle: OPERATIONS SUR TITRES ET OPERATIONS DIVERSES
+    comptes: 301,302,303,304,-309,3211,3221,3231,3241,-3219,-3229,-3239,-3249,3311,3711,3713,3741,3742,378,3791,381,39,33191,-33199
+    sens: DEBIT
+    comptesAllegee: 30,-309,3211,3221,3231,-3219,-3229,-3239,331,-3319,378,3791,381
+  - code: C10
+    libelle: Titres de placement
+    comptes: 301,302,303,304,-309
+    sens: DEBIT
+    comptesAllegee: 30,-309
+  - code: C30
+    libelle: Comptes de stocks
+    comptes: 3211,3221,3231,3241,-3219,-3229,-3239,-3249
+    sens: DEBIT
+    comptesAllegee: 3211,3221,3231,-3219,-3229,-3239
+  - code: C31
+    libelle: Stocks de meubles (allégée) / Stocks de marchandises (développée, libellé du modèle)
+    comptes: 3211,-3219
+    sens: DEBIT
+  - code: C32
+    libelle: Stocks de marchandises (allégée)
+    comptes: 3221,-3229
+    sens: DEBIT
+  - code: C33
+    libelle: Stocks de fournitures
+    comptes: 3231,-3239
+    sens: DEBIT
+  - code: C34
+    libelle: Autres stocks et assimilés
+    comptes: 3241,-3249
+    sens: DEBIT
+    allegee: false
+  - code: C40
+    libelle: Débiteurs divers
+    comptes: 33111,33112,33113,33114,33115,33116,33191,-33199
+    sens: DEBIT
+    comptesAllegee: 331,-3319
+  - code: C55
+    libelle: Créances rattachées
+    comptes: '307'
+    sens: DEBIT
+  - code: C56
+    libelle: Valeurs à l'encaissement avec crédit immédiat
+    comptes: 37111,37112
+    sens: DEBIT
+    allegee: false
+  - code: C59
+    libelle: Valeurs à rejeter
+    comptes: '3713'
+    sens: DEBIT
+    allegee: false
+  - code: C6A
+    libelle: Comptes d'ordre et divers (actif)
+    comptes: 3741,3742,3791,378,3811,3812,3814,3815,39
+    sens: DEBIT
+    comptesAllegee: 378,3791,3811,3812,3814,3815
+  - code: C6B
+    libelle: Comptes de liaison (actif)
+    comptes: '39'
+    sens: DEBIT
+    allegee: false
+  - code: C6C
+    libelle: Comptes de différence de conversion (actif)
+    comptes: 3741,37421,37429
+    sens: DEBIT
+    allegee: false
+  - code: C6G
+    libelle: Comptes de régularisation actif
+    comptes: 3811,3812,3814,3815
+    sens: DEBIT
+  - code: C6N
+    libelle: (poste de regroupement 378+3791, libellé non affiché au modèle)
+    comptes: 378,3791
+    sens: DEBIT
+  - code: C6Q
+    libelle: Comptes transitoires
+    comptes: '378'
+    sens: DEBIT
+  - code: C6R
+    libelle: Comptes d'attente - actif
+    comptes: '3791'
+    sens: DEBIT
+  - code: D01
+    libelle: VALEURS IMMOBILISEES
+    comptes: 41,43,44,45,46,47,49
+    sens: DEBIT
+    comptesAllegee: 41,43,44
+  - code: D1A
+    libelle: Immobilisations financières
+    comptes: 4101,4102,4121,4122,4123,4124,4125,4141,4142,-4129,-4149
+    sens: DEBIT
+    comptesAllegee: 412,-4129
+  - code: D1E
+    libelle: Titres de participation
+    comptes: 4121,4122,4123,4124,4125,-4129
+    sens: DEBIT
+    comptesAllegee: NON_TROUVE
+  - code: D1L
+    libelle: Titres d'investissement
+    comptes: 4141,4142,-4149
+    sens: DEBIT
+    comptesAllegee: NON_TROUVE
+  - code: D10
+    libelle: Prêts et titres subordonnés
+    comptes: 4101,4102
+    sens: DEBIT
+    allegee: false
+  - code: D1S
+    libelle: Dépôts et cautionnements
+    comptes: 42,-429
+    sens: DEBIT
+    comptesAllegee: 421,-429
+  - code: D23
+    libelle: Immobilisations en cours
+    comptes: 4311,-4319,4321,-4329
+    sens: DEBIT
+  - code: D24
+    libelle: Immobilisations en cours incorporelles
+    comptes: 4311,-4319
+    sens: DEBIT
+  - code: D25
+    libelle: Immobilisations en cours corporelles
+    comptes: 4321,-4329
+    sens: DEBIT
+  - code: D30
+    libelle: Immobilisations d'exploitation
+    comptes: 4411,4412,4413,4421,-4418,-4419,-4428,-4429
+    sens: DEBIT
+    comptesAllegee: 441,442,-4418,-4419,-4428,-4429
+  - code: D31
+    libelle: Immobilisations d'exploitation incorporelles
+    comptes: 4411,4412,4413,-4418,-4419
+    sens: DEBIT
+    comptesAllegee: 441,-4418,-4419
+  - code: D32
+    libelle: Droit au bail (état 2015)
+    comptes: 44111,-4418,-4419
+    sens: DEBIT
+    comptesAllegee: NON_TROUVE
+  - code: D33
+    libelle: Autres éléments du fonds commercial (état 2015)
+    comptes: 44112,-4418,-4419
+    sens: DEBIT
+    comptesAllegee: NON_TROUVE
+  - code: D34
+    libelle: Frais d'établissement (état 2015)
+    comptes: 4412,-4418,-4419
+    sens: DEBIT
+    comptesAllegee: NON_TROUVE
+  - code: D35
+    libelle: Autres immobilisations incorporelles (état 2015)
+    comptes: 4413,-4418,-4419
+    sens: DEBIT
+    comptesAllegee: NON_TROUVE
+  - code: D36
+    libelle: Immobilisations d'exploitation corporelles
+    comptes: 4421,-4428,-4429
+    sens: DEBIT
+    comptesAllegee: 442,-4428,-4429
+  - code: D40
+    libelle: Immobilisations hors exploitation
+    comptes: 4511,4513,-4518,-4519,4521,-4528,-4529,4531,-4538,-4539,4541,-4548,-4549
+    sens: DEBIT
+    allegee: false
+  - code: D41
+    libelle: Immobilisations hors exploitation incorporelles
+    comptes: 4511,4513,-4518,-4519
+    sens: DEBIT
+    allegee: false
+  - code: D45
+    libelle: Immobilisations hors exploitation corporelles
+    comptes: 4521,-4528,-4529
+    sens: DEBIT
+    allegee: false
+  - code: D46
+    libelle: Immobilisations acquises par réalisation de garantie - incorporelles
+    comptes: 4531,-4538,-4539
+    sens: DEBIT
+    allegee: false
+  - code: D47
+    libelle: Immobilisations acquises par réalisation de garantie - corporelles
+    comptes: 4541,-4548,-4549
+    sens: DEBIT
+    allegee: false
+  - code: D50
+    libelle: Crédit-bail et opérations assimilées
+    comptes: 461,462,463,464,-468,-469,471,472,473,474,-478,-479
+    sens: DEBIT
+    allegee: false
+  - code: D51
+    libelle: Crédit-bail
+    comptes: 461,463,464,-468,-469
+    sens: DEBIT
+    allegee: false
+  - code: D52
+    libelle: L.O.A.
+    comptes: 462,463,464,-468,-469
+    sens: DEBIT
+    allegee: false
+  - code: D53
+    libelle: Location-vente
+    comptes: 471,472,473,474,-478,-479
+    sens: DEBIT
+    allegee: false
+  - code: D60
+    libelle: Créances rattachées (immobilisations)
+    comptes: 4107,4127,4147,427,467,477
+    sens: DEBIT
+    comptesAllegee: 4127,427
+  - code: D70
+    libelle: Créances en souffrance (crédit-bail)
+    comptes: 491,492,493,-49961,-49962,-49963,-49971,-49972,-49973
+    sens: DEBIT
+    allegee: false
+    note: coquille imprimée '+491+492-493' corrigée (UEMOA-REP-T26)
+  - code: D71
+    libelle: Créances en souffrance de 6 mois au plus
+    comptes: 491,-49961,-49971
+    sens: DEBIT
+    allegee: false
+  - code: D72
+    libelle: Créances en souffrance de plus de 6 mois à 12 mois au plus
+    comptes: 492,-49962,-49972
+    sens: DEBIT
+    allegee: false
+  - code: D73
+    libelle: Créances en souffrance de plus de 12 mois à 24 mois au plus
+    comptes: 493,-49963,-49973
+    sens: DEBIT
+    allegee: false
+  - code: E01
+    libelle: ACTIONNAIRES, ASSOCIES OU MEMBRES (capital souscrit non versé)
+    comptes: 5731,5732
+    sens: DEBIT
+  - code: E02
+    libelle: Actionnaires, associés ou membres, capital non appelé
+    comptes: '5731'
+    sens: DEBIT
+    allegee: false
+  - code: E03
+    libelle: Actionnaires, associés ou membres, capital appelé non versé
+    comptes: '5732'
+    sens: DEBIT
+    allegee: false
+  - code: E05
+    libelle: EXCÉDENT DES CHARGES SUR LES PRODUITS (infra-annuel uniquement)
+    comptes: 60,61,62,63,64,65,66,67,-70,-71,-72,-73,-74,-75,-76,-77
+    sens: DEBIT
+  - code: E90
+    libelle: TOTAL ACTIF (net)
+    expression: A01+B01+C01+D01+E01+E05
+    sens: DEBIT
+    note: total déduit de la structure du bilan, pas de formule publiée (UEMOA-REP-T31)
+    confiance: MOYENNE
+  - code: F01
+    libelle: OPERATIONS DE TRESORERIE ET AVEC LES INSTITUTIONS FINANCIERES (passif)
+    comptes: 111116,111126,1136,1146,1156,1166,1176,1516,1526,1536,1546,1556,1566,1576,1611,1621,1651,1616,1626,1656,1751,1781,1756,1786,179,18
+    comptesEx: 111111,111121,1141,1151,1161,1171,1511,1521,1531,1541,1551,1561,1571
+    sens: CREDIT
+    comptesAllegee: 1136,1146,1166,1176,1546,1611,1621,1651,1616,1626,1656,1751,1781,1756,1786,179,18
+    comptesExAllegee: 1141,1161,1171,1541,1561,1571,1566,1576
+  - code: F1A
+    libelle: Comptes ordinaires créditeurs
+    comptes: null
+    comptesEx: 111111,111121,1141,1151,1161,1171,1511,1521,1531,1541,1551,1561,1571
+    sens: CREDIT
+    comptesAllegee: null
+    comptesExAllegee: 1141,1161,1171,1541,1561,1571
+  - code: F2A
+    libelle: Autres comptes de dépôts créditeurs
+    comptes: 1611,1621,1651
+    sens: CREDIT
+  - code: F2B
+    libelle: Dépôts à terme reçus
+    comptes: '1611'
+    sens: CREDIT
+  - code: F2C
+    libelle: Dépôts de garantie reçus
+    comptes: '1621'
+    sens: CREDIT
+  - code: F2D
+    libelle: Autres dépôts reçus
+    comptes: '1651'
+    sens: CREDIT
+  - code: F3A
+    libelle: Comptes d'emprunts
+    comptes: 1751,1781
+    sens: CREDIT
+  - code: F3E
+    libelle: Emprunts à moins d'un an
+    comptes: '1751'
+    sens: CREDIT
+  - code: F3F
+    libelle: Emprunts à terme
+    comptes: '1781'
+    sens: CREDIT
+  - code: F50
+    libelle: Autres sommes dues aux institutions financières
+    comptes: '179'
+    sens: CREDIT
+  - code: F55
+    libelle: Ressources affectées
+    comptes: '18'
+    sens: CREDIT
+  - code: F60
+    libelle: Dettes rattachées
+    comptes: 111116,111126,1136,1146,1156,1166,1176,1516,1526,1536,1546,1556,1566,1576,1756,1786,1616,1626,1656
+    sens: CREDIT
+    comptesAllegee: 1136,1146,1166,1176,1546,1566,1576,1756,1786,1616,1626,1656
+  - code: G01
+    libelle: OPERATIONS AVEC LES MEMBRES, BENEFICIAIRES OU CLIENTS (passif)
+    comptes: 2521,25311,25321,25331,25391,2545,2551,2711,2721,2722,2725,25116,25126,2526,2546,2556,25316,25326,25336,25396,2716,2726
+    comptesEx: 25111,25121
+    sens: CREDIT
+    comptesAllegee: 2521,2531,2545,2551,2711,2721,2722,2725,25116,25126,2526,25316,2546,2556,2716,2726
+    comptesExAllegee: 2511,2512
+  - code: G10
+    libelle: Comptes ordinaires créditeurs
+    comptes: null
+    comptesEx: 25111,25121
+    sens: CREDIT
+    comptesAllegee: null
+    comptesExAllegee: 2511,2512
+  - code: G15
+    libelle: Dépôts à terme reçus
+    comptes: '2521'
+    sens: CREDIT
+  - code: G2A
+    libelle: Comptes d'épargne à régime spécial
+    comptes: 25311,25321,25331,25391
+    sens: CREDIT
+    comptesAllegee: '2531'
+  - code: G30
+    libelle: Autres dépôts de garantie reçus
+    comptes: '2545'
+    sens: CREDIT
+  - code: G35
+    libelle: Autres dépôts reçus
+    comptes: '2551'
+    sens: CREDIT
+  - code: G60
+    libelle: Emprunts
+    comptes: '2711'
+    sens: CREDIT
+  - code: G70
+    libelle: Autres sommes dues
+    comptes: 2721,2722,2725
+    sens: CREDIT
+  - code: G90
+    libelle: Dettes rattachées
+    comptes: 25116,25126,2526,25316,25326,25336,25396,2546,2556,2716,2726
+    sens: CREDIT
+    comptesAllegee: 25116,25126,2526,25316,2546,2556,2716,2726
+  - code: H01
+    libelle: OPERATIONS SUR TITRES ET OPERATIONS DIVERSES (passif)
+    comptes: 305,332,3712,3741,3743,3792,382,39
+    sens: CREDIT
+    comptesAllegee: 305,332,3792,382
+  - code: H10
+    libelle: Versements restant à effectuer
+    comptes: '305'
+    sens: CREDIT
+  - code: H40
+    libelle: Créditeurs divers
+    comptes: '332'
+    sens: CREDIT
+  - code: H6A
+    libelle: Comptes d'ordre et divers (passif)
+    comptes: 3741,3743,3792,3822,3824,3825,39
+    sens: CREDIT
+    comptesAllegee: 3792,3822,3824,3825
+  - code: H6B
+    libelle: Comptes de liaison (passif)
+    comptes: '39'
+    sens: CREDIT
+    allegee: false
+  - code: H6C
+    libelle: Comptes de différences de conversion (passif)
+    comptes: 3741,37431,37439
+    sens: CREDIT
+    allegee: false
+  - code: H6G
+    libelle: Comptes de régularisation - passif
+    comptes: 3822,3824,3825
+    sens: CREDIT
+  - code: H6P
+    libelle: Comptes d'attente - passif
+    comptes: '3792'
+    sens: CREDIT
+  - code: K01
+    libelle: VERSEMENTS RESTANT A EFFECTUER SUR IMMOBILISATIONS FINANCIERES
+    comptes: '4126'
+    sens: CREDIT
+  - code: K20
+    libelle: Titres de participation (versements restant à effectuer)
+    comptes: '4126'
+    sens: CREDIT
+  - code: L01
+    libelle: PROVISIONS, FONDS PROPRES ET ASSIMILES
+    comptes: 501,502,503,51,52,53,54,55,56,57,58,59
+    sens: CREDIT
+    comptesAllegee: 501,502,503,51,52,53,54,55,56,57,58,59
+    note: 503 (L27 fonds de crédit) omis à l'impression (UEMOA-REP-T27)
+  - code: L10
+    libelle: Subventions d'investissement
+    comptes: 5011,5012
+    sens: CREDIT
+  - code: L20
+    libelle: Fonds affectés
+    comptes: 5021,5022,5023,5024,5029
+    sens: CREDIT
+    comptesAllegee: '502'
+  - code: L21
+    libelle: Fonds de garantie
+    comptes: '5021'
+    sens: CREDIT
+    allegee: false
+  - code: L22
+    libelle: Fonds d'assurance
+    comptes: '5022'
+    sens: CREDIT
+    allegee: false
+  - code: L23
+    libelle: Fonds de bonification
+    comptes: '5023'
+    sens: CREDIT
+    allegee: false
+  - code: L24
+    libelle: Fonds de sécurité
+    comptes: '5024'
+    sens: CREDIT
+    allegee: false
+  - code: L25
+    libelle: Autres fonds affectés
+    comptes: '5029'
+    sens: CREDIT
+    allegee: false
+  - code: L27
+    libelle: Fonds de crédit
+    comptes: '503'
+    sens: CREDIT
+  - code: L30
+    libelle: Provisions pour risques et charges
+    comptes: 511,512,519
+    sens: CREDIT
+    comptesAllegee: 511,519
+  - code: L31
+    libelle: Provisions pour charges de retraite
+    comptes: '511'
+    sens: CREDIT
+  - code: L32
+    libelle: Provisions pour risque d'exécution des engagements par signature
+    comptes: '512'
+    sens: CREDIT
+    allegee: false
+  - code: L33
+    libelle: Autres provisions pour risques et charges
+    comptes: '519'
+    sens: CREDIT
+  - code: L35
+    libelle: Provisions réglementées
+    comptes: '52'
+    sens: CREDIT
+  - code: L36
+    libelle: Provisions pour risques afférents aux opérations de crédits à moyen et long termes
+    comptes: '521'
+    sens: CREDIT
+  - code: L37
+    libelle: Provision spéciale de réévaluation
+    comptes: '522'
+    sens: CREDIT
+    allegee: false
+  - code: L41
+    libelle: Emprunts et titres émis subordonnés
+    comptes: '532'
+    sens: CREDIT
+  - code: L43
+    libelle: Dettes rattachées aux emprunts et titres émis subordonnés
+    comptes: '536'
+    sens: CREDIT
+  - code: L45
+    libelle: Fonds pour risques financiers généraux
+    comptes: '54'
+    sens: CREDIT
+  - code: L50
+    libelle: Primes liées au capital
+    comptes: '551'
+    sens: CREDIT
+  - code: L55
+    libelle: Réserves
+    comptes: 5521,5522,5523
+    sens: CREDIT
+  - code: L56
+    libelle: Réserve générale
+    comptes: '5521'
+    sens: CREDIT
+  - code: L57
+    libelle: Réserves facultatives
+    comptes: '5522'
+    sens: CREDIT
+  - code: L58
+    libelle: Autres réserves
+    comptes: '5523'
+    sens: CREDIT
+  - code: L59
+    libelle: Écart de réévaluation des immobilisations
+    comptes: '553'
+    sens: CREDIT
+    allegee: false
+  - code: L60
+    libelle: Capital
+    comptes: 5711,5712
+    sens: CREDIT
+  - code: L61
+    libelle: Capital appelé
+    comptes: '5711'
+    sens: CREDIT
+  - code: L62
+    libelle: Capital non appelé
+    comptes: '5712'
+    sens: CREDIT
+  - code: L65
+    libelle: Fonds de dotation
+    comptes: '56'
+    sens: CREDIT
+  - code: L70
+    libelle: Report à nouveau (+ ou -)
+    comptes: '58'
+    sens: CREDIT
+  - code: L75
+    libelle: Excédent des produits sur les charges (infra-annuel uniquement)
+    comptes: 70,71,72,73,74,75,76,77,-60,-61,-62,-63,-64,-65,-66,-67
+    sens: CREDIT
+  - code: L80
+    libelle: Résultat de l'exercice (+ ou -)
+    comptes: '59'
+    sens: CREDIT
+  - code: L81
+    libelle: Excédent ou déficit en instance d'approbation
+    comptes: '591'
+    sens: CREDIT
+  - code: L82
+    libelle: Excédent ou déficit de l'exercice
+    comptes: '592'
+    sens: CREDIT
+  - code: L90
+    libelle: TOTAL PASSIF
+    expression: F01+G01+H01+K01+L01
+    sens: CREDIT
+    note: idem ; contrôle E90 = L90
+    confiance: MOYENNE
+    controle:
+      egal: E90
+- code: DIMF-2000-HB
+  libelle: Hors-bilan (DIMF 2000) — engagements
+  periodicite: ANNUELLE
+  delaiJours: 180
+  assujettis:
+  - TOUS
+  layout: GENERIC
+  source: Instr. BCEAO 025-02-2009, 030-02-2009 (art. 2-8), 001-02-2018 ; RCSFD (annexes) ; annexe 2.4
+  codeEtat: AC0
+  colonnes:
+  - NET_N
+  - NET_N1
+  note: 'Hors-bilan absent de l''édition allégée cb-umoa ; présent dans la copie CI (jeu réduit : N1A..N2M, N3A, N3E, P1*, Q1*, N90).'
+  lignes:
+  - code: N1A
+    libelle: ENGAGEMENTS DE FINANCEMENT DONNES EN FAVEUR DES INSTITUTIONS FINANCIERES
+    comptes: '901'
+    sens: SOLDE
+  - code: N1H
+    libelle: ENGAGEMENTS DE FINANCEMENT RECUS DES INSTITUTIONS FINANCIERES
+    comptes: '902'
+    sens: SOLDE
+  - code: N1J
+    libelle: ENGAGEMENTS DE FINANCEMENT DONNES EN FAVEUR DES MEMBRES, BENEFICIAIRES OU CLIENTS
+    comptes: '903'
+    sens: SOLDE
+  - code: N1K
+    libelle: ENGAGEMENTS DE FINANCEMENT RECUS DES MEMBRES, BENEFICIAIRES OU CLIENTS
+    comptes: '904'
+    sens: SOLDE
+  - code: N2A
+    libelle: Engagements de garantie d'ordre des institutions financières
+    comptes: '911'
+    sens: SOLDE
+  - code: N2H
+    libelle: Engagements de garantie reçus des institutions financières
+    comptes: '912'
+    sens: SOLDE
+  - code: N2J
+    libelle: Engagements de garantie d'ordre des membres, bénéficiaires ou clients
+    comptes: '913'
+    sens: SOLDE
+  - code: N2M
+    libelle: Engagements de garantie reçus des membres, bénéficiaires ou clients
+    comptes: '914'
+    sens: SOLDE
+  - code: N3A
+    libelle: 'Engagements sur titres : titres à livrer'
+    comptes: 9211,9212,9219
+    sens: SOLDE
+  - code: N3B
+    libelle: Intervention à l'émission (titres à livrer)
+    comptes: '9211'
+    sens: SOLDE
+    allegee: false
+  - code: N3C
+    libelle: Marché gris (titres à livrer)
+    comptes: '9212'
+    sens: SOLDE
+    allegee: false
+  - code: N3D
+    libelle: Autres titres à livrer
+    comptes: '9219'
+    sens: SOLDE
+    allegee: false
+  - code: N3E
+    libelle: 'Engagements sur titres : titres à recevoir'
+    comptes: 9221,9222,9229
+    sens: SOLDE
+  - code: NRF
+    libelle: Intervention à l'émission (titres à recevoir)
+    comptes: '9221'
+    sens: SOLDE
+    allegee: false
+  - code: NRG
+    libelle: Marché gris (titres à recevoir)
+    comptes: '9222'
+    sens: SOLDE
+    allegee: false
+  - code: N3H
+    libelle: 'Autres titres à recevoir [libellé du modèle : Autres titres à livrer]'
+    comptes: '9229'
+    sens: SOLDE
+    allegee: false
+  - code: P1A
+    libelle: Francs CFA achetés non encore reçus
+    comptes: '9311'
+    sens: SOLDE
+  - code: P1B
+    libelle: Devises achetées non encore reçues
+    comptes: '9312'
+    sens: SOLDE
+  - code: P1C
+    libelle: Francs CFA vendus non encore livres
+    comptes: '9313'
+    sens: SOLDE
+  - code: P1D
+    libelle: Devises vendues non encore livrées
+    comptes: '9314'
+    sens: SOLDE
+  - code: P1E
+    libelle: Devises prêtées non encore livrées
+    comptes: '9331'
+    sens: SOLDE
+  - code: P1F
+    libelle: Devises empruntées non encore reçues
+    comptes: '9332'
+    sens: SOLDE
+  - code: P1G
+    libelle: Opérations de change à terme francs CFA à recevoir contre devises à livrer
+    comptes: '9321'
+    sens: SOLDE
+  - code: P1H
+    libelle: Opérations de change à terme devises à recevoir contre FCFA à livrer
+    comptes: '9322'
+    sens: SOLDE
+  - code: P1J
+    libelle: Opérations de change à terme devises à recevoir contre devises à livrer
+    comptes: '9323'
+    sens: SOLDE
+  - code: P1K
+    libelle: Opérations de change à terme devises à livrer contre devises à recevoir
+    comptes: '9324'
+    sens: SOLDE
+  - code: P1L
+    libelle: Report/déport non couru à recevoir
+    comptes: '9341'
+    sens: SOLDE
+  - code: P1M
+    libelle: Report/déport non couru à payer
+    comptes: '9342'
+    sens: SOLDE
+  - code: P1R
+    libelle: Intérêts non courus en devises couverts à recevoir
+    comptes: '9351'
+    sens: SOLDE
+  - code: P1S
+    libelle: Intérêts non courus en devises couverts à payer
+    comptes: '9352'
+    sens: SOLDE
+  - code: P1V
+    libelle: Ajustements devises hors bilan
+    comptes: '936'
+    sens: SOLDE
+  - code: Q1A
+    libelle: Autres engagements donnés
+    comptes: '951'
+    sens: SOLDE
+  - code: Q1B
+    libelle: Autres engagements reçus
+    comptes: '952'
+    sens: SOLDE
+  - code: Q1C
+    libelle: Valeurs à l'encaissement non disponibles
+    comptes: 9611,9613
+    sens: SOLDE
+  - code: Q1F
+    libelle: Comptes exigibles après encaissements
+    comptes: 9612,9614
+    sens: SOLDE
+  - code: Q1J
+    libelle: Comptes de suivi des engagements de financement consortiaux
+    comptes: '9621'
+    sens: SOLDE
+  - code: Q1K
+    libelle: Comptes de suivi des engagements de garantie consortiaux
+    comptes: '9631'
+    sens: SOLDE
+  - code: Q1L
+    libelle: Comptes de suivi des crédits consortiaux
+    comptes: '9651'
+    sens: SOLDE
+  - code: Q1M
+    libelle: Crédits distribués pour le compte de tiers
+    comptes: '9661'
+    sens: SOLDE
+  - code: N90
+    libelle: ENGAGEMENTS DOUTEUX
+    comptes: '99'
+    sens: SOLDE
+- code: DIMF-2080
+  libelle: Compte de résultat et soldes intermédiaires de gestion (DIMF 2080)
+  periodicite: ANNUELLE
+  delaiJours: 180
+  assujettis:
+  - TOUS
+  layout: CR_BICOLONNE
+  source: Instr. BCEAO 025-02-2009, 030-02-2009 (art. 2-8), 001-02-2018 ; RCSFD (annexes) ; annexes 1.1, 3.1-3.5
+  codeEtat: RA0 (charges) / RB0 (produits)
+  colonnes:
+  - N
+  - N_1
+  note: 'Layout CR_BICOLONNE = proposition (charges et produits côte à côte). L80 existe des deux côtés (excédent / déficit) : codes L80-CHARGES et L80-PRODUITS. Postes de SIG sans code dans le modèle.'
+  lignes:
+  - code: R08
+    libelle: CHARGES SUR OPERATIONS AVEC LES INSTITUTIONS FINANCIERES
+    comptes: 6011,6015,6016,6017,6018,6019
+    sens: DEBIT
+  - code: R1A
+    libelle: Intérêts sur comptes ordinaires créditeurs
+    comptes: 6011,6015
+    sens: DEBIT
+  - code: R1B
+    libelle: Organe financier
+    comptes: 60111,60151
+    sens: DEBIT
+    allegee: false
+  - code: R1C
+    libelle: Caisse centrale
+    comptes: '60112'
+    sens: DEBIT
+    allegee: false
+  - code: R1D
+    libelle: Trésor Public
+    comptes: '60152'
+    sens: DEBIT
+    allegee: false
+  - code: R1E
+    libelle: CCP
+    comptes: 60113,60153
+    sens: DEBIT
+    allegee: false
+  - code: R1F
+    libelle: Banques et correspondants
+    comptes: 60114,60154
+    sens: DEBIT
+    allegee: false
+  - code: R1H
+    libelle: Établissements financiers
+    comptes: 60115,60155
+    sens: DEBIT
+    allegee: false
+  - code: R1I
+    libelle: SFD
+    comptes: 60116,60156
+    sens: DEBIT
+    allegee: false
+  - code: R1K
+    libelle: Autres institutions financières
+    comptes: 60117,60157
+    sens: DEBIT
+    allegee: false
+  - code: R1L
+    libelle: Intérêts sur autres comptes de dépôts créditeurs
+    comptes: '6016'
+    sens: DEBIT
+  - code: R1N
+    libelle: Dépôts à terme reçus
+    comptes: '60161'
+    sens: DEBIT
+    allegee: false
+  - code: R1P
+    libelle: Dépôts de garantie reçus
+    comptes: '60162'
+    sens: DEBIT
+    allegee: false
+  - code: R1Q
+    libelle: Autres dépôts reçus
+    comptes: '60165'
+    sens: DEBIT
+    allegee: false
+  - code: R2A
+    libelle: Intérêts sur comptes d'emprunts
+    comptes: '6017'
+    sens: DEBIT
+  - code: R2F
+    libelle: Intérêts sur emprunts à moins d'un an
+    comptes: '60175'
+    sens: DEBIT
+    allegee: false
+  - code: R2G
+    libelle: Intérêts sur emprunts à terme
+    comptes: '60178'
+    sens: DEBIT
+    allegee: false
+  - code: R2R
+    libelle: Autres intérêts
+    comptes: '6018'
+    sens: DEBIT
+  - code: R2T
+    libelle: Divers intérêts
+    comptes: '60189'
+    sens: DEBIT
+    allegee: false
+  - code: R2Z
+    libelle: Commissions
+    comptes: '6019'
+    sens: DEBIT
+  - code: R3A
+    libelle: CHARGES SUR OPERATIONS AVEC LES MEMBRES, BENEFICIAIRES OU CLIENTS
+    comptes: 6025,6027,6028,6029
+    sens: DEBIT
+  - code: R3C
+    libelle: Intérêts sur comptes des membres, bénéficiaires ou clients
+    comptes: '6025'
+    sens: DEBIT
+  - code: R3D
+    libelle: Intérêts sur comptes ordinaires créditeurs
+    comptes: '60251'
+    sens: DEBIT
+  - code: R3F
+    libelle: Intérêts sur dépôts à terme reçus
+    comptes: '60252'
+    sens: DEBIT
+  - code: R3G
+    libelle: Intérêts sur comptes d'épargne à régime spécial
+    comptes: '60253'
+    sens: DEBIT
+  - code: R3H
+    libelle: Intérêts sur dépôts de garantie reçus
+    comptes: '60254'
+    sens: DEBIT
+  - code: R3J
+    libelle: Intérêts sur autres dépôts reçus
+    comptes: '60255'
+    sens: DEBIT
+  - code: R3N
+    libelle: Intérêts sur emprunts et autres sommes dues
+    comptes: '6027'
+    sens: DEBIT
+  - code: R3Q
+    libelle: Autres intérêts
+    comptes: '6028'
+    sens: DEBIT
+  - code: R3T
+    libelle: Commissions
+    comptes: '6029'
+    sens: DEBIT
+  - code: R4B
+    libelle: CHARGES SUR OPERATIONS SUR TITRES ET OPERATIONS DIVERSES
+    comptes: 6031,6038,6039
+    sens: DEBIT
+  - code: R4C
+    libelle: Charges et pertes sur titres de placement
+    comptes: '6031'
+    sens: DEBIT
+  - code: R4K
+    libelle: Charges sur opérations diverses
+    comptes: '6038'
+    sens: DEBIT
+  - code: R4N
+    libelle: Commissions
+    comptes: '6039'
+    sens: DEBIT
+  - code: R5B
+    libelle: CHARGES SUR IMMOBILISATIONS FINANCIERES
+    comptes: 60411,60412
+    sens: DEBIT
+    comptesAllegee: '6041'
+  - code: R5C
+    libelle: Frais d'acquisition
+    comptes: '60411'
+    sens: DEBIT
+    allegee: false
+  - code: R5D
+    libelle: Étalement de la prime
+    comptes: '60412'
+    sens: DEBIT
+    allegee: false
+  - code: R5E
+    libelle: CHARGES SUR CREDIT-BAIL ET OPERATIONS ASSIMILEES
+    comptes: 6046,6047
+    sens: DEBIT
+    allegee: false
+  - code: R5G
+    libelle: Charges sur opérations de crédit-bail
+    comptes: 60461,60463,60464
+    sens: DEBIT
+    allegee: false
+  - code: R5H
+    libelle: Dotations aux amortissements (crédit-bail)
+    comptes: 604611,604631,604641
+    sens: DEBIT
+    allegee: false
+  - code: R5J
+    libelle: Dotations aux provisions (crédit-bail)
+    comptes: 604612,604632,604642
+    sens: DEBIT
+    allegee: false
+  - code: R5K
+    libelle: Moins-values de cession (crédit-bail)
+    comptes: 604613,604633,604643
+    sens: DEBIT
+    allegee: false
+  - code: R5L
+    libelle: Autres charges (crédit-bail)
+    comptes: 604619,604639,604649
+    sens: DEBIT
+    allegee: false
+  - code: R5M
+    libelle: Charges sur opérations de location avec option d'achat
+    comptes: 60462,60463,60464
+    sens: DEBIT
+    allegee: false
+  - code: R5N
+    libelle: Dotations aux amortissements (LOA)
+    comptes: 604621,604631,60464
+    sens: DEBIT
+    allegee: false
+  - code: R5P
+    libelle: Dotations aux provisions (LOA)
+    comptes: 604622,604632,604642
+    sens: DEBIT
+    allegee: false
+  - code: R5Q
+    libelle: Moins-values de cession (LOA)
+    comptes: 604623,604633,604643
+    sens: DEBIT
+    allegee: false
+  - code: R5R
+    libelle: Autres charges (LOA)
+    comptes: 604629,604639,604649
+    sens: DEBIT
+    allegee: false
+  - code: R5S
+    libelle: Charges sur opérations de location-vente
+    comptes: 60471,60472,60473,60474
+    sens: DEBIT
+    allegee: false
+  - code: R5T
+    libelle: Dotations aux amortissements (location-vente)
+    comptes: 604721,604731,604741
+    sens: DEBIT
+    allegee: false
+  - code: R5U
+    libelle: Dotations aux provisions (location-vente)
+    comptes: 604712,604722,604732,604742
+    sens: DEBIT
+    allegee: false
+  - code: R5V
+    libelle: Moins-values de cession (location-vente)
+    comptes: 604713,604723,604733,604743
+    sens: DEBIT
+    allegee: false
+  - code: R5X
+    libelle: Autres charges (location-vente)
+    comptes: 604719,604729,604739,604749
+    sens: DEBIT
+    allegee: false
+  - code: R5Y
+    libelle: Charges sur emprunts et titres émis subordonnés
+    comptes: '60532'
+    sens: DEBIT
+    comptesAllegee: '6053'
+  - code: R6A
+    libelle: CHARGES SUR OPERATIONS DE CHANGE
+    comptes: 6061,6069
+    sens: DEBIT
+    allegee: false
+  - code: R6B
+    libelle: Pertes sur opérations de change
+    comptes: '6061'
+    sens: DEBIT
+    allegee: false
+  - code: R6C
+    libelle: Commissions (change)
+    comptes: '6069'
+    sens: DEBIT
+    allegee: false
+  - code: R6F
+    libelle: CHARGES SUR OPERATIONS HORS BILAN
+    comptes: 6071,6072,6073,6075
+    sens: DEBIT
+    allegee: false
+  - code: R6K
+    libelle: Charges sur engagements de financements reçus des institutions financières
+    comptes: '60712'
+    sens: DEBIT
+    allegee: false
+  - code: R6L
+    libelle: Charges sur engagements de financements reçus des membres, clients ou bénéficiaires
+    comptes: '60714'
+    sens: DEBIT
+    allegee: false
+  - code: R6M
+    libelle: Charges sur engagements de garantie reçus des institutions financières
+    comptes: '60722'
+    sens: DEBIT
+    allegee: false
+  - code: R6P
+    libelle: Charges sur engagements de garantie reçus des membres, bénéficiaires ou clients
+    comptes: '60724'
+    sens: DEBIT
+    allegee: false
+  - code: R6S
+    libelle: Charges sur engagements sur titres
+    comptes: '6073'
+    sens: DEBIT
+    allegee: false
+  - code: R6T
+    libelle: Charges sur autres engagements reçus
+    comptes: '6075'
+    sens: DEBIT
+    allegee: false
+  - code: R6V
+    libelle: CHARGES SUR PRESTATIONS DE SERVICES FINANCIERS
+    comptes: 6081,6089
+    sens: DEBIT
+    comptesAllegee: '608'
+  - code: R6W
+    libelle: Charges sur les moyens de paiement
+    comptes: '6081'
+    sens: DEBIT
+    allegee: false
+  - code: R6X
+    libelle: Autres charges sur prestations de services financiers
+    comptes: '6089'
+    sens: DEBIT
+    allegee: false
+  - code: R7A
+    libelle: AUTRES CHARGES D'EXPLOITATION FINANCIERE
+    comptes: 6091,6098,6099
+    sens: DEBIT
+  - code: R7B
+    libelle: Moins-values sur cession d'éléments d'actif
+    comptes: '6091'
+    sens: DEBIT
+  - code: R7C
+    libelle: Transferts de produits d'exploitation financière
+    comptes: '6098'
+    sens: DEBIT
+  - code: R7D
+    libelle: Diverses charges d'exploitation financière
+    comptes: '6099'
+    sens: DEBIT
+  - code: R8G
+    libelle: Achats de marchandises
+    comptes: 6117,6118,-6119
+    sens: DEBIT
+  - code: R8J
+    libelle: Stocks vendus
+    comptes: '6112'
+    sens: DEBIT
+  - code: R8L
+    libelle: Variations de stocks de marchandises
+    comptes: '612'
+    sens: DEBIT
+  - code: S02
+    libelle: FRAIS DE PERSONNEL
+    comptes: 641,642,643
+    sens: DEBIT
+  - code: S03
+    libelle: Salaires et traitements
+    comptes: '641'
+    sens: DEBIT
+  - code: S04
+    libelle: Charges sociales
+    comptes: '642'
+    sens: DEBIT
+  - code: S05
+    libelle: Rémunérations versées aux stagiaires
+    comptes: '643'
+    sens: DEBIT
+  - code: S1A
+    libelle: IMPOTS ET TAXES
+    comptes: 6311,6312,6321,6323,6324,6329,633
+    sens: DEBIT
+    comptesAllegee: 631,632,633
+  - code: S1B
+    libelle: Impôts, taxes et versements assimilés sur rémunération
+    comptes: 6311,6312
+    sens: DEBIT
+    comptesAllegee: '631'
+  - code: S1C
+    libelle: Autres impôts, taxes et prélèvements assimilés versés à l'Administration des impôts
+    comptes: 6321,6323,6324,6329
+    sens: DEBIT
+    comptesAllegee: '632'
+  - code: S1D
+    libelle: Impôts directs
+    comptes: '6321'
+    sens: DEBIT
+    allegee: false
+  - code: S1G
+    libelle: Impôts indirects
+    comptes: '6323'
+    sens: DEBIT
+    allegee: false
+  - code: S1H
+    libelle: Droits d'enregistrement et de timbre
+    comptes: '6324'
+    sens: DEBIT
+    allegee: false
+  - code: S1J
+    libelle: Impôts et taxes divers
+    comptes: '6329'
+    sens: DEBIT
+    allegee: false
+  - code: S1K
+    libelle: Autres impôts, taxes et prélèvements assimilés versés aux autres organismes
+    comptes: '633'
+    sens: DEBIT
+  - code: S2A
+    libelle: AUTRES CHARGES EXTERNES ET CHARGES DIVERSES D'EXPLOITATION
+    sens: DEBIT
+    comptesAllegee: 6211,6212,6213,6214,6215,6216,6217,6218,-6219,6221,6222,6223,6224,6225,6226,6227,6228,6231,6232,-6229,6233,6235,6238,6239
+    expression: S2B+S3A+S4A
+    note: parent = somme des filles, comptes 6211 à 6239 (UEMOA-REP-T28) ; vérifier S3A (+6116)
+  - code: S2B
+    libelle: Services extérieurs
+    comptes: 6211,6212,6213,6214,6215,6216,6217,6218,-6219
+    sens: DEBIT
+    comptesAllegee: 6211,6212,6213,6214,6215,6216,6217,6218,-6219
+    note: UEMOA-REP-T28
+  - code: S2C
+    libelle: Redevances de crédit-bail
+    comptes: '6211'
+    sens: DEBIT
+    comptesAllegee: '6211'
+    note: 6217 = S2M, pas S2C (UEMOA-REP-T28)
+  - code: S2D
+    libelle: Loyers
+    comptes: '6212'
+    sens: DEBIT
+  - code: S2F
+    libelle: Charges locatives et de co-propriété
+    comptes: '6213'
+    sens: DEBIT
+  - code: S2H
+    libelle: Entretien et réparations
+    comptes: '6214'
+    sens: DEBIT
+  - code: S2J
+    libelle: Primes d'assurance
+    comptes: '6215'
+    sens: DEBIT
+  - code: S2K
+    libelle: Études et recherches
+    comptes: '6216'
+    sens: DEBIT
+  - code: S2M
+    libelle: Frais de formation du personnel
+    comptes: '6217'
+    sens: DEBIT
+  - code: S2L
+    libelle: Divers (services extérieurs)
+    comptes: 6218,-6219
+    sens: DEBIT
+  - code: S3A
+    libelle: Autres services extérieurs
+    comptes: 6221,6222,6223,6224,6225,6226,6227,6228,-6229,6116
+    sens: DEBIT
+  - code: S3B
+    libelle: Personnel extérieur à l'institution
+    comptes: '6221'
+    sens: DEBIT
+  - code: S3C
+    libelle: Rémunérations d'intermédiaires et honoraires
+    comptes: '6222'
+    sens: DEBIT
+  - code: S3E
+    libelle: Publicité, publications et relations publiques
+    comptes: '6223'
+    sens: DEBIT
+  - code: S3G
+    libelle: Transports de biens
+    comptes: '6224'
+    sens: DEBIT
+  - code: S3J
+    libelle: Transports collectifs du personnel
+    comptes: '6225'
+    sens: DEBIT
+  - code: S3L
+    libelle: Déplacements, missions et réceptions
+    comptes: '6226'
+    sens: DEBIT
+  - code: S3M
+    libelle: Achats non stockés de matières et fournitures
+    comptes: '6116'
+    sens: DEBIT
+  - code: S3N
+    libelle: Frais postaux et frais de télécommunication
+    comptes: '6227'
+    sens: DEBIT
+  - code: S3P
+    libelle: Divers (autres services extérieurs)
+    comptes: 6228,-6229
+    sens: DEBIT
+  - code: S4A
+    libelle: Charges diverses d'exploitation
+    comptes: 6231,6232,6233,6235,6238,6239
+    sens: DEBIT
+  - code: S4B
+    libelle: Redevances pour concessions, brevets, licences, procédés, droits et valeurs similaires
+    comptes: '6231'
+    sens: DEBIT
+  - code: S4D
+    libelle: Indemnités de fonction versées
+    comptes: '6232'
+    sens: DEBIT
+  - code: S4I
+    libelle: Frais de tenue d'assemblée
+    comptes: '6233'
+    sens: DEBIT
+  - code: S4K
+    libelle: Moins-values de cession sur immobilisations
+    comptes: '6235'
+    sens: DEBIT
+  - code: S4L
+    libelle: Moins-values de cession sur immobilisations corporelles et incorporelles
+    comptes: '62351'
+    sens: DEBIT
+    allegee: false
+  - code: S4M
+    libelle: Moins-values de cession sur immobilisations financières
+    comptes: '62352'
+    sens: DEBIT
+    allegee: false
+  - code: S4P
+    libelle: Transferts de produits d'exploitation non financière
+    comptes: '6238'
+    sens: DEBIT
+  - code: S4Q
+    libelle: Produits rétrocédés
+    comptes: '62381'
+    sens: DEBIT
+    allegee: false
+  - code: S4R
+    libelle: Autres transferts de produits
+    comptes: '62389'
+    sens: DEBIT
+    allegee: false
+  - code: S4S
+    libelle: Autres charges diverses d'exploitation non financière
+    comptes: '6239'
+    sens: DEBIT
+  - code: T50
+    libelle: DOTATIONS AU FONDS POUR RISQUES FINANCIERS GENERAUX
+    comptes: '65'
+    sens: DEBIT
+  - code: T51
+    libelle: DOTATIONS AUX AMORTISSEMENTS ET AUX PROVISIONS SUR IMMOBILISATIONS
+    comptes: 661,662,663
+    sens: DEBIT
+  - code: T53
+    libelle: Dotation aux amortissements de charges à répartir
+    comptes: '662'
+    sens: DEBIT
+  - code: T54
+    libelle: Dotations aux amortissements des immobilisations d'exploitation
+    comptes: '6611'
+    sens: DEBIT
+    comptesAllegee: '661'
+  - code: T55
+    libelle: Dotations aux amortissements des immobilisations hors exploitation
+    comptes: '6612'
+    sens: DEBIT
+    allegee: false
+  - code: T56
+    libelle: Dotations aux provisions pour dépréciation des immobilisations en cours
+    comptes: '6631'
+    sens: DEBIT
+    comptesAllegee: '663'
+  - code: T57
+    libelle: Dotations aux provisions pour dépréciation des immobilisations d'exploitation
+    comptes: '6632'
+    sens: DEBIT
+    allegee: false
+  - code: T58
+    libelle: Dotations aux provisions pour dépréciation des immobilisations hors exploitation
+    comptes: '6633'
+    sens: DEBIT
+    allegee: false
+  - code: T6B
+    libelle: DOTATIONS AUX PROVISIONS ET PERTES SUR CREANCES IRRECOUVRABLES
+    comptes: 6641,6642,6643,666,667,668,669
+    sens: DEBIT
+    comptesAllegee: 664,666,667,668,669
+  - code: T6C
+    libelle: Dotations aux provisions sur créances en souffrance
+    comptes: 6641,6642,6643
+    sens: DEBIT
+  - code: T6D
+    libelle: Dotations aux provisions sur créances en souffrance de 6 mois au plus
+    comptes: '6641'
+    sens: DEBIT
+  - code: T6E
+    libelle: Dotations aux provisions sur créances en souffrance de plus de 6 mois à 12 mois au plus
+    comptes: '6642'
+    sens: DEBIT
+  - code: T6F
+    libelle: Dotations aux provisions sur créances en souffrance de plus de 12 mois à 24 mois au plus
+    comptes: '6643'
+    sens: DEBIT
+  - code: T6G
+    libelle: Dotations aux provisions pour dépréciation d'autres éléments d'actif
+    comptes: '666'
+    sens: DEBIT
+  - code: T6H
+    libelle: Dotations aux provisions pour risques et charges
+    comptes: '667'
+    sens: DEBIT
+  - code: T6J
+    libelle: Dotations aux provisions réglementées
+    comptes: '668'
+    sens: DEBIT
+  - code: T6K
+    libelle: 'Pertes sur créances irrécouvrables [dev : couvertes par des provisions]'
+    comptes: '6691'
+    sens: DEBIT
+    comptesAllegee: '669'
+  - code: T6L
+    libelle: Pertes sur créances irrécouvrables non couvertes par des provisions
+    comptes: '6692'
+    sens: DEBIT
+    allegee: false
+  - code: T80
+    libelle: CHARGES EXCEPTIONNELLES
+    comptes: '671'
+    sens: DEBIT
+  - code: T81
+    libelle: PERTES SUR EXERCICES ANTERIEURS
+    comptes: '672'
+    sens: DEBIT
+  - code: T82
+    libelle: IMPOTS SUR LES EXCEDENTS
+    comptes: '69'
+    sens: DEBIT
+  - code: L80-CHARGES
+    libelle: EXCÉDENT (côté charges ; code poste L80)
+    comptes: '59'
+    sens: DEBIT
+  - code: T84
+    libelle: TOTAL CHARGES
+    comptes: 60,61,62,63,64,65,66,67,69,59
+    sens: DEBIT
+  - code: V08
+    libelle: PRODUITS SUR OPERATIONS AVEC LES INSTITUTIONS FINANCIERES
+    comptes: 7011,7012,7013,7015,7018,7019
+    sens: CREDIT
+  - code: V1A
+    libelle: Intérêts sur comptes ordinaires débiteurs
+    comptes: 7011,7015
+    sens: CREDIT
+  - code: V1B
+    libelle: Organe financier
+    comptes: 70111,70151
+    sens: CREDIT
+    allegee: false
+  - code: V1C
+    libelle: Caisse centrale
+    comptes: '70112'
+    sens: CREDIT
+    allegee: false
+  - code: V1D
+    libelle: Trésor Public
+    comptes: '70152'
+    sens: CREDIT
+    allegee: false
+  - code: V1E
+    libelle: CCP
+    comptes: 70113,70153
+    sens: CREDIT
+    allegee: false
+  - code: V1F
+    libelle: Banques et correspondants
+    comptes: 70114,70154
+    sens: CREDIT
+    allegee: false
+  - code: V1H
+    libelle: Établissements financiers
+    comptes: 70115,70155
+    sens: CREDIT
+    allegee: false
+  - code: V1I
+    libelle: SFD
+    comptes: 70116,70156
+    sens: CREDIT
+    allegee: false
+  - code: V1K
+    libelle: Autres institutions financières
+    comptes: 70117,70157
+    sens: CREDIT
+    allegee: false
+  - code: V1L
+    libelle: Intérêts sur autres comptes de dépôts débiteurs
+    comptes: '7012'
+    sens: CREDIT
+  - code: V1Q
+    libelle: Intérêts sur dépôts à terme constitués
+    comptes: '70126'
+    sens: CREDIT
+    allegee: false
+  - code: V1R
+    libelle: Intérêts sur dépôts de garantie constitués
+    comptes: '70127'
+    sens: CREDIT
+    allegee: false
+  - code: V1S
+    libelle: Intérêts sur autres dépôts constitués
+    comptes: '70128'
+    sens: CREDIT
+    allegee: false
+  - code: V2A
+    libelle: Intérêts sur comptes de prêts
+    comptes: '7013'
+    sens: CREDIT
+  - code: V2C
+    libelle: Intérêts sur prêts à moins d'un an
+    comptes: '70131'
+    sens: CREDIT
+    allegee: false
+  - code: V2G
+    libelle: Intérêts sur prêts à terme
+    comptes: '70133'
+    sens: CREDIT
+    allegee: false
+  - code: V2Q
+    libelle: Autres intérêts
+    comptes: '7018'
+    sens: CREDIT
+  - code: V2S
+    libelle: Divers intérêts
+    comptes: '70189'
+    sens: CREDIT
+    allegee: false
+  - code: V2T
+    libelle: Commissions
+    comptes: '7019'
+    sens: CREDIT
+  - code: V3A
+    libelle: PRODUITS SUR OPERATIONS AVEC LES MEMBRES, BENEFICIAIRES OU CLIENTS
+    comptes: 7021,7028,7029
+    sens: CREDIT
+    comptesAllegee: 7021,7025,7028,7029
+  - code: V3B
+    libelle: Intérêts sur crédits aux membres, bénéficiaires ou clients
+    comptes: '7021'
+    sens: CREDIT
+  - code: V3G
+    libelle: 'dev : Autres crédits à court terme (70212) ; allégée : intérêts sur comptes des membres (7025) - même code poste, rubriques différentes'
+    comptes: '70212'
+    sens: CREDIT
+    comptesAllegee: null
+    statutAllegee: A_CONFIRMER
+    note: dev = 70212 ; allégée 7025 suspecte (UEMOA-REP-T29)
+  - code: V3M
+    libelle: Intérêts sur crédits à moyen terme
+    comptes: '70213'
+    sens: CREDIT
+    allegee: false
+  - code: V3N
+    libelle: Intérêts sur crédits à long terme
+    comptes: '70214'
+    sens: CREDIT
+    allegee: false
+  - code: V3R
+    libelle: Autres intérêts
+    comptes: '7028'
+    sens: CREDIT
+  - code: V3T
+    libelle: Divers intérêts
+    comptes: '70289'
+    sens: CREDIT
+    allegee: false
+  - code: V3X
+    libelle: Commissions
+    comptes: '7029'
+    sens: CREDIT
+  - code: V4B
+    libelle: PRODUITS SUR OPERATIONS SUR TITRES ET SUR OPERATIONS DIVERSES
+    comptes: 7031,7033,7038,7039
+    sens: CREDIT
+    comptesAllegee: 7038,7039
+  - code: V4C
+    libelle: Produits et profits sur titres de placement
+    comptes: '7031'
+    sens: CREDIT
+    allegee: false
+  - code: V4D
+    libelle: Intérêts sur crédits accordés au personnel non membre
+    comptes: '7033'
+    sens: CREDIT
+    allegee: false
+  - code: V4E
+    libelle: Produits sur opérations diverses
+    comptes: '7038'
+    sens: CREDIT
+  - code: V4F
+    libelle: Commissions
+    comptes: '7039'
+    sens: CREDIT
+  - code: V5B
+    libelle: PRODUITS SUR IMMOBILISATIONS FINANCIERES
+    comptes: '7041'
+    sens: CREDIT
+    comptesAllegee: '704'
+  - code: V5C
+    libelle: Produits sur prêts et titres subordonnés
+    comptes: '70410'
+    sens: CREDIT
+    allegee: false
+  - code: V5D
+    libelle: Dividendes et produits assimilés sur titres de participation
+    comptes: '70412'
+    sens: CREDIT
+    allegee: false
+  - code: V5F
+    libelle: Produits et profits sur titres d'investissement
+    comptes: '70414'
+    sens: CREDIT
+    allegee: false
+  - code: V5G
+    libelle: PRODUITS SUR OPERATIONS DE CREDIT-BAIL ET OPERATIONS ASSIMILEES
+    comptes: 7046,7047
+    sens: CREDIT
+    allegee: false
+  - code: V5H
+    libelle: Produits sur opérations de crédit-bail
+    comptes: 70461,70463,70464
+    sens: CREDIT
+    allegee: false
+  - code: V5J
+    libelle: Loyers (crédit-bail)
+    comptes: 704611,704631
+    sens: CREDIT
+    allegee: false
+  - code: V5K
+    libelle: Reprises de provisions (crédit-bail)
+    comptes: 704612,704632,704642
+    sens: CREDIT
+    allegee: false
+  - code: V5L
+    libelle: Plus-values de cession (crédit-bail)
+    comptes: 704613,704633,704643
+    sens: CREDIT
+    allegee: false
+  - code: V5M
+    libelle: Autres produits (crédit-bail)
+    comptes: 704619,704639,704649
+    sens: CREDIT
+    allegee: false
+  - code: V5N
+    libelle: Produits sur opérations de location avec option d'achat
+    comptes: 70462,70463,70464
+    sens: CREDIT
+    allegee: false
+  - code: V5P
+    libelle: Loyers (LOA)
+    comptes: 704621,704631
+    sens: CREDIT
+    allegee: false
+  - code: V5Q
+    libelle: Reprises de provisions (LOA)
+    comptes: 704622,704632,704642
+    sens: CREDIT
+    allegee: false
+  - code: V5R
+    libelle: Plus-values de cession (LOA)
+    comptes: 704623,704633,704643
+    sens: CREDIT
+    allegee: false
+  - code: V5S
+    libelle: Autres produits (LOA)
+    comptes: 704629,704639,704649
+    sens: CREDIT
+    allegee: false
+  - code: V5T
+    libelle: Produits sur opérations de location-vente
+    comptes: '7047'
+    sens: CREDIT
+    allegee: false
+  - code: V5V
+    libelle: Loyers (location-vente)
+    comptes: 704721,704731
+    sens: CREDIT
+    allegee: false
+  - code: V5W
+    libelle: Reprises de provisions (location-vente)
+    comptes: 704722,704732,704742
+    sens: CREDIT
+    allegee: false
+  - code: V5X
+    libelle: Plus-values de cession (location-vente)
+    comptes: 704723,704733,704743
+    sens: CREDIT
+    allegee: false
+  - code: V5Y
+    libelle: Autres produits (location-vente)
+    comptes: 704729,704739,704749
+    sens: CREDIT
+    allegee: false
+  - code: V6A
+    libelle: PRODUITS SUR OPERATIONS DE CHANGE
+    comptes: 7061,7069
+    sens: CREDIT
+    allegee: false
+  - code: V6B
+    libelle: Gains sur opérations de change
+    comptes: '7061'
+    sens: CREDIT
+    allegee: false
+  - code: V6C
+    libelle: Commissions (change)
+    comptes: '7069'
+    sens: CREDIT
+    allegee: false
+  - code: V6F
+    libelle: PRODUITS SUR OPERATIONS HORS BILAN
+    comptes: 7071,7072,7073,7075,7076
+    sens: CREDIT
+    allegee: false
+  - code: V6K
+    libelle: Produits sur engagements de financement donnés aux institutions financières
+    comptes: '70711'
+    sens: CREDIT
+    allegee: false
+  - code: V6L
+    libelle: Produits sur engagements de financement donnés aux membres, bénéficiaires ou clients
+    comptes: '70713'
+    sens: CREDIT
+    allegee: false
+  - code: V6N
+    libelle: Produits sur engagements de garantie donnés aux institutions financières
+    comptes: '70721'
+    sens: CREDIT
+    allegee: false
+  - code: V6P
+    libelle: Produits sur engagements de garantie donnés aux membres, bénéficiaires ou clients
+    comptes: '70723'
+    sens: CREDIT
+    allegee: false
+  - code: V6Q
+    libelle: Produits sur engagements sur titres
+    comptes: '7073'
+    sens: CREDIT
+    allegee: false
+  - code: V6R
+    libelle: Produits sur autres engagements donnés
+    comptes: '7075'
+    sens: CREDIT
+    allegee: false
+  - code: V6S
+    libelle: Produits sur opérations effectuées pour le compte de tiers
+    comptes: '7076'
+    sens: CREDIT
+    allegee: false
+  - code: V6U
+    libelle: PRODUITS SUR PRESTATIONS DE SERVICES FINANCIERS
+    comptes: 7081,7089
+    sens: CREDIT
+    comptesAllegee: '708'
+  - code: V6V
+    libelle: Produits sur les moyens de paiement
+    comptes: '7081'
+    sens: CREDIT
+    allegee: false
+  - code: V6W
+    libelle: Autres produits sur prestations de services financiers
+    comptes: '7089'
+    sens: CREDIT
+    allegee: false
+  - code: V7A
+    libelle: AUTRES PRODUITS D'EXPLOITATION FINANCIERE
+    comptes: 7091,7098,7099
+    sens: CREDIT
+  - code: V7B
+    libelle: Plus-values sur cession d'éléments d'actif
+    comptes: '7091'
+    sens: CREDIT
+  - code: V7C
+    libelle: Transferts de charges d'exploitation financière
+    comptes: '7098'
+    sens: CREDIT
+  - code: V7D
+    libelle: Divers produits d'exploitation financière
+    comptes: '7099'
+    sens: CREDIT
+  - code: V8B
+    libelle: MARGE COMMERCIALE
+    comptes: '7111'
+    sens: CREDIT
+  - code: V8C
+    libelle: Ventes de marchandises
+    comptes: 7118,-7119
+    sens: CREDIT
+  - code: W4A
+    libelle: PRODUITS DIVERS D'EXPLOITATION
+    comptes: 721,722,725,727,728,729
+    sens: CREDIT
+    comptesAllegee: 722,725,728,729
+  - code: W4B
+    libelle: Redevances pour concessions, brevets, licences, droits et valeurs similaires
+    comptes: '721'
+    sens: CREDIT
+    allegee: false
+  - code: W4D
+    libelle: Indemnités de fonction et rémunération d'administrateurs, gérants reçues
+    comptes: '722'
+    sens: CREDIT
+  - code: W4G
+    libelle: Plus-values de cession
+    comptes: 7251,7252
+    sens: CREDIT
+  - code: W4H
+    libelle: Plus-values de cession sur immobilisations incorporelles et corporelles
+    comptes: '7251'
+    sens: CREDIT
+  - code: W4J
+    libelle: Plus-values de cession sur immobilisations financières
+    comptes: '7252'
+    sens: CREDIT
+  - code: W4K
+    libelle: Revenus des immeubles hors exploitation
+    comptes: '727'
+    sens: CREDIT
+    allegee: false
+  - code: W4L
+    libelle: Transferts de charges d'exploitation non financière
+    comptes: 7281,7282,7289
+    sens: CREDIT
+  - code: W4M
+    libelle: Charges refacturées
+    comptes: '7281'
+    sens: CREDIT
+  - code: W4N
+    libelle: Charges à répartir sur plusieurs exercices
+    comptes: '7282'
+    sens: CREDIT
+  - code: W4P
+    libelle: Autres transferts de charges
+    comptes: '7289'
+    sens: CREDIT
+  - code: W4Q
+    libelle: Autres produits divers d'exploitation
+    comptes: '729'
+    sens: CREDIT
+  - code: W50
+    libelle: PRODUCTION IMMOBILISEE
+    comptes: 731,732
+    sens: CREDIT
+    allegee: false
+  - code: W51
+    libelle: 'Production immobilisée : immobilisations corporelles'
+    comptes: '731'
+    sens: CREDIT
+    allegee: false
+  - code: W52
+    libelle: 'Production immobilisée : immobilisations incorporelles'
+    comptes: '732'
+    sens: CREDIT
+    allegee: false
+  - code: W53
+    libelle: SUBVENTIONS D'EXPLOITATION
+    comptes: '74'
+    sens: CREDIT
+  - code: X50
+    libelle: REPRISES DU FONDS POUR RISQUES FINANCIERS GENERAUX
+    comptes: '75'
+    sens: CREDIT
+  - code: X51
+    libelle: REPRISES D'AMORTISSEMENTS ET PROVISIONS SUR IMMOBILISATIONS
+    comptes: 761,763
+    sens: CREDIT
+  - code: X54
+    libelle: Reprises d'amortissements des immobilisations
+    comptes: '761'
+    sens: CREDIT
+  - code: X56
+    libelle: Reprises de provisions sur immobilisations
+    comptes: '763'
+    sens: CREDIT
+  - code: X6B
+    libelle: REPRISES DE PROVISIONS ET RECUPERATIONS SUR CREANCES AMORTIES
+    comptes: 7641,7642,7643,766,767,768,769
+    sens: CREDIT
+    comptesAllegee: 764,766,767,768,769
+  - code: X6C
+    libelle: Reprises de provisions sur créances en souffrance
+    comptes: 7641,7642,7643
+    sens: CREDIT
+    comptesAllegee: '764'
+  - code: X6D
+    libelle: Reprises de provisions sur créances en souffrance de 6 mois au plus
+    comptes: '7641'
+    sens: CREDIT
+    allegee: false
+  - code: X6E
+    libelle: Reprises de provisions sur créances en souffrance de plus de 6 mois à 12 mois au plus
+    comptes: '7642'
+    sens: CREDIT
+    allegee: false
+  - code: X6F
+    libelle: Reprises de provisions sur créances en souffrance de plus de 12 mois à 24 mois au plus
+    comptes: '7643'
+    sens: CREDIT
+    allegee: false
+  - code: X6G
+    libelle: Reprises de provisions pour dépréciation des autres éléments d'actif
+    comptes: '766'
+    sens: CREDIT
+  - code: X6H
+    libelle: Reprises de provisions pour risques et charges
+    comptes: '767'
+    sens: CREDIT
+  - code: X6I
+    libelle: Reprises de provisions réglementées
+    comptes: '768'
+    sens: CREDIT
+  - code: X6J
+    libelle: Récupération sur créances amorties
+    comptes: '769'
+    sens: CREDIT
+  - code: X80
+    libelle: PRODUITS EXCEPTIONNELS
+    comptes: '771'
+    sens: CREDIT
+  - code: X81
+    libelle: PROFITS SUR EXERCICES ANTERIEURS
+    comptes: '772'
+    sens: CREDIT
+  - code: L80-PRODUITS
+    libelle: DEFICIT (côté produits ; code poste L80)
+    comptes: '59'
+    sens: CREDIT
+  - code: X84
+    libelle: TOTAL PRODUITS
+    comptes: 70,71,72,73,74,75,76,77,59
+    sens: CREDIT
+  - code: SIG_TCI
+    libelle: TOTAL CHARGES D'INTERETS
+    expression: R08+R3A
+    statut: A_CONFIRMER
+    note: 'composition déduite de la position dans le modèle : À CONFIRMER'
+  - code: SIG_TPI
+    libelle: TOTAL PRODUITS D'INTERETS
+    expression: V08+V3A
+    statut: A_CONFIRMER
+    note: 'composition déduite de la position dans le modèle : À CONFIRMER'
+  - code: SIG_MI
+    libelle: MARGE D'INTÉRÊT (bénéficiaire si > 0, déficitaire si < 0)
+    expression: SIG_TPI-SIG_TCI
+    statut: A_CONFIRMER
+    note: 'RCSFD : solde net des produits et des charges d''intérêt'
+- code: DIMF-2005
+  libelle: Tableau des emplois et des ressources
+  periodicite: ANNUELLE
+  delaiJours: 180
+  assujettis:
+  - TOUS
+  layout: GENERIC
+  source: RCSFD, annexe 4.1 ; codeEtat BG0
+  colonnes:
+  - Amortissements/Provisions
+  - Montants nets
+  note: Dettes et créances rattachées et valeurs non imputées exclues (RCSFD).
+  lignes:
+  - code: B02
+    libelle: ACTIF — Créances sur les membres, bénéficiaires ou clients
+  - code: B2D
+    libelle: Crédits à court terme
+  - code: B30
+    libelle: Crédits à moyen terme
+  - code: B40
+    libelle: Crédits à long terme (développée)
+  - code: B70
+    libelle: Crédits en souffrance
+  - code: D50
+    libelle: Crédit-bail et opérations assimilées (développée)
+  - code: D51
+    libelle: Crédit-bail (développée)
+  - code: D53
+    libelle: Location-vente (développée)
+  - code: D70
+    libelle: Créances en souffrance sur crédit-bail et opérations assimilées (développée)
+  - code: G02
+    libelle: PASSIF — Dettes à l'égard des membres, bénéficiaires ou clients
+  - code: G10
+    libelle: Comptes ordinaires créditeurs
+  - code: G15
+    libelle: Dépôts à terme reçus
+  - code: G2A
+    libelle: Comptes d'épargne à régime spécial
+  - code: G60
+    libelle: Emprunts
+  - code: G70
+    libelle: Autres sommes dues (allégée)
+- code: DIMF-2010
+  libelle: État des crédits en souffrance
+  periodicite: ANNUELLE
+  delaiJours: 180
+  assujettis:
+  - TOUS
+  layout: GENERIC
+  source: RCSFD, annexe 4.6 ; codeEtat BA0
+  colonnes:
+  - 'A : crédits et prêts en souffrance (191, 192, 193 / 291, 292, 293)'
+  - 'B : dépôts de garantie (162 et 254)'
+  - 'C = A − B : soldes restant dus'
+  - 'D : provisions (199 et 299)'
+  - 'E = C − D : crédits et prêts en souffrance nets'
+  note: 'Texte du RCSFD : lignes par nature (prêts < 1 an, à terme ; crédits CT, MT, LT) et retard (≤ 3 mois, > 3 ≤ 6, > 6 ≤ 12, > 12 ≤ 24) alors que le modèle n''à que 3 tranches. Colonnes A/B citent 191-193
+    et 291-293 (le poste 294 n''est pas cité). À CONFIRMER.'
+  lignes:
+  - libelle: Crédits comportant au moins une échéance impayée ≤ 6 mois
+  - libelle: Crédits comportant au moins une échéance impayée > 6 mois ≤ 12 mois
+  - libelle: Crédits comportant au moins une échéance impayée > 12 mois ≤ 24 mois
+  - libelle: TOTAL
+- code: DIMF-2011
+  libelle: État des informations annexes
+  periodicite: ANNUELLE
+  delaiJours: 180
+  assujettis:
+  - TOUS
+  layout: GENERIC
+  source: RCSFD, annexe 4.7 ; codeEtat BB0
+  colonnes:
+  - Montant / Effectif
+  note: 'Codes de ligne I11_* = codes proposés (le modèle n''en donne pas). Montants en milliers de FCFA selon le texte, « en Francs CFA » selon le modèle : À CONFIRMER.'
+  lignes:
+  - code: I11_ENG_CT
+    libelle: Encours des engagements par signature à court terme (développée)
+  - code: I11_ENG_MLT
+    libelle: Encours des engagements par signature à moyen et long termes (développée)
+  - code: I11_AUTRES_OPS
+    libelle: Montant total consacré par l'institution aux opérations autres que les activités d'épargne et de crédit
+  - code: I11_MEMBRES
+    libelle: Nombre total de membres, bénéficiaires ou clients de l'institution
+  - code: I11_GROUPEMENTS
+    libelle: Nombre total de groupements de l'institution ainsi que de leurs membres
+  - code: I11_HOMMES
+    libelle: Nombre total de membres, bénéficiaires ou clients de sexe masculin
+  - code: I11_FEMMES
+    libelle: Nombre total de membres, bénéficiaires ou clients de sexe féminin
+  - code: I11_GRP_BENEF
+    libelle: Nombre total de groupements bénéficiaires
+  - code: I11_USAGERS
+    libelle: Nombre total d'usagers bénéficiaires
+  - code: I11_SOCIETAIRES
+    libelle: Nombre total de sociétaires bénéficiaires
+  - code: I11_POP_CIBLE
+    libelle: Population cible du SFD (ou estimation)
+  - code: I11_DEP_IF_1AN
+    libelle: '126-127-128 : Dépôts à plus d''un an du SFD auprès des institutions financières'
+  - code: I11_DAT_1AN
+    libelle: '252 : Dépôts à terme à plus d''un an des membres, bénéficiaires ou clients'
+  - code: I11_EPARGNE_SPEC
+    libelle: '253 : Comptes d''épargne à régime spécial'
+  - code: I11_AUTRES_DEP_1AN
+    libelle: '254-255 : Autres dépôts à plus d''un an des membres, bénéficiaires ou clients'
+  - code: I11_RECOUV_REALISES
+    libelle: Recouvrements sur prêts intervenus au cours de l'exercice
+  - code: I11_RECOUV_ATTENDUS
+    libelle: Recouvrements sur prêts attendus au cours de l'exercice
+- code: DIMF-2011-1
+  libelle: État des engagements par signature (développée ; cité par l'Instr. 001-02-2018 pour tous les SFD)
+  periodicite: ANNUELLE
+  delaiJours: 180
+  assujettis:
+  - ART44
+  layout: GENERIC
+  source: RCSFD, annexe 4.8 ; codeEtat BC0
+  colonnes:
+  - Montant (comptes 90, 91, 92, 93, 95, 96, 99)
+  lignes:
+  - libelle: Encours des engagements par signature donnés à court terme
+  - libelle: Encours des engagements par signature donnés à moyen et long termes
+  - libelle: TOTAL
+- code: DIMF-2012
+  libelle: État de l'encours de crédits des dix débiteurs les plus importants
+  periodicite: ANNUELLE
+  delaiJours: 180
+  assujettis:
+  - TOUS
+  layout: GENERIC
+  source: RCSFD, annexe 4.9 ; codeEtat BF0 (lu « BFO »)
+  colonnes:
+  - Prénoms / noms / n° d'identification
+  - Durée initiale du crédit
+  - Durée résiduelle
+  - Montants nets en FCFA
+  note: 'Code D identique à DIMF 2014 dans le texte : À CONFIRMER.'
+  lignes:
+  - code: I12_LIGNES
+    libelle: Dix premières lignes (encours les plus importants par membre)
+  - code: I12_MAX
+    libelle: Plus gros encours (maximum des lignes, ligne proposée pour le ratio R4)
+  - code: I12_TOTAL
+    libelle: TOTAL
+- code: DIMF-2013
+  libelle: État de l'encours total des prêts aux dirigeants, au personnel et aux personnes liées
+  periodicite: ANNUELLE
+  delaiJours: 180
+  assujettis:
+  - TOUS
+  layout: GENERIC
+  source: RCSFD, annexe 4.10 ; codeEtat BE0
+  colonnes:
+  - Prénoms / noms / n° d'identification
+  - Encours des prêts (bruts)
+  lignes:
+  - code: I13_LIGNES
+    libelle: Une ligne par dirigeant, membre du personnel ou personne liée (prêts et engagements par signature, montant brut)
+  - code: I13_TOTAL
+    libelle: TOTAL
+- code: DIMF-2014
+  libelle: État des ressources affectées et des crédits consentis sur ressources affectées
+  periodicite: ANNUELLE
+  delaiJours: 180
+  assujettis:
+  - TOUS
+  layout: GENERIC
+  source: RCSFD, annexe 4.11 ; codeEtat BF0 (lu « BFO »)
+  colonnes:
+  - Court terme
+  - Moyen terme
+  - Long terme
+  - Total
+  lignes:
+  - libelle: RESSOURCES AFFECTÉES (comptes 181, 182, 183 ; total 18)
+  - libelle: CRÉDITS CONSENTIS SUR RESSOURCES AFFECTÉES
+  - libelle: dont crédits en souffrance (= crédits consentis − crédits sains consentis sur ces ressources)
+  - libelle: TOTAL
+- code: DIMF-2015
+  libelle: État des valeurs immobilisées
+  periodicite: ANNUELLE
+  delaiJours: 180
+  assujettis:
+  - TOUS
+  layout: GENERIC
+  source: RCSFD, annexe 4.12 ; codeEtat BG0
+  colonnes:
+  - Montants bruts
+  - Amortissements/Provisions
+  - Montants nets
+  lignes:
+  - code: D1A
+    libelle: Immobilisations financières
+  - code: D1E
+    libelle: Titres de participation
+  - code: D1L
+    libelle: Titres d'investissement
+  - code: D1S
+    libelle: Dépôts et cautionnements
+  - code: D23
+    libelle: Immobilisations en cours
+  - code: D24
+    libelle: Incorporelles
+  - code: D25
+    libelle: Corporelles
+  - code: D30
+    libelle: Immobilisations d'exploitation
+  - code: D31
+    libelle: Incorporelles
+  - code: D32
+    libelle: Droit au bail
+  - code: D33
+    libelle: Autres éléments du fonds commercial
+  - code: D34
+    libelle: Frais d'établissement
+  - code: D35
+    libelle: Autres immobilisations incorporelles
+  - code: D36
+    libelle: Corporelles
+- code: DIMF-2016
+  libelle: État d'affectation du résultat
+  periodicite: ANNUELLE
+  delaiJours: 180
+  assujettis:
+  - TOUS
+  layout: GENERIC
+  source: RCSFD, annexe 4.14 (allégée) / 4.13 (texte) ; codeEtat BH0
+  colonnes:
+  - Proposition de répartition
+  - Répartition effective
+  note: Codes 77x = codes de ligne de l'état, sans rapport avec les comptes de classe 77. Annexe numérotée 4.13 dans le texte, 4.14 sur le modèle allégé.
+  lignes:
+  - code: L80
+    libelle: Résultat de l'exercice (+/−)
+  - code: L70
+    libelle: Report à nouveau (+/−)
+  - code: '770'
+    libelle: RESULTAT À AFFECTER
+  - code: '772'
+    libelle: Réserve générale
+  - code: '773'
+    libelle: Réserves facultatives
+  - code: '774'
+    libelle: Autres réserves
+  - code: '776'
+    libelle: Report à nouveau bénéficiaire
+  - code: '777'
+    libelle: Autres affectations
+  - code: 776b
+    libelle: 'Affectation du résultat déficitaire : report à nouveau déficitaire'
+  - code: '778'
+    libelle: Prélèvements sur les réserves
+  - code: '779'
+    libelle: Autres
+- code: DIMF-2006
+  libelle: État des biens donnés en crédit-bail et opérations assimilées (développée)
+  periodicite: ANNUELLE
+  delaiJours: 180
+  assujettis:
+  - ART44
+  layout: GENERIC
+  source: RCSFD, annexe 4.2 ; codeEtat BG0
+  colonnes:
+  - Durée
+  - Montants bruts
+  - Amortissements/Provisions
+  - Montants nets
+  lignes:
+  - libelle: Crédit-bail mobilier ; crédit-bail immobilier ; crédit-bail sur actifs incorporels ; location avec option d'achat ; location-vente ; créances en souffrance sur crédit-bail ; TOTAL
+- code: DIMF-2007
+  libelle: État des biens détenus dans le cadre de la concession (développée)
+  periodicite: ANNUELLE
+  delaiJours: 180
+  assujettis:
+  - ART44
+  layout: GENERIC
+  source: RCSFD, annexe 4.3 ; codeEtat BG0
+  colonnes:
+  - Durée
+  - Valeur d'inventaire ou de marché
+  - Concessionnaire (nom)
+  - Valeur déclarée dans le cahier des charges
+  lignes:
+  - libelle: Postes ; TOTAL
+- code: DIMF-2008
+  libelle: État des biens détenus dans le cadre de la clause de réserve de propriété (développée)
+  periodicite: ANNUELLE
+  delaiJours: 180
+  assujettis:
+  - ART44
+  layout: GENERIC
+  source: RCSFD, annexe 4.4 ; codeEtat BG0
+  colonnes:
+  - Objet de la clause
+  - Montants bruts
+  - Date d'inscription
+  - Durée de jouissance
+  - Créanciers
+  lignes:
+  - libelle: Libellés des biens inscrits à l'actif frappés de la clause ; TOTAL
+- code: DIMF-2009
+  libelle: Détail du compte 6221 — Personnel extérieur à l'institution (développée ; cité par l'Instr. 001-02-2018 pour tous les SFD)
+  periodicite: ANNUELLE
+  delaiJours: 180
+  assujettis:
+  - ART44
+  layout: GENERIC
+  source: RCSFD, annexe 4.5 ; codeEtat BG0
+  colonnes:
+  - 'Effectif : nationaux, autres États de l''UMOA, hors UMOA ; secteur primaire/secondaire/tertiaire ; total'
+  - Facturation à l'institution
+  note: Compte 6221 = S3B.
+  lignes:
+  - libelle: 1. Cadres supérieurs ; 2. Techniciens supérieurs et cadres moyens ; 3. Techniciens, agents de maîtrise ; 4. Employés, manœuvres, ouvriers et apprentis ; permanents ; saisonniers ; TOTAL
+- code: DIMF-2018
+  libelle: État de traitement de la réévaluation (développée)
+  periodicite: ANNUELLE
+  delaiJours: 180
+  assujettis:
+  - ART44
+  layout: GENERIC
+  source: RCSFD, annexe 4.14 ; codeEtat BG0
+  colonnes:
+  - Date de réévaluation
+  - Nature (libre, légale, indiciaire)
+  - Méthode (coûts actuels)
+  - Valeurs avant réévaluation (VNC) (1)
+  - Valeur réévaluée (2)
+  - Écart de réévaluation (2)−(1)
+  lignes:
+  - libelle: Biens réévalués ; TOTAL
+- code: DIMF-2900
+  libelle: Bilan et hors-bilan consolidés / combinés (réseaux, faîtières)
+  periodicite: ANNUELLE
+  delaiJours: 180
+  assujettis:
+  - FAITIERES
+  - SFD_NON_MUTUALISTES
+  layout: BILAN_BICOLONNE
+  source: Instr. 030-02-2009 art. 5 ; RCSFD annexe 6.1
+  note: 'Modèle consolidé à codes 010, 014, 300… non transcrit : A_CONFIRMER'
+  statut: A_CONFIRMER
+  lignes: []
+- code: DIMF-2980
+  libelle: Compte de résultat consolidé / combiné
+  periodicite: ANNUELLE
+  delaiJours: 180
+  assujettis:
+  - FAITIERES
+  - SFD_NON_MUTUALISTES
+  layout: CR_BICOLONNE
+  source: RCSFD annexe 6.2
+  note: 'non transcrit : A_CONFIRMER'
+  statut: A_CONFIRMER
+  lignes: []
+- code: UEMOA-REP-FIN-001
+  libelle: Dossier de transmission des états (bordereau, signatures accréditées, rapports du CAC)
+  periodicite: ANNUELLE
+  delaiJours: 180
+  assujettis:
+  - TOUS
+  layout: GENERIC
+  source: RCSFD ch. V B.2 ; Instr. 006-06-2010 annexe ; loi art. 53
+  pieces:
+  - Bordereau listant les documents de synthèse (daté, signé, visa CAC)
+  - Carte des signatures accréditées
+  - Rapport général du CAC
+  - Rapport spécial du CAC (conventions réglementées ; gestion du fonds de sécurité)
+  - Rapport de gestion
+  lignes: []
+- code: UEMOA-REP-FIN-002
+  libelle: Publication des états financiers et notification de publication
+  periodicite: ANNUELLE
+  delaiJours: 180
+  assujettis:
+  - ART44
+  layout: GENERIC
+  source: Loi art. 54 ; Instr. 001-02-2018 art. 5-6
+  notifications:
+  - delaiJours: 7
+    destinataire: Ministre des Finances et Direction Nationale BCEAO
+  note: 'Nouvelle loi : toutes les IMF publient dans les 6 mois (art. 63, A_CONFIRMER).'
+  lignes: []
+- code: UEMOA-REP-RAP-001
+  libelle: 'Rapport annuel du SFD (annexe : tableaux chiffrés)'
+  periodicite: ANNUELLE
+  delaiJours: 180
+  assujettis:
+  - TOUS
+  layout: GENERIC
+  source: Instr. BCEAO 018-12-2010 ; loi art. 50-51
+  note: 'Partie narrative (historique, gouvernance, LBC/FT, perspectives…) hors génération automatique. Délai : 6 mois (loi art. 51) — l''instruction ne le chiffre pas.'
+  lignes:
+  - code: T1.1
+    libelle: Nombre de membres, bénéficiaires ou clients (en unités)
+  - code: T1.2
+    libelle: Effectif des dirigeants et du personnel employé
+  - code: T1.3
+    libelle: État des rémunérations des dirigeants et du personnel ; remboursements de frais des dirigeants élus
+  - code: T2
+    libelle: Évolution du nombre de points de service
+  - code: T3.1
+    libelle: Montant des dépôts (milliers FCFA)
+  - code: T3.2
+    libelle: Décomposition des dépôts par terme
+  - code: T3.3
+    libelle: Nombre de déposants et comptes inactifs
+  - code: T3.4
+    libelle: Évolution du capital social
+  - code: T3.5
+    libelle: Répartition du capital entre principaux actionnaires
+  - code: T4.1
+    libelle: Montant annuel des prêts accordés
+  - code: T4.2
+    libelle: Nombre de prêts accordés
+  - code: T4.3
+    libelle: Engagements par signature
+  - code: T4.4
+    libelle: Encours de crédits au 31/12
+  - code: T4.5
+    libelle: Nombre de crédits en cours au 31/12
+  - code: T4.6
+    libelle: Évolution de l'encours par terme
+  - code: T4.7
+    libelle: Encours des crédits des agents relevant des Autorités de contrôle
+  - code: T4.8
+    libelle: Opérations de crédit sur ressources affectées
+  - code: T4.9
+    libelle: Gestion du portefeuille de crédit
+  - code: T5.1
+    libelle: Transfert rapide d'argent
+  - code: T5.2
+    libelle: Micro-assurance
+  - code: T5.3
+    libelle: Opérations de change
+  - code: T6.1
+    libelle: Tarification des opérations avec la clientèle
+  - code: T6.2
+    libelle: Répartition des crédits selon leur objet
+  - code: T6.3
+    libelle: Dons et œuvres sociales
+  - code: T6.4
+    libelle: Répartition sectorielle des crédits
+  - code: T7
+    libelle: Opérations avec les autres institutions financières
+  - code: T8
+    libelle: Indicateurs de performance des institutions affiliées (réseaux)
+  - code: T9
+    libelle: Nombre de réunions des organes
+  - code: T10
+    libelle: Indicateurs de performances financières
+  rapportsMembresReseau: true
+  tableauxAnnexe:
+  - '1.1'
+  - '1.2'
+  - '2'
+  - '3.1'
+  - '3.2'
+  - '3.3'
+  - '3.4'
+  - '3.5'
+  - '4.1'
+  - '4.2'
+  - '4.3'
+  - '4.4'
+  - '4.5'
+  - '4.6'
+  - '4.7'
+  - '4.8'
+  - '4.9'
+  - '5.1'
+  - '5.2'
+  - '6.1'
+  - '6.2'
+  - '6.3'
+  - '6.4'
+  - '7'
+  - '8'
+  - '9'
+  - '10'
+  noteAnnexe: 27 tableaux, milliers FCFA, colonnes n-1 / n / variation (Instr. 018-12-2010 annexe, UEMOA-REP-T15)
+- code: UEMOA-REP-PRU-FP
+  libelle: Fonds propres réglementaires (dénominateur des règles III, IV, VIII, IX et de l'Instr. 016)
+  periodicite: TRIMESTRIELLE
+  delaiJours: 30
+  assujettis:
+  - TOUS
+  layout: SFP_SECTIONS
+  source: Instr. 010-08-2010 annexes III, IV, VIII, IX ; Instr. 016-12-2010 annexe
+  lignes:
+  - code: FP_DED_PROV
+    libelle: Compléments de provisions non constituées et exigés par les Autorités de contrôle
+    saisie: true
+  - code: FP_DED_PART
+    libelle: Participations constituant des fonds propres dans d'autres SFD ou établissements de crédit
+    saisie: true
+  - code: D1E_HORS_PART
+    libelle: Titres de participation (D1E) hors participations dans les établissements de crédit et les SFD
+    saisie: false
+    note: 4121 EC et 4122 SFD exclus ; provision 4129 non ventilée, correction par saisie (UEMOA-REP-T30)
+    comptes: 4123,4124,4125
+  - code: FP
+    libelle: Fonds propres réglementaires
+    expression: L10+L20+L27+L30+L35+L41+L45+L50+L55+L59+L60-L62+L65+L70+L75+L80-E05-(D24+D31+D41+D46)-FP_DED_PROV-FP_DED_PART
+    note: 'Éléments + : L10 L20 L27 L30 L35 L41 L45 L50 L55 L59 L60 L65 L70(+) L75* L80(+). Éléments − : L62, E05*, immobilisations incorporelles nettes (D24+D31+D41+D46), L70(−), L80(−), compléments de
+      provisions exigés par les Autorités (saisie), participations croisées dans SFD/établissements de crédit (saisie). * L75/E05 : états infra-annuels uniquement. L70 et L80 sont pris algébriquement (une
+      seule fois).'
+- code: UEMOA-REP-PRU-01
+  libelle: Limitation des risques
+  periodicite: MENSUELLE
+  delaiJours: 30
+  assujettis:
+  - TOUS
+  layout: SFP_SECTIONS
+  source: Instr. 010-08-2010, annexe I (art. 147 loi)
+  periodiciteParCategorie:
+    ART44: MENSUELLE
+    AUTRES_SFD: TRIMESTRIELLE
+  transmission:
+    calcul: 'états au 31/12 : 6 mois (3 ex.) ; mensuel/trimestriel : 1 mois après la période'
+  lignes:
+  - code: R1_NUM
+    libelle: Risques portés (montants nets de provisions et de dépôts de garantie)
+    expression: A12+A2A+A3A+A70+B2D+B2N+B30+B40+B70+C10+D1E+D1L+N1A+N1J+N3A+Q1A
+    note: 'Engagements par signature donnés = N1A+N1J+N3A+Q1A (texte). « nets des dépôts de garantie » : déduction non détaillée dans l''annexe (F2C, G30 ?) — À CONFIRMER'
+  - code: R1_DEN
+    libelle: Ressources internes et externes
+    expression: F1A+F2A+F3A+F50+G2A+G10+G15+G35+G60+G70+L01
+  - code: R1
+    libelle: Ratio de limitation des risques (%)
+    expression: R1_NUM/R1_DEN*100
+    norme:
+      operateur: <=
+      valeur: 200
+      unite: '%'
+    note: 'norme : 200 % maximum'
+- code: UEMOA-REP-PRU-02
+  libelle: Couverture des emplois à moyen et long terme par des ressources stables
+  periodicite: TRIMESTRIELLE
+  delaiJours: 30
+  assujettis:
+  - TOUS
+  layout: SFP_SECTIONS
+  source: Instr. 010-08-2010, annexe II
+  periodiciteParCategorie:
+    ART44: TRIMESTRIELLE
+    AUTRES_SFD: TRIMESTRIELLE
+  transmission:
+    calcul: 'états au 31/12 : 6 mois (3 ex.) ; mensuel/trimestriel : 1 mois après la période'
+  lignes:
+  - code: R2_NUM
+    libelle: Ressources stables (parts à durée résiduelle > 12 mois)
+    expression: L01+F2A+F3F+F50+G15+G2A+G30+G35+G60+G70
+    note: 'Filtre d''échéance résiduelle > 12 mois obligatoire sur F2A, F3F, F50, G15, G2A, G30, G35, G60, G70 (texte : « à moyen et long terme »)'
+  - code: R2_DEN
+    libelle: Emplois à moyen et long terme (montants nets, durée résiduelle > 12 mois)
+    expression: A2H+A2I+A2J+A3C+A70+B30+B40+B70+D1E+D1L+D10+D1S+D23+D30+D40
+    note: 'A70, B70 nets de provisions ; D40 = immobilisations hors exploitation (texte : D40)'
+  - code: R2
+    libelle: Ratio de couverture des emplois MLT (%)
+    expression: R2_NUM/R2_DEN*100
+    norme:
+      operateur: '>='
+      valeur: 100
+      unite: '%'
+    note: 'norme : 100 % minimum'
+- code: UEMOA-REP-PRU-03
+  libelle: Limitation des prêts aux dirigeants, au personnel et aux personnes liées
+  periodicite: MENSUELLE
+  delaiJours: 30
+  assujettis:
+  - TOUS
+  layout: SFP_SECTIONS
+  source: Instr. 010-08-2010, annexe III ; loi art. 35 ; décret art. 20
+  periodiciteParCategorie:
+    ART44: MENSUELLE
+    AUTRES_SFD: TRIMESTRIELLE
+  transmission:
+    calcul: 'états au 31/12 : 6 mois (3 ex.) ; mensuel/trimestriel : 1 mois après la période'
+  lignes:
+  - code: R3_NUM
+    libelle: Prêts et engagements par signature aux dirigeants, au personnel et personnes liées (montant brut)
+    expression: I13_TOTAL
+    note: Tiré du tableau annexé aux états financiers (DIMF 2013) et vérifié sur l'état détaillé des crédits (texte)
+  - code: R3_DEN
+    libelle: Fonds propres réglementaires
+    expression: FP
+    note: Voir ligne FP (fonds propres réglementaires) de UEMOA-REP-PRU-FP
+  - code: R3
+    libelle: Ratio de limitation des prêts aux dirigeants (%)
+    expression: R3_NUM/R3_DEN*100
+    norme:
+      operateur: <=
+      valeur: 10
+      unite: '%'
+    note: 'norme : 10 % maximum des fonds propres'
+- code: UEMOA-REP-PRU-04
+  libelle: Limitation des risques pris sur une seule signature
+  periodicite: MENSUELLE
+  delaiJours: 30
+  assujettis:
+  - TOUS
+  layout: SFP_SECTIONS
+  source: Instr. 010-08-2010, annexe IV
+  periodiciteParCategorie:
+    ART44: MENSUELLE
+    AUTRES_SFD: TRIMESTRIELLE
+  transmission:
+    calcul: 'états au 31/12 : 6 mois (3 ex.) ; mensuel/trimestriel : 1 mois après la période'
+  lignes:
+  - code: R4_NUM
+    libelle: Prêts et engagements par signature donnés au plus gros emprunteur / signature (brut)
+    expression: I12_MAX
+    note: Plus gros emprunteur issu de l'état DIMF 2012 ; regroupement des personnes liées par contrôle (« une seule signature » défini à l'annexe IV) à appliquer avant le MAX
+  - code: R4_DEN
+    libelle: Fonds propres réglementaires
+    expression: FP
+    note: Voir ligne FP (fonds propres réglementaires) de UEMOA-REP-PRU-FP
+  - code: R4
+    libelle: Ratio risques sur une seule signature (%)
+    expression: R4_NUM/R4_DEN*100
+    norme:
+      operateur: <=
+      valeur: 10
+      unite: '%'
+    note: 'norme : 10 % maximum des fonds propres'
+- code: UEMOA-REP-PRU-05
+  libelle: Coefficient de liquidité
+  periodicite: MENSUELLE
+  delaiJours: 30
+  assujettis:
+  - TOUS
+  layout: SFP_SECTIONS
+  source: Instr. 010-08-2010, annexe V
+  periodiciteParCategorie:
+    ART44: MENSUELLE
+    AUTRES_SFD_DEPOT: MENSUELLE
+    AUTRES_SFD_SANS_DEPOT: TRIMESTRIELLE
+  transmission:
+    calcul: 'états au 31/12 : 6 mois (3 ex.) ; mensuel/trimestriel : 1 mois après la période'
+  lignes:
+  - code: R5_NUM
+    libelle: Valeurs réalisables et disponibles (montants nets, durée résiduelle ≤ 3 mois)
+    expression: A10+A12+A2J+A2A+A3B+B2D+B2N+B30+B40+C10+C30+C40+C56+(A60+B65+C55)+(N1A+N1J+N2A+N2J)
+    note: 'Filtre échéance résiduelle ≤ 3 mois. Annotation manuscrite « ≤ 3 mois » à côté de B30 sur le scan. A2J est libellé « dépôts à court terme » dans l''annexe alors que le poste A2J = 1281 (autres
+      dépôts constitués) : À CONFIRMER. Engagements donnés au numérateur (texte).'
+  - code: R5_DEN
+    libelle: Passif exigible (durée résiduelle ≤ 3 mois)
+    expression: F1A+F2A+F3E+F3F+F50+G10+G15+G2A+G30+G35+G60+G70+H10+H40+(F60+G90)+(N1H+N1K+N2H+N2M)
+    note: Engagements de financement et de garantie reçus au dénominateur (texte)
+  - code: R5
+    libelle: Coefficient de liquidité (%)
+    expression: R5_NUM/R5_DEN*100
+    norme:
+      operateur: '>='
+      valeur: 100
+      unite: '%'
+    normesParCategorie:
+    - categorie: MUTUALISTE_NON_AFFILIEE_OU_AUTRE_SFD_COLLECTANT_DEPOTS
+      operateur: '>='
+      valeur: 100
+    - categorie: MUTUALISTE_AFFILIEE
+      operateur: '>='
+      valeur: 80
+    - categorie: SFD_SANS_COLLECTE_DEPOTS
+      operateur: '>='
+      valeur: 60
+    note: norme selon catégorie, voir normesParCategorie
+- code: UEMOA-REP-PRU-06
+  libelle: Limitation des opérations autres que l'épargne et le crédit
+  periodicite: TRIMESTRIELLE
+  delaiJours: 30
+  assujettis:
+  - TOUS
+  layout: SFP_SECTIONS
+  source: Instr. 010-08-2010, annexe VI ; loi art. 36
+  periodiciteParCategorie:
+    ART44: TRIMESTRIELLE
+    AUTRES_SFD: TRIMESTRIELLE
+  transmission:
+    calcul: 'états au 31/12 : 6 mois (3 ex.) ; mensuel/trimestriel : 1 mois après la période'
+  lignes:
+  - code: R6_NUM
+    libelle: Montant consacré aux opérations autres que l'épargne et le crédit
+    expression: I11_AUTRES_OPS
+    note: Ligne « Montant total consacré par l'institution aux opérations autres que les activités d'épargne et de crédit » de l'état DIMF 2011
+  - code: R6_DEN
+    libelle: Risques portés (montants nets de provisions et dépôts de garantie)
+    expression: A12+A3A+A70+B2D+B2N+B30+B40+B70+C10+D1E+D1L+N1A+N1J+N3A+Q1A
+    note: 'Différence avec l''annexe I : A2A absent du dénominateur (texte)'
+  - code: R6
+    libelle: Ratio opérations autres (%)
+    expression: R6_NUM/R6_DEN*100
+    norme:
+      operateur: <=
+      valeur: 5
+      unite: '%'
+    note: 'norme : 5 % maximum'
+- code: UEMOA-REP-PRU-07
+  libelle: Constitution de la réserve générale
+  periodicite: TRIMESTRIELLE
+  delaiJours: 30
+  assujettis:
+  - TOUS
+  layout: SFP_SECTIONS
+  source: Instr. 010-08-2010, annexe VII ; loi art. 85 et 124
+  periodiciteParCategorie:
+    ART44: TRIMESTRIELLE
+    AUTRES_SFD: TRIMESTRIELLE
+  transmission:
+    calcul: 'états au 31/12 : 6 mois (3 ex.) ; mensuel/trimestriel : 1 mois après la période'
+  lignes:
+  - code: R7_BASE
+    libelle: 'Base de calcul : résultat (L80) + report à nouveau déficitaire (L70)'
+    expression: L80+MIN(L70,0)
+    note: 'Fonction MIN hors syntaxe + - * / : à implémenter (L70 négatif seulement). Texte : « Résultat (L80) + Report à nouveau déficitaire (L70) »'
+  - code: R7
+    libelle: Dotation annuelle minimale à la réserve générale (L56)
+    expression: R7_BASE*0.15
+    normeDotation:
+      operateur: '>='
+      valeur: 15
+      unite: '% de R7_BASE'
+    note: Dotation minimale 15 % de la base ; obligatoire quel que soit le cumul
+- code: UEMOA-REP-PRU-08
+  libelle: Norme de capitalisation
+  periodicite: MENSUELLE
+  delaiJours: 30
+  assujettis:
+  - TOUS
+  layout: SFP_SECTIONS
+  source: Instr. 010-08-2010, annexe VIII ; loi art. 85 et 123
+  periodiciteParCategorie:
+    ART44: MENSUELLE
+    AUTRES_SFD: MENSUELLE
+  transmission:
+    calcul: 'états au 31/12 : 6 mois (3 ex.) ; mensuel/trimestriel : 1 mois après la période'
+  lignes:
+  - code: R8_NUM
+    libelle: Fonds propres réglementaires de fin de période
+    expression: FP
+    note: Voir ligne FP (fonds propres réglementaires) de UEMOA-REP-PRU-FP
+  - code: R8_DEN
+    libelle: Total actif de fin de période, montants nets
+    expression: E90
+  - code: R8
+    libelle: Ratio de capitalisation (%)
+    expression: R8_NUM/R8_DEN*100
+    norme:
+      operateur: '>='
+      valeur: 15
+      unite: '%'
+    note: 'norme : 15 % minimum (délai de 2 ans pour les SFD en activité au 30/08/2010)'
+- code: UEMOA-REP-PRU-09
+  libelle: Limitation des prises de participation
+  periodicite: TRIMESTRIELLE
+  delaiJours: 30
+  assujettis:
+  - TOUS
+  layout: SFP_SECTIONS
+  source: Instr. 010-08-2010, annexe IX ; loi art. 36
+  periodiciteParCategorie:
+    ART44: TRIMESTRIELLE
+    AUTRES_SFD: TRIMESTRIELLE
+  transmission:
+    calcul: 'états au 31/12 : 6 mois (3 ex.) ; mensuel/trimestriel : 1 mois après la période'
+  lignes:
+  - code: R9_NUM
+    libelle: Titres de participation (D1E) hors participations dans établissements de crédit et SFD
+    expression: D1E_HORS_PART
+    note: 'D1E diminué des participations dans EC et SFD : décomposition à saisir (D1E seul = poste du bilan ; version allégée : concordance D1E NON TROUVÉE)'
+  - code: R9_DEN
+    libelle: Fonds propres réglementaires
+    expression: FP
+    note: Voir ligne FP (fonds propres réglementaires) de UEMOA-REP-PRU-FP
+  - code: R9
+    libelle: Ratio de participations (%)
+    expression: R9_NUM/R9_DEN*100
+    norme:
+      operateur: <=
+      valeur: 25
+      unite: '%'
+    note: 'norme : 25 % maximum'
+- code: UEMOA-REP-PRU-10
+  libelle: Financement des immobilisations et des participations par les fonds propres
+  periodicite: TRIMESTRIELLE
+  delaiJours: 30
+  assujettis:
+  - TOUS
+  layout: SFP_SECTIONS
+  source: Instr. 016-12-2010, art. 3-7 et annexe
+  periodiciteParCategorie:
+    ART44: TRIMESTRIELLE
+    AUTRES_SFD: TRIMESTRIELLE
+  transmission:
+    calcul: 'états au 31/12 : 6 mois (3 ex.) ; mensuel/trimestriel : 1 mois après la période'
+  lignes:
+  - code: R10_NUM
+    libelle: Immobilisations corporelles et incorporelles + titres de participation (hors frais et valeurs immobilisés incorporels et hors participations dans SFD/EC), nets
+    expression: D24+D25+D31+D36+D41+D45+D46+D47+D1E_HORS_PART
+    note: D46 et D47 nets des immobilisations acquises par réalisation de garantie depuis moins de 2 ans ; D31 déduction faite des frais et valeurs immobilisés ; D1E hors participations dans SFD/EC (saisie)
+  - code: R10_DEN
+    libelle: Fonds propres réglementaires
+    expression: FP
+    note: Voir ligne FP (fonds propres réglementaires) de UEMOA-REP-PRU-FP
+  - code: R10
+    libelle: Ratio de financement des immobilisations (%)
+    expression: R10_NUM/R10_DEN*100
+    norme:
+      operateur: <=
+      valeur: 100
+      unite: '%'
+    note: 'norme : 100 % maximum des fonds propres ; transmission trimestrielle (1 mois) et annuelle (6 mois)'
+- code: UEMOA-REP-PRU-ANN
+  libelle: État récapitulatif annuel des ratios prudentiels
+  periodicite: ANNUELLE
+  delaiJours: 180
+  assujettis:
+  - TOUS
+  layout: SFP_SECTIONS
+  source: Instr. 010-08-2010 art. 3-4
+  lignesRef:
+  - UEMOA-REP-PRU-01
+  - UEMOA-REP-PRU-02
+  - UEMOA-REP-PRU-03
+  - UEMOA-REP-PRU-04
+  - UEMOA-REP-PRU-05
+  - UEMOA-REP-PRU-06
+  - UEMOA-REP-PRU-07
+  - UEMOA-REP-PRU-08
+  - UEMOA-REP-PRU-09
+  - UEMOA-REP-PRU-10
+  lignes: []
+- code: UEMOA-REP-IND-FIN
+  libelle: Indicateurs périodiques — indicateurs financiers
+  periodicite: MENSUELLE
+  delaiJours: 30
+  assujettis:
+  - TOUS
+  layout: INDICATEURS_SECTIONS
+  source: Instr. BCEAO 020-12-2010 art. 1-6, annexe I
+  periodiciteParCategorie:
+    ART44: MENSUELLE
+    AUTRES_SFD: TRIMESTRIELLE
+  note: 'PE = comptes 70,71,72,73,75,76 ; CE = comptes 60,61,62,63,64,65,66 (lecture des codes (V08 à X6B − W53) et (R08 à T6B)) : À CONFIRMER'
+  lignes:
+  - code: IND-F01
+    libelle: Portefeuille classé à risque (PAR x jours)
+    numerateur: Encours des prêts comportant au moins une échéance impayée depuis plus de x jours (x = 30 ; 90 ; 180)
+    denominateur: Montant brut du portefeuille de prêts
+    codeRcsfd: (B2D à B70) - B65
+    normes:
+    - operateur: <
+      valeur: 5
+      unite: '%'
+      condition: x >= 30 jours
+    - operateur: <
+      valeur: 3
+      unite: '%'
+      condition: x >= 90 jours
+    - operateur: <
+      valeur: 2
+      unite: '%'
+      condition: x >= 180 jours
+    note: 'Numérateur : calculé sur l''échéancier (non comptable). Dénominateur : B2D+B2N+B30+B40+B70-B65 ; B70 est net de provisions dans la nomenclature, le texte parle de « brut » → ajouter 2991+2992+2993
+      pour le brut (À CONFIRMER)'
+  - code: IND-F02
+    libelle: Taux de provisions pour créances en souffrance
+    numerateur: Montant brut des provisions constituées sur créances en souffrance
+    denominateur: Montant brut des créances en souffrance
+    codeRcsfd: B70 (2e colonne amortissements et provisions) / B70 (1re colonne montant brut)
+    norme:
+      operateur: '>='
+      valeur: 40
+      unite: '%'
+    note: Colonnes brut / provisions du bilan
+  - code: IND-F03
+    libelle: Taux de perte sur créances
+    numerateur: Montant des pertes enregistrées sur les créances au cours de la période
+    denominateur: Total des encours bruts de crédits de la période, y compris en souffrance
+    codeRcsfd: Numérateur T6K+T6L ; dénominateur (B2D à B70) - B65
+    norme:
+      operateur: <
+      valeur: 2
+      unite: '%'
+  - code: IND-F04
+    libelle: Montant moyen des crédits décaissés
+    numerateur: Mouvements au débit des comptes de crédits aux membres (CT, MT, LT) au niveau de la balance générale
+    denominateur: Nombre total de crédits décaissés au cours de la période
+    codeRcsfd: —
+    norme:
+      operateur: TENDANCE
+      valeur: HAUSSIERE
+      note: pas de seuil
+    note: Pas de code RCSFD pour le nombre de crédits
+  - code: IND-F05
+    libelle: Montant moyen de l'épargne par épargnant
+    numerateur: Dépôts des membres ou bénéficiaires (fin de période)
+    denominateur: Nombre d'épargnants (personnes ayant un ou plusieurs dépôts, y compris épargne obligatoire, comptées une fois)
+    codeRcsfd: G10 à G35
+    norme:
+      operateur: TENDANCE
+      valeur: HAUSSIERE
+      note: pas de seuil
+  - code: IND-F06
+    libelle: Encours moyen des crédits par emprunteur
+    numerateur: Crédits sains + crédits en souffrance (fin de période)
+    denominateur: Nombre de personnes ayant un encours de crédit (comptées une fois)
+    codeRcsfd: (B2D à B70) - B65
+    norme:
+      operateur: TENDANCE
+      valeur: HAUSSIERE
+      note: pas de seuil
+  - code: IND-F07
+    libelle: Productivité des agents de crédit
+    numerateur: Nombre d'emprunteurs actifs
+    denominateur: Nombre d'agents de crédit
+    codeRcsfd: —
+    normes:
+    - operateur: '>='
+      valeur: 130
+      unite: ratio par agent/employé
+      condition: les structures non conformes doivent en donner les raisons
+  - code: IND-F08
+    libelle: Productivité du personnel
+    numerateur: Nombre de clients actifs (au moins un dépôt ou un crédit en cours)
+    denominateur: Nombre d'employés
+    codeRcsfd: —
+    norme:
+      operateur: '>'
+      valeur: 115
+      unite: ratio par agent/employé
+  - code: IND-F09
+    libelle: Charges d'exploitation rapportées au portefeuille de crédits
+    numerateur: Charges d'exploitation (CE)
+    denominateur: Montant brut moyen du portefeuille de crédits de la période
+    codeRcsfd: (R08 à T6B) / Moyenne [(B2D à B70) - B65]
+    norme:
+      operateur: <=
+      valeur: 35
+      unite: '%'
+    note: CE = comptes 60+61+62+63+64+65+66
+  - code: IND-F10
+    libelle: Ratio des frais généraux rapportés au portefeuille de crédits
+    numerateur: Frais de personnel + impôts et taxes + autres charges externes et charges diverses d'exploitation + dotations au fonds pour risques financiers généraux
+    denominateur: Montant brut moyen du portefeuille de crédits de la période
+    codeRcsfd: S02 à T50 / Moyenne [(B2D à B70) - B65]
+    normes:
+    - operateur: <
+      valeur: 15
+      unite: '%'
+      condition: structures de crédit direct
+    - operateur: <
+      valeur: 20
+      unite: '%'
+      condition: structures d'épargne et de crédit
+    note: S02+S1A+S2A+T50
+  - code: IND-F11
+    libelle: Ratio des charges de personnel
+    numerateur: Salaires et traitements + charges sociales + rémunérations versées aux stagiaires
+    denominateur: Montant brut moyen du portefeuille de crédits de la période
+    codeRcsfd: S02 / Moyenne [(B2D à B70) - B65]
+    normes:
+    - operateur: <
+      valeur: 5
+      unite: '%'
+      condition: structures de crédit direct
+    - operateur: <
+      valeur: 10
+      unite: '%'
+      condition: structures d'épargne et de crédit
+  - code: IND-F12
+    libelle: Rentabilité des fonds propres
+    numerateur: Résultat d'exploitation hors subventions (RE = PE − CE)
+    denominateur: Montant moyen des fonds propres pour la période
+    codeRcsfd: (V08 à X6B − W53) − (R08 à T6B) / L01
+    norme:
+      operateur: '>'
+      valeur: 15
+      unite: '%'
+    note: PE = comptes 70+71+72+73+75+76 ; CE = comptes 60+61+62+63+64+65+66 ; dénominateur = L01 (code cité par le texte)
+  - code: IND-F13
+    libelle: Rendement sur actif
+    numerateur: Résultat d'exploitation hors subventions (RE)
+    denominateur: Montant moyen de l'actif pour la période
+    codeRcsfd: RE / E90
+    norme:
+      operateur: '>'
+      valeur: 3
+      unite: '%'
+  - code: IND-F14
+    libelle: Autosuffisance opérationnelle
+    numerateur: Produits d'exploitation (PE)
+    denominateur: Charges d'exploitation (CE)
+    codeRcsfd: (V08 à X6B − W53) / (R08 à T6B)
+    norme:
+      operateur: '>'
+      valeur: 130
+      unite: '%'
+  - code: IND-F15
+    libelle: Marge bénéficiaire
+    numerateur: Résultat d'exploitation (RE)
+    denominateur: Produits d'exploitation (PE)
+    codeRcsfd: RE / (V08 à X6B − W53)
+    norme:
+      operateur: '>'
+      valeur: 20
+      unite: '%'
+  - code: IND-F16
+    libelle: Coefficient d'exploitation
+    numerateur: Frais généraux (FG)
+    denominateur: Produits financiers nets (PFN)
+    codeRcsfd: S02 à T50 / [(V08 à V7A) − (R08 à R7A)]
+    normes:
+    - operateur: <=
+      valeur: 40
+      unite: '%'
+      condition: structures de crédit direct
+    - operateur: <=
+      valeur: 60
+      unite: '%'
+      condition: structures d'épargne et de crédit
+    note: FG = S02+S1A+S2A+T50 ; PFN = (V08+V3A+V4B+V5B+V6U+V7A) − (R08+R3A+R4B+R5B+R6V+R7A)
+  - code: IND-F17
+    libelle: Taux de rendement des actifs
+    numerateur: Intérêts et commissions perçus (V08 à V7A)
+    denominateur: 'Actifs productifs : opérations avec institutions financières + membres + titres à court terme + immobilisations financières'
+    codeRcsfd: (A01−A10−A60−A70)+(B01−B65−B70)+(C10+C56)+D1A
+    norme:
+      operateur: '>'
+      valeur: 15
+      unite: '%'
+  - code: IND-F18
+    libelle: Ratio de liquidité de l'actif
+    numerateur: Encaisses et comptes courants ordinaires + titres à court terme
+    denominateur: Total actif du bilan
+    codeRcsfd: (A10+A12+A2H+A2J+C10) / E90
+    normes:
+    - operateur: '>'
+      valeur: 2
+      unite: '%'
+      condition: structures de crédit direct
+    - operateur: '>'
+      valeur: 5
+      unite: '%'
+      condition: structures d'épargne et de crédit
+    note: 'Le texte imprime « A2H++A2J » (double plus) : À CONFIRMER'
+  - code: IND-F19
+    libelle: Ratio de capitalisation (indicateur)
+    numerateur: Fonds propres (L01)
+    denominateur: Total actif du bilan (E90)
+    codeRcsfd: L01 / E90
+    norme:
+      operateur: '>'
+      valeur: 15
+      unite: '%'
+    note: Différent de la norme prudentielle R8 (fonds propres réglementaires retraités)
+- code: UEMOA-REP-IND-NF
+  libelle: Indicateurs périodiques — indicateurs non financiers
+  periodicite: MENSUELLE
+  delaiJours: 30
+  assujettis:
+  - TOUS
+  layout: INDICATEURS_SECTIONS
+  source: Instr. BCEAO 020-12-2010, annexe II
+  periodiciteParCategorie:
+    ART44: MENSUELLE
+    AUTRES_SFD: TRIMESTRIELLE
+  colonnes:
+  - T_1
+  - T
+  - VARIATION_PCT
+  lignes:
+  - code: IND-N01
+    libelle: 'Tableau n°1 : Nombre de membres, bénéficiaires ou clients'
+    postes:
+    - Nombre total de membres, bénéficiaires ou clients (1)+(2)
+    - Personnes physiques non-membres d'un groupement (1) = (à)+(b) ; hommes (à) ; femmes (b)
+    - Personnes morales (groupements de personnes physiques, entreprises, associations…) (2)
+    - Nombre de groupements de personnes physiques bénéficiaires
+    - Nombre total des membres des groupements de personnes physiques bénéficiaires (3) = (c)+(d) ; hommes (c) ; femmes (d)
+  - code: IND-N02
+    libelle: 'Tableau n°2 : Effectif des dirigeants et du personnel employé'
+    postes:
+    - Nombre de membres du Conseil d'Administration ou de l'organe équivalent
+    - Nombre de membres du Conseil de Surveillance, s'il y à lieu
+    - Nombre de membres du Comité de Crédit, s'il y à lieu
+    - Effectif total des employés = (1)+(2) ; dirigeants exerçant des fonctions de direction ou de gérance (1) ; autres employés (2)
+    - Agents permanents ; agents contractuels ; personnel expatrié sous contrat à durée déterminée / indéterminée ; agents nationaux ; personnel expatrié
+  - code: IND-N03
+    libelle: 'Tableau n°3 : Nombre des déposants'
+    postes:
+    - Nombre total de déposants (1)+(2)
+    - Personnes physiques non-membres d'un groupement (1) = (à)+(b), hommes (à), femmes (b)
+    - Personnes morales (groupements, entreprises, associations) (2)
+  - code: IND-N04
+    libelle: 'Tableau n°4 : Nombre de crédits en cours'
+    postes:
+    - Nombre de crédits en cours (1)+(2)
+    - Personnes physiques non-membres d'un groupement (1) = (à)+(b), hommes (à), femmes (b)
+    - Personnes morales (2)
+  - code: IND-N05
+    libelle: 'Tableau n°5 : Répartition des crédits selon leur objet (en milliers de FCFA)'
+    postes:
+    - Crédits immobiliers
+    - Crédits d'équipement
+    - Crédits à la consommation
+    - Crédits de trésorerie
+    - Autres crédits
+  - code: IND-N06
+    libelle: 'Tableau n°6 : Nombre de crédits en souffrance'
+    postes:
+    - Nombre de crédits en souffrance (1)+(2)
+    - Personnes physiques non-membres d'un groupement (1) = (à)+(b), hommes (à), femmes (b)
+    - Personnes morales (2)
+  - code: IND-N07
+    libelle: 'Tableau n°7 : Indicateurs sur la surveillance'
+    postes:
+    - Nombre d'institutions affiliées *
+    - Nombre d'institutions affiliées contrôlées *
+    - Taux de mise en œuvre des recommandations formulées au cours des contrôles *
+    - Nombre de réunions tenues par le Conseil de Surveillance *
+    - Nombre d'agences ou de points de services **
+    - Nombre de rapports de contrôle interne **
+- code: UEMOA-REP-CI-001
+  libelle: Rapport annuel de contrôle interne (contrôle global)
+  periodicite: ANNUELLE
+  delaiJours: 180
+  assujettis:
+  - TOUS
+  layout: GENERIC
+  source: Instr. BCEAO 017-12-2010 art. 3, annexe II-III
+  note: 'Rapport narratif ; pas de modèle chiffré. Délai : 6 mois après fin de l''année civile.'
+  lignes: []
+- code: UEMOA-REP-CI-002
+  libelle: Copie des rapports d'anomalies de vérification/inspection
+  periodicite: EVENEMENT
+  delaiJours: 30
+  assujettis:
+  - TOUS
+  layout: GENERIC
+  source: Instr. 017-12-2010 art. 3
+  lignes: []
+- code: UEMOA-REP-CI-003
+  libelle: Programme annuel indicatif d'inspection
+  periodicite: ANNUELLE
+  delaiJours: null
+  assujettis:
+  - RESEAUX
+  layout: GENERIC
+  source: Instr. 017-12-2010 annexe I
+  echeance: 15 janvier
+  lignes: []
+- code: UEMOA-REP-CI-004
+  libelle: Rapport global sur le bilan du programme d'inspection
+  periodicite: ANNUELLE
+  delaiJours: null
+  assujettis:
+  - RESEAUX
+  layout: GENERIC
+  source: Instr. 017-12-2010 annexe I
+  echeance: 31 janvier
+  lignes: []
+- code: UEMOA-REP-FS-001
+  libelle: Gestion du fonds de sécurité ou de solidarité (réseaux)
+  periodicite: ANNUELLE
+  delaiJours: null
+  assujettis:
+  - RESEAUX
+  layout: GENERIC
+  source: Instr. BCEAO 019-12-2010 art. 5-8
+  note: Aucun compte du RCSFD n'est nommé par l'instruction (le fonds est un compte spécifique ouvert chez la faîtière). L'ancien comptes '14,80' du YAML est sans source.
+  lignes:
+  - code: FS-COTISATION
+    libelle: 'Cotisation annuelle non remboursable : 2 % du total de l''actif moyen brut + engagements par signature (1re année) ; ensuite 2 % de la variation de (actif moyen + engagements par signature)'
+    note: 'Plafond de dotation : 15 % de l''actif total du réseau ; reçue par la faîtière au plus tard 6 mois après la clôture'
+  - code: FS-SOLDES
+    libelle: Solde du compte début/fin de période, dotations, utilisations, remboursements, cotisations de l'année
+- code: UEMOA-REP-LBC-001
+  libelle: Déclaration de soupçon (CENTIF)
+  periodicite: EVENEMENT
+  delaiJours: 0
+  assujettis:
+  - TOUS
+  layout: GENERIC
+  source: Loi uniforme LBC/FT/FP art. 60-61
+  note: modèle fixé par arrêté du Ministre des Finances de chaque État (BF confirmé, CI formulaire centif.ci) (UEMOA-REP-T21)
+  lignes: []
+- code: UEMOA-REP-LBC-002
+  libelle: Déclaration des transactions en espèces à la CENTIF
+  periodicite: EVENEMENT
+  delaiJours: null
+  assujettis:
+  - TOUS
+  layout: GENERIC
+  source: Loi LBC/FT/FP art. 72 ; Décision 021/2023 art. 8
+  seuil:
+    operateur: '>='
+    valeur: 15000000
+    devise: FCFA
+    note: opération unique ou opérations liées
+  lignes: []
+- code: UEMOA-REP-LBC-003
+  libelle: Rapport annuel de mise en œuvre du dispositif LBC/FT/FP
+  periodicite: ANNUELLE
+  delaiJours: 60
+  assujettis:
+  - TOUS
+  layout: GENERIC
+  source: Instr. BCEAO 001-03-2025 art. 12
+  destinataire:
+  - BCEAO
+  - AUTORITE_DE_CONTROLE
+  lignes: []
+- code: UEMOA-REP-BIC-001
+  libelle: Déclaration mensuelle des données de crédit (BIC via BCEAO)
+  periodicite: MENSUELLE
+  delaiJours: null
+  assujettis:
+  - TOUS
+  layout: GENERIC
+  source: Instr. BCEAO 005-05-2015 art. 2-6
+  echeance: 10 du mois suivant
+  note: format dans le contrat avec le BIC, non public (UEMOA-REP-T20)
+  lignes: []
+  transmission: via BCEAO
+- code: UEMOA-REP-DOR-001
+  libelle: 'Avoirs dormants : notification de transfert et état récapitulatif mensuel'
+  periodicite: MENSUELLE
+  delaiJours: null
+  assujettis:
+  - TOUS
+  layout: GENERIC
+  source: Instr. BCEAO 006-06-2014 art. 2-3 ; Instr. 005-06-2014 (recherche titulaires 8 ans)
+  note: Transfert <= 30 jours après clôture du compte (10 ans sans intervention). Canevas BCEAO NON TROUVÉ.
+  lignes: []
+- code: UEMOA-REP-LOI-001
+  libelle: Données périodiques prudentielles IMF (nouvelle loi)
+  periodicite: A_CONFIRMER
+  delaiJours: null
+  assujettis:
+  - IMF
+  layout: GENERIC
+  source: Loi uniforme microfinance UMOA (Décision 019/CM/UMOA du 21/12/2023, texte officiel BCEAO) art. 68, 80
+  statut: A_CONFIRMER
+  lignes: []
+  regimeTransitoire: Instr. 020-12-2010 et 010-08-2010 (loi 2023 art. 171)
+- code: UEMOA-REP-LOI-002
+  libelle: Rapport annuel et publication des états (nouvelle loi)
+  periodicite: ANNUELLE
+  delaiJours: 180
+  assujettis:
+  - IMF
+  layout: GENERIC
+  source: Loi uniforme microfinance UMOA (Décision 019/CM/UMOA du 21/12/2023, texte officiel BCEAO) art. 60-63
+  lignes: []
+- code: UEMOA-REP-LOI-003
+  libelle: Rapport annuel sur le traitement des réclamations
+  periodicite: ANNUELLE
+  delaiJours: null
+  assujettis:
+  - IMF
+  layout: GENERIC
+  source: Loi uniforme microfinance UMOA (Décision 019/CM/UMOA du 21/12/2023, texte officiel BCEAO) art. 94
+  statut: A_CONFIRMER
+  lignes: []
+  destinataire:
+  - AUTORITE_SUPERVISION
+  - BCEAO
+  canevas: NON_TROUVE
+- code: UEMOA-REP-LOI-004
+  libelle: Plan préventif de redressement
+  periodicite: EVENEMENT
+  delaiJours: null
+  assujettis:
+  - IMF_CB
+  layout: GENERIC
+  source: Loi uniforme microfinance UMOA (Décision 019/CM/UMOA du 21/12/2023, texte officiel BCEAO) art. 69, 104-105
+  statut: A_CONFIRMER
+  lignes: []
+- code: UEMOA-REP-LOI-005
+  libelle: 'FGDR-UMOA : contribution annuelle et informations'
+  periodicite: ANNUELLE
+  delaiJours: null
+  assujettis:
+  - IMF
+  layout: GENERIC
+  source: Loi uniforme microfinance UMOA (Décision 019/CM/UMOA du 21/12/2023, texte officiel BCEAO) art. 99-101 ; Décision CM 009/2017 ; Statuts FGD art. 21, 25 ; Circ. 002/2018/FGDR (MOYENNE)
+  statut: A_CONFIRMER
+  lignes: []
+  echeance: 15 juillet
+  tauxContribution: 0.0029
+  assiette: dépôts éligibles de l'exercice précédent
+  plafondIndemnisation: 300000
+- code: UEMOA-REP-LOI-006
+  libelle: Notification des modifications statutaires
+  periodicite: A_CONFIRMER
+  delaiJours: 42
+  assujettis:
+  - IMF
+  layout: GENERIC
+  source: Loi uniforme microfinance UMOA (Décision 019/CM/UMOA du 21/12/2023, texte officiel BCEAO) art. 82
+  statut: A_CONFIRMER
+  lignes: []
+- code: UEMOA-REP-DIV-001
+  libelle: Liste des impayés / incidents de paiement (sur réquisition)
+  periodicite: EVENEMENT
+  delaiJours: null
+  assujettis:
+  - TOUS
+  layout: GENERIC
+  source: Loi art. 57 ; loi microfinance art. 81
+  statut: A_CONFIRMER
+  lignes: []
+- code: UEMOA-REP-EF-ANNEXES
+  libelle: Annexes des états financiers (Instr. 001-02-2018)
+  periodicite: ANNUELLE
+  delaiJours: 180
+  assujettis:
+  - TOUS
+  layout: DOCUMENT
+  source: Instr. BCEAO 001-02-2018 art. 2-6
+  delaiNotificationPublication: 7
+  contenu:
+  - déclaration de conformité RCSFD
+  - méthodes et dérogations
+  - changements de méthode
+  - tableau emplois/ressources
+  - état des crédits en souffrance
+  - engagements par signature
+  - valeurs immobilisées
+  - détail personnel extérieur
+  note: combinés (réseaux) ou consolidés ; rubriques nulles 2 exercices omissibles (UEMOA-REP-T14)
+  lignes: []
+surchargesPays:
+  BJ:
+    autorite: ANSSFD
+    statut: HAUTE
+    ajouter:
+    - UEMOA-REP-LOI-001..006
+    modifier: []
+    desactiver: []
+    note: Transposition de la loi uniforme microfinance en cours d'examen à l'Assemblée nationale (présentation ANSSFD, 2025) ; états spécifiques NON TROUVÉS.
+    loiNationale: loi 2025-14 du 02/07/2025
+  BF:
+    autorite: DSC/SFD
+    statut: MOYENNE
+    ajouter: []
+    modifier: []
+    desactiver: []
+    note: Loi n°001-2025/ALT du 13/02/2025 (microfinance) ; entrée en vigueur signalée en février 2026 (source secondaire) ; états spécifiques NON TROUVÉS.
+    loiNationale: loi 001-2025/ALT du 13/02/2025
+  CI:
+    autorite: DRSSFD — Direction de la Réglementation et de la Surveillance des SFD (ex Direction de la Microfinance), Direction générale du Trésor
+    statut: MOYENNE
+    ajouter:
+    - code: CI-PAYS-001
+      libelle: Programmes de contrôle interne annuels
+      periodicite: ANNUELLE
+      echeance: 31 janvier (2024)
+    - code: CI-PAYS-002
+      libelle: État de suivi de la mise en œuvre des recommandations d'audit
+      periodicite: MENSUELLE
+      echeance: 5 de chaque mois (2024)
+    - code: CI-PAYS-003
+      libelle: Rapports d'audit/inspection internes
+      periodicite: EVENEMENT
+      delaiJours: 30
+    - code: CI-PAYS-004
+      libelle: Rapport annuel LBC/FT interne
+      periodicite: ANNUELLE
+      echeance: 28 février (2024)
+    - code: CI-PAYS-005
+      libelle: 'Rapports de contrôle global (caisses unitaires : 30/06 ; réseaux : 31/01 ; sociétés anonymes : 30/06)'
+      periodicite: ANNUELLE
+    - code: CI-PAYS-006
+      libelle: Mise à jour adresses, identification et points de vente
+      periodicite: EVENEMENT
+    modifier: []
+    desactiver: []
+    source: Communiqué Trésor CI du 15/03/2024 (relayé par Abidjan.net) ; ordonnance 2011-367 du 03/11/2011 ; décret 2014-20 du 22/01/2014
+    loiNationale: projet de loi microfinance adopté en Conseil des ministres le 29/04/2026, non promulgué
+  GW:
+    autorite: Ministère des Finances
+    statut: BASSE
+    ajouter: []
+    modifier: []
+    desactiver: []
+    note: NON TROUVÉ.
+    loiNationale: aucun texte ni structure nommée trouvés
+  ML:
+    autorite: CCS/SFD
+    statut: BASSE
+    ajouter: []
+    modifier: []
+    desactiver: []
+    note: Projet de nouvelle loi microfinance en préparation (2025) ; états spécifiques NON TROUVÉS.
+    loiNationale: réforme annoncée sept. 2025
+  NE:
+    autorite: ARSM — Agence de Régulation du Secteur de la Microfinance
+    statut: A_CONFIRMER
+    ajouter: []
+    modifier: []
+    desactiver: []
+    note: Transposition de la loi uniforme microfinance signalée en cours ; états spécifiques NON TROUVÉS.
+    loiNationale: loi 2014-059 ; transposition 2023 non trouvée
+  SN:
+    autorite: Ministre chargé des Finances (DRS) ; ministère de la Microfinance et de l'ESS ; Commission Bancaire pour les IMF atteignant le seuil
+    statut: MOYENNE
+    ajouter:
+    - UEMOA-REP-LOI-001
+    - UEMOA-REP-LOI-002
+    - UEMOA-REP-LOI-003
+    - UEMOA-REP-LOI-004
+    - UEMOA-REP-LOI-005
+    - UEMOA-REP-LOI-006
+    modifier: []
+    desactiver: []
+    note: 'Loi n°2025-04 du 19/02/2025 (JO 7817 du 25/03/2025) : les SFD deviennent IMF ; formes juridiques SA, SARL, coopérative ; adhésion au FGDR-UMOA (art. 99) ; Observatoire de la qualité des services
+      financiers (art. 98).'
+  TG:
+    autorite: Direction de la Microfinance (MEF)
+    statut: MOYENNE
+    ajouter: []
+    modifier: []
+    desactiver: []
+    note: Projet de loi nationale d'intégration du texte uniforme adopté en février 2026 (source secondaire) ; états spécifiques NON TROUVÉS.
+    loiNationale: loi 2026-005 du 24/03/2026 (JO n°25 bis du 09/04/2026, art. 99 FGDR)

@@ -1,0 +1,182 @@
+# Paquet RDC BCC - DRAFT 2026-10-19. Aucun compte invente : comptes null = NON TROUVE.
+# Expression : codes de lignes + - * / (constantes numeriques admises). Comptes : prefixes separes par virgule, '-' pour soustraire.
+# Extensions facultatives : note, base (MOYENNE_PERIODE), source (sous-journal metier).
+# layout : LIGNES | ANNEXE | DOCUMENT | RATIOS
+zone: RDC
+regulateur: BCC
+planComptable: PCCI
+version: draft-2026-10-19
+pays: [CD]
+typesAssujettis: [COOPEC, IMF, FAITIERE]
+devise: {presentation: CONFIGURABLE, tauxReference: "cours indicatif BCC du dernier jour (choix de produit, RDC-RPT-114)"}
+sanctions:
+  - {rapports: "RDC-REP-001..016", retardParJourUSD: 10, incompletParEtatUSD: 10}
+  - {rapports: "RDC-REP-028", retardParJourUSD: 5}
+  - {rapports: "RDC-REP-017", retardParJourUSD: 5}
+  - {motif: "etats non conformes PCCI", COOPEC_USD: 1000, IMF_USD: 2500}
+  - {note: "equivalent CDF, taux non precise ; Recueil BCC 2019 pp. 69-71 (OCR, MOYENNE)"}
+rapports:
+  - code: RDC-REP-001
+    libelle: Bilan (actif et passif)
+    periodicite: MENSUELLE
+    delaiJours: 15
+    assujettis: [COOPEC, IMF]
+    layout: LIGNES
+    source: "Instruction BCC 009, 14/04/2012, art. 1A"
+    lignes:
+      - {code: A_CAISSE, libelle: Caisse, comptes: "57", sens: D}
+      - {code: A_BANQUE, libelle: "Banque, organe faitier et autres IF", comptes: "56", sens: D}
+      - {code: A_CRED_CT, libelle: Credits a court terme, comptes: "32", sens: D}
+      - {code: A_CRED_MT, libelle: Credits a moyen terme, comptes: "31", sens: D}
+      - {code: A_CRED_LT, libelle: Credits a long terme, comptes: "30", sens: D}
+      - {code: A_LITIGIEUX, libelle: Creances litigieuses, comptes: "39", sens: D}
+      - {code: A_PROVISIONS, libelle: Provisions sur creances, comptes: "38", sens: C, note: "en deduction (proposition)"}
+      - {code: A_DEBITEURS, libelle: Debiteurs divers, comptes: "46", sens: D, note: "libelle de 46 non verifie"}
+      - {code: A_REGUL, libelle: Regularisations et emplois divers, comptes: "47", sens: D}
+      - {code: A_IMMO, libelle: Immobilisations nettes, comptes: "2", sens: D}
+      - {code: TOTAL_ACTIF, libelle: TOTAL ACTIF, expression: "A_CAISSE + A_BANQUE + A_CRED_CT + A_CRED_MT + A_CRED_LT + A_LITIGIEUX - A_PROVISIONS + A_DEBITEURS + A_REGUL + A_IMMO"}
+      - {code: P_EMPRUNTS_TRESO, libelle: "Emprunts a terme (faitier, autres IF)", comptes: null, sens: C, note: "NON TROUVE ; libelle modele: Emprunts a terme (organe faitier et autre IF) ; ne pas rattacher 16/162"}
+      - {code: P_EPARGNES, libelle: Epargnes et depots ordinaires, comptes: "33", sens: C}
+      - {code: P_DAT, libelle: Depots a terme, comptes: "34", sens: C}
+      - {code: P_REGIME_SPECIAL, libelle: Depots a regime special, comptes: "35", sens: C}
+      - {code: P_AUTRES_CLIENTELE, libelle: Autres comptes de la clientele, comptes: "36", sens: C}
+      - {code: P_LIAISON, libelle: Compte de liaison, comptes: "451", sens: C}
+      - {code: P_CREDITEURS, libelle: Crediteurs divers, comptes: "46", sens: C}
+      - {code: P_REGUL, libelle: Regularisations, comptes: "47", sens: C}
+      - {code: P_EMPRUNTS_MLT, libelle: Emprunts et dettes M et L terme, comptes: "16", sens: C}
+      - {code: P_CAPITAL, libelle: Capital, comptes: "10", sens: C}
+      - {code: P_REPORT, libelle: Report a nouveau, comptes: "120,-121", sens: C}
+      - {code: P_RESULTAT, libelle: Resultat net, comptes: "130,-131", sens: C}
+      - {code: P_RESERVES, libelle: "Reserves, provisions, fonds", comptes: "11,14,15,17,18", sens: C}
+      - {code: TOTAL_PASSIF, libelle: TOTAL PASSIF, expression: "P_EPARGNES + P_DAT + P_REGIME_SPECIAL + P_AUTRES_CLIENTELE + P_LIAISON + P_CREDITEURS + P_REGUL + P_EMPRUNTS_MLT + P_CAPITAL + P_REPORT + P_RESULTAT + P_RESERVES"}
+  - code: RDC-REP-002
+    libelle: Tableau de formation de resultat
+    periodicite: MENSUELLE
+    delaiJours: 15
+    assujettis: [COOPEC, IMF]
+    layout: LIGNES
+    source: "Instruction BCC 009 art. 1A et annexe rubrique 5"
+    lignes:
+      - {code: PNF, libelle: Produit net financier, comptes: "80", sens: C}
+      - {code: INT_CRED_MT, libelle: Interets sur credits MT, comptes: "711", sens: C}
+      - {code: INT_DAT, libelle: Interets sur depots a terme, comptes: "612", sens: D}
+      - {code: RBE, libelle: Resultat brut d'exploitation, comptes: "82", sens: C}
+      - {code: SUBVENTION, libelle: Subvention d'exploitation, comptes: null, note: "NON TROUVE compte PCCI ; rubrique sous RBE (Instr. 009 annexe, modele rapport d'activites)"}
+      - {code: CHARGES_PERSONNEL, libelle: Charges du personnel, comptes: null, note: "NON TROUVE compte PCCI ; rubrique sous RBE apres charges generales (Instr. 009 annexe)"}
+      - {code: RCE, libelle: Resultat courant d'exploitation, comptes: "83", sens: C}
+      - {code: DOT_PROVISIONS, libelle: Dotations aux provisions, comptes: "690", sens: D}
+      - {code: PERTES_CREANCES, libelle: Pertes sur creances irrecouvrables, comptes: "691", sens: D}
+      - {code: DOT_AMORT, libelle: Dotations aux amortissements, comptes: null, note: "NON TROUVE compte PCCI ; rubrique sous RCE (Instr. 009 annexe)"}
+      - {code: RES_EXCEPT, libelle: Resultat exceptionnel, comptes: "84", sens: C}
+      - {code: RAI, libelle: Resultat avant impot, comptes: "85", sens: C}
+      - {code: RESULTAT_NET, libelle: Resultat net de l'exercice, comptes: "87", sens: C}
+  - code: RDC-REP-003
+    libelle: Tableau de flux de tresorerie
+    periodicite: MENSUELLE
+    delaiJours: 15
+    assujettis: [COOPEC, IMF]
+    layout: LIGNES
+    source: "Instruction BCC 009 art. 1A (structure NON TROUVE)"
+    lignes:
+      - {code: VAR_TRESO, libelle: "Variation de tresorerie (proposition)", comptes: "56,57", sens: D}
+  # Annexes mensuelles 004 a 016 : structure NON TROUVEE, rattachements proposes
+  - {code: RDC-REP-004, libelle: Engagements normaux, periodicite: MENSUELLE, delaiJours: 15, assujettis: [COOPEC, IMF], layout: ANNEXE, source: "Instruction BCC 009 art. 1A", lignes: [{code: ENG_NORMAUX, libelle: Encours sains, comptes: "30,31,32", sens: D}]}
+  - {code: RDC-REP-005, libelle: Engagements litigieux, periodicite: MENSUELLE, delaiJours: 15, assujettis: [COOPEC, IMF], layout: ANNEXE, source: "Instruction BCC 009 art. 1A", lignes: [{code: ENG_LITIGIEUX, libelle: Encours litigieux, comptes: "39", sens: D}]}
+  - {code: RDC-REP-006, libelle: Ventilation des credits, periodicite: MENSUELLE, delaiJours: 15, assujettis: [COOPEC, IMF], layout: ANNEXE, source: "Instruction BCC 009 art. 1A", lignes: [{code: VENT_CREDITS, libelle: Credits, comptes: "30,31,32,39", sens: D}]}
+  - {code: RDC-REP-007, libelle: Ventilation des depots, periodicite: MENSUELLE, delaiJours: 15, assujettis: [COOPEC, IMF], layout: ANNEXE, source: "Instruction BCC 009 art. 1A", lignes: [{code: VENT_DEPOTS, libelle: Depots, comptes: "330,331,332,334,34,35,36", sens: C}]}
+  - {code: RDC-REP-008, libelle: Avoirs aupres de la faitiere et autres IF, periodicite: MENSUELLE, delaiJours: 15, assujettis: [COOPEC, IMF], layout: ANNEXE, source: "Instruction BCC 009 art. 1A", lignes: [{code: AVOIRS_IF, libelle: Avoirs, comptes: "56", sens: D}]}
+  - {code: RDC-REP-009, libelle: Engagements recus de la faitiere et autres IF, periodicite: MENSUELLE, delaiJours: 15, assujettis: [COOPEC, IMF], layout: ANNEXE, source: "Instruction BCC 009 art. 1A (compte NON TROUVE)", lignes: [{code: ENG_RECUS_IF, libelle: Engagements recus, comptes: null, sens: C}]}
+  - {code: RDC-REP-010, libelle: Avoirs et engagements par monnaies, periodicite: MENSUELLE, delaiJours: 15, assujettis: [COOPEC, IMF], layout: ANNEXE, source: "Instruction BCC 009 art. 1A", lignes: [{code: POS_CHANGE, libelle: Position de change, comptes: "472", sens: D}, {code: CV_POS_CHANGE, libelle: Contre-valeur position de change, comptes: "473", sens: C}]}
+  - code: RDC-REP-011
+    libelle: Creances en retard et provisions
+    periodicite: MENSUELLE
+    delaiJours: 15
+    assujettis: [COOPEC, IMF]
+    layout: ANNEXE
+    source: "Instruction BCC 009 art. 1A; Instruction BCC 003 art. 12"
+    lignes:
+      - {code: RET_1_30, libelle: "Retard 1-30 j", comptes: "3900", sens: D}
+      - {code: RET_31_60, libelle: "Retard 31-60 j", comptes: "3901", sens: D}
+      - {code: RET_61_90, libelle: "Retard 61-90 j", comptes: "3902", sens: D}
+      - {code: RET_91_180, libelle: "Retard 91-180 j", comptes: "3903", sens: D}
+      - {code: RET_181, libelle: "Retard 181 j et plus", comptes: "3904", sens: D}
+      - {code: PROV_1_30, libelle: "Provision 5 %", comptes: "3800", sens: C, norme: {operateur: ">=", valeur: 0.05}}
+      - {code: PROV_31_60, libelle: "Provision 25 %", comptes: "3801", sens: C, norme: {operateur: ">=", valeur: 0.25}}
+      - {code: PROV_61_90, libelle: "Provision 50 %", comptes: "3802", sens: C, norme: {operateur: ">=", valeur: 0.50}}
+      - {code: PROV_91_180, libelle: "Provision 75 %", comptes: "3803", sens: C, norme: {operateur: ">=", valeur: 0.75}}
+      - {code: PROV_181, libelle: "Provision 100 %", comptes: "3804", sens: C, norme: {operateur: ">=", valeur: 1.00}}
+  - {code: RDC-REP-012, libelle: Hors bilan litigieux, periodicite: MENSUELLE, delaiJours: 15, assujettis: [COOPEC, IMF], layout: ANNEXE, source: "Instruction BCC 009 art. 1A", lignes: [{code: HB_LITIGIEUX, libelle: Hors bilan litigieux, comptes: "061,0630,08", sens: D}]}
+  - {code: RDC-REP-013, libelle: Encours de credits AGR, periodicite: MENSUELLE, delaiJours: 15, assujettis: [COOPEC, IMF], layout: ANNEXE, source: "Instruction BCC 009 art. 1A", lignes: [{code: ENCOURS_AGR, libelle: Credits AGR, comptes: "324", sens: D}]}
+  - {code: RDC-REP-014, libelle: Balance agee par beneficiaire, periodicite: MENSUELLE, delaiJours: 15, assujettis: [COOPEC, IMF], layout: ANNEXE, source: "Instruction BCC 009 art. 1A (sous-journal credit)", lignes: [{code: BA_BENEF, libelle: Retards par beneficiaire, comptes: "390", sens: D}]}
+  - {code: RDC-REP-015, libelle: Balance agee par nature, periodicite: MENSUELLE, delaiJours: 15, assujettis: [COOPEC, IMF], layout: ANNEXE, source: "Instruction BCC 009 art. 1A", lignes: [{code: BA_NATURE, libelle: Retards par nature de credit, comptes: "390", sens: D}]}
+  - {code: RDC-REP-016, libelle: Emprunts et dettes M/LT, periodicite: MENSUELLE, delaiJours: 15, assujettis: [COOPEC, IMF], layout: ANNEXE, source: "Instruction BCC 009 art. 1A", lignes: [{code: EMPRUNTS_MLT, libelle: Emprunts M/LT, comptes: "16", sens: C}]}
+  # Annuels : delaiJours 180 (COOPEC) ; IMF 120 -> a distinguer par assujetti dans le moteur.
+  - {code: RDC-REP-017, libelle: Bilan certifie, periodicite: ANNUELLE, delaiJours: 180, assujettis: [COOPEC, IMF], layout: LIGNES, source: "Instruction BCC 009 art. 1B (IMF: 120 j)", reprend: RDC-REP-001, lignes: []}
+  - {code: RDC-REP-018, libelle: Compte d'exploitation certifie, periodicite: ANNUELLE, delaiJours: 180, assujettis: [COOPEC, IMF], layout: LIGNES, source: "Instruction BCC 009 art. 1B (IMF: 120 j)", reprend: RDC-REP-002, lignes: []}
+  - {code: RDC-REP-019, libelle: Annexe annuelle - ventilation des credits, periodicite: ANNUELLE, delaiJours: 180, assujettis: [COOPEC, IMF], layout: ANNEXE, source: "Instruction BCC 009 art. 1B", reprend: RDC-REP-006, lignes: []}
+  - {code: RDC-REP-020, libelle: Annexe annuelle - ventilation des depots, periodicite: ANNUELLE, delaiJours: 180, assujettis: [COOPEC, IMF], layout: ANNEXE, source: "Instruction BCC 009 art. 1B", reprend: RDC-REP-007, lignes: []}
+  - {code: RDC-REP-021, libelle: Annexe annuelle - creances en retard et provisions, periodicite: ANNUELLE, delaiJours: 180, assujettis: [COOPEC, IMF], layout: ANNEXE, source: "Instruction BCC 009 art. 1B", reprend: RDC-REP-011, lignes: []}
+  - {code: RDC-REP-022, libelle: Annexe annuelle - balance agee par nature, periodicite: ANNUELLE, delaiJours: 180, assujettis: [COOPEC, IMF], layout: ANNEXE, source: "Instruction BCC 009 art. 1B", reprend: RDC-REP-015, lignes: []}
+  - {code: RDC-REP-023, libelle: Rapport de controle interne global, periodicite: ANNUELLE, delaiJours: 180, assujettis: [COOPEC, IMF], layout: DOCUMENT, source: "Instruction BCC 009 art. 1B", lignes: []}
+  - {code: RDC-REP-024, libelle: Memorandum de gouvernance, periodicite: ANNUELLE, delaiJours: 180, assujettis: [COOPEC, IMF], layout: DOCUMENT, source: "Instruction BCC 009 art. 1B", lignes: []}
+  - {code: RDC-REP-025, libelle: Plan d'affaires triennal, periodicite: ANNUELLE, delaiJours: 180, assujettis: [COOPEC, IMF], layout: DOCUMENT, source: "Instruction BCC 009 art. 1B", lignes: []}
+  - {code: RDC-REP-026, libelle: Plan de continuite des activites, periodicite: ANNUELLE, delaiJours: 180, assujettis: [COOPEC, IMF], layout: DOCUMENT, source: "Instruction BCC 009 art. 1B", lignes: []}
+  - {code: RDC-REP-027, libelle: Proces-verbal de l'Assemblee Generale, periodicite: ANNUELLE, delaiJours: 180, assujettis: [COOPEC, IMF], layout: DOCUMENT, source: "Instruction BCC 009 art. 1B", lignes: []}
+  - {code: RDC-REP-028, libelle: Rapport d'activites annuel, periodicite: ANNUELLE, delaiJours: null, assujettis: [COOPEC, IMF], layout: DOCUMENT, source: "Instruction BCC 009 art. 3 et annexe (delai NON TROUVE)", lignes: []}
+  - code: RDC-REP-029
+    libelle: Ratios prudentiels
+    periodicite: ANNUELLE
+    delaiJours: null
+    assujettis: [COOPEC, IMF]
+    layout: RATIOS
+    source: "Instruction BCC 002 art. 6-43; Instruction BCC 009 annexe rubrique 6"
+    lignes:
+      - {code: FPP_BASE, libelle: Fonds propres de base, comptes: "10,110,111,120,130,144,170,171,-121,-131,-20,-252,-2510", sens: C, note: "moins capital non libere"}
+      - {code: FPP_COMPL, libelle: Fonds propres complementaires, comptes: "14,15,1622,172,18", sens: C, note: "plafonnes a FPP_BASE (regle hors expression)"}
+      - {code: FPP, libelle: Fonds propres prudentiels, expression: "FPP_BASE + FPP_COMPL"}
+      - {code: DISPONIBLES, libelle: Disponibilites, comptes: "57,56", sens: D}
+      - {code: DEPOTS_VUE, libelle: Depots a vue, comptes: "330,331,332", sens: C}
+      - {code: LIQUIDITE, libelle: Liquidite immediate, expression: "DISPONIBLES / DEPOTS_VUE", norme: {operateur: ">=", valeur: 0.20}}
+      - {code: RESS_STABLES, libelle: Ressources stables hors FPP, comptes: "34,35,16,-1622", sens: C}
+      - {code: EMPLOIS_STABLES, libelle: Emplois stables, comptes: "2,31,30,39", sens: D}
+      - {code: COUV_EMPLOIS, libelle: Couverture des emplois stables, expression: "(FPP + RESS_STABLES) / EMPLOIS_STABLES", norme: {operateur: ">=", valeur: 1.00}}
+      - {code: IMMO_RETENUES, libelle: Immobilisations retenues, comptes: "2,-251,-255,-20", sens: D}
+      - {code: COUV_IMMO, libelle: Immobilisations sur FPP, expression: "IMMO_RETENUES / FPP", norme: {operateur: "<=", valeur: 0.50}}
+      - {code: RWA, libelle: Actifs ponderes, expression: "0.25 * A_BANQUE + A_CRED_LT + A_CRED_MT + A_CRED_CT + A_LITIGIEUX", note: "ponderation de 57 (0 ou 20 %) et autres actifs NON TROUVE precisement"}
+      - {code: SOLVABILITE, libelle: Solvabilite, expression: "FPP / RWA", norme: {operateur: ">=", valeur: 0.10}, note: "hors entreprises de micro credit"}
+      - {code: RISQUE_CLIENT_IMF, libelle: Risque sur un client (IMF), source: sous-journal credit, norme: {operateur: "<=", valeur: 0.05}, note: "sur FPP"}
+      - {code: RISQUE_MEMBRE_COOPEC, libelle: Risque sur un membre (COOPEC), source: sous-journal credit, norme: {operateur: "<=", valeur: 0.10}, note: "10 % des FPP (Instr. 002 art. 29)"}
+      - {code: RISQUES_TOTAL_COOPEC, libelle: Ensemble des risques COOPEC, expression: "RISQUES_NUM / DEPOTS_TOTAL", norme: {operateur: "<=", valeur: 2.0}, note: "Instr. 002 art. 22-24, COOPEC uniquement"}
+      - {code: RISQUES_NUM, libelle: Risques (numerateur), comptes: "30,31,32,33,34,35,36,37,38,39,25,53,56", sens: D, note: "+ hors bilan (art. 23) ; prefixes 30-39 cites par l'Instr. 002"}
+      - {code: DEPOTS_TOTAL, libelle: Depots (denominateur), comptes: "33,34,35,36,373", sens: C, note: "Instr. 002 art. 24"}
+      - {code: APPARENTES, libelle: Credits aux apparentes, source: sous-journal credit, norme: {operateur: "<=", valeur: 0.20}, note: "sur FPP (COOPEC: sur depots)"}
+      - {code: PARTICIPATIONS, libelle: Participations, comptes: "25", sens: D, norme: {operateur: "<=", valeur: 0.25}, note: "sur FPP"}
+      - {code: POSITION_CHANGE_DEVISE, libelle: Position de change par devise, source: soldes par devise, norme: {operateur: "<=", valeur: 0.05}, note: "-5 % a +5 %, jusqu'a 15 % devises principales"}
+      - {code: POSITION_CHANGE_GLOBALE, libelle: Position de change globale, source: soldes par devise, norme: {operateur: "<=", valeur: 0.15}}
+      - {code: CAPITALISATION, libelle: Capitalisation, expression: null, note: "Rubrique du modele rapport d'activites (Instr. 009 annexe) ; aucune formule dans l'Instr. 002 : NON TROUVE"}
+  - code: RDC-REP-030
+    libelle: Indicateurs de performance
+    periodicite: ANNUELLE
+    delaiJours: null
+    assujettis: [COOPEC, IMF]
+    layout: RATIOS
+    source: "Instruction BCC 004, annexe"
+    lignes:
+      - {code: PORTEFEUILLE_BRUT, libelle: Portefeuille brut, comptes: "30,31,32,39", sens: D, note: "rattachement propose (Instr. 002 art. 22 cite 30-39)"}
+      - {code: CRD_EN_RETARD, libelle: Capital restant du des credits avec retard, source: sous-journal credit, note: "inclut credits sains d'un membre ayant un credit litigieux (Instr. 003 art. 6)"}
+      - {code: PAR, libelle: Portefeuille a risque, expression: "CRD_EN_RETARD / PORTEFEUILLE_BRUT", norme: {operateur: "<", valeur: 0.05}}
+      - {code: ABANDON, libelle: Ratio d'abandon des creances, expression: "PERTES_CREANCES / PORTEFEUILLE_BRUT", base: MOYENNE_PERIODE, norme: {operateur: "<", valeur: 0.02}}
+      - {code: EFFICACITE_OP, libelle: Efficacite operationnelle, source: "charges d'exploitation / portefeuille brut moyen", base: MOYENNE_PERIODE, norme: {operateur: "<=", valeur: 0.21}, note: "plage 13-21 %; comptes de charges NON TROUVE"}
+      - {code: EMPR_PAR_AGENT, libelle: Emprunteurs par agent de credit, source: "sous-journal credit + RH", norme: {operateur: ">", valeur: 130}}
+      - {code: ROE, libelle: Rentabilite des fonds propres, source: "resultat d'exploitation hors subvention / fonds propres moyens", base: MOYENNE_PERIODE, norme: {operateur: ">", valeur: 0.15}}
+      - {code: ROA, libelle: Rendement sur actif, source: "resultat d'exploitation hors subvention / actif moyen", base: MOYENNE_PERIODE, norme: {operateur: ">", valeur: 0.03}}
+      - {code: RENDEMENT_PORTEFEUILLE, libelle: Rendement du portefeuille, source: "interets et commissions percus / encours moyen brut", base: MOYENNE_PERIODE, norme: {operateur: ">", valeur: 0.15}}
+      - {code: AUTOSUFFISANCE, libelle: Autosuffisance operationnelle, source: "produits / charges d'exploitation hors exceptionnels", norme: {operateur: ">", valeur: 1.192}}
+      - {code: ENCAISSE_OISIVE, libelle: Taux d'encaisse oisive, expression: "DISPONIBLES / TOTAL_ACTIF", norme: {operateur: "<", valeur: 0.20}}
+      - {code: TAUX_ENCOURS, libelle: Taux d'encours de credit, expression: "PORTEFEUILLE_BRUT / TOTAL_ACTIF", norme: {operateur: ">", valeur: 0.70}}
+      - {code: TAUX_IMMO, libelle: Taux des immobilisations, expression: "A_IMMO / TOTAL_ACTIF", norme: {operateur: "<", valeur: 0.10}}
+  - {code: RDC-REP-031, libelle: Conditions de banque, periodicite: TRIMESTRIELLE, evenementiel: "a chaque changement", delaiJours: null, assujettis: [IMF], note: "COOPEC a confirmer", layout: DOCUMENT, source: "Instruction BCC 40, art. 1 et 3 (Recueil BCC 2019)", lignes: []}
+  - {code: RDC-REP-032, libelle: Declaration de soupcon LBC/FT (CENAREF), periodicite: EVENEMENTIELLE, delaiJours: null, assujettis: [COOPEC, IMF], layout: DOCUMENT, source: "Loi 22/068 art. 92 (sans delai) ; Instruction BCC 15 art. 12-16", delaiJours: 0, format: NON_TROUVE, lignes: []}
+  - {code: RDC-REP-033, libelle: Centrale des risques, statut: NON_APPLICABLE_PAR_DEFAUT, layout: DOCUMENT, source: "Instr. 5 mod. 3 art. 1, reglement art. 2 (Recueil 2019 pp. 38-42)", note: "vise les etablissements de credit ; IMF/COOPEC non participants selon le texte lu", lignes: []}
+  - {code: RDC-REP-034, libelle: Rapport trimestriel des plaintes, periodicite: TRIMESTRIELLE, delaiJours: null, assujettis: [IMF], note: "COOPEC a confirmer ; confiance MOYENNE", layout: DOCUMENT, source: "Instruction BCC 39 art. 19", lignes: []}
+  - {code: RDC-REP-035, libelle: Etats consolides de la faitiere, periodicite: ANNUELLE, delaiJours: null, assujettis: [FAITIERE], layout: DOCUMENT, source: "Instruction BCC 0011 art. 47", note: "etats consolides + etats certifies de chaque affilie + transmission des rapports 009 des affilies", lignes: []}

@@ -1,0 +1,2778 @@
+# paquet-draft.yml — états financiers OHADA (SYSCOHADA système normal / SMT, SYCEBNL). Brouillon de recherche 2026-10-19.
+# Format : zone, rapports[ {code,libelle,periodicite,delaiJours,assujettis,layout,source,lignes[ {code,libelle,comptes|expression,sens,colonnes} ]} ]
+zone: OHADA
+regulateur: OHADA (AUDCIF 26/01/2017 ; Acte uniforme SYCEBNL 22/12/2022)
+planComptable: SYSCOHADA révisé (PCG OHADA 2017) / SYCEBNL (JO OHADA 22/02/2023)
+version: draft-2026-10-19
+statut: 'BROUILLON non committé : à valider (vérification ◐/?)'
+conventions:
+  comptes: préfixes séparés par virgule ; '-' devant un préfixe = solde retranché (amortissements 28, dépréciations 29, 39, 49, 59)
+  expression: codes de postes du même rapport + - * / ; 'RAPPORT.CODE' = poste d'un autre rapport ; suffixe [N-1] = exercice précédent
+  soldeRetenu: DEBITEUR | CREDITEUR ; absent = solde retenu quel que soit le sens ; les comptes déduits (-) sont toujours retenus quel que soit le sens
+  extensionsTFT: 'flux: MOUVEMENTS_DEBIT|MOUVEMENTS_CREDIT ; variationCreances/variationDettes/variationStocks = comptes dont la variation N-1 -> N corrige l''encaissement/décaissement'
+  confiance: HAUTE = ref+libellé+structure lus dans texte primaire (JO) ; MOYENNE = comptes dérivés du plan officiel ou du JSON existant ; BASSE = rattachement hypothétique
+rapports:
+- code: SYSN-BILAN-ACTIF
+  libelle: Bilan - Actif (système normal)
+  periodicite: ANNUELLE
+  delaiJours: 120
+  assujettis: Toute entité hors exceptions art. 5 AUDCIF (SFD, établissements de crédit, assurances, EBNL exclus) soumise au système normal (CA HT >= seuils SMT art. 13)
+  layout: BILAN_BICOLONNE
+  source: 'AUDCIF 26/01/2017 art. 8, 26, 30-32 (structure) ; modèle de liasse (refs/libellés) recoupé avec https://www.brvm.org/sites/default/files/sodeci_liasse_syscohada_revise_2019.pdf ; comptes : etats-financiers.json
+    (sfd-comptabilite-service)'
+  confiance: MOYENNE
+  colonnes:
+  - brut_n
+  - amort_n
+  - net_n
+  - net_n1
+  lignes:
+  - code: AD
+    libelle: IMMOBILISATIONS INCORPORELLES
+    expression: AE+AF+AG+AH
+    note: '3'
+    niveau: SOUS_TOTAL
+    confiance: MOYENNE
+  - code: AE
+    libelle: Frais de développement et de prospection
+    comptes: 211,-28211,-29211
+    note: '3'
+    sens: DEBIT
+    confiance: MOYENNE
+  - code: AF
+    libelle: Brevets, licences, logiciels et droits similaires
+    comptes: 212,213,214,-28212,-28213,-28214,-29212,-29213,-29214
+    note: '3'
+    sens: DEBIT
+    confiance: MOYENNE
+  - code: AG
+    libelle: Fonds commercial et droit au bail
+    comptes: 215,216,-28215,-28216,-29215,-29216
+    note: '3'
+    sens: DEBIT
+    confiance: MOYENNE
+  - code: AH
+    libelle: Autres immobilisations incorporelles
+    comptes: 217,218,-28217,-28218,-29217,-29218,219,-2919
+    note: '3'
+    sens: DEBIT
+    confiance: MOYENNE
+    ecart: 219 'Immobilisations incorporelles en cours' absent du JSON existant (217,218 seulement)
+  - code: AI
+    libelle: IMMOBILISATIONS CORPORELLES
+    expression: AJ+AK+AL+AM+AN
+    note: '3'
+    niveau: SOUS_TOTAL
+    confiance: MOYENNE
+  - code: AJ
+    libelle: Terrains
+    comptes: 22,-2822,-2922
+    note: '3'
+    sens: DEBIT
+    confiance: MOYENNE
+  - code: AK
+    libelle: Bâtiments
+    comptes: 231,232,233,237,-2831,-2832,-2833,-2837,-2931,-2932,-2933,239,-2939
+    note: '3'
+    sens: DEBIT
+    confiance: MOYENNE
+    ecart: 239 'Bâtiments... en cours' absent du JSON existant
+  - code: AL
+    libelle: Aménagements, agencements et installations
+    comptes: 234,235,238,-2834,-2835,-2838
+    note: '3'
+    sens: DEBIT
+    confiance: MOYENNE
+  - code: AM
+    libelle: Matériel, mobilier et actifs biologiques
+    comptes: 241,242,243,244,246,247,248,-2841,-2842,-2843,-2844,-2846,-2847,-2848,-2941,-2944,249,-2949
+    note: '3'
+    sens: DEBIT
+    confiance: MOYENNE
+    ecart: 249 'Matériels et actifs biologiques en cours' absent du JSON existant
+  - code: AN
+    libelle: Matériel de transport
+    comptes: 245,-2845,-2945
+    note: '3'
+    sens: DEBIT
+    confiance: MOYENNE
+  - code: AP
+    libelle: Avances et acomptes versés sur immobilisations
+    comptes: 251,252,-2951,-2952
+    note: '3'
+    sens: DEBIT
+    confiance: MOYENNE
+  - code: AQ
+    libelle: IMMOBILISATIONS FINANCIERES
+    expression: AR+AS
+    note: '4'
+    niveau: SOUS_TOTAL
+    confiance: MOYENNE
+  - code: AR
+    libelle: Titres de participation
+    comptes: 26,-296
+    note: '4'
+    sens: DEBIT
+    confiance: MOYENNE
+  - code: AS
+    libelle: Autres immobilisations financières
+    comptes: 27,-297
+    note: '4'
+    sens: DEBIT
+    confiance: MOYENNE
+  - code: AZ
+    libelle: TOTAL ACTIF IMMOBILISE
+    expression: AD+AI+AP+AQ
+    niveau: TOTAL
+    confiance: MOYENNE
+  - code: BA
+    libelle: ACTIF CIRCULANT HAO
+    comptes: 485,488,-498
+    soldeRetenu: DEBITEUR
+    note: '5'
+    sens: DEBIT
+    confiance: MOYENNE
+  - code: BB
+    libelle: STOCKS ET ENCOURS
+    comptes: 31,32,33,34,35,36,37,38,-39
+    note: '6'
+    sens: DEBIT
+    confiance: MOYENNE
+  - code: BG
+    libelle: CREANCES ET EMPLOIS ASSIMILES
+    expression: BH+BI+BJ
+    niveau: SOUS_TOTAL
+    confiance: MOYENNE
+  - code: BH
+    libelle: Fournisseurs avances versées
+    comptes: 409,-4909
+    soldeRetenu: DEBITEUR
+    note: '17'
+    sens: DEBIT
+    confiance: MOYENNE
+  - code: BI
+    libelle: Clients
+    comptes: 411,412,413,414,415,416,418,-491
+    soldeRetenu: DEBITEUR
+    note: '7'
+    sens: DEBIT
+    confiance: MOYENNE
+  - code: BJ
+    libelle: Autres créances
+    comptes: 42,43,44,45,46,471,472,473,474,475,476,-492,-493,-494,-495,-496,-497
+    soldeRetenu: DEBITEUR
+    note: '8'
+    sens: DEBIT
+    confiance: MOYENNE
+  - code: BK
+    libelle: TOTAL ACTIF CIRCULANT
+    expression: BA+BB+BG
+    niveau: TOTAL
+    confiance: MOYENNE
+  - code: BQ
+    libelle: Titres de placement
+    comptes: 50,-590
+    note: '9'
+    sens: DEBIT
+    confiance: MOYENNE
+  - code: BR
+    libelle: Valeurs à encaisser
+    comptes: 51,-591
+    note: '10'
+    sens: DEBIT
+    confiance: MOYENNE
+  - code: BS
+    libelle: Banques, Chèques postaux, Caisse et assimilés
+    comptes: 52,53,54,55,57,58,-592,-593,-594
+    soldeRetenu: DEBITEUR
+    note: '11'
+    sens: DEBIT
+    confiance: MOYENNE
+  - code: BT
+    libelle: TOTAL TRESORERIE - ACTIF
+    expression: BQ+BR+BS
+    niveau: TOTAL
+    confiance: MOYENNE
+  - code: BU
+    libelle: Ecarts de conversion-Actif
+    comptes: '478'
+    soldeRetenu: DEBITEUR
+    note: '12'
+    sens: DEBIT
+    confiance: MOYENNE
+  - code: BZ
+    libelle: TOTAL GENERAL
+    expression: AZ+BK+BT+BU
+    niveau: TOTAL
+    confiance: MOYENNE
+- code: SYSN-BILAN-PASSIF
+  libelle: Bilan - Passif (système normal)
+  periodicite: ANNUELLE
+  delaiJours: 120
+  assujettis: Toute entité hors exceptions art. 5 AUDCIF (SFD, établissements de crédit, assurances, EBNL exclus) soumise au système normal (CA HT >= seuils SMT art. 13)
+  layout: BILAN_BICOLONNE
+  source: 'AUDCIF 26/01/2017 art. 8, 26, 30-32 (structure) ; modèle de liasse (refs/libellés) recoupé avec https://www.brvm.org/sites/default/files/sodeci_liasse_syscohada_revise_2019.pdf ; comptes : etats-financiers.json
+    (sfd-comptabilite-service)'
+  confiance: MOYENNE
+  colonnes:
+  - montant_n
+  - montant_n1
+  lignes:
+  - code: CA
+    libelle: Capital social
+    comptes: 101,102,103,104
+    soldeRetenu: CREDITEUR
+    note: '13'
+    signe: 1
+    sens: CREDIT
+    confiance: MOYENNE
+    ecart: 'compte 108 ''Compte de l''exploitant'' non mappé (entreprise individuelle) : à vérifier sur le PCG officiel'
+  - code: CB
+    libelle: Apporteurs capital non appelé
+    comptes: '109'
+    note: '13'
+    signe: -1
+    sens: CREDIT
+    confiance: MOYENNE
+  - code: CD
+    libelle: Primes liées au capital social
+    comptes: '105'
+    soldeRetenu: CREDITEUR
+    note: '14'
+    signe: 1
+    sens: CREDIT
+    confiance: MOYENNE
+  - code: CE
+    libelle: Ecarts de réévaluation
+    comptes: '106'
+    soldeRetenu: CREDITEUR
+    note: 3E
+    signe: 1
+    sens: CREDIT
+    confiance: MOYENNE
+  - code: CF
+    libelle: Réserves indisponibles
+    comptes: 111,112,113
+    soldeRetenu: CREDITEUR
+    note: '14'
+    signe: 1
+    sens: CREDIT
+    confiance: MOYENNE
+  - code: CG
+    libelle: Réserves libres
+    comptes: '118'
+    soldeRetenu: CREDITEUR
+    note: '14'
+    signe: 1
+    sens: CREDIT
+    confiance: MOYENNE
+  - code: CH
+    libelle: Report à nouveau ( + ou - )
+    comptes: 121,129
+    note: '14'
+    signe: 1
+    sens: CREDIT
+    confiance: MOYENNE
+  - code: CJ
+    libelle: Résultat de l'exercice ( bénéfice ou perte )
+    comptes: 130,131,139
+    signe: 1
+    sens: CREDIT
+    confiance: MOYENNE
+  - code: CL
+    libelle: Subventions d'investissement
+    comptes: '14'
+    soldeRetenu: CREDITEUR
+    note: '15'
+    signe: 1
+    sens: CREDIT
+    confiance: MOYENNE
+  - code: CM
+    libelle: Provisions réglementées
+    comptes: '15'
+    soldeRetenu: CREDITEUR
+    note: '15'
+    signe: 1
+    sens: CREDIT
+    confiance: MOYENNE
+  - code: CP
+    libelle: TOTAL CAPITAUX PROPRES ET RESSOURCES ASSIMILEES
+    expression: CA+CB+CD+CE+CF+CG+CH+CJ+CL+CM
+    niveau: TOTAL
+    confiance: MOYENNE
+  - code: DA
+    libelle: Emprunts et dettes financières diverses
+    comptes: 161,162,163,164,165,166,167,168,181,182,183,184
+    soldeRetenu: CREDITEUR
+    note: '16'
+    signe: 1
+    sens: CREDIT
+    confiance: MOYENNE
+  - code: DB
+    libelle: Dettes de location acquisition
+    comptes: '17'
+    soldeRetenu: CREDITEUR
+    note: '16'
+    signe: 1
+    sens: CREDIT
+    confiance: MOYENNE
+  - code: DC
+    libelle: Provisions financières pour risques et charges
+    comptes: '19'
+    soldeRetenu: CREDITEUR
+    note: '16'
+    signe: 1
+    sens: CREDIT
+    confiance: MOYENNE
+  - code: DD
+    libelle: TOTAL DETTES FINANCIERES ET RESSOURCES ASSIMILEES
+    expression: DA+DB+DC
+    niveau: TOTAL
+    confiance: MOYENNE
+  - code: DF
+    libelle: TOTAL RESSOURCES STABLES
+    expression: CP+DD
+    niveau: TOTAL
+    confiance: MOYENNE
+  - code: DH
+    libelle: Dettes circulantes H.A.O.
+    comptes: 481,482,484,488
+    soldeRetenu: CREDITEUR
+    note: '5'
+    signe: 1
+    sens: CREDIT
+    confiance: MOYENNE
+  - code: DI
+    libelle: Clients avances reçues
+    comptes: '419'
+    soldeRetenu: CREDITEUR
+    note: '7'
+    signe: 1
+    sens: CREDIT
+    confiance: MOYENNE
+  - code: DJ
+    libelle: Fournisseurs d'exploitation
+    comptes: 401,402,408
+    soldeRetenu: CREDITEUR
+    note: '17'
+    signe: 1
+    sens: CREDIT
+    confiance: MOYENNE
+  - code: DK
+    libelle: Dettes fiscales et sociales
+    comptes: 42,43,44
+    soldeRetenu: CREDITEUR
+    note: '18'
+    signe: 1
+    sens: CREDIT
+    confiance: MOYENNE
+  - code: DM
+    libelle: Autres dettes
+    comptes: 45,46,471,472,473,474,475,476,477
+    soldeRetenu: CREDITEUR
+    note: '19'
+    signe: 1
+    sens: CREDIT
+    confiance: MOYENNE
+    ecart: '477 ''Produits constatés d''avance'' (solde créditeur) absent du JSON existant (ni BJ ni DM) : bilan déséquilibré si 477 mouvementé'
+  - code: DN
+    libelle: Provisions pour risques à court terme
+    comptes: 499,599
+    soldeRetenu: CREDITEUR
+    note: '19'
+    signe: 1
+    sens: CREDIT
+    confiance: MOYENNE
+  - code: DP
+    libelle: TOTAL PASSIF CIRCULANT
+    expression: DH+DI+DJ+DK+DM+DN
+    niveau: TOTAL
+    confiance: MOYENNE
+  - code: DQ
+    libelle: Banques, crédits d'escompte
+    comptes: 564,565
+    soldeRetenu: CREDITEUR
+    note: '20'
+    signe: 1
+    sens: CREDIT
+    confiance: MOYENNE
+  - code: DR
+    libelle: Banques, établissements financiers et crédits de trésorerie
+    comptes: 52,561,566
+    soldeRetenu: CREDITEUR
+    note: '20'
+    signe: 1
+    sens: CREDIT
+    confiance: MOYENNE
+  - code: DT
+    libelle: TOTAL TRESORERIE - PASSIF
+    expression: DQ+DR
+    niveau: TOTAL
+    confiance: MOYENNE
+  - code: DU
+    libelle: Ecarts de conversion - Passif
+    comptes: '479'
+    soldeRetenu: CREDITEUR
+    note: '12'
+    signe: 1
+    sens: CREDIT
+    confiance: MOYENNE
+  - code: DZ
+    libelle: TOTAL GENERAL
+    expression: DF+DP+DT+DU
+    niveau: TOTAL
+    confiance: MOYENNE
+- code: SYSN-RESULTAT
+  libelle: Compte de résultat (système normal)
+  periodicite: ANNUELLE
+  delaiJours: 120
+  assujettis: Toute entité hors exceptions art. 5 AUDCIF (SFD, établissements de crédit, assurances, EBNL exclus) soumise au système normal (CA HT >= seuils SMT art. 13)
+  layout: CR_VERTICAL
+  source: 'AUDCIF 26/01/2017 art. 8, 26, 30-32 (structure) ; modèle de liasse (refs/libellés) recoupé avec https://www.brvm.org/sites/default/files/sodeci_liasse_syscohada_revise_2019.pdf ; comptes : etats-financiers.json
+    (sfd-comptabilite-service)'
+  confiance: MOYENNE
+  colonnes:
+  - montant_n
+  - montant_n1
+  lignes:
+  - code: TA
+    libelle: Ventes de marchandises
+    comptes: '701'
+    soldeRetenu: CREDITEUR
+    note: '21'
+    signe: 1
+    sens: CREDIT
+    confiance: MOYENNE
+  - code: RA
+    libelle: Achats de marchandises
+    comptes: '601'
+    soldeRetenu: DEBITEUR
+    note: '22'
+    signe: -1
+    sens: DEBIT
+    confiance: MOYENNE
+  - code: RB
+    libelle: Variation de stocks de marchandises
+    comptes: '6031'
+    note: '6'
+    signe: -1
+    sens: DEBIT
+    confiance: MOYENNE
+  - code: XA
+    libelle: MARGE COMMERCIALE (Somme TA à RB)
+    expression: TA-RA-RB
+    niveau: SOLDE
+    confiance: MOYENNE
+  - code: TB
+    libelle: Ventes de produits fabriqués
+    comptes: 702,703,704
+    soldeRetenu: CREDITEUR
+    note: '21'
+    signe: 1
+    sens: CREDIT
+    confiance: MOYENNE
+  - code: TC
+    libelle: Travaux, services vendus
+    comptes: 705,706
+    soldeRetenu: CREDITEUR
+    note: '21'
+    signe: 1
+    sens: CREDIT
+    confiance: MOYENNE
+  - code: TD
+    libelle: Produits accessoires
+    comptes: '707'
+    soldeRetenu: CREDITEUR
+    note: '21'
+    signe: 1
+    sens: CREDIT
+    confiance: MOYENNE
+  - code: XB
+    libelle: CHIFFRE D'AFFAIRES (A + B + C + D)
+    expression: TA+TB+TC+TD
+    niveau: SOLDE
+    confiance: MOYENNE
+  - code: TE
+    libelle: Production stockée (ou déstockage)
+    comptes: 734,735,736,737
+    note: '6'
+    signe: 1
+    sens: CREDIT
+    confiance: MOYENNE
+  - code: TF
+    libelle: Production immobilisée
+    comptes: '72'
+    soldeRetenu: CREDITEUR
+    note: '21'
+    signe: 1
+    sens: CREDIT
+    confiance: MOYENNE
+  - code: TG
+    libelle: Subventions d'exploitation
+    comptes: '71'
+    soldeRetenu: CREDITEUR
+    note: '21'
+    signe: 1
+    sens: CREDIT
+    confiance: MOYENNE
+  - code: TH
+    libelle: Autres produits
+    comptes: '75'
+    soldeRetenu: CREDITEUR
+    note: '21'
+    signe: 1
+    sens: CREDIT
+    confiance: MOYENNE
+  - code: TI
+    libelle: Transferts de charges d'exploitation
+    comptes: '781'
+    soldeRetenu: CREDITEUR
+    note: '12'
+    signe: 1
+    sens: CREDIT
+    confiance: MOYENNE
+  - code: RC
+    libelle: Achats de matières premières et fournitures liées
+    comptes: '602'
+    soldeRetenu: DEBITEUR
+    note: '22'
+    signe: -1
+    sens: DEBIT
+    confiance: MOYENNE
+  - code: RD
+    libelle: Variation de stocks de matières premières et fournitures liées
+    comptes: '6032'
+    note: '6'
+    signe: -1
+    sens: DEBIT
+    confiance: MOYENNE
+  - code: RE
+    libelle: Autres achats
+    comptes: 604,605,608
+    soldeRetenu: DEBITEUR
+    note: '22'
+    signe: -1
+    sens: DEBIT
+    confiance: MOYENNE
+  - code: RF
+    libelle: Variation de stocks d'autres approvisionnements
+    comptes: '6033'
+    note: '6'
+    signe: -1
+    sens: DEBIT
+    confiance: MOYENNE
+  - code: RG
+    libelle: Transports
+    comptes: '61'
+    soldeRetenu: DEBITEUR
+    note: '23'
+    signe: -1
+    sens: DEBIT
+    confiance: MOYENNE
+  - code: RH
+    libelle: Services extérieurs
+    comptes: 62,63
+    soldeRetenu: DEBITEUR
+    note: '24'
+    signe: -1
+    sens: DEBIT
+    confiance: MOYENNE
+  - code: RI
+    libelle: Impôts et taxes
+    comptes: '64'
+    soldeRetenu: DEBITEUR
+    note: '25'
+    signe: -1
+    sens: DEBIT
+    confiance: MOYENNE
+  - code: RJ
+    libelle: Autres charges
+    comptes: '65'
+    soldeRetenu: DEBITEUR
+    note: '26'
+    signe: -1
+    sens: DEBIT
+    confiance: MOYENNE
+  - code: XC
+    libelle: VALEUR AJOUTEE
+    expression: XB-RA-RB+TE+TF+TG+TH+TI-RC-RD-RE-RF-RG-RH-RI-RJ
+    niveau: SOLDE
+    confiance: MOYENNE
+  - code: RK
+    libelle: Charges de personnel
+    comptes: '66'
+    soldeRetenu: DEBITEUR
+    note: '27'
+    signe: -1
+    sens: DEBIT
+    confiance: MOYENNE
+  - code: XD
+    libelle: EXCEDENT BRUT D'EXPLOITATION
+    expression: XC-RK
+    niveau: SOLDE
+    confiance: MOYENNE
+  - code: TJ
+    libelle: Reprises d'amortissements, provisions et dépréciations
+    comptes: 791,798,799
+    soldeRetenu: CREDITEUR
+    note: '28'
+    signe: 1
+    sens: CREDIT
+    confiance: MOYENNE
+  - code: RL
+    libelle: Dotations aux amortissements, aux provisions et aux dépréciations
+    comptes: 681,691
+    soldeRetenu: DEBITEUR
+    note: 3C&28
+    signe: -1
+    sens: DEBIT
+    confiance: MOYENNE
+  - code: XE
+    libelle: RESULTAT D'EXPLOITATION
+    expression: XD+TJ-RL
+    niveau: SOLDE
+    confiance: MOYENNE
+  - code: TK
+    libelle: Revenus financiers et assimilés
+    comptes: '77'
+    soldeRetenu: CREDITEUR
+    note: '29'
+    signe: 1
+    sens: CREDIT
+    confiance: MOYENNE
+  - code: TL
+    libelle: Reprises de provisions et dépréciations financières
+    comptes: '797'
+    soldeRetenu: CREDITEUR
+    note: '28'
+    signe: 1
+    sens: CREDIT
+    confiance: MOYENNE
+  - code: TM
+    libelle: Transferts de charges financières
+    comptes: '787'
+    soldeRetenu: CREDITEUR
+    note: '12'
+    signe: 1
+    sens: CREDIT
+    confiance: MOYENNE
+  - code: RM
+    libelle: Frais financiers et charges assimilées
+    comptes: '67'
+    soldeRetenu: DEBITEUR
+    note: '29'
+    signe: -1
+    sens: DEBIT
+    confiance: MOYENNE
+  - code: RN
+    libelle: Dotations aux provisions et aux dépréciations financières
+    comptes: 687,697
+    soldeRetenu: DEBITEUR
+    note: 3C&28
+    signe: -1
+    sens: DEBIT
+    confiance: MOYENNE
+  - code: XF
+    libelle: RESULTAT FINANCIER
+    expression: TK+TL+TM-RM-RN
+    niveau: SOLDE
+    confiance: MOYENNE
+  - code: XG
+    libelle: RESULTAT DES ACTIVITES ORDINAIRES
+    expression: XE+XF
+    niveau: SOLDE
+    confiance: MOYENNE
+  - code: TN
+    libelle: Produits des cessions d'immobilisations
+    comptes: '82'
+    soldeRetenu: CREDITEUR
+    note: 3D
+    signe: 1
+    sens: CREDIT
+    confiance: MOYENNE
+  - code: TO
+    libelle: Autres Produits HAO
+    comptes: 84,86,88
+    soldeRetenu: CREDITEUR
+    note: '30'
+    signe: 1
+    sens: CREDIT
+    confiance: MOYENNE
+  - code: RO
+    libelle: Valeurs comptables des cessions d'immobilisations
+    comptes: '81'
+    soldeRetenu: DEBITEUR
+    note: 3D
+    signe: -1
+    sens: DEBIT
+    confiance: MOYENNE
+  - code: RP
+    libelle: Autres Charges HAO
+    comptes: 83,85
+    soldeRetenu: DEBITEUR
+    note: '30'
+    signe: -1
+    sens: DEBIT
+    confiance: MOYENNE
+  - code: XH
+    libelle: RESULTAT HORS ACTIVITES ORDINAIRES
+    expression: TN+TO-RO-RP
+    niveau: SOLDE
+    confiance: MOYENNE
+  - code: RQ
+    libelle: Participation des travailleurs
+    comptes: '87'
+    soldeRetenu: DEBITEUR
+    note: '30'
+    signe: -1
+    sens: DEBIT
+    confiance: MOYENNE
+  - code: RS
+    libelle: Impôts sur le résultat
+    comptes: 891,892,895,899
+    soldeRetenu: DEBITEUR
+    signe: -1
+    sens: DEBIT
+    confiance: MOYENNE
+    ecart: 899 'Dégrèvements... impôts sur résultats antérieurs' absent du JSON existant (891,892,895)
+  - code: XI
+    libelle: RESULTAT NET
+    expression: XG+XH-RQ-RS
+    niveau: SOLDE
+    confiance: MOYENNE
+- code: SYSN-TFT
+  libelle: Tableau des flux de trésorerie (système normal)
+  periodicite: ANNUELLE
+  delaiJours: 120
+  assujettis: Toute entité hors exceptions art. 5 AUDCIF (SFD, établissements de crédit, assurances, EBNL exclus) soumise au système normal (CA HT >= seuils SMT art. 13)
+  layout: TFT_VERTICAL
+  source: 'AUDCIF 26/01/2017 art. 8, 26, 30-32 (structure) ; modèle de liasse (refs/libellés) recoupé avec https://www.brvm.org/sites/default/files/sodeci_liasse_syscohada_revise_2019.pdf ; comptes : etats-financiers.json
+    (sfd-comptabilite-service)'
+  confiance: MOYENNE
+  colonnes:
+  - montant_n
+  - montant_n1
+  lignes:
+  - code: ZA
+    libelle: Trésorerie nette au 1er janvier (Trésorerie actif N-1 - Trésorerie passif N-1)
+    expression: BILAN_ACTIF.BT[N-1] - BILAN_PASSIF.DT[N-1]
+    niveau: SOLDE
+    confiance: MOYENNE
+  - code: FA
+    libelle: Capacité d'Autofinancement Globale (CAFG)
+    note: '34'
+    sens: FLUX
+    confiance: MOYENNE
+  - code: FB
+    libelle: '- Actif circulant HAO (1)'
+    comptes: 485,488
+    soldeRetenu: DEBITEUR
+    note: '5'
+    sens: FLUX
+    confiance: MOYENNE
+  - code: FC
+    libelle: '- Variation des stocks'
+    comptes: 31,32,33,34,35,36,37,38
+    note: '6'
+    sens: FLUX
+    confiance: MOYENNE
+  - code: FD
+    libelle: '- Variation des créances'
+    comptes: 409,41,-414,42,43,44,-4494,45,-458,46,-467,47,-4751
+    soldeRetenu: DEBITEUR
+    note: 7,8
+    sens: FLUX
+    confiance: HAUTE
+    sourcePatch: OHADA-ETF-103 (Guide SYSCOHADA §4.2.3.2 b)
+  - code: FE
+    libelle: + Variation du passif circulant (1)
+    comptes: 401,402,408,419,42,43,44,45,46,-467,47,-4752,-472
+    soldeRetenu: CREDITEUR
+    note: hors 404, 481, 482 ; 488 retiré
+    sens: FLUX
+    confiance: HAUTE
+    sourcePatch: OHADA-ETF-103 (Guide SYSCOHADA §4.2.3.2 b)
+  - code: ZB
+    libelle: Flux de trésorerie provenant des activités opérationnelles (somme FA à FE)
+    expression: FA+FB+FC+FD+FE
+    niveau: SOLDE
+    confiance: MOYENNE
+  - code: FF
+    libelle: '- Décaissements liés aux acquisitions d''immobilisations incorporelles'
+    comptes: '21'
+    note: 3A
+    sens: FLUX
+    confiance: MOYENNE
+  - code: FG
+    libelle: '- Décaissements liés aux acquisitions d''immobilisations corporelles'
+    comptes: 22,23,24
+    note: 3A
+    sens: FLUX
+    confiance: MOYENNE
+  - code: FH
+    libelle: '- Décaissements liés aux acquisitions d''immobilisations financières'
+    comptes: 26,27
+    note: 3A,4
+    sens: FLUX
+    confiance: MOYENNE
+  - code: FI
+    libelle: + Encaissements liés aux cessions d'immobilisations incorporelles et corporelles
+    comptes: 821,822,754
+    soldeRetenu: CREDITEUR
+    note: moins mouvement débit de 485 et 414
+    sens: FLUX
+    confiance: HAUTE
+    sourcePatch: OHADA-ETF-105 (Guide SYSCOHADA §4.2.3.3 c)
+  - code: FJ
+    libelle: + Encaissements liés aux cessions d'immobilisations financières
+    comptes: '826'
+    soldeRetenu: CREDITEUR
+    note: moins mouvement débit de 485
+    sens: FLUX
+    confiance: HAUTE
+    sourcePatch: OHADA-ETF-105 (Guide SYSCOHADA §4.2.3.3 c)
+  - code: ZC
+    libelle: Flux de trésorerie provenant des activités d'investissement (somme FF à FJ)
+    expression: FF+FG+FH+FI+FJ
+    niveau: SOLDE
+    confiance: MOYENNE
+  - code: FK
+    libelle: + Augmentation de capital par apports nouveaux
+    comptes: 101,102,103,104,109
+    note: '13'
+    sens: FLUX
+    confiance: MOYENNE
+    ecart: 'FK et FM utilisent les mêmes comptes 101-104 (+109) : règle à expliciter (FK = mouvements crédit, FM = mouvements débit)'
+  - code: FL
+    libelle: + Subventions d'investissement reçues
+    comptes: '14'
+    note: '15'
+    sens: FLUX
+    confiance: MOYENNE
+  - code: FM
+    libelle: '- Prélèvements sur le capital'
+    comptes: 101,102,103,104
+    note: '13'
+    sens: FLUX
+    confiance: MOYENNE
+    ecart: voir FK
+  - code: FN
+    libelle: '- Dividendes versés'
+    comptes: '465'
+    note: '31'
+    sens: FLUX
+    confiance: MOYENNE
+  - code: ZD
+    libelle: Flux de trésorerie provenant des capitaux propres (somme FK à FN)
+    expression: FK+FL+FM+FN
+    niveau: SOLDE
+    confiance: MOYENNE
+  - code: FO
+    libelle: + Emprunts
+    comptes: 161,162,163,164,165,167,168
+    note: '16'
+    sens: FLUX
+    confiance: MOYENNE
+  - code: FP
+    libelle: + Autres dettes financières
+    comptes: 17,181,182,183,184
+    note: '16'
+    sens: FLUX
+    confiance: MOYENNE
+  - code: FQ
+    libelle: '- Remboursements des emprunts et autres dettes financières'
+    comptes: 16,17
+    note: '16'
+    sens: FLUX
+    confiance: MOYENNE
+  - code: ZE
+    libelle: Flux de trésorerie provenant des capitaux étrangers (somme FO à FQ)
+    expression: FO+FP+FQ
+    niveau: SOLDE
+    confiance: MOYENNE
+  - code: ZF
+    libelle: Flux de trésorerie provenant des activités de financement (D + E)
+    expression: ZD+ZE
+    niveau: SOLDE
+    confiance: MOYENNE
+  - code: ZG
+    libelle: VARIATION DE LA TRESORERIE NETTE DE LA PERIODE (B + C + F)
+    expression: ZB+ZC+ZF
+    niveau: SOLDE
+    confiance: MOYENNE
+  - code: ZH
+    libelle: Trésorerie nette au 31 Décembre (G + A)
+    expression: ZG+ZA
+    niveau: SOLDE
+    confiance: MOYENNE
+  methode: 'Opérationnel : indirecte (CAFG puis variations du BFR). Investissement/financement : flux bruts. Contrôle : ZH = BILAN_ACTIF.BT - BILAN_PASSIF.DT'
+- code: SYSN-NOTE34-CAFG
+  libelle: Note 34 - Détermination de la CAFG (alimente TFT.FA)
+  periodicite: ANNUELLE
+  delaiJours: 120
+  assujettis: Système normal
+  layout: GENERIC
+  source: Note 34 du modèle de liasse (recoupée avec https://www.brvm.org/sites/default/files/sodeci_liasse_syscohada_revise_2019.pdf)
+  confiance: MOYENNE
+  colonnes:
+  - montantN
+  - montantN1
+  lignes:
+  - code: N34-EBE
+    libelle: Excédent brut d'exploitation (EBE)
+    expression: RESULTAT.XD
+    confiance: MOYENNE
+  - code: N34-654
+    libelle: + Valeurs comptables des cessions courantes d'immobilisations (compte 654)
+    comptes: '654'
+    soldeRetenu: DEBITEUR
+    confiance: MOYENNE
+  - code: N34-754
+    libelle: '- Produits des cessions courantes d''immobilisations (compte 754)'
+    comptes: '754'
+    soldeRetenu: CREDITEUR
+    confiance: MOYENNE
+  - code: N34-CAFE
+    libelle: = CAPACITE D'AUTOFINANCEMENT D'EXPLOITATION
+    expression: N34-EBE+N34-654-N34-754
+    confiance: MOYENNE
+  - code: N34-77
+    libelle: + Revenus financiers
+    comptes: '77'
+    soldeRetenu: CREDITEUR
+    confiance: HAUTE
+    sourcePatch: OHADA-ETF-102/108 (Guide SYSCOHADA §3.2, §4.2.3.2 a)
+  - code: N34-787
+    libelle: + Transferts de charges financières
+    comptes: '787'
+    soldeRetenu: CREDITEUR
+    confiance: MOYENNE
+  - code: N34-HAO
+    libelle: + Produits HAO
+    comptes: 84,86,88
+    soldeRetenu: CREDITEUR
+    confiance: MOYENNE
+  - code: N34-67
+    libelle: '- Frais financiers'
+    comptes: '67'
+    soldeRetenu: DEBITEUR
+    confiance: HAUTE
+    sourcePatch: OHADA-ETF-102/108 (Guide SYSCOHADA §3.2, §4.2.3.2 a)
+  - code: N34-83
+    libelle: '- Charges HAO'
+    comptes: 83,85
+    soldeRetenu: DEBITEUR
+    confiance: MOYENNE
+    ecart: ligne 'Charges HAO' du modèle liasse absente du JSON existant
+  - code: N34-87
+    libelle: '- Participation'
+    comptes: '87'
+    soldeRetenu: DEBITEUR
+    confiance: MOYENNE
+  - code: N34-89
+    libelle: '- Impôts sur les résultats'
+    comptes: '89'
+    confiance: HAUTE
+    sourcePatch: OHADA-ETF-102/108 (Guide SYSCOHADA §3.2, §4.2.3.2 a)
+  - code: N34-CAFG
+    libelle: = CAPACITE D'AUTOFINANCEMENT GLOBALE (CAFG)
+    expression: N34-CAFE+N34-77+N34-787+N34-HAO-N34-67-N34-83-N34-87-N34-89
+    alimente: SYSN-TFT.FA
+    confiance: MOYENNE
+    note: 797/697 exclus (non monétaires), écart Guide §3.2 vs Note 34 non tranché
+- code: SMT-SYSCOHADA
+  libelle: 'États financiers du Système minimal de trésorerie (SYSCOHADA) : Bilan, Compte de résultat, Notes'
+  periodicite: ANNUELLE
+  delaiJours: 120
+  assujettis: Entités CA HT annuel < 60 M FCFA (négoce), < 40 M (artisanat et assimilés), < 30 M (services) - option possible (AUDCIF art. 13)
+  layout: GENERIC
+  source: AUDCIF 26/01/2017 art. 13, 21, 28 ; https://www.vie-publique.sn/documents/11026/acte-uniforme-droit-comptable-information-financiere-ohada-2017
+  confiance: HAUTE
+  lignes: []
+  note: 'NON TROUVÉ : modèle officiel SMT SYSCOHADA (refs/libellés) non lu. Art. 28 : bilan, compte de résultat et notes tenus en comptabilité de trésorerie ; variations de stocks, créances, dettes prises
+    en compte si significatives.'
+- code: EBNL-A-BILAN-ACTIF
+  libelle: SYCEBNL - Bilan Actif (associations, ordres professionnels)
+  periodicite: ANNUELLE
+  delaiJours: 120
+  assujettis: Associations, ordres professionnels et assimilés hors comptabilité publique / régime comptable particulier / dispositions nationales spécifiques (SYCEBNL art. 1-2), système normal
+  layout: BILAN_BICOLONNE
+  source: SYCEBNL art. 4 1°, 7-10 ; JO OHADA n° spécial 22/02/2023 (Acte uniforme SYCEBNL, Niamey 22/12/2022), Partie 4 ch. 2 (pp. 345-396) ; https://www.ohada.com/uploads/actualite/6692/SYSCEBNL.pdf (JO
+    lu par OCR)
+  confiance: HAUTE
+  colonnes:
+  - brut
+  - amortDepr
+  - net
+  - netN1
+  lignes:
+  - code: AA
+    libelle: IMMOBILISATIONS DESTINEES A LA VENTE PROVENANT DE DONS ET LEGS NON ENCORE RECUS ET USUFRUIT TEMPORAIRE
+    expression: AB+AC
+    note: '5'
+    confiance: HAUTE
+  - code: AB
+    libelle: Immobilisations incorporelles
+    comptes: 201,-280,-2901
+    sens: D
+    note: '5'
+    confiance: MOYENNE
+    sourcePatch: OHADA-ETF-110 (JO SYCEBNL p.395)
+  - code: AC
+    libelle: Immobilisations corporelles et financières
+    comptes: 202,203,204,205,-2902
+    sens: D
+    note: '5'
+    confiance: MOYENNE
+    sourcePatch: OHADA-ETF-110 (JO SYCEBNL p.395)
+  - code: AD
+    libelle: IMMOBILISATIONS INCORPORELLES
+    expression: AE+AF+AG
+    note: '5'
+    confiance: HAUTE
+  - code: AE
+    libelle: Brevets, licences, logiciels et droits similaires
+    comptes: 212,213,214,2193,-2812,-2813,-2814,-2912,-2913,-2914,-2919
+    sens: D
+    confiance: MOYENNE
+    sourcePatch: OHADA-ETF-110 (JO SYCEBNL p.395)
+  - code: AF
+    libelle: Autres immobilisations incorporelles
+    comptes: 218,2198,-2818,-2918,-2919
+    sens: D
+    confiance: MOYENNE
+    sourcePatch: OHADA-ETF-110 (JO SYCEBNL p.395)
+  - code: AG
+    libelle: Avances et acomptes versés sur immobilisations incorporelles
+    comptes: '251'
+    sens: D
+    confiance: MOYENNE
+    sourcePatch: OHADA-ETF-110 (JO SYCEBNL p.395)
+  - code: AH
+    libelle: IMMOBILISATIONS CORPORELLES
+    expression: AI+AJ+AK+AL+AM+AN
+    note: '5'
+    confiance: HAUTE
+  - code: AI
+    libelle: Terrains
+    comptes: 22,-282,-292
+    sens: D
+    confiance: MOYENNE
+  - code: AJ
+    libelle: Bâtiments
+    comptes: 231,232,233,2391,2392,2393,2396,-2831,-2832,-2833,-2931,-2932,-2933,-2939
+    sens: D
+    confiance: MOYENNE
+    sourcePatch: OHADA-ETF-110 (JO SYCEBNL p.395)
+  - code: AK
+    libelle: Aménagements, agencements et installations
+    comptes: 234,235,238,2394,2395,2398,-2834,-2835,-2838,-2934,-2935,-2938,-2939
+    sens: D
+    confiance: MOYENNE
+    sourcePatch: OHADA-ETF-110 (JO SYCEBNL p.395)
+  - code: AL
+    libelle: Matériel, mobilier et actifs biologiques
+    comptes: 24,-245,-2495,-284,2845,-294,2945,-2949
+    sens: D
+    confiance: MOYENNE
+    sourcePatch: OHADA-ETF-110 (JO SYCEBNL p.395)
+  - code: AM
+    libelle: Matériel de transport
+    comptes: 245,2495,-2845,-2945,-2949
+    sens: D
+    confiance: MOYENNE
+    sourcePatch: OHADA-ETF-110 (JO SYCEBNL p.395)
+  - code: AN
+    libelle: Avances et acomptes versés sur immobilisations corporelles
+    comptes: 252,-2952
+    sens: D
+    confiance: MOYENNE
+    sourcePatch: OHADA-ETF-110 (JO SYCEBNL p.395)
+  - code: AO
+    libelle: IMMOBILISATIONS FINANCIERES
+    expression: AX+AY
+    note: '6'
+    confiance: HAUTE
+  - code: AX
+    libelle: Titres de participation
+    comptes: 26,-296
+    sens: D
+    confiance: MOYENNE
+  - code: AY
+    libelle: Autres immobilisations financières
+    comptes: 27,-297
+    sens: D
+    confiance: MOYENNE
+  - code: AZ
+    libelle: TOTAL ACTIF IMMOBILISE
+    expression: AA+AD+AH+AO
+    confiance: HAUTE
+  - code: BA
+    libelle: Actif circulant HAO
+    comptes: 485,486,488,-498
+    soldeRetenu: DEBITEUR
+    sens: D
+    note: '7'
+    confiance: MOYENNE
+    ecart: '38 ''Dons en nature H.A.O.'' (stock) non rattaché : rubrique à confirmer ; 486 ''dettes et créances des legs et dons d''immobilisations'' sens variable'
+  - code: BB
+    libelle: Stocks et encours
+    comptes: 31,32,33,34,35,36,37,-39
+    sens: D
+    note: '8'
+    confiance: MOYENNE
+  - code: BC
+    libelle: Fournisseurs débiteurs
+    comptes: 409,-490
+    soldeRetenu: DEBITEUR
+    sens: D
+    note: '19'
+    confiance: MOYENNE
+  - code: BD
+    libelle: Adhérents, Clients-usagers
+    comptes: 41,-491
+    soldeRetenu: DEBITEUR
+    sens: D
+    note: '9'
+    confiance: MOYENNE
+  - code: BE
+    libelle: Autres créances
+    comptes: 42,43,44,45,46,471,472,473,474,475,476,-492,-493,-494,-497
+    soldeRetenu: DEBITEUR
+    sens: D
+    note: '10'
+    confiance: MOYENNE
+  - code: BT
+    libelle: TOTAL ACTIF CIRCULANT
+    expression: BA+BB+BC+BD+BE
+    confiance: HAUTE
+  - code: BU
+    libelle: Titres de placement
+    comptes: 50,-590
+    sens: D
+    note: '11'
+    confiance: MOYENNE
+  - code: BV
+    libelle: Valeurs à encaisser
+    comptes: 51,-591
+    sens: D
+    note: '12'
+    confiance: MOYENNE
+  - code: BW
+    libelle: Banques, établissements financiers, caisses et assimilés
+    comptes: 52,53,55,57,-592,-593,-595
+    soldeRetenu: DEBITEUR
+    sens: D
+    note: '13'
+    confiance: MOYENNE
+    ecart: '58 virements internes : doit être soldé en fin de période'
+  - code: BX
+    libelle: TOTAL TRESORERIE-ACTIF
+    expression: BU+BV+BW
+    confiance: HAUTE
+  - code: BY
+    libelle: Ecart de conversion-Actif
+    comptes: '478'
+    soldeRetenu: DEBITEUR
+    sens: D
+    note: '14'
+    confiance: MOYENNE
+  - code: BZ
+    libelle: TOTAL GENERAL
+    expression: AZ+BT+BX+BY
+    confiance: HAUTE
+- code: EBNL-A-BILAN-PASSIF
+  libelle: SYCEBNL - Bilan Passif (associations, ordres professionnels)
+  periodicite: ANNUELLE
+  delaiJours: 120
+  assujettis: Associations, ordres professionnels et assimilés hors comptabilité publique / régime comptable particulier / dispositions nationales spécifiques (SYCEBNL art. 1-2), système normal
+  layout: BILAN_BICOLONNE
+  source: SYCEBNL art. 4 1°, 7-10 ; JO OHADA n° spécial 22/02/2023 (Acte uniforme SYCEBNL, Niamey 22/12/2022), Partie 4 ch. 2 (pp. 345-396) ; https://www.ohada.com/uploads/actualite/6692/SYSCEBNL.pdf (JO
+    lu par OCR)
+  confiance: HAUTE
+  colonnes:
+  - net
+  - netN1
+  lignes:
+  - code: CA
+    libelle: Dotation non consomptible sans droit de reprise
+    comptes: '101'
+    soldeRetenu: CREDITEUR
+    sens: C
+    note: '15'
+    confiance: MOYENNE
+  - code: CB
+    libelle: Dotation non consomptible avec droit de reprise
+    comptes: '102'
+    soldeRetenu: CREDITEUR
+    sens: C
+    note: '15'
+    confiance: MOYENNE
+  - code: CC
+    libelle: Droit d'entrée
+    comptes: '103'
+    soldeRetenu: CREDITEUR
+    sens: C
+    note: '15'
+    confiance: MOYENNE
+  - code: CD
+    libelle: Dotation consomptible
+    comptes: '104'
+    soldeRetenu: CREDITEUR
+    sens: C
+    note: '15'
+    confiance: MOYENNE
+    ecart: '1049 (inscrite au compte de résultat) est la contrepartie de 703 : à neutraliser dans CD selon guide d''application'
+  - code: CE
+    libelle: Ecarts de réévaluation
+    comptes: '106'
+    soldeRetenu: CREDITEUR
+    sens: C
+    note: 5F
+    confiance: MOYENNE
+  - code: CF
+    libelle: Réserves
+    comptes: '11'
+    soldeRetenu: CREDITEUR
+    sens: C
+    note: '16'
+    confiance: MOYENNE
+  - code: CG
+    libelle: Report à nouveau (+ ou -)
+    comptes: '12'
+    sens: C
+    note: '16'
+    confiance: MOYENNE
+    ecart: 12 inclut 128 'résultat net en instance d'affectation'
+  - code: CH
+    libelle: Résultat net de l'exercice (excédent + ou déficit -)
+    comptes: '13'
+    sens: C
+    confiance: MOYENNE
+    ecart: 'si l''exercice n''est pas clôturé : XE du compte de résultat (RESULTAT.XE)'
+  - code: CI
+    libelle: Subventions d'investissement
+    comptes: '14'
+    soldeRetenu: CREDITEUR
+    sens: C
+    note: 17A
+    confiance: MOYENNE
+  - code: CJ
+    libelle: Provisions réglementées
+    comptes: '15'
+    soldeRetenu: CREDITEUR
+    sens: C
+    note: 17A
+    confiance: MOYENNE
+  - code: CK
+    libelle: TOTAL FONDS PROPRES ET ASSIMILES
+    expression: CA+CB+CC+CD+CE+CF+CG+CH+CI+CJ
+    confiance: HAUTE
+  - code: CW
+    libelle: Fonds affectés et provenant de dons et legs d'immobilisations
+    comptes: '16'
+    soldeRetenu: CREDITEUR
+    sens: C
+    note: 17B
+    confiance: MOYENNE
+  - code: CX
+    libelle: Fonds reportés
+    comptes: '17'
+    soldeRetenu: CREDITEUR
+    sens: C
+    note: 17B
+    confiance: MOYENNE
+  - code: CY
+    libelle: TOTAL FONDS AFFECTES ET REPORTES
+    expression: CW+CX
+    confiance: HAUTE
+  - code: CZ
+    libelle: TOTAL RESSOURCES PROPRES ET ASSIMILEES
+    expression: CK+CY
+    confiance: HAUTE
+  - code: DA
+    libelle: Emprunts et dettes financières
+    comptes: 181,182,183,185,186,188
+    soldeRetenu: CREDITEUR
+    sens: C
+    note: 18A
+    confiance: MOYENNE
+  - code: DB
+    libelle: Dettes de location-acquisition
+    comptes: '187'
+    soldeRetenu: CREDITEUR
+    sens: C
+    note: 18A
+    confiance: MOYENNE
+  - code: DC
+    libelle: Provisions pour risques et charges
+    comptes: '19'
+    soldeRetenu: CREDITEUR
+    sens: C
+    note: 18A
+    confiance: MOYENNE
+  - code: DD
+    libelle: TOTAL DETTES FINANCIERES ET RESSOURCES ASSIMILEES
+    expression: DA+DB+DC
+    confiance: HAUTE
+  - code: DE
+    libelle: TOTAL RESSOURCES STABLES
+    expression: CZ+DD
+    confiance: HAUTE
+  - code: DF
+    libelle: Dettes circulantes HAO
+    comptes: 481,484,486,488
+    soldeRetenu: CREDITEUR
+    sens: C
+    note: '7'
+    confiance: MOYENNE
+  - code: DG
+    libelle: Adhérents, clients-usagers créditeurs
+    comptes: '419'
+    soldeRetenu: CREDITEUR
+    sens: C
+    note: '9'
+    confiance: MOYENNE
+  - code: DH
+    libelle: Fournisseurs
+    comptes: 401,402,408
+    soldeRetenu: CREDITEUR
+    sens: C
+    note: '19'
+    confiance: MOYENNE
+  - code: DI
+    libelle: Autres dettes
+    comptes: 42,43,44,45,46,471,472,473,474,475,476,477,499,599
+    soldeRetenu: CREDITEUR
+    sens: C
+    note: 20 & 21
+    confiance: MOYENNE
+  - code: DV
+    libelle: TOTAL PASSIF CIRCULANT
+    expression: DF+DG+DH+DI
+    confiance: HAUTE
+  - code: DW
+    libelle: Banques, établissements financiers et crédits de trésorerie
+    comptes: 52,56
+    soldeRetenu: CREDITEUR
+    sens: C
+    note: '22'
+    confiance: MOYENNE
+  - code: DX
+    libelle: TOTAL TRESORERIE-PASSIF
+    expression: DW
+    confiance: HAUTE
+  - code: DY
+    libelle: Ecart de conversion-Passif
+    comptes: '479'
+    soldeRetenu: CREDITEUR
+    sens: C
+    note: '14'
+    confiance: MOYENNE
+  - code: DZ
+    libelle: TOTAL GENERAL
+    expression: DE+DV+DX+DY
+    confiance: HAUTE
+- code: EBNL-A-RESULTAT
+  libelle: SYCEBNL - Compte de résultat (associations, ordres professionnels)
+  periodicite: ANNUELLE
+  delaiJours: 120
+  assujettis: Associations, ordres professionnels et assimilés hors comptabilité publique / régime comptable particulier / dispositions nationales spécifiques (SYCEBNL art. 1-2), système normal
+  layout: CR_VERTICAL
+  source: SYCEBNL art. 4 1°, 7-10 ; JO OHADA n° spécial 22/02/2023 (Acte uniforme SYCEBNL, Niamey 22/12/2022), Partie 4 ch. 2 (pp. 345-396) ; https://www.ohada.com/uploads/actualite/6692/SYSCEBNL.pdf (JO
+    lu par OCR)
+  confiance: HAUTE
+  colonnes:
+  - net
+  - netN1
+  lignes:
+  - code: RA
+    libelle: Cotisations
+    comptes: '701'
+    sens: C
+    note: '23'
+    confiance: MOYENNE
+  - code: RB
+    libelle: Dotations consomptibles transférées au compte de résultat
+    comptes: '703'
+    sens: C
+    note: '23'
+    confiance: MOYENNE
+  - code: RC
+    libelle: Revenus liés à la générosité
+    comptes: '704'
+    sens: C
+    note: '23'
+    confiance: MOYENNE
+  - code: RD
+    libelle: Ventes de marchandises
+    comptes: '7051'
+    sens: C
+    note: '23'
+    confiance: MOYENNE
+  - code: RE
+    libelle: Ventes de services et produits finis
+    comptes: 7052,7053
+    sens: C
+    note: '23'
+    confiance: MOYENNE
+    sourcePatch: OHADA-ETF-112 (JO SYCEBNL p.396)
+  - code: RF
+    libelle: Subventions d'exploitation
+    comptes: '71'
+    sens: C
+    note: '23'
+    confiance: MOYENNE
+  - code: RG
+    libelle: Autres produits et transferts de charges
+    comptes: 706,707,708,72,73,75,77,78
+    sens: C
+    note: '23'
+    confiance: MOYENNE
+    sourcePatch: OHADA-ETF-112 (JO SYCEBNL p.396)
+  - code: RH
+    libelle: Reprises de provisions, dépréciations, subventions et autres reprises
+    comptes: '79'
+    sens: C
+    note: 5D&30
+    confiance: MOYENNE
+  - code: XA
+    libelle: REVENUS DES ACTIVITES ORDINAIRES
+    expression: RA+RB+RC+RD+RE+RF+RG+RH
+    confiance: HAUTE
+    ecart: 'le libellé officiel dit ''Somme RA à RG'' alors que RH figure au-dessus de XA : coquille probable, RH retenu'
+  - code: TA
+    libelle: Achats de biens et services liés à l'activité
+    comptes: '601'
+    sens: D
+    note: '24'
+    confiance: MOYENNE
+  - code: TB
+    libelle: Variation de stocks des achats de biens et services liés à l'activité
+    comptes: '6031'
+    sens: D
+    note: '8'
+    confiance: MOYENNE
+  - code: TC
+    libelle: Achats de marchandises et matières premières
+    comptes: '602'
+    sens: D
+    note: '24'
+    confiance: MOYENNE
+  - code: TD
+    libelle: Autres achats
+    comptes: 604,605,606,608
+    sens: D
+    note: '24'
+    confiance: MOYENNE
+  - code: TE
+    libelle: Variation de stocks de marchandises, de matières premières et autres
+    comptes: 6032,6033,6034,6035
+    sens: D
+    note: '8'
+    confiance: MOYENNE
+  - code: TF
+    libelle: Transports
+    comptes: '61'
+    sens: D
+    note: '25'
+    confiance: MOYENNE
+  - code: TG
+    libelle: Services extérieurs
+    comptes: 62,63
+    sens: D
+    note: '26'
+    confiance: MOYENNE
+  - code: TH
+    libelle: Impôts et taxes
+    comptes: '64'
+    sens: D
+    note: '27'
+    confiance: MOYENNE
+  - code: TI
+    libelle: Autres charges
+    comptes: '65'
+    sens: D
+    note: '28'
+    confiance: MOYENNE
+  - code: TJ
+    libelle: Charges de personnel
+    comptes: '66'
+    sens: D
+    note: '29'
+    confiance: MOYENNE
+  - code: TK
+    libelle: Frais financiers et charges assimilées
+    comptes: '67'
+    sens: D
+    note: '31'
+    confiance: MOYENNE
+  - code: TL
+    libelle: Dotations aux amortissements, aux provisions, aux dépréciations et autres
+    comptes: 68,69
+    sens: D
+    note: 5D&30
+    confiance: MOYENNE
+  - code: XB
+    libelle: CHARGES DES ACTIVITES ORDINAIRES
+    expression: TA+TB+TC+TD+TE+TF+TG+TH+TI+TJ+TK+TL
+    confiance: HAUTE
+  - code: XC
+    libelle: RESULTAT DES ACTIVITES ORDINAIRES
+    expression: XA-XB
+    confiance: HAUTE
+  - code: TM
+    libelle: Produits H.A.O.
+    comptes: 82,84,86,88
+    sens: C
+    note: '32'
+    confiance: BASSE
+    ecart: 'le modèle n''a ni ligne ''cessions'' ni ''subventions d''équilibre'' : 82 (produits de cessions) et 88 (subventions d''équilibre) rattachés à TM par hypothèse ; 87 (variations de stocks de dons
+      en nature HAO) non rattaché'
+  - code: TN
+    libelle: Charges H.A.O.
+    comptes: 81,83,85,87
+    sens: D
+    note: '32'
+    confiance: MOYENNE
+    note2: '87 participation : pas de ligne RQ dans le modèle association, à vérifier'
+    sourcePatch: OHADA-ETF-112 (JO SYCEBNL p.396)
+  - code: XD
+    libelle: RESULTAT H.A.O.
+    expression: TM-TN
+    confiance: HAUTE
+  - code: XE
+    libelle: RESULTAT NET DE L'EXERCICE (excédent + / déficit -)
+    expression: XC+XD
+    confiance: HAUTE
+- code: EBNL-A-TFT
+  libelle: SYCEBNL - Tableau des flux de trésorerie (méthode directe, opérationnel)
+  periodicite: ANNUELLE
+  delaiJours: 120
+  assujettis: Associations, ordres professionnels et assimilés hors comptabilité publique / régime comptable particulier / dispositions nationales spécifiques (SYCEBNL art. 1-2), système normal
+  layout: TFT_VERTICAL
+  source: SYCEBNL art. 4 1°, 7-10 ; JO OHADA n° spécial 22/02/2023 (Acte uniforme SYCEBNL, Niamey 22/12/2022), Partie 4 ch. 2 (pp. 345-396) ; https://www.ohada.com/uploads/actualite/6692/SYSCEBNL.pdf (JO
+    lu par OCR)
+  confiance: HAUTE
+  colonnes:
+  - montantN
+  - montantN1
+  lignes:
+  - code: ZA
+    libelle: Trésorerie nette au 1er janvier
+    expression: BX[N-1]-DX[N-1]
+    confiance: HAUTE
+  - code: FA
+    libelle: + Encaissement des cotisations
+    comptes: '701'
+    sens: ENC
+    confiance: MOYENNE
+    ecart: 'méthode directe : encaissements = revenus N + créances N-1 - créances N (Partie 4, § 1.2 section 3)'
+    variationCreances: '41'
+  - code: FB
+    libelle: + Encaissement des subventions d'exploitation et d'équilibre
+    comptes: 71,88
+    sens: ENC
+    confiance: MOYENNE
+    variationCreances: '473'
+  - code: FC
+    libelle: + Encaissement des revenus liés à la générosité
+    comptes: '704'
+    sens: ENC
+    confiance: MOYENNE
+    variationCreances: '475'
+  - code: FD
+    libelle: + Encaissement des revenus des manifestations
+    comptes: '706'
+    sens: ENC
+    confiance: MOYENNE
+  - code: FE
+    libelle: + Encaissement des autres revenus
+    comptes: 705,707,708,75,77
+    sens: ENC
+    confiance: BASSE
+  - code: FF
+    libelle: '- Décaissement des sommes versées aux fournisseurs (hors fournisseurs d''investissements)'
+    comptes: 60,61,62,63
+    sens: DEC
+    confiance: BASSE
+    ecart: décaissements = achats N + dettes N-1 - dettes N ; périmètre exact des comptes de charges non documenté dans le texte lu
+    variationDettes: '40'
+    variationStocks: '3'
+  - code: FG
+    libelle: '- Décaissement des sommes versées au personnel'
+    comptes: '66'
+    sens: DEC
+    confiance: BASSE
+    variationDettes: 42,43
+  - code: FH
+    libelle: '- Autres décaissements'
+    comptes: 64,65,67
+    sens: DEC
+    confiance: BASSE
+    variationDettes: 44,47
+  - code: ZB
+    libelle: Flux de trésorerie provenant des activités opérationnelles (somme FA à FH)
+    expression: FA+FB+FC+FD+FE+FF+FG+FH
+    note: B
+    confiance: HAUTE
+    ecart: le modèle écrit 'somme FA à FH' ; FF-FH sont stockés négatifs
+  - code: FI
+    libelle: '- Décaissements liés aux acquisitions d''immobilisations incorporelles et corporelles'
+    comptes: 21,22,23,24,25
+    sens: DEC
+    confiance: MOYENNE
+    flux: MOUVEMENTS_DEBIT
+  - code: FJ
+    libelle: '- Décaissements liés aux acquisitions d''immobilisations financières'
+    comptes: 26,27
+    sens: DEC
+    confiance: MOYENNE
+    flux: MOUVEMENTS_DEBIT
+  - code: FK
+    libelle: + Encaissements liés aux cessions d'immobilisations incorporelles et corporelles
+    comptes: 821,822,828
+    sens: ENC
+    confiance: MOYENNE
+    variationCreances: '485'
+  - code: FL
+    libelle: + Encaissements liés aux cessions d'immobilisations financières
+    comptes: '826'
+    sens: ENC
+    confiance: MOYENNE
+    variationCreances: '485'
+  - code: ZC
+    libelle: Flux de trésorerie provenant des activités d'investissement (somme FI à FL)
+    expression: FI+FJ+FK+FL
+    note: C
+    confiance: HAUTE
+  - code: FM
+    libelle: + Encaissement des dotations et autres fonds propres
+    comptes: 101,102,103,104,-1049
+    sens: ENC
+    confiance: BASSE
+    flux: MOUVEMENTS_CREDIT
+  - code: FN
+    libelle: + Subventions d'investissement reçues
+    comptes: '14'
+    sens: ENC
+    confiance: BASSE
+    flux: MOUVEMENTS_CREDIT
+  - code: FO
+    libelle: '- Décaissement des dotations et autres fonds propres'
+    comptes: 101,102,103,104,-1049
+    sens: DEC
+    confiance: BASSE
+    flux: MOUVEMENTS_DEBIT
+  - code: ZD
+    libelle: Flux de trésorerie provenant des fonds propres (somme FM à FO)
+    expression: FM+FN+FO
+    note: D
+    confiance: HAUTE
+  - code: FP
+    libelle: + Encaissement provenant des emprunts et des autres dettes financières
+    comptes: '18'
+    sens: ENC
+    confiance: MOYENNE
+    flux: MOUVEMENTS_CREDIT
+  - code: FQ
+    libelle: '- Remboursements des emprunts et autres dettes financières'
+    comptes: '18'
+    sens: DEC
+    confiance: MOYENNE
+    flux: MOUVEMENTS_DEBIT
+  - code: ZE
+    libelle: Trésorerie provenant des fonds étrangers (somme FP à FQ)
+    expression: FP+FQ
+    note: E
+    confiance: HAUTE
+  - code: ZF
+    libelle: VARIATION DE LA TRESORERIE NETTE DE LA PERIODE (B+C+D+E)
+    expression: ZB+ZC+ZD+ZE
+    note: G
+    confiance: HAUTE
+  - code: ZG
+    libelle: Trésorerie nette au 31 décembre (G+A)
+    expression: ZF+ZA
+    note: H
+    confiance: HAUTE
+    ecart: 'contrôle : BX - DX ; dernière ref = ZG (ZH en système normal SYSCOHADA)'
+- code: EBNL-A-NOTES
+  libelle: 'SYCEBNL - Notes annexes (associations, ordres professionnels) : 35 notes'
+  periodicite: ANNUELLE
+  delaiJours: 120
+  assujettis: Associations, ordres professionnels et assimilés hors comptabilité publique / régime comptable particulier / dispositions nationales spécifiques (SYCEBNL art. 1-2), système normal
+  layout: NOTES
+  source: SYCEBNL art. 4 1°, 7-10 ; JO OHADA n° spécial 22/02/2023 (Acte uniforme SYCEBNL, Niamey 22/12/2022), Partie 4 ch. 2 (pp. 345-396) ; https://www.ohada.com/uploads/actualite/6692/SYSCEBNL.pdf (JO
+    lu par OCR)
+  confiance: HAUTE
+  lignes:
+  - code: NOTE_1
+    libelle: Dettes garanties par des sûretés réelles, engagements financiers et contributions volontaires en nature
+    confiance: HAUTE
+  - code: NOTE_2
+    libelle: Informations obligatoires
+    confiance: HAUTE
+  - code: NOTE_3
+    libelle: Evénements postérieurs à la clôture de l'exercice
+    confiance: HAUTE
+  - code: NOTE_4
+    libelle: Changements de méthodes comptables, d'estimations et corrections d'erreurs
+    confiance: HAUTE
+  - code: NOTE_5A
+    libelle: Dons et legs d'immobilisations non reçus destinés à la vente et usufruit temporaire
+    confiance: HAUTE
+  - code: NOTE_5B
+    libelle: Immobilisations brutes
+    confiance: HAUTE
+  - code: NOTE_5C
+    libelle: Biens pris en location-acquisition
+    confiance: HAUTE
+  - code: NOTE_5D
+    libelle: Dons et legs d'immobilisations non reçus destinés à la vente et usufruit temporaire (amortissements et dépréciations)
+    confiance: HAUTE
+  - code: NOTE_5E
+    libelle: 'Immobilisations : amortissements'
+    confiance: HAUTE
+  - code: NOTE_5F
+    libelle: 'Immobilisations : dépréciations'
+    confiance: HAUTE
+  - code: NOTE_5G
+    libelle: 'Immobilisations : plus-values et moins-values de cession'
+    confiance: HAUTE
+  - code: NOTE_5H
+    libelle: Informations sur les réévaluations effectuées par l'entité
+    confiance: HAUTE
+  - code: NOTE_6
+    libelle: Immobilisations financières
+    confiance: HAUTE
+  - code: NOTE_7
+    libelle: Actif circulant et dettes circulantes HAO
+    confiance: HAUTE
+  - code: NOTE_8
+    libelle: Stocks et encours
+    confiance: HAUTE
+  - code: NOTE_9
+    libelle: Adhérents, clients-usagers
+    confiance: HAUTE
+  - code: NOTE_10
+    libelle: Autres créances
+    confiance: HAUTE
+  - code: NOTE_11
+    libelle: Titres de placement
+    confiance: HAUTE
+  - code: NOTE_12
+    libelle: Valeurs à encaisser
+    confiance: HAUTE
+  - code: NOTE_13
+    libelle: Disponibilités
+    confiance: HAUTE
+  - code: NOTE_14
+    libelle: Ecarts de conversion
+    confiance: HAUTE
+  - code: NOTE_15
+    libelle: Dotation
+    confiance: HAUTE
+  - code: NOTE_16
+    libelle: Réserves
+    confiance: HAUTE
+  - code: NOTE_17A
+    libelle: Subventions et provisions réglementées
+    confiance: HAUTE
+  - code: NOTE_17B
+    libelle: Fonds affectés et reportés
+    confiance: HAUTE
+  - code: NOTE_18A
+    libelle: Dettes financières et ressources assimilées
+    confiance: HAUTE
+  - code: NOTE_18B
+    libelle: Actifs et passifs éventuels
+    confiance: HAUTE
+  - code: NOTE_19
+    libelle: Fournisseurs d'exploitation
+    confiance: HAUTE
+  - code: NOTE_20
+    libelle: Dettes fiscales et sociales
+    confiance: HAUTE
+  - code: NOTE_21
+    libelle: Autres dettes et provisions pour risques et charges à court terme
+    confiance: HAUTE
+  - code: NOTE_22
+    libelle: Banques, crédit d'escompte et de trésorerie
+    confiance: HAUTE
+  - code: NOTE_23
+    libelle: Revenus et autres produits
+    confiance: HAUTE
+  - code: NOTE_24
+    libelle: Achats
+    confiance: HAUTE
+  - code: NOTE_25
+    libelle: Transports
+    confiance: HAUTE
+  - code: NOTE_26
+    libelle: Services extérieurs
+    confiance: HAUTE
+  - code: NOTE_27
+    libelle: Impôts et taxes
+    confiance: HAUTE
+  - code: NOTE_28
+    libelle: Autres charges
+    confiance: HAUTE
+  - code: NOTE_29A
+    libelle: Charges de personnel
+    confiance: HAUTE
+  - code: NOTE_29B
+    libelle: Effectifs, masse salariale et personnel extérieur
+    confiance: HAUTE
+  - code: NOTE_30
+    libelle: Dotations et charges pour provisions et dépréciations
+    confiance: HAUTE
+  - code: NOTE_31
+    libelle: Charges et revenus financiers
+    confiance: HAUTE
+  - code: NOTE_32
+    libelle: Autres charges et produits HAO
+    confiance: HAUTE
+  - code: NOTE_33
+    libelle: Fiche de synthèse des principaux indicateurs financiers
+    confiance: HAUTE
+  - code: NOTE_34
+    libelle: Liste des informations sociales, environnementales et sociétales
+    confiance: HAUTE
+  - code: NOTE_35
+    libelle: Tableau d'exécution budgétaire
+    confiance: HAUTE
+- code: EBNL-P-TER
+  libelle: SYCEBNL projets - Tableau emplois-ressources
+  periodicite: ANNUELLE
+  delaiJours: 120
+  assujettis: Entités gérant ou administrant des projets de développement financés par bailleurs (SYCEBNL art. 2 2°), système normal
+  layout: GENERIC
+  source: SYCEBNL art. 4 2°, 7-9, 11-13 ; JO OHADA n° spécial 22/02/2023 (Acte uniforme SYCEBNL, Niamey 22/12/2022), Partie 4 ch. 3 (pp. 397-432) ; https://www.ohada.com/uploads/actualite/6692/SYSCEBNL.pdf
+    ; refs GR..GZ lues à faible contraste (◐)
+  confiance: MOYENNE
+  colonnes:
+  - soldeCumuleDebutN
+  - exerciceN
+  - soldeCumuleFinN
+  lignes:
+  - code: FA
+    libelle: Fonds reçus, Bailleurs ....
+    comptes: 161,162,462
+    sens: C
+    confiance: HAUTE
+    sourcePatch: OHADA-ETF-116 (Guide SYCEBNL ch.7)
+  - code: FB
+    libelle: Fonds reçus, Bailleurs ....
+    comptes: 161,162,462
+    sens: C
+    confiance: HAUTE
+    sourcePatch: OHADA-ETF-116 (Guide SYCEBNL ch.7)
+  - code: FC
+    libelle: Fonds contrepartie Etat
+    comptes: 163,463
+    sens: C
+    confiance: HAUTE
+    sourcePatch: OHADA-ETF-116 (Guide SYCEBNL ch.7)
+  - code: FD
+    libelle: Autres fonds reçus
+    comptes: 164,464,707,77
+    sens: C
+    confiance: HAUTE
+    sourcePatch: OHADA-ETF-116 (Guide SYCEBNL ch.7)
+  - code: GR
+    libelle: I. RESSOURCES
+    expression: FA+FB+FC+FD
+    confiance: HAUTE
+  - code: FE
+    libelle: Immobilisations incorporelles
+    comptes: '21'
+    sens: D
+    confiance: HAUTE
+    sourcePatch: OHADA-ETF-116 (Guide SYCEBNL ch.7)
+  - code: FF
+    libelle: Terrains
+    comptes: '22'
+    sens: D
+    confiance: HAUTE
+    sourcePatch: OHADA-ETF-116 (Guide SYCEBNL ch.7)
+  - code: FG
+    libelle: Bâtiments
+    comptes: 231,232,233,2391,2392,2393,2396
+    sens: D
+    confiance: HAUTE
+    sourcePatch: OHADA-ETF-116 (Guide SYCEBNL ch.7)
+  - code: FH
+    libelle: Aménagements, agencements et installations
+    comptes: 234,235,238,2394,2395,2398
+    sens: D
+    confiance: HAUTE
+    sourcePatch: OHADA-ETF-116 (Guide SYCEBNL ch.7)
+  - code: FI
+    libelle: Matériel, mobilier et actifs biologiques
+    comptes: 24,-245,-2495
+    sens: D
+    confiance: HAUTE
+    sourcePatch: OHADA-ETF-116 (Guide SYCEBNL ch.7)
+  - code: FJ
+    libelle: Matériel de transport
+    comptes: 245,2495
+    sens: D
+    confiance: HAUTE
+    sourcePatch: OHADA-ETF-116 (Guide SYCEBNL ch.7)
+  - code: FK
+    libelle: Avances et acomptes sur immobilisations
+    comptes: '25'
+    sens: D
+    confiance: HAUTE
+    sourcePatch: OHADA-ETF-116 (Guide SYCEBNL ch.7)
+  - code: FL
+    libelle: Immobilisations financières
+    comptes: 26,27
+    sens: D
+    confiance: HAUTE
+    sourcePatch: OHADA-ETF-116 (Guide SYCEBNL ch.7)
+  - code: GS
+    libelle: A- TOTAL DES IMMOBILISATIONS
+    expression: FE+FF+FG+FH+FI+FJ+FK+FL
+    confiance: HAUTE
+  - code: FM
+    libelle: Achats de biens et services
+    comptes: '60'
+    sens: D
+    confiance: HAUTE
+    sourcePatch: OHADA-ETF-116 (Guide SYCEBNL ch.7)
+  - code: FN
+    libelle: Transports
+    comptes: '61'
+    sens: D
+    confiance: HAUTE
+    sourcePatch: OHADA-ETF-116 (Guide SYCEBNL ch.7)
+  - code: FO
+    libelle: Services extérieurs
+    comptes: 62,63
+    sens: D
+    confiance: HAUTE
+    sourcePatch: OHADA-ETF-116 (Guide SYCEBNL ch.7)
+  - code: FP
+    libelle: Impôts et taxes
+    comptes: '64'
+    sens: D
+    confiance: HAUTE
+    sourcePatch: OHADA-ETF-116 (Guide SYCEBNL ch.7)
+  - code: FQ
+    libelle: Autres charges
+    comptes: '65'
+    sens: D
+    confiance: HAUTE
+    sourcePatch: OHADA-ETF-116 (Guide SYCEBNL ch.7)
+  - code: FR
+    libelle: Charges de personnel
+    comptes: '66'
+    sens: D
+    confiance: HAUTE
+    sourcePatch: OHADA-ETF-116 (Guide SYCEBNL ch.7)
+  - code: FS
+    libelle: Charges financières
+    comptes: '67'
+    sens: D
+    confiance: HAUTE
+    sourcePatch: OHADA-ETF-116 (Guide SYCEBNL ch.7)
+  - code: FT
+    libelle: Avances sur charges (à justifier)
+    comptes: 4091,4093
+    sens: D
+    confiance: HAUTE
+    soldeRetenu: DEBITEUR
+    sourcePatch: OHADA-ETF-116 (Guide SYCEBNL ch.7)
+  - code: GT
+    libelle: B- TOTAL DES CHARGES DE FONCTIONNEMENT
+    expression: FM+FN+FO+FP+FQ+FR+FS+FT
+    confiance: HAUTE
+  - code: GU
+    libelle: II. EMPLOIS (A+B)
+    expression: GS+GT
+    confiance: HAUTE
+  - code: GV
+    libelle: III. EXCEDENT/DEFICIT DES FONDS RECUS SUR LES EMPLOIS (I-II)
+    expression: GR-GU
+    confiance: HAUTE
+  - code: FU
+    libelle: Fonds Bailleur en début exercice N
+    expression: FX[N-1]
+    confiance: HAUTE
+    comptes: 51,52,53,55,57
+    soldeRetenu: DEBITEUR
+    sourcePatch: OHADA-ETF-116 (Guide SYCEBNL ch.7)
+  - code: FV
+    libelle: Fonds de contrepartie Etat en début exercice N
+    expression: FY[N-1]
+    confiance: HAUTE
+    comptes: 51,52,53,55,57
+    soldeRetenu: DEBITEUR
+    sourcePatch: OHADA-ETF-116 (Guide SYCEBNL ch.7)
+  - code: FW
+    libelle: Autres fonds en début exercice N
+    expression: FZ[N-1]
+    confiance: HAUTE
+    comptes: 51,52,53,55,57
+    soldeRetenu: DEBITEUR
+    sourcePatch: OHADA-ETF-116 (Guide SYCEBNL ch.7)
+  - code: GW
+    libelle: IV. FONDS DISPONIBLE EN DEBUT EXERCICE
+    expression: FU+FV+FW
+    confiance: HAUTE
+  - code: GX
+    libelle: V. MONTANT NET DE L'ENCAISSE DISPONIBLE (III+IV)
+    expression: GV+GW
+    confiance: HAUTE
+  - code: FX
+    libelle: Fonds Bailleur en fin exercice N
+    confiance: HAUTE
+    comptes: 51,52,53,55,57
+    soldeRetenu: DEBITEUR
+    sourcePatch: OHADA-ETF-116 (Guide SYCEBNL ch.7)
+  - code: FY
+    libelle: Fonds de contrepartie Etat en fin exercice N
+    confiance: HAUTE
+    comptes: 51,52,53,55,57
+    soldeRetenu: DEBITEUR
+    sourcePatch: OHADA-ETF-116 (Guide SYCEBNL ch.7)
+  - code: FZ
+    libelle: Autres fonds en fin exercice N
+    confiance: HAUTE
+    comptes: 51,52,53,55,57
+    soldeRetenu: DEBITEUR
+    sourcePatch: OHADA-ETF-116 (Guide SYCEBNL ch.7)
+  - code: GY
+    libelle: VI. FONDS DISPONIBLE EN FIN EXERCICE
+    expression: FX+FY+FZ
+    confiance: HAUTE
+  - code: GZ
+    libelle: 'VII. CONTROLE : TOTAL V = TOTAL VI'
+    expression: GX-GY
+    confiance: HAUTE
+- code: EBNL-P-TEB
+  libelle: SYCEBNL projets - Tableau d'exécution budgétaire
+  periodicite: ANNUELLE
+  delaiJours: 120
+  assujettis: Entités gérant ou administrant des projets de développement financés par bailleurs (SYCEBNL art. 2 2°), système normal
+  layout: GENERIC
+  source: SYCEBNL art. 4 2°, 7-9, 11-13 ; JO OHADA n° spécial 22/02/2023 (Acte uniforme SYCEBNL, Niamey 22/12/2022), Partie 4 ch. 3 (pp. 397-432) ; https://www.ohada.com/uploads/actualite/6692/SYSCEBNL.pdf
+  confiance: HAUTE
+  lignes:
+  - code: TEB
+    libelle: Budget de l'exercice, décaissements, engagements non payés, réalisations, crédit disponible, exécution en valeur relative (art. 12)
+    confiance: HAUTE
+    ecart: 'nomenclature budgétaire propre à chaque projet : hors balance, saisie budget requise'
+- code: EBNL-P-TRT
+  libelle: SYCEBNL projets - Tableau de réconciliation de trésorerie
+  periodicite: ANNUELLE
+  delaiJours: 120
+  assujettis: Entités gérant ou administrant des projets de développement financés par bailleurs (SYCEBNL art. 2 2°), système normal
+  layout: GENERIC
+  source: SYCEBNL art. 4 2°, 7-9, 11-13 ; JO OHADA n° spécial 22/02/2023 (Acte uniforme SYCEBNL, Niamey 22/12/2022), Partie 4 ch. 3 (pp. 397-432) ; https://www.ohada.com/uploads/actualite/6692/SYSCEBNL.pdf
+  confiance: MOYENNE
+  note: 'lettrage et formule (A..I) lus par OCR : OCR du tableau partiel, comptes proposés = hypothèses'
+  lignes:
+  - code: A
+    libelle: TRESORERIE EN DEBUT D'EXERCICE
+    expression: BX[N-1]-DX[N-1]
+    confiance: BASSE
+  - code: B
+    libelle: FONDS RECUS DES BAILLEURS AU COURS DE L'EXERCICE N
+    comptes: 162,462
+    confiance: BASSE
+  - code: C
+    libelle: INTERETS RECUS AU COURS DE L'EXERCICE N
+    comptes: '774'
+    confiance: BASSE
+  - code: D
+    libelle: AUTRES FONDS RECUS AU COURS DE L'EXERCICE N
+    comptes: 164,464
+    confiance: BASSE
+  - code: E
+    libelle: VIREMENTS SUR COMPTES OPERATIONNELS
+    comptes: '58'
+    confiance: BASSE
+  - code: F
+    libelle: DEPENSES DE L'EXERCICE N
+    expression: EBNL-P-TER.GU
+    confiance: BASSE
+  - code: G
+    libelle: TRESORERIE FIN D'EXERCICE (A+B+C+D-E-F ... à valider)
+    expression: A+B+C+D-F
+    confiance: BASSE
+  - code: H
+    libelle: PAIEMENTS EN INSTANCE
+    comptes: 481,484
+    confiance: BASSE
+  - code: I
+    libelle: TRESORERIE NETTE DES PAIEMENTS EN INSTANCE (G-H)
+    expression: G-H
+    confiance: BASSE
+- code: EBNL-P-BILAN-ACTIF
+  libelle: SYCEBNL projets - Bilan Actif
+  periodicite: ANNUELLE
+  delaiJours: 120
+  assujettis: Entités gérant ou administrant des projets de développement financés par bailleurs (SYCEBNL art. 2 2°), système normal
+  layout: BILAN_BICOLONNE
+  source: SYCEBNL art. 4 2°, 7-9, 11-13 ; JO OHADA n° spécial 22/02/2023 (Acte uniforme SYCEBNL, Niamey 22/12/2022), Partie 4 ch. 3 (pp. 397-432) ; https://www.ohada.com/uploads/actualite/6692/SYSCEBNL.pdf
+    (bilan p. 401)
+  confiance: MOYENNE
+  colonnes:
+  - net
+  - netN1
+  lignes:
+  - code: AA
+    libelle: Immobilisations incorporelles
+    comptes: 21,-281,-291
+    sens: D
+    note: '2'
+    confiance: MOYENNE
+  - code: AB
+    libelle: Terrains et bâtiments
+    comptes: 22,231,232,233,-282,-283,-292,-293
+    sens: D
+    note: '2'
+    confiance: MOYENNE
+  - code: AC
+    libelle: Aménagements, agencements et installations
+    comptes: 234,235,238,239
+    sens: D
+    note: '2'
+    confiance: MOYENNE
+  - code: AD
+    libelle: Matériel, mobilier et actifs biologiques
+    comptes: 24,-245
+    sens: D
+    note: '2'
+    confiance: MOYENNE
+  - code: AE
+    libelle: Matériel de transport
+    comptes: 245,-2845,-2945
+    sens: D
+    note: '2'
+    confiance: MOYENNE
+  - code: AF
+    libelle: Avances et acomptes versés sur immobilisations
+    comptes: '25'
+    sens: D
+    note: '2'
+    confiance: MOYENNE
+    sourcePatch: OHADA-ETF-114 (JO SYCEBNL p.430)
+  - code: AG
+    libelle: Dépôts et cautionnements
+    comptes: '275'
+    sens: D
+    note: '2'
+    confiance: MOYENNE
+    sourcePatch: OHADA-ETF-114 (JO SYCEBNL p.430)
+  - code: AH
+    libelle: Autres immobilisations corporelles et financières
+    comptes: 26,27,-275
+    sens: D
+    note: '2'
+    confiance: MOYENNE
+    sourcePatch: OHADA-ETF-114 (JO SYCEBNL p.430)
+  - code: AZ
+    libelle: TOTAL ACTIF IMMOBILISE
+    expression: AA+AB+AC+AD+AE+AF+AG+AH
+    confiance: HAUTE
+  - code: BA
+    libelle: Actif circulant HAO
+    comptes: 485,486,488
+    soldeRetenu: DEBITEUR
+    sens: D
+    note: '3'
+    confiance: MOYENNE
+  - code: BB
+    libelle: Stocks et encours
+    comptes: 31,32,33,34,35,36,37,-39
+    sens: D
+    note: '4'
+    confiance: MOYENNE
+  - code: BC
+    libelle: Fournisseurs débiteurs
+    comptes: 409,-490
+    soldeRetenu: DEBITEUR
+    sens: D
+    note: '5'
+    confiance: MOYENNE
+  - code: BD
+    libelle: Clients-usagers
+    comptes: 41,-491
+    soldeRetenu: DEBITEUR
+    sens: D
+    note: '5'
+    confiance: MOYENNE
+  - code: BE
+    libelle: Autres créances
+    comptes: 42,43,44,45,46,47,-492,-493,-494,-497
+    soldeRetenu: DEBITEUR
+    sens: D
+    note: '5'
+    confiance: MOYENNE
+  - code: BF
+    libelle: TOTAL ACTIF CIRCULANT
+    expression: BA+BB+BC+BD+BE
+    confiance: HAUTE
+  - code: BV
+    libelle: Valeurs à encaisser
+    comptes: 51,-591
+    sens: D
+    note: '6'
+    confiance: MOYENNE
+  - code: BW
+    libelle: Banques, établissements financiers, caisses et assimilés
+    comptes: 52,53,55,57,-592,-593,-595
+    soldeRetenu: DEBITEUR
+    sens: D
+    note: '6'
+    confiance: MOYENNE
+  - code: BX
+    libelle: TOTAL TRESORERIE ACTIF
+    expression: BV+BW
+    confiance: HAUTE
+  - code: BY
+    libelle: Ecart de conversion-Actif
+    comptes: '478'
+    soldeRetenu: DEBITEUR
+    sens: D
+    note: '7'
+    confiance: MOYENNE
+  - code: BZ
+    libelle: TOTAL GENERAL
+    expression: AZ+BF+BX+BY
+    confiance: HAUTE
+- code: EBNL-P-BILAN-PASSIF
+  libelle: SYCEBNL projets - Bilan Passif
+  periodicite: ANNUELLE
+  delaiJours: 120
+  assujettis: Entités gérant ou administrant des projets de développement financés par bailleurs (SYCEBNL art. 2 2°), système normal
+  layout: BILAN_BICOLONNE
+  source: SYCEBNL art. 4 2°, 7-9, 11-13 ; JO OHADA n° spécial 22/02/2023 (Acte uniforme SYCEBNL, Niamey 22/12/2022), Partie 4 ch. 3 (pp. 397-432) ; https://www.ohada.com/uploads/actualite/6692/SYSCEBNL.pdf
+    (bilan p. 401)
+  confiance: MOYENNE
+  colonnes:
+  - net
+  - netN1
+  lignes:
+  - code: CA
+    libelle: Fonds affectés aux investissements
+    comptes: 162,163,164
+    soldeRetenu: CREDITEUR
+    sens: C
+    note: '8'
+    confiance: MOYENNE
+  - code: CB
+    libelle: Report à nouveau (+ ou -)
+    comptes: '12'
+    sens: C
+    confiance: MOYENNE
+  - code: CC
+    libelle: Solde des opérations de l'exercice
+    comptes: '13'
+    sens: C
+    confiance: MOYENNE
+  - code: CD
+    libelle: Subventions d'investissement
+    comptes: '14'
+    soldeRetenu: CREDITEUR
+    sens: C
+    note: '9'
+    confiance: MOYENNE
+  - code: CZ
+    libelle: TOTAL RESSOURCES PROPRES ET ASSIMILEES
+    expression: CA+CB+CC+CD
+    confiance: HAUTE
+  - code: DA
+    libelle: Emprunts et dettes assimilées
+    comptes: '18'
+    soldeRetenu: CREDITEUR
+    sens: C
+    note: '10'
+    confiance: MOYENNE
+  - code: DB
+    libelle: Provisions pour risques et charges
+    comptes: '19'
+    soldeRetenu: CREDITEUR
+    sens: C
+    note: '10'
+    confiance: MOYENNE
+  - code: DC
+    libelle: TOTAL DETTES FINANCIERES ET RESSOURCES ASSIMILEES
+    expression: DA+DB
+    confiance: HAUTE
+  - code: DD
+    libelle: TOTAL RESSOURCES STABLES
+    expression: CZ+DC
+    confiance: HAUTE
+  - code: DE
+    libelle: Dettes circulantes HAO
+    comptes: 481,484,486,488
+    soldeRetenu: CREDITEUR
+    sens: C
+    note: '3'
+    confiance: MOYENNE
+  - code: DF
+    libelle: Fonds d'administration
+    comptes: 462,463,464
+    soldeRetenu: CREDITEUR
+    sens: C
+    note: '8'
+    confiance: MOYENNE
+  - code: DG
+    libelle: Fournisseurs
+    comptes: 401,402,408
+    soldeRetenu: CREDITEUR
+    sens: C
+    note: '11'
+    confiance: MOYENNE
+  - code: DH
+    libelle: Autres dettes
+    comptes: 42,43,44,45,471,472,473,474,475,476,477
+    soldeRetenu: CREDITEUR
+    sens: C
+    note: '11'
+    confiance: MOYENNE
+  - code: DI
+    libelle: Provisions pour risques et charges à court terme
+    comptes: 499,599
+    soldeRetenu: CREDITEUR
+    sens: C
+    note: '20'
+    confiance: MOYENNE
+  - code: DJ
+    libelle: TOTAL PASSIF CIRCULANT
+    expression: DE+DF+DG+DH+DI
+    confiance: HAUTE
+  - code: DW
+    libelle: Banques, établissements financiers et crédits de trésorerie
+    comptes: 52,56
+    soldeRetenu: CREDITEUR
+    sens: C
+    note: '12'
+    confiance: MOYENNE
+  - code: DX
+    libelle: TOTAL TRESORERIE PASSIF
+    expression: DW
+    confiance: HAUTE
+  - code: DY
+    libelle: Ecart de conversion-Passif
+    comptes: '479'
+    soldeRetenu: CREDITEUR
+    sens: C
+    note: '7'
+    confiance: MOYENNE
+  - code: DZ
+    libelle: TOTAL GENERAL
+    expression: DD+DJ+DX+DY
+    confiance: HAUTE
+- code: EBNL-P-EXPLOITATION
+  libelle: SYCEBNL projets - Compte d'exploitation
+  periodicite: ANNUELLE
+  delaiJours: 120
+  assujettis: Entités gérant ou administrant des projets de développement financés par bailleurs (SYCEBNL art. 2 2°), système normal
+  layout: CR_VERTICAL
+  source: SYCEBNL art. 4 2°, 7-9, 11-13 ; JO OHADA n° spécial 22/02/2023 (Acte uniforme SYCEBNL, Niamey 22/12/2022), Partie 4 ch. 3 (pp. 397-432) ; https://www.ohada.com/uploads/actualite/6692/SYSCEBNL.pdf
+    (p. 402)
+  confiance: MOYENNE
+  colonnes:
+  - net
+  - netN1
+  note: 'produits HAO (TK2) : les revenus HAO ne sont dans XA que s''ils sont ventilés ; à valider'
+  lignes:
+  - code: RA
+    libelle: Fonds d'administration consommés
+    comptes: '702'
+    sens: C
+    note: '8'
+    confiance: MOYENNE
+  - code: RB
+    libelle: Ventes de marchandises, produits finis et prestations de services
+    comptes: '705'
+    sens: C
+    note: '13'
+    confiance: MOYENNE
+  - code: RD
+    libelle: Autres produits et transferts de charges
+    comptes: 72,73,75,781
+    sens: C
+    note: '13'
+    confiance: BASSE
+  - code: RE
+    libelle: Reprises de provisions
+    comptes: '79'
+    sens: C
+    note: '21'
+    confiance: MOYENNE
+  - code: XA
+    libelle: REVENUS
+    expression: RA+RB+RD+RE
+    confiance: HAUTE
+  - code: TA
+    libelle: Achats de biens, marchandises, matières premières et fournitures liées
+    comptes: 601,602
+    sens: D
+    note: '14'
+    confiance: MOYENNE
+  - code: TB
+    libelle: Autres achats
+    comptes: 604,605,606,608
+    sens: D
+    note: '14'
+    confiance: MOYENNE
+  - code: TC
+    libelle: Variation de stocks de biens, marchandises, matières et fournitures et autres
+    comptes: '603'
+    sens: D
+    note: '4'
+    confiance: MOYENNE
+  - code: TD
+    libelle: Transports
+    comptes: '61'
+    sens: D
+    note: '15'
+    confiance: MOYENNE
+  - code: TG
+    libelle: Services extérieurs
+    comptes: 62,63
+    sens: D
+    note: '16'
+    confiance: MOYENNE
+  - code: TH
+    libelle: Impôts et taxes
+    comptes: '64'
+    sens: D
+    note: '17'
+    confiance: MOYENNE
+  - code: TI
+    libelle: Autres charges
+    comptes: '65'
+    sens: D
+    note: '18'
+    confiance: MOYENNE
+  - code: TJ
+    libelle: Charges de personnel
+    comptes: '66'
+    sens: D
+    note: '19'
+    confiance: MOYENNE
+  - code: TK
+    libelle: Frais financiers et charges assimilées
+    comptes: '67'
+    sens: D
+    note: '20'
+    confiance: MOYENNE
+  - code: TJ2
+    libelle: Dotations aux provisions
+    comptes: '69'
+    sens: D
+    note: '21'
+    confiance: MOYENNE
+    ecart: 'le modèle officiel répète le code TJ (charges de personnel puis dotations) et TK (frais financiers puis produits HAO) : codes dédoublés ici en TJ2/TK2/TL'
+  - code: TK2
+    libelle: Produits H.A.O.
+    comptes: 82,84,86,88
+    sens: C
+    note: '22'
+    confiance: BASSE
+  - code: TL
+    libelle: Charges H.A.O.
+    comptes: 81,83,85
+    sens: D
+    note: '22'
+    confiance: BASSE
+  - code: XB
+    libelle: CHARGES DE FONCTIONNEMENT
+    expression: TA+TB+TC+TD+TG+TH+TI+TJ+TK+TJ2+TL
+    confiance: HAUTE
+  - code: XC
+    libelle: SOLDE DES OPERATIONS DE L'EXERCICE (XA-XB)
+    expression: XA-XB
+    confiance: HAUTE
+    ecart: 'doit être nul pour un projet (art. 8-9 : quotité de ressources équivalant aux charges)'
+- code: EBNL-P-NOTES
+  libelle: 'SYCEBNL projets - Notes annexes : 24 notes'
+  periodicite: ANNUELLE
+  delaiJours: 120
+  assujettis: Entités gérant ou administrant des projets de développement financés par bailleurs (SYCEBNL art. 2 2°), système normal
+  layout: NOTES
+  source: SYCEBNL art. 4 2°, 7-9, 11-13 ; JO OHADA n° spécial 22/02/2023 (Acte uniforme SYCEBNL, Niamey 22/12/2022), Partie 4 ch. 3 (pp. 397-432) ; https://www.ohada.com/uploads/actualite/6692/SYSCEBNL.pdf
+    (p. 403)
+  confiance: HAUTE
+  lignes:
+  - code: NOTE_1
+    libelle: Informations obligatoires
+    confiance: HAUTE
+  - code: NOTE_2
+    libelle: Notes sur le TER, le tableau d'exécution budgétaire et le tableau de réconciliation de trésorerie
+    confiance: HAUTE
+  - code: NOTE_3A
+    libelle: Immobilisations brutes
+    confiance: HAUTE
+  - code: NOTE_3B
+    libelle: Biens pris en location-acquisition
+    confiance: HAUTE
+  - code: NOTE_4
+    libelle: Actif circulant et dettes circulantes HAO
+    confiance: HAUTE
+  - code: NOTE_5
+    libelle: Stocks et encours
+    confiance: HAUTE
+  - code: NOTE_6
+    libelle: Clients-usagers et autres créances
+    confiance: HAUTE
+  - code: NOTE_7
+    libelle: Disponibilités
+    confiance: HAUTE
+  - code: NOTE_8
+    libelle: Ecarts de conversion
+    confiance: HAUTE
+  - code: NOTE_9
+    libelle: Fonds du bailleur
+    confiance: HAUTE
+  - code: NOTE_10
+    libelle: Subventions
+    confiance: HAUTE
+  - code: NOTE_11
+    libelle: Dettes financières et ressources assimilées
+    confiance: HAUTE
+  - code: NOTE_12
+    libelle: Dettes fournisseurs et assimilées, dettes fiscales et sociales
+    confiance: HAUTE
+  - code: NOTE_13
+    libelle: Banques, crédit d'escompte et de trésorerie
+    confiance: HAUTE
+  - code: NOTE_14
+    libelle: Revenus et autres produits
+    confiance: HAUTE
+  - code: NOTE_15
+    libelle: Achats
+    confiance: HAUTE
+  - code: NOTE_16
+    libelle: Transports
+    confiance: HAUTE
+  - code: NOTE_17
+    libelle: Services extérieurs
+    confiance: HAUTE
+  - code: NOTE_18
+    libelle: Impôts et taxes
+    confiance: HAUTE
+  - code: NOTE_19
+    libelle: Autres charges
+    confiance: HAUTE
+  - code: NOTE_20A
+    libelle: Charges de personnel
+    confiance: HAUTE
+  - code: NOTE_20B
+    libelle: Effectifs, masse salariale et personnel extérieur
+    confiance: HAUTE
+  - code: NOTE_21
+    libelle: Charges et revenus financiers
+    confiance: HAUTE
+  - code: NOTE_22
+    libelle: Dotations et charges pour provisions
+    confiance: HAUTE
+  - code: NOTE_23
+    libelle: Autres charges et produits HAO
+    confiance: HAUTE
+  - code: NOTE_24
+    libelle: Tableau d'exécution budgétaire
+    confiance: HAUTE
+- code: EBNL-SMT-BILAN
+  libelle: SYCEBNL SMT - Bilan
+  periodicite: ANNUELLE
+  delaiJours: 120
+  assujettis: Entités dont chacune des ressources annuelles (subventions ; cotisations et autres revenus ; dons/legs ; ressources de projet ; autres ressources) <= 30 M FCFA ; bascule au système normal
+    si une ressource dépasse 30 M ou si cumul sur deux exercices > 30 M (SYCEBNL art. 6)
+  layout: BILAN_BICOLONNE
+  source: SYCEBNL art. 5-6 ; JO OHADA n° spécial 22/02/2023 (Acte uniforme SYCEBNL, Niamey 22/12/2022), Partie 4 ch. 4 (pp. 433-437) ; https://www.ohada.com/uploads/actualite/6692/SYSCEBNL.pdf
+  confiance: HAUTE
+  colonnes:
+  - montantN
+  - montantN1
+  note: 'Source = journal unique de trésorerie (Note 4) + états extra-comptables des créances/dettes : pas d''alimentation par la balance du grand livre en droits constatés'
+  lignes:
+  - code: GA
+    libelle: Immobilisations (à faire figurer si significatives)
+    note: '1'
+    confiance: HAUTE
+    ecart: 'hors balance (comptabilité de trésorerie) : Note 1 ''Tableau d''acquisition et de suivi du matériel, du mobilier et des cautions'''
+  - code: GB
+    libelle: Stocks
+    note: '2'
+    confiance: HAUTE
+  - code: GC
+    libelle: Adhérents, clients-usagers et autres débiteurs
+    note: '3'
+    confiance: HAUTE
+  - code: GD
+    libelle: Caisse
+    note: '4'
+    confiance: HAUTE
+  - code: GE
+    libelle: Banque (en + ou en -)
+    note: '4'
+    confiance: HAUTE
+  - code: GZ
+    libelle: Total actif
+    expression: GA+GB+GC+GD+GE
+    confiance: HAUTE
+  - code: HA
+    libelle: Dotations
+    note: '5'
+    confiance: HAUTE
+  - code: HB
+    libelle: Résultat net de l'exercice (en + ou en -)
+    confiance: HAUTE
+  - code: HC
+    libelle: Autres fonds propres
+    confiance: HAUTE
+  - code: HD
+    libelle: Fournisseurs et autres créditeurs
+    note: '3'
+    confiance: HAUTE
+  - code: HZ
+    libelle: Total passif
+    expression: HA+HB+HC+HD
+    confiance: HAUTE
+  seuilEligibilite:
+    parRessource: 30000000
+    regle: chaque ressource <= 30 M FCFA ; cumul > 30 M sur 2 exercices => système normal
+    source: SYCEBNL art. 6 (OHADA-ETF-117)
+- code: EBNL-SMT-RESULTAT
+  libelle: SYCEBNL SMT - Compte de résultat
+  periodicite: ANNUELLE
+  delaiJours: 120
+  assujettis: Entités dont chacune des ressources annuelles (subventions ; cotisations et autres revenus ; dons/legs ; ressources de projet ; autres ressources) <= 30 M FCFA ; bascule au système normal
+    si une ressource dépasse 30 M ou si cumul sur deux exercices > 30 M (SYCEBNL art. 6)
+  layout: CR_VERTICAL
+  source: SYCEBNL art. 5-6 ; JO OHADA n° spécial 22/02/2023 (Acte uniforme SYCEBNL, Niamey 22/12/2022), Partie 4 ch. 4 (pp. 433-437) ; https://www.ohada.com/uploads/actualite/6692/SYSCEBNL.pdf
+  confiance: HAUTE
+  colonnes:
+  - montantN
+  - montantN1
+  lignes:
+  - code: KA
+    libelle: Revenus encaissés
+    note: '4'
+    confiance: HAUTE
+  - code: KB
+    libelle: Autres recettes sur activités
+    note: '4'
+    confiance: HAUTE
+  - code: KX
+    libelle: TOTAL DES REVENUS ENCAISSES (A)
+    expression: KA+KB
+    confiance: HAUTE
+  - code: JA
+    libelle: Dépenses sur achats
+    note: '4'
+    confiance: HAUTE
+  - code: JB
+    libelle: Dépenses sur loyers
+    note: '4'
+    confiance: HAUTE
+  - code: JC
+    libelle: Dépenses sur salaires
+    note: '4'
+    confiance: HAUTE
+  - code: JD
+    libelle: Dépenses sur impôts et taxes
+    note: '4'
+    confiance: HAUTE
+  - code: JE
+    libelle: Charges d'intérêts
+    note: '4'
+    confiance: HAUTE
+  - code: JF
+    libelle: Autres dépenses sur activités
+    note: '4'
+    confiance: HAUTE
+  - code: JX
+    libelle: TOTAL DEPENSES SUR CHARGES (B)
+    expression: JA+JB+JC+JD+JE+JF
+    confiance: HAUTE
+  - code: KZ
+    libelle: 'SOLDE : Excédent (+) ou insuffisance (-) de recettes (C=A-B)'
+    expression: KX-JX
+    confiance: HAUTE
+  - code: VA
+    libelle: + Variations des stocks sur les achats [N-(N-1)]
+    confiance: HAUTE
+  - code: VB
+    libelle: + Variation des créances [N-(N-1)]
+    confiance: HAUTE
+  - code: VC
+    libelle: '- Variation des dettes d''exploitation [N-(N-1)]'
+    confiance: HAUTE
+  - code: JG
+    libelle: DOTATIONS AUX AMORTISSEMENTS
+    confiance: HAUTE
+  - code: KZC
+    libelle: RESULTAT NET DE L'EXERCICE
+    expression: KZ+VA+VB-VC-JG
+    confiance: HAUTE
+    ecart: 'formule déduite des libellés (le modèle ne donne pas de formule) '
+  seuilEligibilite:
+    parRessource: 30000000
+    regle: chaque ressource <= 30 M FCFA ; cumul > 30 M sur 2 exercices => système normal
+    source: SYCEBNL art. 6 (OHADA-ETF-117)
+- code: EBNL-SMT-NOTES
+  libelle: 'SYCEBNL SMT - Notes annexes : 5 notes'
+  periodicite: ANNUELLE
+  delaiJours: 120
+  assujettis: Entités dont chacune des ressources annuelles (subventions ; cotisations et autres revenus ; dons/legs ; ressources de projet ; autres ressources) <= 30 M FCFA ; bascule au système normal
+    si une ressource dépasse 30 M ou si cumul sur deux exercices > 30 M (SYCEBNL art. 6)
+  layout: NOTES
+  source: SYCEBNL art. 5-6 ; JO OHADA n° spécial 22/02/2023 (Acte uniforme SYCEBNL, Niamey 22/12/2022), Partie 4 ch. 4 (pp. 433-437) ; https://www.ohada.com/uploads/actualite/6692/SYSCEBNL.pdf
+  confiance: HAUTE
+  lignes:
+  - code: NOTE_1
+    libelle: Tableau d'acquisition et de suivi du matériel, du mobilier et des cautions
+    confiance: HAUTE
+  - code: NOTE_2
+    libelle: Etat des stocks
+    confiance: HAUTE
+  - code: NOTE_3
+    libelle: Etat des créances et des dettes non échues
+    confiance: HAUTE
+  - code: NOTE_4
+    libelle: Journal unique de trésorerie
+    confiance: HAUTE
+  - code: NOTE_5
+    libelle: Dotations
+    confiance: HAUTE
+- code: SYSN-DSF
+  libelle: 'DSF / liasse fiscale (variante pays) : états financiers + états complémentaires fiscaux'
+  periodicite: ANNUELLE
+  delaiJours: null
+  assujettis: Entités fiscales soumises à la législation de chaque État (régime du dépôt = droit interne, cf. SYCEBNL art. 5 al. 3 par analogie)
+  layout: GENERIC
+  source: 'Existence : liasse DGI Côte d''Ivoire (fiches R1-R4, notes 37-39 DGI, états complémentaires COMP-CHARGES, COMP-TVA, SUPPL 1-7, BIC...) lue dans https://www.brvm.org/sites/default/files/sodeci_liasse_syscohada_revise_2019.pdf
+    ; Togo OTR (liasse avril 2020) et DGI Cameroun (DSF) signalés par recherche web, non lus'
+  confiance: BASSE
+  lignes: []
+  note: Variante par pays hors périmètre du paquet OHADA ; délai de dépôt fiscal national NON TROUVÉ (ne pas confondre avec l'arrêté des comptes sous 4 mois, AUDCIF art. 23)
+  calendrierPays:
+    CM: 15 mars (DGE) / 15 avril (CIME, CSI) / 15 mai (CDI), dépôt électronique impots.cm
+    TG: 30 avril, GUDEF OTR (prorogations annuelles)
+    CI: 30 mai ou 30 juin si CAC, télétransmission DGE/DME
+    SN: 30 avril, SEN-ETAFI ; CAC 31 juillet (MOYENNE)
+    CD: 30 avril, DGI/CPCC, certification ONEC (BASSE)
+    BJ/BF/ML: 30 avril (BASSE)
+notesAnnexes:
+  nombre: 36
+  source: Guide SYSCOHADA §5 (OHADA-ETF-109)
+  numerosInferes:
+  - '9'
+  - '10'
+  - '15'
+  - '16'
+  - '20'
+  - '27'
+  - '35'
+  - '36'
+applicabiliteSFD: 'SFD hors SYSCOHADA (AUDCIF art. 5) et hors SYCEBNL (art. 2 al. 3) : pas de double reporting OHADA, sauf DSF fiscale (OHADA-ETF-119/120, MOYENNE)'
