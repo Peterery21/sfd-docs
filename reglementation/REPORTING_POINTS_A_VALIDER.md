@@ -11,6 +11,9 @@ Ce registre se remplit au fil de l'implémentation et sera remis en fin de proje
 | U4 | Concordances allégées illisibles : D1E, D1L, V3G (le 7025 allégé est suspect). | Version développée retenue, allégée à confirmer. | T29-T30 |
 | U5 | Lignes sans formule : DIMF-2000-BIL B2N, F1A, G10 ; totaux DIMF-2011, 2012 et 2013. | Le moteur les affiche « formule non définie » (jamais 0). | contrat v1.1 |
 | U6 | Loi uniforme de 2023 : les instructions d'application (états, capital minimum, canevas) sont introuvables. | Régime transitoire, avec les Instr. 010 et 020 et le RCSFD (art. 171). | T01-T13 |
+| U8 | Variante de compte : le passage de l'allégée à la développée doit-il être automatique (encours ≥ 2 Md FCFA sur 2 exercices), ou rester une saisie ? | Saisie manuelle de `categorieAssujetti` dans Paramètres. | Instr. 007-06-2010 / 021-12-2010 ; S2 |
+| U9 | Lignes sans code officiel : DIMF-2006 à 2010, 2011-1, 2014, 2018. | Code technique `LIGNE_<ordre>`, calcul en ERREUR. | S2 |
+| U10 | Surcharges pays : rapports nationaux CI-PAYS-001 à 006 sans lignes ; BJ et SN décrits en texte libre. | Rapports affichés, sans calcul. | pays/*.yml ; S2 |
 | U7 | FGDR : taux de 0,29 % et plafond de 300 000 FCFA (décision de 2017). Une révision postérieure n'est pas exclue. | Valeurs de 2017. | T08-T10 |
 
 ## CEMAC (COBAC, PCEMF)
@@ -21,6 +24,7 @@ Ce registre se remplit au fil de l'implémentation et sera remis en fin de proje
 | C3 | R-2017/07 : les seuils de jours et les taux de provisionnement n'ont pas été lus. | Provisions complémentaires (JT18, KL19, VL08) non calculées. | RPT-107 |
 | C4 | Plafonds de crédit de 2002/10 et de R-2017/08 : coexistence ou abrogation ? | Les deux sont testés. | RPT-106 |
 | C5 | 5 comptes cités par le paquet sont introuvables dans le PCEMF : 389, 4651, 5818, 634, 7140. | Correction ou confiance BASSE (S2). | handoff S1 |
+| C5b | Ligne ZP06 (CEMAC-REP-002C) : compte 634 ou 624 selon la catégorie (2/3) ? | 634 pour toutes les catégories. | reporting.md ZP06 ; S2 |
 | C6 | 218 comptes PCEMF ajoutés au plan EDIP, d'après le PCEMF de janvier 2010. Contradictions éventuelles avec le plan existant à revoir. | Ajouts seulement, sans aucune suppression. | `.claude/handoff/reporting-refonte-plans.md` |
 
 ## RDC (BCC, PCCI)
@@ -40,5 +44,9 @@ Ce registre se remplit au fil de l'implémentation et sera remis en fin de proje
 | O4 | Un SFD associatif doit-il aussi produire des états OHADA ? | Non (AUDCIF art. 5, SYCEBNL art. 2), sauf DSF fiscale. | ETF-119/120 |
 
 ## Transverse
+- T1 Mapping des secteurs du wizard : ENTREPRISE et ASSOCIATION → paquet OHADA (SYSCOHADA ou SYCEBNL), quel que soit le pays ; ASSURANCE → suit la zone, sans paquet dédié (décision S2, non sourcée).
+- T2 Périodicités libres (« NON TROUVÉ ») normalisées en `A_CONFIRMER`.
+- T3 Type de valeur déduit : POURCENTAGE si la norme est en %, sinon MONTANT ; à contrôler sur les ratios.
+- T4 Sens `DEC`/`ENC` (17 lignes, flux) conservés tels quels, sans signification comptable vérifiée.
 - Tout ce qui est marqué `confiance: MOYENNE` ou `BASSE` dans les paquets affiche un badge « à valider » dans l'UI.
 - (à compléter à chaque lot : décisions du moteur, contrôles de cohérence, écarts trouvés lors de la vérification de l'exactitude contre les modules)
