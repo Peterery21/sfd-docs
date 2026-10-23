@@ -1,151 +1,243 @@
 zone: UEMOA-BCEAO
-objet: Comptes de classe 9 (hors-bilan) à ajouter au plan comptable EDIP UEMOA, destinés à l'orchestrateur (plan compta)
+objet: Comptes de classe 9 (hors-bilan) du RCSFD à ajouter au plan comptable EDIP UEMOA
 source:
-  etatRCSFD: annexe 1.1 / 2.4 (DIMF 2000 hors-bilan, code AC0) telle que transcrite dans sfd-docs/reglementation/uemoa-bceao/reporting.md §b.2 (copie du Trésor de Côte d'Ivoire, développée, jeu allégé «
-    idem »)
-  constat: 'Le PDF RCSFD allégé cb-umoa (nov. 2009) n''a PAS de classe 9 : son plan de comptes s''arrête à la classe 7 (vérifié sur le texte extrait : CLASSE 1 à 7). La liste ci-dessous ne vient donc ni
-    du PDF allégé ni d''un plan de comptes : elle est lue dans le modèle de hors-bilan (DIMF 2000-HB, copie du Trésor de Côte d''Ivoire, développée) ; les libellés sont ceux des postes, pas ceux des comptes.'
-  confiance: BASSE
+  S1: 'RCSFD UMOA 1re édition (ISBN 978-2-916140-08-7), plan de comptes classe 9 p. 96-98, fonctionnement p. 262-278 : https://microfinance.tresor.gouv.ci/micro/wp-content/uploads/2019/11/RCSSFD.pdf'
+  S2: 'Guide méthodologique de l''audit externe des SFD UEMOA (oct. 2010), annexe 2 p. 193-194, texte identique à S1 : https://www.findevgateway.org/sites/default/files/publications/files/mfg-fr-outils-guide-audit-externe-sfd-zone-uemoa-10-2010.pdf'
+  recherche: 2026-10-23 (Tavily, pages relues)
+confiance:
+  comptesEtLibelles: HAUTE   # S1 et S2 concordants
+  version: MOYENNE           # absente du PDF allégé cb-umoa (nov. 2009, classes 1-7) ; développée seule inférée, aucun texte ne le dit
+  posteDimfHb: MOYENNE       # postes N/P/Q du modèle DIMF 2000-HB, détail (N1A…) non vérifié dans S1/S2
+version: DEVELOPPEE          # ajout au plan EDIP par défaut, à confirmer (voir aValider)
+aValider:
+  - Classe 9 absente du plan allégé et obligatoire seulement en développé (SFD art. 44)
+  - Rattachement compte → poste DIMF-HB détaillé (N1A, N2H…)
+  - Création des comptes miroir 980-985 dans EDIP (partie double) ou écriture simple
+  - 'Coquille probable S1 sur 902 (contrepartie 980 à l''utilisation)'
+  - Référence exacte de l'instruction BCEAO qui rend le RCSFD obligatoire
+contreparties:
+  regle: 'Partie double : contrepartie = 98 + 3e chiffre du compte (90x→980, 91x→981, 92x→982, 933→983, 95x→985). Exceptions : 93 (sauf 933) via 937/938, et 961-966 entre eux. 99 n''est pas un miroir.'
+  sens: 'Débit si la réalisation se traduirait au bilan par un débit (financement donné, titres/devises à recevoir), crédit sinon (garantie reçue, titres à livrer).'
+  comptes:
+  - {compte: '980', libelle: 'Contrepartie des engagements de financement', origine: 'S1 p. 262-278 (cité dans le fonctionnement, absent de la liste p. 97-98)'}
+  - {compte: '981', libelle: 'Contrepartie des engagements de garantie', origine: 'S1 p. 262-278 (cité dans le fonctionnement, absent de la liste p. 97-98)'}
+  - {compte: '982', libelle: 'Contrepartie des engagements sur titres', origine: 'S1 p. 262-278 (cité dans le fonctionnement, absent de la liste p. 97-98)'}
+  - {compte: '983', libelle: 'Contrepartie des engagements de prêts ou d''emprunts en devises', origine: 'S1 p. 262-278 (cité dans le fonctionnement, absent de la liste p. 97-98)'}
+  - {compte: '985', libelle: 'Contrepartie des autres engagements', origine: 'S1 p. 262-278 (cité dans le fonctionnement, absent de la liste p. 97-98)'}
 comptes:
+- compte: '90'
+  libelle: 'ENGAGEMENTS DE FINANCEMENT'
 - compte: '901'
   poste: N1A
-  libelle: ENGAGEMENTS DE FINANCEMENT DONNES EN FAVEUR DES INSTITUTIONS FINANCIERES
+  libelle: 'Engagements de financement donnés en faveur des institutions financières'
 - compte: '902'
   poste: N1H
-  libelle: ENGAGEMENTS DE FINANCEMENT RECUS DES INSTITUTIONS FINANCIERES
+  libelle: 'Engagements de financement reçus des institutions financières'
 - compte: '903'
   poste: N1J
-  libelle: ENGAGEMENTS DE FINANCEMENT DONNES EN FAVEUR DES MEMBRES, BENEFICIAIRES OU CLIENTS
+  libelle: 'Engagements de financement donnés en faveur des membres, bénéficiaires ou clients'
 - compte: '904'
   poste: N1K
-  libelle: ENGAGEMENTS DE FINANCEMENT RECUS DES MEMBRES, BENEFICIAIRES OU CLIENTS
+  libelle: 'Engagements de financement reçus des membres, bénéficiaires ou clients'
+- compte: '91'
+  libelle: 'ENGAGEMENTS DE GARANTIE'
 - compte: '911'
   poste: N2A
-  libelle: Engagements de garantie d'ordre des institutions financières
+  libelle: 'Cautions, avals et autres garanties d''ordre des institutions financières'
+- compte: '9112'
+  libelle: 'Confirmations d''ouverture de crédits documentaires'
+- compte: '9113'
+  libelle: 'Acceptations à payer'
+- compte: '9119'
+  libelle: 'Autres garanties données'
 - compte: '912'
   poste: N2H
-  libelle: Engagements de garantie reçus des institutions financières
+  libelle: 'Cautions, avals et autres garanties reçus des institutions financières'
+- compte: '9121'
+  libelle: 'Cautions et avals reçus'
+- compte: '9122'
+  libelle: 'Contre-garanties reçues sur les crédits distribués'
+- compte: '9123'
+  libelle: 'Contre-garanties reçues des engagements par signature donnés'
+- compte: '9124'
+  libelle: 'Autres garanties irrévocables et inconditionnelles reçues'
 - compte: '913'
   poste: N2J
-  libelle: Engagements de garantie d'ordre des membres, bénéficiaires ou clients
+  libelle: 'Garanties d''ordre des membres, bénéficiaires ou clients'
+- compte: '9132'
+  libelle: 'Obligations cautionnées'
+- compte: '9133'
+  libelle: 'Cautions, avals et autres garanties donnés'
+- compte: '9134'
+  libelle: 'Garanties de remboursement de crédits'
+- compte: '9139'
+  libelle: 'Autres garanties données'
 - compte: '914'
   poste: N2M
-  libelle: Engagements de garantie reçus des membres, bénéficiaires ou clients
-- compte: '9211'
+  libelle: 'Garanties reçues des membres, bénéficiaires ou clients'
+- compte: '9141'
+  libelle: 'Garanties reçues de l''Etat et des organismes assimilés'
+- compte: '9142'
+  libelle: 'Garanties reçues des entreprises d''assurance et de capitalisation'
+- compte: '9149'
+  libelle: 'Autres garanties reçues'
+- compte: '92'
+  libelle: 'ENGAGEMENTS SUR TITRES'
+- compte: '921'
   poste: N3A
-  libelle: 'Engagements sur titres : titres à livrer'
-- compte: '9212'
-  poste: N3A
-  libelle: 'Engagements sur titres : titres à livrer'
-- compte: '9219'
-  poste: N3A
-  libelle: 'Engagements sur titres : titres à livrer'
+  libelle: 'Titres à livrer'
 - compte: '9211'
   poste: N3B
-  libelle: Intervention à l'émission (titres à livrer)
+  libelle: 'Interventions à l''émission'
 - compte: '9212'
   poste: N3C
-  libelle: Marché gris (titres à livrer)
+  libelle: 'Marché gris'
 - compte: '9219'
   poste: N3D
-  libelle: Autres titres à livrer
-- compte: '9221'
+  libelle: 'Autres titres à livrer'
+- compte: '922'
   poste: N3E
-  libelle: 'Engagements sur titres : titres à recevoir'
-- compte: '9222'
-  poste: N3E
-  libelle: 'Engagements sur titres : titres à recevoir'
-- compte: '9229'
-  poste: N3E
-  libelle: 'Engagements sur titres : titres à recevoir'
+  libelle: 'Titres à recevoir'
 - compte: '9221'
   poste: NRF
-  libelle: Intervention à l'émission (titres à recevoir)
+  libelle: 'Interventions à l''émission'
 - compte: '9222'
   poste: NRG
-  libelle: Marché gris (titres à recevoir)
+  libelle: 'Marché gris'
 - compte: '9229'
   poste: N3H
-  libelle: 'Autres titres à recevoir [libellé du modèle : Autres titres à livrer]'
+  libelle: 'Autres titres à recevoir'
+- compte: '93'
+  libelle: 'ENGAGEMENTS SUR OPERATIONS EN DEVISES'
+- compte: '931'
+  libelle: 'Opérations de change au comptant'
 - compte: '9311'
   poste: P1A
-  libelle: Francs CFA achetés non encore reçus
+  libelle: 'Francs CFA achetés non encore reçus'
 - compte: '9312'
   poste: P1B
-  libelle: Devises achetées non encore reçues
+  libelle: 'Devises achetées non encore reçues'
 - compte: '9313'
   poste: P1C
-  libelle: Francs CFA vendus non encore livres
+  libelle: 'Francs CFA vendus non encore livrés'
 - compte: '9314'
   poste: P1D
-  libelle: Devises vendues non encore livrées
-- compte: '9331'
-  poste: P1E
-  libelle: Devises prêtées non encore livrées
-- compte: '9332'
-  poste: P1F
-  libelle: Devises empruntées non encore reçues
+  libelle: 'Devises vendues non encore livrées'
+- compte: '932'
+  libelle: 'Opérations de change à terme'
 - compte: '9321'
   poste: P1G
-  libelle: Opérations de change à terme francs CFA à recevoir contre devises à livrer
+  libelle: 'Francs CFA à recevoir contre devises à livrer'
 - compte: '9322'
   poste: P1H
-  libelle: Opérations de change à terme devises à recevoir contre FCFA à livrer
+  libelle: 'Devises à recevoir contre francs CFA à livrer'
 - compte: '9323'
   poste: P1J
-  libelle: Opérations de change à terme devises à recevoir contre devises à livrer
+  libelle: 'Devises à recevoir contre devises à livrer'
 - compte: '9324'
   poste: P1K
-  libelle: Opérations de change à terme devises à livrer contre devises à recevoir
+  libelle: 'Devises à livrer contre devises à recevoir'
+- compte: '933'
+  libelle: 'Opérations de prêts ou d''emprunts en devises'
+- compte: '9331'
+  poste: P1E
+  libelle: 'Devises prêtées non encore livrées'
+- compte: '9332'
+  poste: P1F
+  libelle: 'Devises empruntées non encore reçues'
+- compte: '934'
+  libelle: 'Report/déport non couru'
 - compte: '9341'
   poste: P1L
-  libelle: Report/déport non couru à recevoir
+  libelle: 'Report/déport à recevoir'
 - compte: '9342'
   poste: P1M
-  libelle: Report/déport non couru à payer
+  libelle: 'Report/déport à payer'
+- compte: '935'
+  libelle: 'Intérêts non courus en devises couverts'
 - compte: '9351'
   poste: P1R
-  libelle: Intérêts non courus en devises couverts à recevoir
+  libelle: 'Intérêts non courus en devises couverts à recevoir'
 - compte: '9352'
   poste: P1S
-  libelle: Intérêts non courus en devises couverts à payer
+  libelle: 'Intérêts non courus en devises couverts à payer'
 - compte: '936'
   poste: P1V
-  libelle: Ajustements devises hors bilan
+  libelle: 'Comptes d''ajustement de devises hors bilan'
+- compte: '937'
+  libelle: 'Comptes de position de change hors bilan'
+- compte: '938'
+  libelle: 'Comptes de contre-valeur de position de change hors bilan'
+- compte: '95'
+  libelle: 'AUTRES ENGAGEMENTS'
 - compte: '951'
   poste: Q1A
-  libelle: Autres engagements donnés
+  libelle: 'Autres engagements donnés'
+- compte: '9513'
+  libelle: 'Loyers à payer'
+- compte: '9519'
+  libelle: 'Engagements divers donnés'
 - compte: '952'
   poste: Q1B
-  libelle: Autres engagements reçus
+  libelle: 'Autres engagements reçus'
+- compte: '9522'
+  libelle: 'Valeurs reçues en garantie'
+- compte: '9523'
+  libelle: 'Loyers à percevoir'
+- compte: '9529'
+  libelle: 'Engagements divers reçus'
+- compte: '96'
+  libelle: 'OPERATIONS EFFECTUEES POUR LE COMPTE DE TIERS'
+- compte: '961'
+  libelle: 'Opérations d''encaissement'
 - compte: '9611'
   poste: Q1C
-  libelle: Valeurs à l'encaissement non disponibles
-- compte: '9613'
-  poste: Q1C
-  libelle: Valeurs à l'encaissement non disponibles
+  libelle: 'Valeurs à l''encaissement reçues des membres, bénéficiaires ou clients et non disponibles'
 - compte: '9612'
   poste: Q1F
-  libelle: Comptes exigibles après encaissements
+  libelle: 'Comptes des membres, bénéficiaires ou clients exigibles après encaissement'
+- compte: '9613'
+  poste: Q1C
+  libelle: 'Valeurs à l''encaissement reçues des correspondants et non disponibles'
 - compte: '9614'
   poste: Q1F
-  libelle: Comptes exigibles après encaissements
+  libelle: 'Comptes des correspondants exigibles après encaissement'
+- compte: '962'
+  libelle: 'Comptes de suivi des engagements consortiaux de financement donnés'
 - compte: '9621'
   poste: Q1J
-  libelle: Comptes de suivi des engagements de financement consortiaux
+  libelle: 'Engagements de financement'
+- compte: '9622'
+  libelle: 'Part de chef de file'
+- compte: '9623'
+  libelle: 'Parts des co-participants'
+- compte: '963'
+  libelle: 'Comptes de suivi des engagements consortiaux de garantie donnés'
 - compte: '9631'
   poste: Q1K
-  libelle: Comptes de suivi des engagements de garantie consortiaux
+  libelle: 'Engagements de garantie donnés'
+- compte: '9632'
+  libelle: 'Part de chef de file'
+- compte: '9633'
+  libelle: 'Parts des co-participants'
+- compte: '965'
+  libelle: 'Comptes de suivi des crédits consortiaux distribués'
 - compte: '9651'
   poste: Q1L
-  libelle: Comptes de suivi des crédits consortiaux
+  libelle: 'Crédits consortiaux'
+- compte: '9652'
+  libelle: 'Part de chef de file'
+- compte: '9653'
+  libelle: 'Parts des co-participants'
+- compte: '9659'
+  libelle: 'Echéances impayées'
+- compte: '966'
+  libelle: 'Comptes de suivi des crédits distribués pour le compte de tiers'
 - compte: '9661'
   poste: Q1M
-  libelle: Crédits distribués pour le compte de tiers
+  libelle: 'Crédits distribués pour le compte de tiers'
+- compte: '9662'
+  libelle: 'Ressources affectées aux crédits distribués pour le compte de tiers'
 - compte: '99'
   poste: N90
-  libelle: ENGAGEMENTS DOUTEUX
-pointsAValider:
-- 'Libellés officiels des comptes de classe 9 : à lire dans le RCSFD développé (version officielle BCEAO / Commission Bancaire), pas disponible ici'
-- 'Sens normal des soldes (SOLDE retenu par S2 sur le hors-bilan) : à confirmer'
-origine: modele-DIMF-2000-HB-copie-CI
+  libelle: 'ENGAGEMENTS DOUTEUX'

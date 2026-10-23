@@ -15,7 +15,7 @@ Ce registre se remplit au fil de l'implémentation et sera remis en fin de proje
 | U9 | Lignes sans code officiel : DIMF-2006 à 2010, 2011-1, 2014, 2018. | Code technique `LIGNE_<ordre>`, calcul en ERREUR. | S2 |
 | U10 | Surcharges pays : rapports nationaux CI-PAYS-001 à 006 sans lignes ; BJ et SN décrits en texte libre. | Rapports affichés, sans calcul. | pays/*.yml ; S2 |
 | U11 | La variante allégée ne contient pas certains postes de la développée (149 lignes `allegee:false`). Valeur proposée : 0 explicite, avec un avertissement « absent du plan allégé ». | à valider | S2b, revue |
-| U12 | Classe 9 (hors-bilan) : le RCSFD allégé n'en publie pas. La liste vient du modèle DIMF-2000-HB (copie CI) : à confirmer avec la BCEAO avant de l'ajouter au plan EDIP. | confiance BASSE | S2b |
+| U12 | Classe 9 (hors-bilan) : 87 comptes (90-99) et contreparties 980-985 relus dans le RCSFD 1re édition p. 96-98 et 262-278, concordant avec le guide d'audit SFD UEMOA 2010 (annexe 2). Ajoutés au plan EDIP UEMOA par décision utilisateur du 2026-10-23 ; le comptable corrige après. À valider : (1) classe 9 réservée au développé ? (2) postes DIMF-HB détaillés ; (3) comptes miroir 98x en partie double ; (4) coquille S1 sur 902 ; (5) instruction BCEAO de référence. | comptes HAUTE, version et postes MOYENNE | `uemoa-bceao/plan-classe9-hors-bilan.yml` |
 | U7 | FGDR : taux de 0,29 % et plafond de 300 000 FCFA (décision de 2017). Une révision postérieure n'est pas exclue. | Valeurs de 2017. | T08-T10 |
 
 ## CEMAC (COBAC, PCEMF)
