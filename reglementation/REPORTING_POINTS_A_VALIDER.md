@@ -68,6 +68,7 @@ Ce registre se remplit au fil de l'implémentation et sera remis en fin de proje
 - E1 : il existe deux TFT/CAFG. La liasse compta (écran compta SYSCOHADA) et `SYSN-TFT` du paquet (états réglementaires) peuvent diverger. Pour le régulateur, c'est le paquet qui fait foi ; la liasse compta reste un outil de gestion.
 - E2 : en balance consolidée, les comptes de liaison inter-agences ne sont pas éliminés. Les soldes sont justes, mais les totaux débit et crédit sont gonflés.
 - E3 : la pièce « Détermination du résultat » (clôture) est exclue de la balance de reporting au 31/12, pour garder les classes 6 et 7 ; à-nouveaux et régularisations conservés.
+- E4 : TFT compta, acquisitions FF à FH. Elles sont estimées par la hausse du solde brut des immobilisations, alors que le Guide SYSCOHADA les calcule à partir des nets, plus les dotations 681 et 81 (VNC cédée). L'écart apparaît s'il y a eu des cessions dans l'exercice.
 
 ## Transverse
 - T1 Mapping des secteurs du wizard : ENTREPRISE et ASSOCIATION → paquet OHADA (SYSCOHADA ou SYCEBNL), quel que soit le pays ; ASSURANCE → suit la zone, sans paquet dédié (décision S2, non sourcée).
