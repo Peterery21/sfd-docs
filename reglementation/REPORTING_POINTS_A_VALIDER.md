@@ -80,3 +80,6 @@ Ce registre se remplit au fil de l'implémentation et sera remis en fin de proje
 - T4 Sens `DEC`/`ENC` (17 lignes, flux) conservés tels quels, sans signification comptable vérifiée.
 - Tout ce qui est marqué `confiance: MOYENNE` ou `BASSE` dans les paquets affiche un badge « à valider » dans l'UI.
 - (à compléter à chaque lot : décisions du moteur, contrôles de cohérence, écarts trouvés lors de la vérification de l'exactitude contre les modules)
+
+| T5 | Sécurité : les endpoints `/reporting/*` du service épargne (existants et nouveau `/reporting/taux-depots`) n'ont pas de `@PreAuthorize`, contrairement au transfert et à la caisse. Prévoir un lot de durcissement. | technique | E1A1 |
+| T6 | Taux d'épargne (`HistoriqueInteretCompte.tauxApplique`) testé uniquement en H2, faute d'historique d'intérêts dans la baseline. À valider sur PostgreSQL avec des données réelles. | technique | E1A1 |
