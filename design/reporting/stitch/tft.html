@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8"><title>Tableau des flux de trésorerie — SYSCOHADA</title>
+<meta name="viewport" content="width=1440">
+<style>
+:root{--pri:#475569;--prid:#334155;--mut:#64748b;--ok:#10b981;--okt:#047857;--oks:#d1fae5;--ko:#ef4444;--kot:#b91c1c;--kos:#fee2e2;--bg:#f3f6f9;--bd:#e9ebec}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);font:14px/1.45 'Open Sans',Arial,sans-serif;color:#212529;width:1440px}
+.wrap{padding:24px 32px}.card{background:#fff;border:1px solid var(--bd);border-radius:6px;box-shadow:0 1px 2px rgba(56,65,74,.15)}
+h1{font-size:20px;font-weight:600;margin:0;color:var(--prid)}.crumb{color:var(--mut);font-size:13px}
+.head{display:flex;justify-content:space-between;align-items:center;padding:16px 20px;margin-bottom:16px}
+.ctl{display:flex;gap:10px;align-items:center}.sel{border:1px solid #ced4da;border-radius:6px;padding:7px 12px;font-size:13px;background:#fff;min-width:170px}
+.btn{border:1px solid var(--pri);color:var(--pri);background:#fff;border-radius:6px;padding:7px 14px;font-size:13px;font-weight:600}.btn.p{background:var(--pri);color:#fff}
+.kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:16px;margin-bottom:16px}
+.kpi{padding:16px 18px;border-top:3px solid var(--pri)}.kpi.ok{border-top-color:var(--ok)}.kpi.ko{border-top-color:var(--ko)}
+.kpi .l{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.03em;color:var(--mut)}
+.kpi .v{font-size:22px;font-weight:600;font-variant-numeric:tabular-nums;margin:6px 0}.neg{color:var(--kot)}
+.chip{display:inline-block;font-size:12px;font-weight:600;border-radius:4px;padding:2px 8px}.chip.up{background:var(--oks);color:var(--okt)}.chip.dn{background:var(--kos);color:var(--kot)}
+.mid{display:grid;grid-template-columns:2fr 1fr;gap:16px;margin-bottom:16px}.mid .card{padding:18px 20px}
+h2{font-size:15px;font-weight:600;margin:0 0 12px;color:var(--prid)}
+.badge{display:flex;gap:12px;align-items:center;background:var(--oks);color:var(--okt);border-radius:6px;padding:14px;font-weight:600}
+.badge i{width:32px;height:32px;border-radius:50%;background:var(--ok);color:#fff;display:grid;place-items:center;font-style:normal}
+table{width:100%;border-collapse:collapse;font-size:13.5px}th{background:var(--bg);text-align:left;font-size:12px;text-transform:uppercase;letter-spacing:.03em;color:var(--mut);padding:10px 14px}
+td{padding:0 14px;height:44px;border-top:1px solid var(--bd)}.r{text-align:right;font-variant-numeric:tabular-nums}
+tr.sec td{background:#f8fafc;font-weight:600;color:var(--prid);cursor:pointer}tr.tot td{font-weight:600;background:var(--bg)}tr.sel td{background:#e0f2fe}
+.drawer{position:absolute;right:0;top:0;width:400px;height:100%;background:#fff;border-left:1px solid var(--bd);box-shadow:-4px 0 12px rgba(56,65,74,.12);padding:22px}
+.drawer h3{margin:0 0 4px;font-size:16px}.drawer td{height:38px}
+.note{color:var(--mut);font-size:12px}
+</style></head><body><div style="position:relative;min-height:1500px"><div class="wrap" style="padding-right:432px">
+<div class="head card"><div><div class="crumb">Comptabilité › États financiers</div><h1>Tableau des flux de trésorerie — SYSCOHADA</h1></div>
+<div class="ctl"><div class="sel">Exercice 2025 <span class="note">vs 2024</span></div><div class="sel">Agence : Consolidé</div><button class="btn">Exporter Excel</button><button class="btn p">Exporter PDF</button></div></div>
+
+<div class="kpis">
+<div class="card kpi"><div class="l">ZA · Trésorerie d'ouverture</div><div class="v">1 250 000</div><span class="chip up">+3,1 % vs N-1</span></div>
+<div class="card kpi ok"><div class="l">ZB · Flux opérationnel</div><div class="v">480 000</div><span class="chip up">▲ +12 %</span></div>
+<div class="card kpi ko"><div class="l">ZC · Flux d'investissement</div><div class="v neg">(320 000)</div><span class="chip dn">▼ −8 %</span></div>
+<div class="card kpi ok"><div class="l">ZF · Flux de financement</div><div class="v">150 000</div><span class="chip up">▲ +5 %</span></div>
+<div class="card kpi"><div class="l">ZH · Trésorerie de clôture</div><div class="v">1 560 000</div><span class="chip up">▲ +24 %</span></div></div>
+
+<div class="mid"><div class="card"><h2>Cascade de trésorerie, ZA → ZH</h2>
+<svg viewBox="0 0 700 230" width="100%"><g font-size="12" fill="#64748b" text-anchor="middle">
+<line x1="30" y1="190" x2="690" y2="190" stroke="#e9ebec"/>
+<rect x="50" y="52" width="90" height="138" fill="#475569"/><text x="95" y="212">ZA ouverture</text><text x="95" y="44" fill="#212529">1 250 000</text>
+<rect x="190" y="30" width="90" height="22" fill="#10b981" y="30"/><rect x="190" y="30" width="90" height="22" fill="#10b981"/><text x="235" y="212">ZB opérationnel</text><text x="235" y="22" fill="#047857">+480 000</text>
+<rect x="330" y="30" width="90" height="26" fill="#ef4444"/><text x="375" y="212">ZC investissement</text><text x="375" y="72" fill="#b91c1c">(320 000)</text>
+<rect x="470" y="46" width="90" height="10" fill="#10b981"/><text x="515" y="212">ZF financement</text><text x="515" y="38" fill="#047857">+150 000</text>
+<rect x="610" y="46" width="70" height="144" fill="#334155"/><text x="645" y="212">ZH clôture</text><text x="645" y="38" fill="#212529">1 560 000</text></g></svg></div>
+<div class="card"><h2>Contrôle de cohérence</h2><div class="badge"><i>✓</i><div>Conforme<br><span style="font-weight:400">ZH = trésorerie nette du bilan</span></div></div>
+<table style="margin-top:14px"><tr><td>ZH (TFT)</td><td class="r">1 560 000</td></tr><tr><td>BT − DT (bilan)</td><td class="r">1 560 000</td></tr><tr><td>Écart</td><td class="r" style="color:var(--okt)">0</td></tr></table></div></div>
+
+<div class="card"><div style="padding:16px 20px 8px;display:flex;justify-content:space-between"><h2>Détail par section</h2><span class="note">Tout déplier · Tout replier</span></div>
+<table><thead><tr><th style="width:70px">Réf.</th><th>Libellé</th><th>Note</th><th class="r">Exercice N</th><th class="r">Exercice N-1</th><th class="r">Variation</th></tr></thead><tbody>
+<tr class="sec"><td>▾ A</td><td colspan="2">Activités opérationnelles</td><td class="r">480 000</td><td class="r">428 000</td><td class="r">+52 000</td></tr>
+<tr><td>FA</td><td>Capacité d'autofinancement globale (CAFG)</td><td>34</td><td class="r">560 000</td><td class="r">500 000</td><td class="r">+60 000</td></tr>
+<tr><td>FB</td><td>− Actif circulant HAO</td><td>5</td><td class="r">(12 000)</td><td class="r">(8 000)</td><td class="r neg">(4 000)</td></tr>
+<tr class="sel"><td>FC</td><td>− Variation des stocks</td><td>6</td><td class="r neg">(45 000)</td><td class="r neg">(30 000)</td><td class="r neg">(15 000)</td></tr>
+<tr><td>FD</td><td>− Variation des créances</td><td>7,8</td><td class="r neg">(60 000)</td><td class="r neg">(52 000)</td><td class="r neg">(8 000)</td></tr>
+<tr><td>FE</td><td>+ Variation du passif circulant</td><td>17,18,19</td><td class="r">37 000</td><td class="r">18 000</td><td class="r">+19 000</td></tr>
+<tr class="tot"><td>ZB</td><td colspan="2">Flux provenant des activités opérationnelles</td><td class="r">480 000</td><td class="r">428 000</td><td class="r">+52 000</td></tr>
+<tr class="sec"><td>▸ B</td><td colspan="2">Activités d'investissement (FF–FJ)</td><td class="r neg">(320 000)</td><td class="r neg">(348 000)</td><td class="r">+28 000</td></tr>
+<tr class="sec"><td>▸ C</td><td colspan="2">Capitaux propres (FK–FN)</td><td class="r">90 000</td><td class="r">70 000</td><td class="r">+20 000</td></tr>
+<tr class="sec"><td>▸ D</td><td colspan="2">Capitaux étrangers (FO–FQ)</td><td class="r">60 000</td><td class="r">65 000</td><td class="r neg">(5 000)</td></tr>
+<tr class="tot"><td>ZF</td><td colspan="2">Flux provenant des activités de financement (D + E)</td><td class="r">150 000</td><td class="r">135 000</td><td class="r">+15 000</td></tr>
+<tr class="tot"><td>ZG</td><td colspan="2">Variation de la trésorerie nette de la période</td><td class="r">310 000</td><td class="r">215 000</td><td class="r">+95 000</td></tr>
+<tr class="tot"><td>ZH</td><td colspan="2">Trésorerie nette au 31 décembre</td><td class="r">1 560 000</td><td class="r">1 250 000</td><td class="r">+310 000</td></tr>
+</tbody></table></div></div>
+
+<aside class="drawer"><div style="display:flex;justify-content:space-between"><h3>FC · Variation des stocks</h3><span>✕</span></div>
+<div class="note" style="margin-bottom:14px">Comptes contributeurs · exercice N</div>
+<table><thead><tr><th>Compte</th><th>Libellé</th><th class="r">Montant</th></tr></thead><tbody>
+<tr><td>31</td><td>Marchandises</td><td class="r neg">(20 000)</td></tr><tr><td>32</td><td>Matières premières</td><td class="r neg">(15 000)</td></tr><tr><td>33</td><td>Autres approvisionnements</td><td class="r neg">(10 000)</td></tr>
+<tr class="tot"><td colspan="2">Total FC</td><td class="r neg">(45 000)</td></tr></tbody></table>
+<div class="note" style="margin-top:14px">Données de démonstration.</div></aside></div></body></html>

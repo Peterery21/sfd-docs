@@ -63,6 +63,7 @@ Fichiers : `stitch/<ecran>.html` + `stitch/<ecran>.png` (2560 px de large = rend
 | Paramètres | `parametres` | `bf45df92567a4808bab758f47ee317a8` |
 | Historique des éditions | `historique` | `21545dcda90547e0a80d4791696feb56` |
 | Ratios prudentiels (nouveau) | `ratios-prudentiels` | `c09195d7effb43f5974ed3ebde15b0c4` |
+| Tableau des flux de trésorerie (TFT, S9) | `tft` | — maquette HTML/CSS (repli : `generate_screen_from_text` a expiré 2 fois) ; données de démonstration |
 
 Lien d'un écran : `https://stitch.withgoogle.com/projects/770809064070056787?node-id=<ID>`.
 
