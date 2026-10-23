@@ -1,4 +1,4 @@
-# Refonte reporting réglementaire : contrat d'API et format des paquets (v1.1, 2026-10-23)
+# Refonte reporting réglementaire : contrat d'API et format des paquets (v1.2, 2026-10-23)
 
 Ce contrat est fixé par l'orchestrateur et lie toutes les sessions : backend (S2, S4, S6) et Angular (S5, S7). On ne le modifie pas sans passer par l'orchestrateur. Préfixe : `/api/reporting`.
 
@@ -80,7 +80,7 @@ desactiver: [<code rapport>]
 - **Référence qualifiée** : `RAPPORT.LIGNE`. Le convertisseur qualifie toute référence hors du rapport, si bien qu'aucune référence implicite ne reste dans les paquets.
 - **Alias** : `@NOM`, résolu par le `alias` du package.yml selon `ReportingParametre.categorieAssujetti`. Par exemple, `@FPN` vaut `CEMAC-REP-006.JT24` en CAT1 et `CEMAC-REP-007.KL25` par défaut.
 - **Période précédente** : suffixe `[N-1]` (`EBNL-A-BILAN-ACTIF.BX[N-1]`).
-- **Fonctions** : `MIN(a,b)`, `MAX(a,b)`. Opérateurs : `+ - * / ( )`. Constantes décimales autorisées.
+- **Fonctions** : `MIN(a,b)`, `MAX(a,b)`, et (v1.2) `SOLDE("<comptes>", D|C|SOLDE)`, qui donne le solde d'une liste de comptes avec la syntaxe et la variante de `comptes`. Une formule peut ainsi mêler comptes et indicateurs : `SOLDE("10,11,12", D) / R5_DEN * 100`. Le constructeur visuel Angular génère cette forme. Opérateurs : `+ - * / ( )`. Constantes décimales autorisées.
 - **Ligne sans `comptes`, sans `expression` ni `sourceDonnees`** : c'est une lacune du paquet. Le moteur renvoie `conformite: ERREUR` avec le message « formule non définie », jamais 0. Certaines lignes sont dans ce cas, par exemple UEMOA DIMF-2000-BIL B2N, F1A et G10, ainsi que les totaux de DIMF-2011, DIMF-2012 et DIMF-2013. S2 et S4 les complètent en appliquant « parent = somme des filles » lorsque les lignes filles existent ; sinon, elles passent en CROSS_SERVICE.
 
 ### Instanciation (façon l10n d'Odoo)
@@ -105,10 +105,11 @@ desactiver: [<code rapport>]
 
 ```ts
 ReportingParametreDto { zoneCode: string; paysCode: string; zoneLibelle: string; regulateur: string; planComptable: string;
-  modeSource: 'INTEGRE'|'STANDALONE'; versionPaquet: string; categorieAssujetti: string|null;  // ex. ART44, CAT2, IMF
+  modeSource: 'INTEGRE'|'STANDALONE'; versionPaquet: string; categorieAssujetti: string|null; paysLibelle: string;  // v1.2  // ex. ART44, CAT2, IMF
   entete: { raisonSociale: string; adresse?: string; numeroAgrement?: string; logoUrl?: string };
   signataires: { fonction: string; nom: string }[] }
-LocalisationDto { zoneCode; regulateur; planComptable; versionPaquet; pays: string[]; rapports: RapportDefinitionDto[] }
+LocalisationDto { zoneCode; regulateur; planComptable; versionPaquet; pays: string[]; categoriesAssujetti: { code: string; libelle: string }[];  // v1.2 (typesAssujettis du package)
+  rapports: RapportDefinitionDto[] }
 RapportDefinitionDto { code; libelle; periodicite; delaiJours: number|null; echeance?: string; assujettis: string[];
   destinataire: string[]; layout; nature: 'CALCULE'|'DOCUMENT'|'EXTERNE'; source; confiance: 'HAUTE'|'MOYENNE'|'BASSE';
   origine: 'PAQUET'|'AJOUTEE'; paysCode: string|null; actif: boolean; nbLignes: number }
@@ -137,6 +138,7 @@ FormuleDto { id: number; codeRapport; codeLigne; libelle; section?: string; ordr
   norme: { operateur: string; valeur: number }|null; normesParCategorie?: Record<string,{operateur:string;valeur:number}>;
   libelleClair: string;                 // ex. « Encours sains ÷ Total actif × 100 »
   origine: 'PAQUET'|'PERSONNALISEE'|'AJOUTEE'; confiance; source; note?: string;
+  comptesEffectifs: string|null; aConfirmerArt44: boolean; planEdipIncomplet: boolean;   // v1.2
   valeurPaquet: { comptes; expression; norme } | null;   // pour « valeur d'origine vs la vôtre »
   modifiePar?: string; modifieLe?: string; actif: boolean }
 FormuleSaisieDto { codeLigne; libelle; section?; ordre; comptes?; comptesAllegee?; expression?; sourceDonnees?; sens; typeValeur; norme?; note?; actif }
