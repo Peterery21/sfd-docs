@@ -1,4 +1,6 @@
-# Plan de collecte des données réglementaires sans source (proposition du 2026-10-23)
+# Plan de collecte des données réglementaires sans source (validé par l'utilisateur le 2026-10-23)
+
+**Décisions** : D1 oui (nouvelles saisies) ; D2 assurance et mobile money en saisie manuelle ; D3 TEG enregistré au décaissement.
 
 Objectif : toutes les lignes CROSS_SERVICE des paquets doivent être alimentées par un module EDIP. Celles qui sont aujourd'hui sans source passent en saisie manuelle « à confirmer » en attendant.
 La base est l'analyse des modèles des services crédit, client, épargne, compta, RH, transfert et caisse (branche `develop`). Le règlement de provisionnement de la CEMAC est le COBAC EMF R-2017/07.
