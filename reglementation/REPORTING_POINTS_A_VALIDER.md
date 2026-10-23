@@ -83,3 +83,5 @@ Ce registre se remplit au fil de l'implémentation et sera remis en fin de proje
 
 | T5 | Sécurité : les endpoints `/reporting/*` du service épargne (existants et nouveau `/reporting/taux-depots`) n'ont pas de `@PreAuthorize`, contrairement au transfert et à la caisse. Prévoir un lot de durcissement. | technique | E1A1 |
 | T6 | Taux d'épargne (`HistoriqueInteretCompte.tauxApplique`) testé uniquement en H2, faute d'historique d'intérêts dans la baseline. À valider sur PostgreSQL avec des données réelles. | technique | E1A1 |
+| C8 | Provisions COBAC (C1) : la contagion de l'art. 9 s'applique à tout l'encours du client. `provisionsConstituees` additionne donc les provisions de tous les dossiers d'un client douteux, sains compris, et les provisions complémentaires valent requis − constituées sur ce même périmètre. À valider par le comptable. | MOYENNE | C1 |
+| T7 | Les données crédit (risques, retards, provisions) sont des instantanés au jour du calcul (`aLaDateDuJour`, `dateCalcul`). Une édition sur une période passée affiche la situation du jour, avec un avertissement. Exception : `/reporting/taux` porte sur les décaissements de la période. | technique | C1 |
