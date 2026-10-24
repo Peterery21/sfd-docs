@@ -213,3 +213,11 @@ Chaque rôle `A_CONFIRMER` a une valeur par défaut que le texte ne prescrit pas
 | Capital | CAPITAL_PARTS_VERSE et _NON_VERSE | 10301 (partagé) | Le PCCI n'a pas de compte de capital non versé. |
 | Sens corrigé | 39, 390, 3900-3904, 391-393, 371 | DEBITEUR | Les bases PCCI déjà chargées gardent l'ancien sens : correction manuelle. |
 | Sous-comptes ouverts hors du plan | caisse, CT, DAT, capital, réserves, résultats, produits, charges | 5701, 3201, 3401, 10301, 11101, 1301, 1201, 71201, 71501, 7281, 71701, 6101, 70401, 77901, 69101 | Autorisation de la BCC requise (RDC-CPT-003). |
+
+### Ajouts du 2026-10-24 (corrections de la revue finale)
+| # | Point | Retenu provisoirement | Source |
+|---|---|---|---|
+| R10 | FPP_BASE RDC (029) : 25101 « Participations à plus d'un an dans d'autres établissements de crédit ou IF » (ex-2510, renuméroté pour éviter une collision) est déduit des fonds propres de base. 251000 (titres de participation) n'est pas déduit. | Ce mapping. La note d'origine disait « capital non libéré » : à confirmer. | L6b |
+| T16 | Clôture : `ClotureServiceImpl.calculerANouveaux` ne somme que l'exercice N-1. Si N-2 n'a jamais été clôturé, les à-nouveaux de N oublient ses soldes, et le reporting, qui part des à-nouveaux, les perd sans le signaler. | À traiter dans le module de clôture : refuser la génération ou borner le cumul. | revue rf-compta |
+| T17 | Clôture : `contrepasser` rattache la pièce contrepassée à l'exercice de la pièce d'origine, alors qu'elle est datée de la journée en cours. | Le reporting borne désormais par la date de la pièce. Le rattachement est à corriger dans le module de clôture. | revue rf-compta |
+| T18 | Données importées : l'écran masque la prévisualisation aux lecteurs, alors que le backend l'autorise (READ). | Plus strict, voulu. | L6b |
