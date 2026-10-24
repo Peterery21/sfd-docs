@@ -5,6 +5,12 @@ services:
     container_name: ${PG_CONTAINER_NAME:-pg_container}
     image: postgres:15.2
     restart: always
+    # Mémoire partagée : 64 Mo par défaut sous Docker, insuffisant pour les hachages parallèles
+    # sur de gros volumes (« could not resize shared memory segment ») — 1 Go obligatoire.
+    shm_size: ${PG_SHM_SIZE:-1gb}
+    # /dev/shm est compté dans la limite mémoire du conteneur : une limite < shm_size + mémoire de travail
+    # fait tuer PostgreSQL (OOM) dès que les segments partagés grossissent. 512 Mo est incompatible avec 1 Go de shm.
+    mem_limit: ${PG_MEM_LIMIT:-2g}
     environment:
       POSTGRES_USER: ${POSTGRES_USER:?défini dans .env}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?défini dans .env}
