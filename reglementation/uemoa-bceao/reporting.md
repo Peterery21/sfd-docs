@@ -998,6 +998,15 @@ Constat global : le YAML actuel n'applique pas le plan de comptes RCSFD (classes
 - `lbc-ft.md` : le seuil de déclaration des espèces est désormais connu (15 000 000 FCFA, Décision 021/2023, art. 8) ; l'Instr. 007-09-2017 est abrogée par l'Instr. 001-03-2025.
 - `clotures.md` UEMOA-CLO-014 : la loi fixe bien 6 mois (art. 51) pour le rapport annuel ; l'Instr. 018-12-2010 ne répète pas le délai.
 
+## d bis) Consolidation et conformité (2026-10-25)
+
+- Extrait consolidé des textes (ratios 010/016, indicateurs 020 et définitions, états financiers 001-02-2018 et modèles DIMF développée et allégée avec concordances, plan de comptes complet de 1 440 codes, table des versions) : [../UEMOA-SFD-REFERENTIEL-EXTRAIT.md](../UEMOA-SFD-REFERENTIEL-EXTRAIT.md).
+- Comparaison poste par poste avec le paquet EDIP (`rapports/*.yml`, origin/develop) : [../UEMOA-CONFORMITE.md](../UEMOA-CONFORMITE.md). Sur 60 lignes : 16 OK, 27 écarts, 13 absents d'EDIP, 4 hors texte.
+- Écarts majeurs : E05 et L75 calculés tous les deux et signés (fonds propres réglementaires comptant 2 fois le résultat infra-annuel, L90 sans L75) ; filtre de durée résiduelle absent des ratios II et V ; dénominateur du PAR lu dans le module au lieu de la balance ; T6K développée incluant 6692 (perte comptée 2 fois dans F3) ; indicateurs non financiers non calculés.
+- Instr. 033-11-2016 : établissements de crédit seulement, **hors champ SFD** ; consolidation SFD = loi art. 49, Instr. 030-02-2009 art. 5, 001-02-2018 art. 2-3, RCSFD annexe 6 (non transcrite).
+- Loi microfinance 2023 (transposition SN 2025-04) : art. 171 maintient les instructions BCEAO ; aucun ratio chiffré.
+- Ambiguïtés : REPORTING_POINTS_A_VALIDER.md, lot R (UR1 à UR21).
+
 ## e) Lacunes et points à confirmer
 
 1. RCSFD développée lue sur la copie du Trésor de Côte d'Ivoire (édition de juillet 2009, ISBN 978-2-916140-08-7) et non sur le site de la BCEAO ou de la Commission Bancaire : à comparer avec la version officielle en vigueur ; l'édition allégée cb-umoa (novembre 2009) n'a pas de hors-bilan, la copie CI en a un jeu allégé.

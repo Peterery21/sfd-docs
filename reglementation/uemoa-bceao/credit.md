@@ -31,8 +31,11 @@
 | UEMOA-CRE-019 | Ratios portant sur le crédit : risques <= 200 % des ressources ; couverture des emplois à moyen et long terme par des ressources stables >= 100 % ; opérations autres que épargne/crédit <= 5 % ; classification et provisionnement renvoyés au RCSFD (voir prudentiel.md). | Instr. BCEAO n°010-08-2010 du 30/08/2010 (règles prudentielles SFD), annexes I, II, VI | https://cb-umoa.org/sites/default/files/2022-01/INSTRUCTION%20N%C2%B0010-08-2010%20RELATIVE%20AUX%20R%C3%88GLES%20PRUDENTIELLES%20APPLICABLES%20AUX%20SFD%20DES%20ETATS%20MEMBRES%20DE%20L%27UMOA.pdf | HAUTE | ✔ |
 | UEMOA-CRE-020 | Le dossier d'agrément doit contenir la méthodologie de calcul du taux effectif global d'intérêt appliqué à la clientèle et son illustration ; le manuel de politique d'épargne et de crédit. | Instr. BCEAO n°005-06-2010 du 14/06/2010, annexe (liste des documents, points 10 et 13) | https://cb-umoa.org/sites/default/files/2022-01/RECUEIL%20DES%20TEXTES%20L%C3%89GAUX%20ET%20R%C3%89GLEMENTAIRES%20R%C3%89GISSANT%20LES%20SFD%20DE%20L%27UMOA.pdf | HAUTE | ◐ |
 | UEMOA-CRE-021 | Plafond de taux (usure) : 24 % l'an pour les institutions de microfinance depuis le 1er juin 2026 (voir taux-usure.md). | Décision n°19 du 29/12/2025/CM/UMOA, art. 2 et 4 | https://www.bceao.int/sites/default/files/2026-01/Decision-No19-du-29-12-2025_CMUMOA_fixant_le_taux_de_l-usure.pdf | HAUTE | ✔ |
+| UEMOA-CRE-022 | Durées des crédits (durée initiale, différé compris) en version développée : 202 court terme ≤ 12 mois (202211 0-6 mois, 202212 > 6-12 mois ; 2023 découverts) ; 203 moyen terme > 1 à 3 ans (20311, 20312) ; 204 long terme > 3 ans (20411 > 3-10 ans, 20412 > 10 ans). | RCSFD 1re édition complète, plan de comptes p.71 et chap. IV 1.1.3 ; extraction texte non contrôlée à l'image | https://microfinance.tresor.gouv.ci/micro/wp-content/uploads/2019/11/RCSSFD.pdf | MOYENNE | ? |
+| UEMOA-CRE-023 | Indicateurs de crédit (Instr. 020-12-2010) : PAR 30 / 90 / 180 j < 5 / 3 / 2 % ; provisions sur créances en souffrance ≥ 40 % ; pertes < 2 % ; emprunteurs actifs par agent de crédit ≥ 130. Emprunteur actif = personne ayant un ou plusieurs crédits en cours, comptée une fois ; client actif = au moins un dépôt et/ou un crédit en cours. | Instr. BCEAO n°020-12-2010 du 29/12/2010, annexe I (scan p.4-6) | https://cb-umoa.org/sites/default/files/2022-01/RECUEIL%20DES%20TEXTES%20L%C3%89GAUX%20ET%20R%C3%89GLEMENTAIRES%20R%C3%89GISSANT%20LES%20SFD%20DE%20L%27UMOA.pdf | HAUTE | ? |
+| UEMOA-CRE-024 | Pertes sur créances irrécouvrables en version développée : 6691 couvertes par des provisions, 6692 non couvertes (postes T6K et T6L du compte de résultat). | RCSFD 1re édition complète, plan p.90 et annexe 1.1 p.A24 | https://microfinance.tresor.gouv.ci/micro/wp-content/uploads/2019/11/RCSSFD.pdf | MOYENNE | ? |
 
-Bilan confiance : HAUTE=16, MOYENNE=5, BASSE=0.
+Bilan confiance : HAUTE=17, MOYENNE=7, BASSE=0.
 
 ## Choix de produit (hors réglementation)
 
@@ -44,8 +47,9 @@ Bilan confiance : HAUTE=16, MOYENNE=5, BASSE=0.
 
 ## Lacunes / à confirmer
 
-- RCSFD version développée non lue : l'état allégé n'a pas de compte de crédit à long terme (> 36 mois) alors que 7021 et les ratios (B40) y renvoient ; à confirmer dans la version développée.
+- RCSFD version développée : lue par extraction de texte (UEMOA-CRE-022) ; le compte 204 / poste B40 y existe. Contrôle à l'image à faire (UR20).
+- Définition du crédit en souffrance pour les indicateurs (nombre de crédits, tableau 6) : l'Instr. 020 n'en donne pas ; règle du RCSFD (au moins une échéance impayée, 0-3 mois facultatif). Option de déclassement du SFD à paramétrer (UR14).
 - Instruction BCEAO sur la classification des créances / provisionnement autre que le RCSFD : NON TROUVÉ (les seuils 40/80/100 % viennent du RCSFD p.65). Instr. n°001-02-2018 non lue.
 - Taux d'intérêt débiteur : seul le plafond d'usure est trouvé ; règles de calcul du TEG (loi uniforme usure) NON LUES.
 - Règles sur le crédit solidaire / groupe, la caution, les garanties : NON TROUVÉ dans les sources lues.
-- Écart interne du document : écritures citent 6691/6692 alors que le plan p.38 ne comporte que 669 (à confirmer sur la version imprimée).
+- Écart interne du document allégé : écritures citent 6691/6692 alors que le plan p.38 ne comporte que 669 ; résolu par la version développée (UEMOA-CRE-024).

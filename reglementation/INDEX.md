@@ -1,17 +1,17 @@
 # Réglementation et référentiel fonctionnel — EDIP (microfinance / SFD)
 
-Constitué le 2026-10-13 (branche `docs/reglementation`). Index machine : [index.json](index.json) (id, zone, thème, source, URL, confiance, statut de vérification, fichier). Régénération : `python3 outils/build_index.py [--apply]`. Format des fichiers : [FORMAT.md](FORMAT.md). Glossaire : [GLOSSAIRE.md](GLOSSAIRE.md). **Réponses aux 6 questions du référentiel interne : [REPONSES-6-QUESTIONS.md](REPONSES-6-QUESTIONS.md).** Rôle → compte par norme : [regles-vers-produit/](regles-vers-produit/README.md).
+Constitué le 2026-10-13 (branche `docs/reglementation`). Index machine : [index.json](index.json) (id, zone, thème, source, URL, confiance, statut de vérification, fichier). Régénération : `python3 outils/build_index.py [--apply]`. Format des fichiers : [FORMAT.md](FORMAT.md). Glossaire : [GLOSSAIRE.md](GLOSSAIRE.md). **Réponses aux 6 questions du référentiel interne : [REPONSES-6-QUESTIONS.md](REPONSES-6-QUESTIONS.md).** Rôle → compte par norme : [regles-vers-produit/](regles-vers-produit/README.md). **UEMOA (2026-10-25) : extrait consolidé du référentiel SFD [UEMOA-SFD-REFERENTIEL-EXTRAIT.md](UEMOA-SFD-REFERENTIEL-EXTRAIT.md) et conformité du reporting EDIP [UEMOA-CONFORMITE.md](UEMOA-CONFORMITE.md) ; points à valider : [REPORTING_POINTS_A_VALIDER.md](REPORTING_POINTS_A_VALIDER.md) (lot R).**
 
 ## 1. Zones supportées par le produit (traitées)
 
 | Zone / norme produit | Dossier | Règles sourcées | HAUTE / MOY. / BASSE | Vérification ✔ / ◐ / ✘ / ? | Statut |
 |---|---|---|---|---|---|
-| UEMOA-BCEAO — `RCS_SFD` | [uemoa-bceao/](uemoa-bceao/README.md) | 144 | 124 / 17 / 3 | 92 / 52 / 0 / 0 | traité, vérifié |
+| UEMOA-BCEAO — `RCS_SFD` | [uemoa-bceao/](uemoa-bceao/README.md) | 154 | 130 / 21 / 3 | 92 / 52 / 0 / 10 | traité, vérifié (10 règles du 2026-10-25 non vérifiées) |
 | CEMAC-BEAC — `COBAC` (PCEMF) | [cemac-beac/](cemac-beac/README.md) | 144 | 135 / 7 / 2 | 25 / 117 / 1 / 1 | traité, vérifié |
 | RDC-BCC — `PCCI` (GCEC non utilisé SFD) | [rdc-bcc/](rdc-bcc/README.md) | 128 | 49 / 74 / 5 | 70 / 51 / 7 / 0 | traité, vérifié |
 | OHADA — `SYSCOHADA` / `SYCEBNL` (entités non SFD) | [syscohada-sycebnl/](syscohada-sycebnl/README.md) | 109 | 63 / 41 / 5 | 45 / 63 / 1 / 0 | traité, vérifié (SYCEBNL : plan complet non lu) |
 | CUSTOM (wizard) | — | — | — | — | sans réglementation propre : voir lacunes |
-| **Total** | | **525** | | **232 / 283 / 9 / 1** | |
+| **Total** | | **535** | | **232 / 283 / 9 / 11** | |
 
 Les 9 ✘ ont été corrigés dans les fichiers après vérification (références d'articles de la loi RDC 002/2002 ; libellé du compte 373 PCCI ; date du Règl. CEMAC 04/19 ; art. AUDCIF 72). Ils restent marqués ✘ (champ `corrige_apres_verif` dans `index.json`) tant qu'ils n'ont pas été re-vérifiés. Les listes d'écarts restantes sont dans [verification/](verification/).
 
@@ -40,7 +40,7 @@ SYCEBNL : [syscohada-sycebnl/sycebnl.md](syscohada-sycebnl/sycebnl.md).
 | Zone | Autorité / texte pivot à étudier | Statut |
 |---|---|---|
 | Transpositions nationales UEMOA (BJ, BF, CI, GW, ML, NE, SN, TG) | lois/décrets nationaux SFD, autorités de tutelle (ministères des finances) | à faire |
-| Nouvelle loi uniforme SFD UMOA (CM du 21/12/2023) | introuvable à ce jour | à faire (veille) |
+| Nouvelle loi uniforme SFD UMOA (CM du 21/12/2023) | lue via la transposition SN (loi 2025-04, pages impaires) ; instructions d'application introuvables ; art. 171 maintient les instructions BCEAO | veille (voir UEMOA-SFD-REFERENTIEL-EXTRAIT.md § e) |
 | Règlements COBAC EMF R-2017/01 à 09 | non ouverts | à faire |
 | Guinée (hors UEMOA) | BCRG, loi microfinance | à faire |
 | Madagascar | CSBF, loi 2005-016 microfinance | à faire |
