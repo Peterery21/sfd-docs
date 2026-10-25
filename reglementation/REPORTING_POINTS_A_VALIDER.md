@@ -241,6 +241,8 @@ Les 19 indicateurs de `UEMOA-REP-IND-FIN` sont calculés par des **variables nom
 | H10 | **Valeurs du jour** : effectif, emprunteurs, épargnants, encours Crédit/Épargne et tranches de retard sont la situation du jour (pas d'historique) : les ratios concernés sont marqués « à la date du jour » et n'ont pas de valeur N-1. | Marquage existant. | Historiser les compteurs côté modules. |
 | H11 | **Productivité du personnel et des agents** (F07, F08) : F07 = emprunteurs actifs / gestionnaires de crédit ayant au moins un emprunteur (pas tous les agents de crédit du module RH). | Clé existante `RDC-REP-030.EMPR_PAR_AGENT`. | Dénominateur = agents de crédit déclarés dans RH ? |
 | H12 | **Contrainte CHECK `type_valeur`** (SQL Server) : l'enum `TypeValeur` a gagné des valeurs (MONTANT, NOMBRE, RATIO) ; la contrainte figée à la création de la table les refusait. | `@SansCheckEnum` sur `RapportFormule.typeValeur` (suppression de la contrainte au démarrage) ; la synchro des formules isole désormais chaque ligne (une ligne refusée n'abandonne plus le chargement). | — |
+| H13 | **N-1 indisponible** : PAR, F05 à F08 et R4 portent sur des données de module sans historique à la date N-1 ; la colonne N-1 affiche « — ». | Marquage existant. | Historiser les compteurs côté modules. |
+| H14 | **R7 en cours d'exercice** : R7 vaut 0 tant que le résultat de l'exercice n'est pas affecté (fonds propres hors résultat en instance). | Tel quel. | Confirmer ou intégrer le résultat en cours. |
 
 ## Lot R (2026-10-25) : consolidation du référentiel SFD UMOA et conformité EDIP
 
