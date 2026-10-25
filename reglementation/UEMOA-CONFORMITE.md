@@ -103,3 +103,20 @@ La ligne du hors bilan compte en OK (développée) et en hors texte (allégée).
 6. **R3, R4** : engagements par signature et regroupement par groupe.
 7. **F8 et tableaux non financiers 1 à 7** : brancher Crédit ∪ Épargne, Client, RH (clés déjà présentes pour membres H/F et points de service).
 8. **DIMF 2010, 2014, 2011-1, 2016 (770)** : formules simples sur la balance.
+
+## 5. Contrôle du PDF officiel du RCSFD développé (2026-10-25)
+
+Le PDF officiel (457 p.) a été comparé à l'image : plan de 1 440 codes, annexe 1.1 (postes → comptes), modèles 2.2, 3.3 et états 4.x. Corrigé dans EDIP : les 17 lignes de l'annexe 1.1 dont l'écart changeait un chiffre (DIMF-2000-BIL, DIMF-2080), les lignes manquantes des états DIMF 2005 (D52), 2011-1 (comptes 92, 93, 95, 96, 99) et 2015 (D40 à D47), les libellés du plan.
+
+Corrections volontaires d'incohérences du PDF, **conservées** (le chiffre diffère de l'impression) :
+
+| Poste | PDF | EDIP | Motif |
+|---|---|---|---|
+| D01 | 41+43+44+45+46+47+49 (sans 42) | ajoute 42 | D1S = 42 − 429 existe |
+| L01 | sans 503 | ajoute 503 | L27 = 503 |
+| B01 | sans 20231 / 20237 | les ajoute | B2D et B65 les contiennent |
+| D70 | « + 491 + 492 − 493 » | 491, 492, 493, −4996x, −4997x | D71 à D73 nets de provisions |
+| S2B / S2C | S2B sans 6217 ; S2C = 6211 + 6217 | 6217 déplacé en S2B ; S2M = 6217 | 6217 = formation |
+| G90 | 25116 + 25126 sans « ex » | 25116cr, 25126cr | filtre créditeur |
+
+Constat de clé : le plan EDIP n'a pas le compte **471** « Immobilisations en cours » (location-vente) du RCSFD, car l'extension EDIP l'utilise pour « Comptes de régularisation — opérations épargne » : décision de numérotation à prendre. Les comptes 4128 et 980 à 985 ne sont pas au plan du PDF mais sont utilisés (écarts de conversion, contreparties de hors bilan) : conservés.

@@ -25,7 +25,7 @@
 | n02 | Sénégal, loi n° 2025-04 du 19/02/2025 (transposition de la loi uniforme microfinance 2023) | scan ; seules les pages impaires sont présentes | page imprimée |
 | n03 | Instr. n° 003-07-2019 (organismes externes d'évaluation du crédit) | couche texte | page du PDF |
 
-Toutes les données tirées de F sont **[NON VÉRIFIÉ À L'IMAGE]** : elles viennent d'une extraction de texte, sans contrôle visuel des tableaux. Elles concordent avec d18 partout où les deux versions se recouvrent.
+Les données tirées de F ont été **contrôlées à l'image du PDF officiel (457 p.)** : plan de comptes développé (1 440 codes, 0 écart de code ni de libellé), annexe 1.1 (P353-371), modèles 2.2, 3.3 et états 4.x. La couche texte n'est fausse que sur trois cellules (F01, F1A, F60, P355), corrigées dans ce document. Elles concordent avec d18 partout où les deux versions se recouvrent.
 
 ## (a) Ratios prudentiels — Instr. 010-08-2010 (d06) et 016-12-2010 (d07)
 
@@ -161,14 +161,14 @@ Périmètre (réseau, caisse, agence) : **non précisé [AMBIGU]**.
 - En-tête (d18 p.118) : état, pays, dénomination, état de chargement, date d'arrêté AAAA/MM/JJ, N.S., feuillet, périodicité (D/M/T/S/A), monnaie ; montants **en francs CFA**.
 - Bilan actif : colonnes **N : brut, amortissements/provisions, net ; N-1 : net**. Bilan passif : **N, N-1** (nets). Hors bilan : N, N-1. Compte de résultat : charges et produits en liste double, **N, N-1** ; les lignes de SIG n'ont pas de code (d18 p.157-166 ; F A41-A48, A57 et suiv.).
 - Sens : actif = soldes débiteurs, nets via les « − » de l'annexe 1.1 ; passif = soldes créditeurs ; « ex NNNN » = compte compté à l'actif s'il est débiteur, au passif s'il est créditeur (d18 p.141 ; F A7).
-- Versions : allégée = annexes 2.0/2.1 (bilan) et 3.0 (CR) ; **développée = annexe 2.2 (bilan) et 2.3** (deuxième présentation), annexe 3 développée (CR, code D : RA0/RB0) (F A35-A78). L'allégée n'a **pas de modèle de hors bilan** (d18, annexe 2 = bilan seul) ; F contient un hors bilan (annexe 2).
+- Versions : allégée = annexes 2.0/2.1 (bilan) et 3.0 (CR) ; **développée = annexe 2.2 (bilan) et 2.3** (deuxième présentation), annexe 3 développée (CR, code D : RA0/RB0) (F A35-A78). d18 (allégée) ne contient **pas de modèle de hors bilan** (annexe 2 = bilan seul) ; F publie un **hors bilan développé** (annexe 2.2) et un **hors bilan version allégée** (annexe 2.4, P397 = A53, DIMF 2000, état AC0, colonnes NETS N / NETS N-1) : voir le modèle allégé ci-dessous.
 - Totaux E90 et L90 : aucune formule publiée **[AMBIGU]** ; lecture par somme des rubriques E90 = A01 + B01 + C01 + D01 + E01 + E05, L90 = F01 + G01 + H01 + K01 + L01. Dans le modèle, L75 est présenté dans le bloc des fonds propres, mais l'annexe 1.1 ne le met pas dans L01 (L01 = 501 + 502 + 51 à 59) **[AMBIGU]** : en infra-annuel, le résultat en cours doit apparaître soit en E05 (actif, si charges > produits) soit en L75 (passif, si produits > charges), jamais les deux.
 - Remarques allégée (d18) : postes A16, A17, A20, A21, C6G, C6N, C6Q, C6R, H6G, H6P détaillés dans l'annexe 1 mais absents du modèle ; aucune colonne N-1 brute.
 - États annexes (d18 p.169-176 ; F A79 et suiv.) : DIMF 2005 emplois-ressources (colonnes amortissements/provisions, net) ; 2010 crédits en souffrance (A crédits 191-193 / 291-293 — 294 non cité **[AMBIGU]** — ; B dépôts de garantie 162 et 254 ; C = A − B ; D provisions 199 et 299 ; E = C − D ; 3 tranches ≤ 6, 6-12, 12-24 mois, alors que le texte p.123 en prévoit 4 et une ventilation par nature) ; 2011 informations annexes ; 2012 dix plus gros débiteurs ; 2013 prêts aux dirigeants, au personnel, aux personnes liées ; 2014 ressources affectées (181 CT, 182 MT, 183 LT) ; 2015 valeurs immobilisées (brut, amortissements/provisions, net) ; 2016 affectation du résultat (codes 77x = codes de lignes, pas des comptes ; 776 utilisé deux fois). Développée seulement : 2006 crédit-bail, 2007 concession, 2008 réserve de propriété, 2009 personnel extérieur, 2011-1 engagements par signature, 2018 réévaluation.
 
 ### c.4 Nomenclature des postes et concordance avec les comptes (versions développée et allégée)
 
-Développée : F annexe 1.1, p. A9 à A27 (texte extrait, **[NON VÉRIFIÉ À L'IMAGE]**). Allégée : d18 annexe 1.1, p. PDF 143 à 154 (lue à l'image). « absent de l'allégée » = poste sans concordance dans d18. Les sous-postes de détail (A13, B02, D32…) n'apparaissent pas tous dans les modèles publiés. Coquilles du texte relevées par l'inventaire (reporting.md T25 à T30) : D70 « +491+492−493 » se lit 491 + 492 + 493 − provisions ; L01 omet 503 (L27) à l'impression ; F01 contient « 1176 1516 » sans signe.
+Développée : F annexe 1.1, p. A9 à A27 (P353-371), **lue à l'image** ; la couche texte est fausse sur trois cellules (F01, F1A, F60, P355), corrigées ci-dessous. Allégée : d18 annexe 1.1, p. PDF 143 à 154 (lue à l'image). « absent de l'allégée » = poste sans concordance dans d18. Les sous-postes de détail (A13, B02, D32…) n'apparaissent pas tous dans les modèles publiés. Coquilles du texte relevées par l'inventaire (reporting.md T25 à T30) : D70 « +491+492−493 » se lit 491 + 492 + 493 − provisions ; L01 omet 503 (L27) à l'impression ; F01, F1A et F60 : la couche texte de F (P355) est corrompue, l'image donne les listes complètes (« 1176 + 1516 + 1526 … + 1576 », « ex 1171 + ex 1521 »).
 
 #### Bilan — actif (DIMF 2000, AA0)
 
@@ -278,8 +278,8 @@ Sens : C. Colonnes : Net N ; Net N-1.
 
 | Poste | Libellé (modèle, F annexes 2-3) | Comptes — développée (F annexe 1.1, p.) | Comptes — allégée (d18 annexe 1.1, p. PDF) |
 |---|---|---|---|
-| F01 | OPERATIONS DE TRESORERIE ET AVEC LES INSTITUTIONS FINANCIERES | +ex 111111+ ex 111121 + ex 1141 + ex 1151 + ex 1161+ ex 1171+ ex 1511+ ex 1521 + ex 1531 + ex 1541 + ex 1551+ ex 1561 + 1571 + 111116 +111126 + 1136 + 1146 + 1156 + 1166 + 1176 1516 +1611 + 1621 + 1651 + 1616 + 1626 + 1656 + 1751 + 1781+ 1756 + 1786 + 179 +18 (A11) | +ex1141 +ex1161 +ex1171 +1136 +1146 +1166 +1176 +ex1541 +ex1561 +ex1571 +1546 +ex1566 +ex1576 +1611 +1621 +1651 +1616 +1626 +1656 +1751 +1781 +1756 +1786 +179 +18 (144) |
-| F1A | Comptes ordinaires créditeurs | + ex 111111 + ex 111121 + ex 1141 + ex 1151 + ex 1161 + ex 1171 1521 + ex 1531 + ex 1541 + ex 1511+ ex 1551+ ex 1561 + ex 1571 (A11) | +ex1141 +ex1161 +ex1171 +ex1541 +ex1561 +ex1571 (144) |
+| F01 | OPERATIONS DE TRESORERIE ET AVEC LES INSTITUTIONS FINANCIERES | +ex 111111+ ex 111121 + ex 1141 + ex 1151 + ex 1161+ ex 1171+ ex 1511+ ex 1521 + ex 1531 + ex 1541 + ex 1551+ ex 1561 + 1571 + 111116 +111126 + 1136 + 1146 + 1156 + 1166 + 1176 + 1516 + 1526 + 1536 + 1546 + 1556 + 1566 + 1576 +1611 + 1621 + 1651 + 1616 + 1626 + 1656 + 1751 + 1781+ 1756 + 1786 + 179 +18 (A11) | +ex1141 +ex1161 +ex1171 +1136 +1146 +1166 +1176 +ex1541 +ex1561 +ex1571 +1546 +ex1566 +ex1576 +1611 +1621 +1651 +1616 +1626 +1656 +1751 +1781 +1756 +1786 +179 +18 (144) |
+| F1A | Comptes ordinaires créditeurs | + ex 111111 + ex 111121 + ex 1141 + ex 1151 + ex 1161 + ex 1171 + ex 1521 + ex 1531 + ex 1541 + ex 1511+ ex 1551+ ex 1561 + ex 1571 (A11) | +ex1141 +ex1161 +ex1171 +ex1541 +ex1561 +ex1571 (144) |
 | F2A | Autres comptes de dépôts créditeurs | +1611 + 1621 + 1651 (A11) | +1611 +1621 +1651 (144) |
 | F2B | Dépôts à terme reçus | +1611 (A11) | +1611 (144) |
 | F2C | Dépôts de garantie reçus | +1621 (A11) | +1621 (144) |
@@ -289,7 +289,7 @@ Sens : C. Colonnes : Net N ; Net N-1.
 | F3F | Emprunts à terme | + 1781 (A11) | +1781 (144) |
 | F50 | Autres sommes dues aux institutions financières | + 179 (A11) | +179 (144) |
 | F55 | Ressources affectées | +18 (A11) | +18 (144) |
-| F60 | Dettes rattachées | +111116 + 111126 + 1136 … (A11, tronqué : texte source corrompu, voir points à valider) | +1136 +1146 +1166 +1176 +1546 +1566 +1576 +1756 +1786 +1616 +1626 +1656 (144) |
+| F60 | Dettes rattachées | +111116 + 111126 + 1136 + 1146 + 1156 + 1166 + 1176 + 1516 + 1526 + 1536 + 1546 + 1556 + 1566 + 1576 + 1756 + 1786 + 1616 + 1626 + 1656 (A11) | +1136 +1146 +1166 +1176 +1546 +1566 +1576 +1756 +1786 +1616 +1626 +1656 (144) |
 | G01 | OPERATIONS AVEC LES MEMBRES, BENEFICIAIRES OU CLIENTS | + ex 25111 + ex 25121 + 2521 + 25311 + 25321 + 25331 + 25391 + 2545 + 2551 + 2711 + 2721 + 2722 + 2725 + 25116 + 25126 + 2526 + 2546 + 2556 + 25316 + 25326 + 25336 + 25396 2716 + 2726 (A13) | +ex2511 +ex2512 +2521 +2531 +2545 +2551 +2711 +2721 +2722 +2725 +25116 +25126 +2526 +25316 +2546 +2556 +2716 +2726 (145) |
 | G02 | (détail Annexe 1, hors modèle publié) | + ex 25111 + ex 25121 + 2521 + 25311 + 25321 + 25331 + 25391 + 2541 + 2542 + 2543 + 2544 + 2545 + 2551 + 2711 + 2721 + 2722 + 2725 (A13) | absent de l'allégée |
 | G10 | Comptes ordinaires créditeurs | + ex 25111 + ex 25121 (A13) | +ex2511 +ex2512 (145) |
@@ -346,7 +346,11 @@ Sens : C. Colonnes : Net N ; Net N-1.
 | L82 | Excédent ou déficit de l'exercice | + 592 (A19) | +592 (149) |
 | L90 | TOTAL PASSIF | aucune formule publiée (somme des rubriques) | idem |
 
-#### Hors bilan (DIMF 2000 hors bilan, version développée seulement)
+#### Hors bilan allégé (annexe 2.4, P397 ; DIMF 2000, état AC0)
+
+Modèle publié par F (version allégée), colonnes NETS N et NETS N-1. Postes : engagements de financement N1A (donnés aux institutions financières), N1H (reçus des IF), N1J (donnés aux membres, bénéficiaires ou clients), N1K (reçus de ceux-ci) ; engagements de garantie N2A (d'ordre des IF), N2H (reçus des IF), N2J (d'ordre des membres), N2M (reçus des membres) ; engagements sur titres N3A (à livrer), N3E (à recevoir) ; opérations en devises : change au comptant P1A à P1D, prêts et emprunts en devises P1E-P1F, change à terme P1G-P1K, report/déport P1L-P1M, intérêts non courus P1R-P1S, ajustements P1V ; autres engagements Q1A (donnés), Q1B (reçus) ; opérations pour compte de tiers Q1C, Q1F, Q1J, Q1K, Q1L, Q1M ; N90 engagements douteux. Les postes N3B, N3C… du modèle développé n'y figurent pas.
+
+#### Hors bilan (DIMF 2000 hors bilan, version développée)
 
 Sens : selon compte (engagement donné D, reçu C). Colonnes : N ; N-1.
 
@@ -669,6 +673,9 @@ Sens : C. Colonnes : N ; N-1.
 | Engagements hors bilan | même découpage (LT > 3 ans) | | | F chap. IV 1.5.3 |
 | Provisions réglementées | — | 521 « crédits à moyen et long termes » | | d18 p.37, p.87 |
 
+- Bornes de durée (cadre conceptuel, P34-35) : pour les prêts et emprunts aux institutions financières, « moins d'un an » = durée **< 1 an** et « à terme » = **≥ 1 an** (un an pile est donc à terme), alors que les crédits aux membres sont court terme jusqu'à **≤ 12 mois**. Les prêts à terme aux IF se ventilent en 4 tranches : 1-2 ans, 2-3 ans, 3-10 ans, > 10 ans (P35).
+- Convention (P34) : les **comptes ordinaires débiteurs** sont classés par convention en 0-6 mois.
+- Durée résiduelle (P36-37, section 2) : le RCSFD publie sa propre ventilation par durée résiduelle (0-1 mois, 1-3 mois, 3-6 mois, …) ; elle exige l'échéancier et n'est pas déductible des seuls comptes.
 - **[AMBIGU]** Le chap. IV de l'allégée parle de crédits « à court, moyen et long termes » (d18 p.60) mais son plan n'a pas de 204 ; B40 n'existe qu'en développée.
 - Ratios II et V : le filtre est la **durée résiduelle** (> 12 mois ; ≤ 3 mois), alors que le plan ventile par **durée initiale** pour les crédits (et par durée pour les dépôts, sans préciser initiale ou résiduelle **[AMBIGU]**). Le calcul des ratios exige donc l'échéancier, pas seulement les soldes des comptes.
 - Créances en souffrance (classement par ancienneté de la 1re échéance impayée) : IF 191 immobilisés, 192 ≤ 6 mois (1921 0-3, 1922 > 3-6), 193 > 6-12, 194 > 12-24, provisions 1991-1993 ; membres 291 immobilisés, 292 ≤ 6 mois, 293 > 6-12, 294 > 12-24, provisions 2991-2993 (d18 p.32-34 ; F p.72). Pertes : 669 (allégée) ; 6691 couvertes par des provisions, 6692 non couvertes (développée, F p.90).
@@ -676,7 +683,7 @@ Sens : C. Colonnes : N ; N-1.
 
 ### d.2 Plan de comptes complet (version développée, F p.61-98 ; [A] = présent dans l'allégée d18 p.31-42)
 
-Extraction automatique du texte de F : libellés et pages **[NON VÉRIFIÉ À L'IMAGE]**. L'indentation suit la longueur du code.
+Texte de F (1 440 codes) contrôlé contre le PDF officiel : 0 code manquant, 0 en trop, 0 libellé différent. L'indentation suit la longueur du code.
 
 #### Classe 1 OPERATIONS DE TRESORERIE ET AVEC LES INSTITUTIONS FINANCIERES (p.61)
 
