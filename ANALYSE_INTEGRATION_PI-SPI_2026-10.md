@@ -51,6 +51,12 @@ Date : 2026-10-05 · Statut : analyse / proposition (aucune implémentation)
 
 → **Un ERP SFD « PI-SPI ready » est un argument commercial direct** : la connexion devient obligatoire pour les grands SFD d'ici juin 2027 et la majorité du marché n'a pas de solution.
 
+### Périmètre géographique : UEMOA uniquement
+
+PI-SPI ne couvre que les 8 pays de l'UEMOA et ne traite que le franc CFA BCEAO (XOF). Une institution installée hors UEMOA (RDC, zone CEMAC, autre) ne peut ni s'y connecter ni l'utiliser : **la fonctionnalité doit lui être totalement invisible** (menus, écrans, options de mode de paiement, paramétrage, rapports) et refusée côté serveur.
+
+Critère d'éligibilité retenu, déjà présent dans l'ERP : zone monétaire du **pays siège de l'institution principale** (`Institution.paysSiege` → `Pays.zoneMonetaire == UEMOA`, exposé par `PreferenceRestClient.findInstitutionPrincipale()` puis `findPaysByCode()` dans `sfd-integration-api`). La devise seule ne suffit pas comme critère (une institution UEMOA peut tenir des comptes en EUR/USD ; un pays CEMAC utilise XAF).
+
 ## 2. État actuel de l'ERP (scan du dépôt, 2026-10-05)
 
 **Constat : aucun rail monétaire externe réel.** Ni client HTTP vers un opérateur mobile money, une banque ou la BCEAO, ni webhook entrant de paiement. « Mobile money » et « virement » n'existent que comme *modes de paiement comptables*.
@@ -96,20 +102,45 @@ Responsabilités, isolées des modules métier :
 6. **Tarification** : grille 0–0,8 % au-delà de 8 000 FCFA/jour cumulés, réception gratuite, marchand libre ; calcul cumul journalier par usager et participant.
 7. **Supervision** : métriques temps de réponse (SLA 10 s), taux de rejet, file de retry, alertes.
 
+### 4.1 bis Garde de zone (UEMOA)
+
+Trois niveaux, pour qu'une institution RDC ou CEMAC ne voie ni n'appelle jamais PI-SPI :
+
+| Niveau | Mécanisme | Effet hors UEMOA |
+|---|---|---|
+| Activation du module | `ModuleRegistryService` (Angular) calcule aujourd'hui *licence ∩ santé du service* ; ajouter une 3ᵉ condition *éligibilité de zone* déclarée dans `nexora-module.registry.ts` (`zonesEligibles: ['UEMOA']`) et évaluée sur la zone de l'institution chargée au démarrage | Module absent du menu, routes bloquées par `ModuleGuard`, aucune sonde de santé lancée |
+| Options dans les autres modules | Feature flag dérivé `pispiActif` (= module activé) lu par les écrans épargne (retrait PI-SPI), crédit (mode `MOBILE_MONEY`/`VIREMENT_EXTERNE` chaîné), paie (canal `PI_SPI`), commercial, portail client Angular et Flutter (retrait vers wallet, virement par alias, RIB/QR PI-SPI) | Options masquées ; les flux existants (espèces, virement interne, export CSV paie) restent seuls proposés |
+| Serveur (source de vérité) | `PiSpiZoneGuard` dans le service rail : refuse toute création de participant, ordre, alias, demande de paiement et tout webhook si l'institution n'est pas UEMOA (HTTP 403, code `PISPI_HORS_ZONE`) ; épargne/crédit/paie/portail refusent de même le mode `PI_SPI`. Résultat mis en cache, invalidé à la modification de l'institution ou du pays | Aucun appel possible même en forçant l'API ; le service rail peut ne pas être déployé du tout chez un client RDC |
+
+Conséquences :
+- Déploiement RDC/CEMAC : le service `sfd-paiement-instantane-service` n'est ni licencié ni démarré ; le monolithe le charge mais la garde le neutralise.
+- Plan comptable : les comptes et le journal `PIS` ne sont ajoutés qu'aux normes UEMOA (`accounting-norms/uemoa/*`), jamais aux normes `cemac` ni `rdc`.
+- Wizard de setup : l'étape de paramétrage PI-SPI n'apparaît que si le pays siège choisi est UEMOA.
+- Changement de pays siège d'une institution (cas rare) : désactive le module ; les ordres non terminés doivent être soldés avant.
+- Extension future : la même garde, paramétrée par zone, servira à un autre rail régional (ex. système de paiement instantané BEAC en zone CEMAC) sans toucher aux modules métier.
+
 ### 4.2 Flux métier via le bus existant
 
-Réutilise `OperationEvent` (`modePaiement`, `TresorerieInfo`, `correlationId`) et la règle de comptabilisation dual-line :
+Réutilise `OperationEvent` (`modePaiement`, `TresorerieInfo`, `correlationId`) et la règle de comptabilisation dual-line.
 
-| Flux | Modules émetteurs des manches | Compte trésorerie |
-|---|---|---|
-| Crédit entrant → compte épargne | Rail (manche trésorerie PI-SPI) + Épargne (manche compte client) | Nouveau compte « 11x Compte de règlement PI-SPI » (RCSFD) / 52x (SYSCOHADA) |
-| Débit compte épargne → bénéficiaire externe | Épargne (manche compte) + Rail (manche trésorerie + frais) | idem |
-| Décaissement crédit vers wallet/banque externe | Crédit (manche dossier) + Rail (manche trésorerie) — `ModeDecaissement.VIREMENT_EXTERNE`/`MOBILE_MONEY` deviennent réels | idem |
-| Remboursement crédit reçu par PI-SPI | Rail + Crédit (`ModeRemboursement.MOB/VIR`) | idem |
-| Règlement commercial / cotisation / frais adhésion | Rail + module tiers (schéma déjà clé par `modePaiement`) | idem |
-| Paie / RH virement salaire | Rail (bulk, API Business « règlement de masse ») + Paie | idem |
+**Règle de routage** : toute opération *client* (décaissement, remboursement, dépôt, retrait, cotisation) transite **obligatoirement par le compte épargne** du client ; PI-SPI ne touche jamais directement un dossier de crédit. Seules les opérations *institutionnelles* (paie, fournisseurs, trésorerie inter-agences) partent **directement du compte bancaire / de règlement** du SFD, sans compte épargne.
 
-La caisse n'intervient pas (règle existante : la caisse ne publie que si espèces).
+| Flux | Chemin | Modules émetteurs des manches | Compte trésorerie |
+|---|---|---|---|
+| Dépôt externe → compte épargne | PI-SPI entrant → crédit `DAV-…` | Rail (manche trésorerie) + Épargne (manche compte client) | Compte de règlement PI-SPI « 11x » (RCSFD) / 52x (SYSCOHADA) |
+| Retrait compte épargne → wallet/banque externe | Débit `DAV-…` → PI-SPI sortant | Épargne (manche compte + frais) + Rail (manche trésorerie) | idem |
+| **Décaissement crédit** | 1) Crédit → compte épargne (flux existant : crédit envoie manche dossier, épargne manche compte, aucune manche rail). 2) Le client retire ensuite vers son wallet = flux « retrait » ci-dessus, déclenché automatiquement si `ModeDecaissement = MOBILE_MONEY / VIREMENT_EXTERNE` | Étape 1 : Crédit + Épargne. Étape 2 : Épargne + Rail | Étape 1 : aucun. Étape 2 : règlement PI-SPI |
+| **Remboursement crédit** | 1) PI-SPI entrant → compte épargne = flux « dépôt » ci-dessus. 2) Prélèvement de l'échéance sur le compte épargne (flux existant `ModeRemboursement = PRL`, crédit + épargne) ; request-to-pay PI-SPI (`demande_paiement.write`) sert uniquement à provoquer l'étape 1 | Étape 1 : Rail + Épargne. Étape 2 : Épargne + Crédit | Étape 1 : règlement PI-SPI. Étape 2 : aucun |
+| Cotisation tontine / frais adhésion / règlement commercial client | PI-SPI entrant → compte épargne, puis prélèvement interne par le module métier | Rail + Épargne, puis Épargne + module | règlement PI-SPI puis aucun |
+| **Paie / RH** | Compte bancaire du SFD → bénéficiaires (bulk `paiement_groupe.write`), **sans compte épargne** ; si l'employé est aussi client, l'alias peut cibler son `DAV-…` mais le flux reste institutionnel | Rail (manche trésorerie) + Paie (manche charge/tiers 42x) | Compte bancaire SFD (114) ou règlement PI-SPI |
+| Fournisseurs (achats commercial) | Compte bancaire SFD → fournisseur, unitaire ou bulk | Rail + Commercial (manche tiers) | idem Paie |
+| Trésorerie inter-agences / refinancement | Compte bancaire ↔ banque | Rail + Comptabilité | idem Paie |
+
+Conséquences :
+- `ModeDecaissement.MOBILE_MONEY / VIREMENT_EXTERNE` et `ModeRemboursement.MOB / VIR` ne désignent plus un paiement direct mais un **retrait/dépôt épargne chaîné** ; le dossier de crédit ne porte jamais d'identifiant PI-SPI (`endToEndId` vit sur `OperationEpargne`).
+- Le compte épargne garde la trace unique et le relevé client reste complet (argument réglementaire : traçabilité, LBC/FT, plafonds par client).
+- Les flux institutionnels (paie, fournisseurs) ont un compte trésorerie distinct : `TypeCompteBancaire.COURANT` du SFD, pas le compte de règlement client. Deux positions à rapprocher séparément.
+- La caisse n'intervient dans aucun flux (règle existante : la caisse ne publie que si espèces).
 
 ### 4.3 Modifications dans les modules existants
 
@@ -117,7 +148,7 @@ La caisse n'intervient pas (règle existante : la caisse ne publie que si espèc
 |---|---|
 | Comptabilité | Compte(s) de règlement PI-SPI dans `plan-comptable.yml` RCSFD + SYSCOHADA ; journal `PIS` ; `TypeOperationBancaire.PAIEMENT_INSTANTANE_EMIS/RECU` ; import CAMT.053 ; `CodeOperateurMobile` → référentiel participants PI-SPI (BIC/identifiant participant) |
 | Épargne | Endpoint crédit/débit atomique pour le rail (réutiliser dépôt/retrait `ModeOperation.VIREMENT` avec `clientRequestId`), table alias par compte, `/portail/comptes/{n}/rib` réel (clé RIB manquante) |
-| Crédit | `DecaissementRequest` : ajouter alias/IBAN/BIC (collectés par l'UI mais absents du backend) et appeler le rail |
+| Crédit | `DecaissementRequest` : alias/IBAN/BIC (collectés par l'UI mais absents du backend) transmis à l'épargne pour le retrait chaîné après décaissement sur compte épargne ; aucun appel direct au rail. Remboursement : réception sur compte épargne puis prélèvement `PRL` existant |
 | Portail client (web + Flutter) | Remplacer le stub `PortailRetraitMobileService` par un ordre PI-SPI ; virement externe par alias ; QR de réception ; corriger le chemin Flutter `virements` vs `/virements/executer` |
 | Agent mobile | Collecte terrain : `modePaiement` typé, option « le client paie par PI-SPI » (request-to-pay si BCEAO l'ouvre) |
 | Transfert | `TRF_NAT`/`TRF_UEM` s'exécutent sur PI-SPI (plafond 5 M, transfrontalier à partir du 01/06/2027) |
@@ -129,11 +160,11 @@ La caisse n'intervient pas (règle existante : la caisse ne publie que si espèc
 | Domaine | Usage PI-SPI | Impact |
 |---|---|---|
 | Épargne | Dépôt depuis mobile money / banque vers le compte épargne par alias ; retrait vers wallet 24/7 | Fin du stub retrait mobile ; collecte sans passage en agence |
-| Crédit | Décaissement instantané sur wallet/banque ; remboursement par alias ; prélèvement d'échéance (si request-to-pay) | Réduction cash, délai décaissement de jours à secondes, PAR amélioré par facilité de remboursement |
+| Crédit | Décaissement sur compte épargne puis retrait chaîné vers wallet/banque ; remboursement par dépôt sur compte épargne (alias ou request-to-pay) puis prélèvement d'échéance | Réduction cash, délai décaissement de jours à secondes, PAR amélioré, traçabilité complète sur le relevé épargne |
 | Collecte terrain / tontine | Le client verse via PI-SPI sur le compte de collecte ; l'agent ne manipule plus d'espèces | Risque de fraude et de perte réduit |
 | Transfert d'argent | Transferts nationaux puis UEMOA (2027) sans partenaire tiers | Revenus de transfert, diaspora |
 | Paiement marchand | QR standardisé pour commerçants clients du SFD | Nouveau produit « compte marchand » |
-| Paie / RH / fournisseurs | Règlement de masse des salaires et achats | Suppression des chèques et des virements manuels |
+| Paie / RH / fournisseurs | Règlement de masse des salaires et achats **directement depuis le compte bancaire du SFD**, sans compte épargne | Suppression des chèques et des virements manuels |
 | Trésorerie | Virements inter-agences et vers banques de refinancement en temps réel | Pilotage de liquidité intraday |
 | G2P / institutionnel | Réception d'aides sociales, paiement de taxes pour le compte des clients | Positionnement auprès des États |
 
@@ -166,6 +197,7 @@ La caisse n'intervient pas (règle existante : la caisse ne publie que si espèc
 | Fraude (alias usurpé, ingénierie sociale) | Affichage nom bénéficiaire, OTP portail existant, plafonds par client, détection vélocité |
 | Spécifications techniques BCEAO non publiques (sandbox API Business sur demande ; FAQ/alias inaccessibles depuis ce poste) | Demander l'accès sandbox `developer.pispi.bceao.int` et le kit participant avant le PLAN détaillé |
 | Évolution tarifaire (grille revue au 02/10/2026) | Grille paramétrable, pas codée en dur |
+| Fonction visible ou appelable par une institution hors UEMOA (RDC, CEMAC) | Garde de zone à 3 niveaux (§4.1 bis), tests e2e sur une base démo RDC qui vérifient l'absence totale du module et des options |
 
 ## 7. Feuille de route proposée
 
