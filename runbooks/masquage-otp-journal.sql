@@ -24,7 +24,7 @@
 -- NB : avec Hibernate, la colonne contenu_message (@Lob sur TEXT) ne contient pas
 -- le texte mais l'OID d'un large object ; le texte est dans pg_largeobject.
 -- Le script masque en creant un NOUVEAU large object et en repointant la ligne ;
--- l'ancien large object (en clair) reste uniquement pour la sauvegarde.
+-- l'ancien large object (en clair) est supprime (lo_unlink) ; le clair ne subsiste que dans la table de sauvegarde.
 -- Si la colonne contient directement du texte (autre installation), il est traite tel quel.
 -- Necessite un role pouvant lire/creer des large objects (superuser ou lo_compat_privileges).
 -- ---------------------------------------------------------------------
@@ -91,6 +91,14 @@ UPDATE notif_journal j
          ELSE a.masque END
   FROM otp_a_masquer a
  WHERE a.id = j.id;
+
+-- Suppression des anciens large objects en clair (le clair reste uniquement dans la table de sauvegarde,
+-- colonne contenu_clair_sauvegarde). Seuls les LO des lignes masquees, plus references par notif_journal.
+SELECT count(lo_unlink(b.contenu_message::oid)) AS anciens_lo_supprimes
+  FROM :"backup" b
+ WHERE b.contenu_clair_sauvegarde IS NOT NULL AND b.contenu_message ~ '^[0-9]{1,10}$'
+   AND b.contenu_message NOT IN (SELECT contenu_message FROM notif_journal)
+   AND EXISTS (SELECT 1 FROM pg_largeobject_metadata WHERE oid = b.contenu_message::oid);
 
 -- Controles (a lire avant le COMMIT)
 SELECT (SELECT count(*) FROM notif_journal)            AS lignes_total,
@@ -167,11 +175,10 @@ COMMIT;   -- ou ROLLBACK si les controles ne conviennent pas
 */
 
 -- ---------------------------------------------------------------------
--- PARTIE 3 : purge de la sauvegarde (apres validation, a la demande du client)
--- PostgreSQL : supprimer d'abord les anciens large objects en clair, puis la table
---   SELECT lo_unlink(b.contenu_message::oid) FROM :"backup" b
---    WHERE b.contenu_clair_sauvegarde IS NOT NULL AND b.contenu_message ~ '^[0-9]{1,10}$'
---      AND EXISTS (SELECT 1 FROM pg_largeobject_metadata WHERE oid = b.contenu_message::oid);
+-- PARTIE 3 : sauvegarde (a purger sur decision, une fois le resultat valide)
+-- Les anciens LO sont deja supprimes par la partie 1 : la sauvegarde contient le clair dans contenu_clair_sauvegarde.
 --   DROP TABLE :"backup";
--- Restauration (si besoin) : UPDATE notif_journal j SET contenu_message = b.contenu_message FROM :"backup" b WHERE b.id = j.id;
+-- Restauration (recree un LO en clair) :
+--   UPDATE notif_journal j SET contenu_message = lo_from_bytea(0, convert_to(b.contenu_clair_sauvegarde,'UTF8'))::text
+--     FROM :"backup" b WHERE b.id = j.id AND b.contenu_clair_sauvegarde IS NOT NULL;
 -- ---------------------------------------------------------------------
