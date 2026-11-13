@@ -1,6 +1,6 @@
 # ERP-SFD — Architecture technique
 
-> EDIP — ERP microfinance UEMOA. Voir aussi [INDEX.md](../INDEX.md).
+> EDIP (Enterprise Digital Platform) — plateforme digitale d'entreprise. Voir aussi [INDEX.md](../INDEX.md).
 
 ---
 
