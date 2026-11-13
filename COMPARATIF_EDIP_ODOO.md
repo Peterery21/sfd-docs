@@ -223,9 +223,9 @@ Volume EDIP : ~230 endpoints, 88 classes de test. Nouveau : workflow achats (com
 | Mouvements | 11 types (entrées achat/retour/transfert/inventaire, sorties conso/vente/transfert/perte/affectation, régularisations) | Mouvements par règles de routage (push/pull) |
 | Documents | Bons de réception et de sortie, transferts, inventaire physique | Réceptions, livraisons, transferts internes, inventaires |
 | Valorisation | **CUMP seul** : FIFO, LIFO et prix standard sont refusés par le code | Standard, FIFO, coût moyen, avec valorisation comptable automatique |
-| Lots / séries | Lots avec statuts, **consommation FIFO des lots** à la sortie, date de péremption ; **pas de numéro de série** | Lots, numéros de série, dates de péremption natifs |
+| Lots / séries | Lots avec statuts, **consommation FIFO des lots** à la sortie, dates de fabrication et de péremption, alertes de péremption ; numéros de série seulement sur le matériel affecté aux employés | Lots, numéros de série, dates de péremption natifs |
 | Affectation au personnel | Dotations, consommation courante, renouvellement, quotas, matériel | Non natif (module tiers) |
-| Alertes | Seuils min/max, gravité ; génération automatique | Règles de réapprovisionnement |
+| Alertes | Rupture, péremption, seuil minimum, générées automatiquement ; paramètres de réappro sur l'article, sans génération de demande d'achat | Règles de réapprovisionnement |
 | Rapports | 22 codes `REP_STOCK` + 3 tableaux de bord | Rapports de stock, valorisation |
 | Compta | RECEPTION_STOCK, SORTIE_STOCK, ECART_INVENTAIRE | Valorisation en temps réel |
 | Écart d'inventaire | Calcul réel dans `InventaireServiceImpl` ; la méthode `calculerEcart` d'une implémentation parallèle reste un stub (non appelée par l'API) | Natif |

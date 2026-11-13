@@ -55,15 +55,29 @@ Domaines couverts : stock et logistique, CRM, commercial, helpdesk, personnalisa
 
 ## 3. Stock et logistique — **compléter**, priorité 2
 
-**État vérifié** : référentiels, mouvements, inventaire, workflows, PDF unitaires, consommation FIFO des lots, date de péremption, kits (`ArticleComposition`), champ code-barres sur l'article, seuils min/max. Défauts : sorties de vente du commercial classées en consommation (le contrat d'intégration ne transmet pas le type), `calculerEcart` stub, valorisation CUMP seule, pas de numéro de série, pas de réapprovisionnement automatique.
+**État vérifié (GitHub, 2026-11-13)**
+
+| Fonction | État |
+|---|---|
+| Référentiels, magasins, **emplacements**, mouvements, transferts entre magasins, inventaire, workflows, PDF unitaires | Fait |
+| Kits (`ArticleComposition`, décomposés à la sortie) | Fait |
+| Lots : consommation FIFO, date de fabrication et de péremption, quantités réservées ; articles « gestion par lot » et « périssable » avec durée de vie | Fait |
+| Alertes automatiques : **rupture, péremption, seuil minimum** | Fait |
+| Paramètres de réapprovisionnement sur l'article (stock minimum, de sécurité, maximum, quantité et délai de réappro) | Fait, **mais rien ne génère de demande d'achat** |
+| Numéros de série | Partiel : seulement sur le matériel affecté aux employés, pas sur les lots ni les mouvements |
+| Code-barres | Partiel : champ sur l'article et recherche ; l'app Flutter embarque déjà une bibliothèque de scan (utilisée pour le QR de configuration), pas encore pour le stock |
+| Type de sortie VENTE depuis le commercial | **Défaut** : le contrat d'intégration ne transmet pas le type, les ventes sont classées en consommation |
+| `calculerEcart` | Stub (le calcul réel est ailleurs) |
+| Valorisation | CUMP seul (FIFO, LIFO, prix standard refusés) |
+| Rappel de lot | Absent |
 
 | Lot | Contenu | Effort | Dépend de |
 |---|---|---|---|
 | ST-1 Correctifs | `typeSortie` dans `BonSortieRequest`, renseigné VENTE par le commercial ; `calculerEcart` implémenté ou supprimé ; test de bout en bout mouvement + écriture | S | — |
-| ST-2 Réapprovisionnement | Règles min/max qui génèrent des demandes d'achat (lot COM-2) ou des transferts entre magasins | M | COM-2 |
-| ST-3 Traçabilité | Numéros de série, rappel de lot, alerte de péremption | M | — |
+| ST-2 Réapprovisionnement | Exploiter les paramètres déjà présents sur l'article : génération de demandes d'achat (lot COM-2) ou de transferts entre magasins quand le stock passe sous le minimum, en tenant compte du délai | S | COM-2 |
+| ST-3 Traçabilité | Numéros de série sur les lots et mouvements (le modèle existe déjà pour le matériel affecté), rappel de lot (qui a reçu quoi) ; les alertes de péremption existent déjà | M | — |
 | ST-4 Valorisation | FIFO effectif (couches de coût) en plus du CUMP, avec écritures correspondantes | M | — |
-| ST-5 Scan | Lecture de codes-barres à la réception, la sortie et l'inventaire, dans l'app terrain Flutter (caméra) et par douchette | M | — |
+| ST-5 Scan | Lecture de codes-barres à la réception, la sortie et l'inventaire, en réutilisant la bibliothèque de scan déjà présente dans l'app Flutter et le champ code-barres de l'article ; douchette sur le web | S | — |
 | ST-6 WMS, transporteurs | Vagues, colisage, étiquettes de transport | — | **Ne pas construire** ; intégrer si besoin |
 
 **Critères d'acceptation** : livrer 5 unités → mouvement `SORTIE_VENTE` et écriture sur le compte de vente ; stock sous le minimum → demande d'achat créée ; inventaire 18 sur 20 → écart −2 valorisé et soumis au workflow.
@@ -102,7 +116,7 @@ Domaines couverts : stock et logistique, CRM, commercial, helpdesk, personnalisa
 
 | Lot | Contenu | Effort | Dépend de |
 |---|---|---|---|
-| CRM-0 Pipeline de vente complet | Lien opportunité → devis (création du devis depuis le deal, passage automatique à GAGNE à la commande) ; motif de perte obligatoire et rapport des pertes ; étapes configurables (ordre, probabilité par défaut, étape gagnée/perdue) et pipelines multiples (vente, adhésion, partenariats) ; prévision pondérée par période et par agent | M | — |
+| CRM-0 Pipeline de vente complet | Lien opportunité → devis (création du devis depuis le deal, passage automatique à GAGNE à la commande) ; motif de perte obligatoire et rapport des pertes ; **Kanban plus lisible** : une couleur discrète par étape (liseré ou en-tête légèrement teinté, palette neutre qui progresse vers la clôture, vert pour gagné, rouge atténué ou gris pour perdu), badges de probabilité, montant total et pondéré en tête de colonne, avatar de l'agent sur la carte, mise en évidence douce des deals en retard sur leur date de clôture ; couleurs issues des variables du thème (compatibles mode sombre), sans dégradé ni fond saturé ; étapes configurables (ordre, probabilité par défaut, étape gagnée/perdue) et pipelines multiples (vente, adhésion, partenariats) ; prévision pondérée par période et par agent | M | — |
 | CRM-1 Pipeline d'adhésion | Prospect → adhésion (module client) → premier compte → premier crédit, avec taux de conversion par agent et par agence ; prospects saisis depuis l'app terrain | M | Client, agent mobile |
 | CRM-2 Campagnes | Envoi de masse e-mail/SMS à un segment (consentement, désabonnement, estimation du coût SMS, rapport d'envoi), en réutilisant les modèles et canaux de notification | M | — |
 | CRM-3 Automatisation | Relances programmées (prospect sans activité, échéance de DAT, client dormant), tâches créées automatiquement | S | Déclencheurs du workflow |
@@ -114,7 +128,21 @@ Domaines couverts : stock et logistique, CRM, commercial, helpdesk, personnalisa
 
 ## 6. Helpdesk — **compléter, avec un angle réglementaire**, priorité 3
 
-**État vérifié** : tickets avec machine d'états, catégories, matrice impact × urgence, groupes N1-N3, SLA avec pause, escalade et clôture automatiques, satisfaction, anonymisation RGPD, champs personnalisés, portail public avec captcha. Manques : création de tickets par e-mail, base de connaissances, réponses types, lien direct avec le dossier client.
+**État vérifié (GitHub, 2026-11-13)**
+
+| Fonction | État |
+|---|---|
+| Tickets incident et demande de service, cycle NOUVEAU → QUALIFIE → ASSIGNE → EN_COURS → EN_ATTENTE → RESOLU → FERME | Fait |
+| Qualification, assignation, escalade (manuelle et automatique), mise en attente avec pause du SLA, résolution confirmée par le demandeur, réouverture, clôture automatique | Fait |
+| Catégories avec champs personnalisés, matrice impact × urgence → priorité, groupes N1-N3 et membres, politiques SLA | Fait |
+| Validation (approbation) d'une demande, satisfaction avec commentaire, historique d'événements, anonymisation RGPD | Fait |
+| Écrans : mes tickets, file du technicien, tableau de bord, rapports personnalisés, tâches liées (module Projets), paramétrage | Fait |
+| Portail public sans compte EDIP (origine EXTERNE) | Fait |
+| Création de tickets par e-mail | Absent |
+| Base de connaissances | Absent |
+| Réponses types, macros | Absent |
+| Lien avec le dossier client EDIP (client, compte, crédit) et réclamations | Absent : le demandeur est un utilisateur ou un compte du portail support |
+| Tickets depuis le portail client EDIP | Absent |
 
 **Angle EDIP** : les institutions financières doivent tenir un dispositif de traitement des **réclamations clientèle** avec délais et reporting *(exigence BCEAO à sourcer avant de la citer dans la documentation commerciale)*. Le helpdesk peut le couvrir.
 
