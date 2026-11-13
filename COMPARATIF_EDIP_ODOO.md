@@ -133,7 +133,7 @@ Volume EDIP : ~321 endpoints, 177 classes de test. Nouveau : remboursement par p
 | Outils d'admin | Contrôleur d'admin des DLQ RabbitMQ | Non applicable |
 | App terrain | Backend mobile : profils COLLECTEUR_TONTINE, AGENT_EPARGNE, AGENT_CREDIT, AGENT_COMPLET ; opérations COLLECTE, DEPOT, RETRAIT, OUVERTURE_COMPTE, NOUVEAU_CLIENT, DEMANDE_CREDIT, REMBOURSEMENT_CREDIT ; **synchronisation offline** | Pas d'équivalent terrain financier ; POS offline possible |
 
-Volume EDIP : caisse ~164 endpoints ; mobile ~66 endpoints, 56 classes de test. Nouveau côté terrain : adhésion avec frais et pièces obligatoires, renouvellement et clôture de tontine, rapport d'opérations PDF/Excel/CSV, QR de configuration signé. Deux apps agent Flutter coexistent (`sfd-mobile/sfd-agent-mobile` et `sfd-agent-mobile-flutter`) *(laquelle est active : à vérifier)*.
+Volume EDIP : caisse ~164 endpoints ; mobile ~66 endpoints, 56 classes de test. Nouveau côté terrain : adhésion avec frais et pièces obligatoires, renouvellement et clôture de tontine, rapport d'opérations PDF/Excel/CSV, QR de configuration signé. Une seule app agent : le dépôt `sfd-agent-mobile-flutter`. Le dossier `sfd-mobile/sfd-agent-mobile` est un ancien clone local du même dépôt GitHub (même historique, 13 commits de retard), pas une seconde application.
 
 ### 3.5 Transferts d'argent
 
@@ -156,7 +156,7 @@ Volume EDIP : ~74 endpoints, 41 classes de test.
 | Portail employé | Pointage, bulletins PDF, congés, profil 360, demandes, validations managers, push FCM ; **« Mon départ »** (dossier de sortie avec documents), personnes à charge, thème par institution | Self-service employé (congés, notes de frais, présence) |
 | Portail support (nouveau) | Public, sans compte EDIP : inscription avec captcha et consentement, vérification e-mail, demandes, export et suppression RGPD | Portail Helpdesk |
 
-Limites EDIP : les écrans mobile money du portail client s'appuient sur `sfd-paiement-externe-service`, dont le code n'est pas sur `develop` (branches seulement). Le portail client contient encore des modules de démonstration du gabarit Velzon dans `store/` (Crypto, Ecommerce, Jobs, APIKey…).
+Les écrans mobile money du portail client s'appuient sur `sfd-paiement-externe-service` (code sur `develop`, voir §3.18). Limite EDIP : le portail client contient encore des modules de démonstration du gabarit Velzon dans `store/` (Crypto, Ecommerce, Jobs, APIKey…).
 
 ### 3.7 Comptabilité
 
@@ -324,7 +324,7 @@ Volume EDIP : 44 + 21 endpoints, 25 classes de test. Module récent (11 et 5 com
 | Fonction | EDIP | Odoo |
 |---|---|---|
 | Paiement instantané BCEAO (PI-SPI) | `sfd-paiement-instantane-service` : activation du participant, CSR de certificat, alias, ordres unitaires et groupés, webhooks signés, estimation de frais, rapprochement, plafonds journaliers, garde de zone UEMOA. Utilisé par épargne (dépôt/retrait), crédit (décaissement, échéances), transferts, commercial (fournisseurs), paie | **Aucun** |
-| Mobile money | Écrans dans le portail client ; opérateurs de démo Orange, MTN, Moov, Wave, T-Money, Flooz, Airtel ; **code du service absent de `develop`** | Fournisseurs officiels Flutterwave, DPO, Paymob (e-commerce/portail) ; rien d'officiel pour Orange Money, MTN MoMo ou Wave ([doc](https://www.odoo.com/documentation/20.0/applications/finance/payment_providers.html)) |
+| Mobile money | `sfd-paiement-externe-service` (86 classes Java sur `develop`, dernier commit le 2026-11-10) : agrégateurs PayGate et CinetPay (bac à sable de démo, canaux T-Money au Togo), tableau de bord transactionnel, arrondis à la devise, secrets montés en fichiers, actuator restreint ; écrans d'envoi, recharge et historique dans le portail client ; opérateurs de démo Orange, MTN, Moov, Wave, T-Money, Flooz, Airtel | Fournisseurs officiels Flutterwave, DPO, Paymob (e-commerce/portail) ; rien d'officiel pour Orange Money, MTN MoMo ou Wave ([doc](https://www.odoo.com/documentation/20.0/applications/finance/payment_providers.html)) |
 
 Volume EDIP PI-SPI : 42 endpoints, 32 classes de test.
 
@@ -370,7 +370,7 @@ Volume EDIP PI-SPI : 42 endpoints, 32 classes de test.
 
 ## 5. Maturité et risques côté EDIP
 
-**Suivi des 22 écarts relevés le 2026-10-12** (état au 2026-11-13) : 4 faits, 11 partiels, 7 absents.
+**Suivi des 22 écarts relevés le 2026-10-12** (état au 2026-11-13) : 5 faits, 10 partiels, 7 absents.
 
 | Écart | État | Détail |
 |---|---|---|
@@ -387,7 +387,7 @@ Volume EDIP PI-SPI : 42 endpoints, 32 classes de test.
 | No-code | Partiel | Champs personnalisés, designer de rapports ; pas de constructeur de formulaires |
 | Import générique | Partiel | Moteur et assistant de migration ; couverture de tous les modules non confirmée |
 | Campagnes marketing | Partiel | Comptages de segments ; pas d'envoi de masse |
-| Paiements | Partiel | PI-SPI livré ; mobile money absent de `develop` |
+| Paiements | Fait | PI-SPI et mobile money (PayGate, CinetPay) livrés sur `develop` |
 | Sauvegarde, installeur, licence | Partiel | Livrés ; application effective de la licence non vérifiée |
 | Moteur de TVA | Absent | — |
 | Stock `typeSortie` / `calculerEcart` | Absent | Ventes enregistrées en consommation |
@@ -402,9 +402,8 @@ Volume EDIP PI-SPI : 42 endpoints, 32 classes de test.
 | Sujet | État |
 |---|---|
 | Barèmes de paie | **Barème IRPP Togo faux semé en installation réelle** ; ITS Côte d'Ivoire 2024 et barème Sénégal non intégrés (valeurs officielles relevées le 2026-10-12) |
-| Mobile money | Écrans du portail client sans backend sur `develop` |
+| Clones locaux en retard | La branche `develop` locale de `sfd-paiement-externe-service` est restée au commit initial (le code est sur `origin/develop`) ; `sfd-mobile/sfd-agent-mobile` est un ancien clone de `sfd-agent-mobile-flutter`. Sans incidence produit, mais trompeur pour les scans et les builds locaux |
 | Portail client | Modules de démonstration Velzon encore présents dans `store/` ; README de gabarit |
-| Apps mobiles | Deux apps agent Flutter en parallèle |
 | Configuration | `client-id` OAuth écrits en clair dans `sfd-commun-service/src/main/resources/application.yml` (les secrets, eux, sont en variables) |
 | Hétérogénéité des versions | Angular Material 16 / CDK 18 / Angular 19 |
 | Qualité Sonar | Quality gate à revérifier dépôt par dépôt |
@@ -424,7 +423,7 @@ Volume EDIP PI-SPI : 42 endpoints, 32 classes de test.
 | Comptabilité SFD | 5 | 4 | 2 |
 | Comptabilité générale | 4 | 4 | 5 |
 | Fiscalité (TVA, déclarations) | 1 | 1 | 4 |
-| Paiements locaux (PI-SPI, mobile money) | 4 | — | 1 |
+| Paiements locaux (PI-SPI, mobile money) | 5 | — | 1 |
 | Ventes / achats | 3 | 3 | 5 |
 | CRM | 2 | 2 | 5 |
 | Stock / logistique | 3 | 3 | 5 |
@@ -449,7 +448,7 @@ Le positionnement d'octobre tient : EDIP est une plateforme sectorielle (IMF, co
 
 **P0 — avant toute démo ou mise en production**
 1. **Corriger les barèmes de paie.** Le barème IRPP du Togo semé par `PaieParametrageSystemInitializer` (5 tranches 7/15/25/35 %) ne correspond pas à l'art. 74 du CGI (8 tranches 0/3/10/15/20/25/30/35 %), et il part désormais en installation réelle. Intégrer aussi l'ITS 2024 de Côte d'Ivoire (6 tranches, RICF, plafond CNPS 3 375 000) et le barème du Sénégal (art. 173.1, quotient familial, TRIMF, CFCE). Un bulletin faux engage l'institution cliente.
-2. **Fusionner ou masquer le mobile money.** `sfd-paiement-externe-service` n'a pas de code sur `develop` alors que le portail client affiche les écrans.
+2. **Mettre à jour les clones locaux** : la branche `develop` locale de `sfd-paiement-externe-service` (code sur `origin/develop`), et retirer l'ancien clone `sfd-mobile/sfd-agent-mobile` au profit de `sfd-agent-mobile-flutter`.
 3. **Nettoyer le portail client** : retirer les modules de démonstration Velzon de `store/` (surface d'attaque, poids du bundle) et remplacer les README de gabarit.
 
 **P1 — conformité et sécurité (ce que régulateurs et auditeurs demanderont)**
@@ -466,5 +465,4 @@ Le positionnement d'octobre tient : EDIP est une plateforme sectorielle (IMF, co
 
 **P3 — à surveiller**
 12. **IA** : commencer petit et mesurable (suggestion de rapprochement bancaire, pré-scoring crédit expliqué) plutôt qu'un assistant générique pour répondre aux agents d'Odoo 20.
-13. **Une seule app agent Flutter** au lieu de deux.
-14. **Prix** : Odoo Custom ≈ 44,90 €/utilisateur/mois sans microfinance ni paie locale. EDIP peut se vendre par agence et par module grâce au service de licence, avec le cœur SFD, la paie de la zone et PI-SPI inclus.
+13. **Prix** : Odoo Custom ≈ 44,90 €/utilisateur/mois sans microfinance ni paie locale. EDIP peut se vendre par agence et par module grâce au service de licence, avec le cœur SFD, la paie de la zone et PI-SPI inclus.
