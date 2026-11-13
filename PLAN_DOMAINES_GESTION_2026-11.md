@@ -89,18 +89,26 @@ Domaines couverts : stock et logistique, CRM, commercial, helpdesk, personnalisa
 
 ## 5. CRM — **compléter et orienter vers l'adhésion**, priorité 3
 
-**État vérifié** : prospects, contacts, opportunités par étapes, activités, objectifs, portefeuille, e-mails, tableau de bord, rapport de pipeline ; segments de clients (comptages) dans le module client ; notifications e-mail, SMS et push déjà en place.
+**État vérifié — le pipeline leads/deals existe déjà** :
+- **Leads** (`Prospect`) : statuts NOUVEAU → EN_CONTACT → QUALIFIE → PROPOSITION → NEGOCIATION → CONVERTI / PERDU ; source d'acquisition, segment, montant estimé, agent ; conversion en tiers, réaffectation, détection des doublons.
+- **Deals** (`OpportuniteCommerciale`) : étapes PROSPECTION → QUALIFICATION → PROPOSITION → NEGOCIATION → GAGNE / PERDU ; montant, probabilité, dates de clôture prévue et réelle.
+- **Pipeline Kanban** avec glisser-déposer entre étapes, filtres par agent et montant.
+- Activités (appel, rendez-vous, tâche, note, e-mail) en chronologie, envoi d'e-mails, objectifs par agent, portefeuille, vue client 360, tableau de bord, rapport de pipeline.
+- Segments de clients (comptages) dans le module client ; notifications e-mail, SMS et push en place.
+
+**Manques par rapport à Odoo** : aucun lien opportunité → devis ; pas de motif de perte ; étapes figées dans le code (pas d'étapes configurables ni de pipelines multiples) ; pas de prévision pondérée (montant × probabilité) ; pas de score de leads, d'automatisation ni de campagnes.
 
 **Angle EDIP** : pour une IMF, le « client » à conquérir est un membre. Le CRM doit relier prospection terrain, adhésion, ouverture de compte et premier crédit, ce qu'Odoo ne fait pas.
 
 | Lot | Contenu | Effort | Dépend de |
 |---|---|---|---|
+| CRM-0 Pipeline de vente complet | Lien opportunité → devis (création du devis depuis le deal, passage automatique à GAGNE à la commande) ; motif de perte obligatoire et rapport des pertes ; étapes configurables (ordre, probabilité par défaut, étape gagnée/perdue) et pipelines multiples (vente, adhésion, partenariats) ; prévision pondérée par période et par agent | M | — |
 | CRM-1 Pipeline d'adhésion | Prospect → adhésion (module client) → premier compte → premier crédit, avec taux de conversion par agent et par agence ; prospects saisis depuis l'app terrain | M | Client, agent mobile |
 | CRM-2 Campagnes | Envoi de masse e-mail/SMS à un segment (consentement, désabonnement, estimation du coût SMS, rapport d'envoi), en réutilisant les modèles et canaux de notification | M | — |
 | CRM-3 Automatisation | Relances programmées (prospect sans activité, échéance de DAT, client dormant), tâches créées automatiquement | S | Déclencheurs du workflow |
 | CRM-4 Scoring de prospects | Score simple et explicable (complétude KYC, activité, segment) | S | — |
 
-**Critères d'acceptation** : le taux de conversion prospect → membre par agent est vérifiable contre les données ; un désabonné n'est jamais contacté ; une campagne affiche envoyés/échoués/désabonnés.
+**Critères d'acceptation** : un devis créé depuis une opportunité la référence, et la commande la passe à GAGNE ; une opportunité perdue sans motif est refusée ; la prévision pondérée d'un agent égale la somme montant × probabilité de ses deals ouverts ; le taux de conversion prospect → membre par agent est vérifiable contre les données ; un désabonné n'est jamais contacté ; une campagne affiche envoyés/échoués/désabonnés.
 
 ---
 
@@ -158,7 +166,7 @@ Domaines couverts : stock et logistique, CRM, commercial, helpdesk, personnalisa
 | **A — Fiabilité** (immédiat) | ST-1, CG-1, CG-4 | Correctifs courts sur des défauts confirmés |
 | **B — Conformité** | Paquets de localisation (format) → FIS-1 à FIS-5, COM-1 | Plus gros écart, prérequis de la gestion commerciale |
 | **C — Pilotage** | CG-2 analytique, CG-3 paiements en lot, NC-1 champs personnalisés partout | Différenciation IMF/bailleurs, socle de personnalisation |
-| **D — Relation client** | CRM-1, CRM-2, HD-1, HD-2 | Adhésion et réclamations, angles propres à EDIP |
+| **D — Relation client** | CRM-0, CRM-1, CRM-2, HD-1, HD-2 | Adhésion et réclamations, angles propres à EDIP |
 | **E — Gestion avancée** | COM-2, COM-3, ST-2 à ST-5, NC-2 à NC-4, HD-3 à HD-5, CRM-3, CRM-4 | Rattrapage fonctionnel |
 | **F — Sur demande** | FIS-6 FNE, COM-4, COM-5, CG-5, CG-6, FAB-1, FAB-2 | Selon les clients et les pays visés |
 
@@ -174,7 +182,7 @@ Les lots d'une même phase sur des modules différents se mènent en parallèle 
 | Comptabilité générale | 4 | 5 | 5 |
 | Stock / logistique | 3 | 4 | 5 |
 | Ventes / achats | 3 | 4 | 5 |
-| CRM | 2 | 3 (4 sur l'adhésion) | 5 |
+| CRM | 3 (pipeline leads/deals déjà en place) | 4 | 5 |
 | Helpdesk | 3 | 4 | 5 |
 | Personnalisation sans code | 2 | 3 | 5 |
 | Fabrication | 0 | 0 à 2 selon décision | 5 |
