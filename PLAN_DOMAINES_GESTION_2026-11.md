@@ -29,11 +29,12 @@ Domaines couverts : stock et logistique, CRM, commercial, helpdesk, personnalisa
 | Les messages RabbitMQ ne sont pas filtrés | La comptabilité consomme les écritures même non licenciée |
 | Angular masque menus et routes des modules non licenciés | Les composants partagés qui appellent un autre module (sélecteur de compte comptable dans le stock) restent visibles et affichent une erreur générique ; le code `MODULE_NON_LICENCIE` n'a pas de message dédié |
 
-**Dépendances requises** (décision du 2026-11-14 pour la première ligne) :
+**Dépendances requises** (décisions du 2026-11-14 pour les deux premières lignes) :
 
 | Module | Requiert | Raison |
 |---|---|---|
 | Commercial | Comptabilité | Le commercial génère ses écritures en comptabilité ; le référentiel des taxes y vit donc (FIS-1) |
+| Verticale finance : client, épargne, crédit, caisse, transfert, agent mobile, portail client | Comptabilité | Adhésion, KYC, parts sociales et opérations exigent une journée comptable ouverte et publient leurs écritures |
 | Portail support | Support | Même produit |
 | Paie | RH | Employés, contrats, pointages |
 | Suivi-évaluation | Projets (socle partagé) | Déjà géré par un accès partagé dans la licence |
@@ -49,13 +50,12 @@ Domaines couverts : stock et logistique, CRM, commercial, helpdesk, personnalisa
 | Commercial sans PI-SPI | OK, seul ce mode de règlement échoue | — |
 | Support sans client, RH ou Projets | OK, autonome ; Projets appelle Support en option | — |
 | RH sans paie | Départs et champs perso bloqués tant que `paie-active` n'est pas désactivé | Désactivation automatique selon la licence |
-| Client sans comptabilité | Adhésion, KYC, parts sociales exigent une journée comptable ouverte | Hors périmètre de ce plan : décider si la comptabilité est requise pour la verticale finance |
 
 **Risques transverses** : un 403 de licence se transforme en faux message métier (« stock insuffisant », « magasin introuvable ») ; une écriture commerciale qui échoue à la publication est perdue sans signal (la paie, elle, bloque et trace).
 
 | Lot | Contenu | Effort | Dépend de |
 |---|---|---|---|
-| LIC-1 Dépendances déclarées | Dépendances requises dans le catalogue ; licence incohérente refusée à l'import ; dépendances optionnelles exposées à Angular | S | — |
+| LIC-1 Dépendances déclarées | Dépendances requises dans le catalogue (commercial et verticale finance → comptabilité, paie → RH, portail support → support) ; licence incohérente refusée à l'import ; dépendances optionnelles exposées à Angular | S | — |
 | LIC-2 Dégradation propre | Clients d'intégration : 403 `MODULE_NON_LICENCIE` distingué d'une panne et traduit ; message dédié dans l'intercepteur Angular ; composants partagés masqués si le module source manque (sélecteur de compte, etc.) | M | LIC-1 |
 | LIC-3 Écritures sans perte | Publication comptable du commercial (et des modules sans trace) non silencieuse : trace et rejeu, sur le modèle de la paie | S | — |
 | LIC-4 Tests de combinaisons | E2E par combinaison vendue (stock seul, commercial + comptabilité sans stock, support seul, RH sans paie) sur base jetable | M | LIC-1, LIC-2 |
