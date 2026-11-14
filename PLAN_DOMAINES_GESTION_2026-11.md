@@ -49,6 +49,7 @@ Domaines couverts : stock et logistique, CRM, commercial, helpdesk, personnalisa
 | Commercial sans caisse | Règlement espèces et comptoir bloqués | Masquer ces modes de règlement |
 | Commercial sans PI-SPI | OK, seul ce mode de règlement échoue | — |
 | Support sans client, RH ou Projets | OK, autonome ; Projets appelle Support en option | — |
+| CRM sans commercial ni client | À construire (CRM-S) : aujourd'hui le CRM est dans le commercial | Pistes et activités seules ; pipelines Vente et Adhésion selon la licence |
 | RH sans paie | Départs et champs perso bloqués tant que `paie-active` n'est pas désactivé | Désactivation automatique selon la licence |
 
 **Risques transverses** : un 403 de licence se transforme en faux message métier (« stock insuffisant », « magasin introuvable ») ; une écriture commerciale qui échoue à la publication est perdue sans signal (la paie, elle, bloque et trace).
@@ -166,7 +167,7 @@ Domaines couverts : stock et logistique, CRM, commercial, helpdesk, personnalisa
 
 ## 5. CRM — **compléter**, adhésion en option, priorité 3
 
-**Licence** : le CRM vit dans le module commercial (`/api/commercial/crm`) ; il n'est pas licenciable seul. Un client « commercial » a le CRM ; un client « client » seul ne l'a pas. Un module CRM séparé ne se justifie que si on veut le vendre sans le commercial.
+**Licence** : aujourd'hui le CRM vit dans le module commercial (`/api/commercial/crm`) et n'est pas licenciable seul. **Décision du 2026-11-14 : le CRM devient un module vendu séparément** (lot CRM-S, §5 bis), sans dépendance requise ; le commercial et le module client sont des cibles optionnelles.
 
 **État vérifié (2026-11-14) — le pipeline leads/deals existe déjà** :
 - **Leads** (`Prospect`) : statuts NOUVEAU → EN_CONTACT → QUALIFIE → PROPOSITION → NEGOCIATION → CONVERTI / PERDU ; source d'acquisition, segment, montant estimé, agent ; conversion en tiers commercial (pas en client du module client, donc pas en adhésion), réaffectation, détection des doublons.
@@ -177,12 +178,12 @@ Domaines couverts : stock et logistique, CRM, commercial, helpdesk, personnalisa
 
 **Manques par rapport à Odoo** : aucun lien opportunité → devis ; pas de motif de perte ; étapes figées dans le code (pas d'étapes configurables ni de pipelines multiples) ; pas de prévision pondérée (montant × probabilité) ; pas de score de leads, d'automatisation ni de campagnes.
 
-**Angle EDIP** : le CRM sert d'abord toute entreprise (leads, deals, devis, prévision) ; CRM-0, CRM-2 et CRM-4 restent dans le commercial sans autre dépendance. Pour une institution financière, le « client » à conquérir est en plus un membre : le CRM relie alors prospection terrain, adhésion, ouverture de compte et premier crédit, ce qu'Odoo ne fait pas.
+**Angle EDIP** : le CRM sert d'abord toute entreprise (leads, deals, devis, prévision) ; CRM-0, CRM-2 et CRM-4 vivent dans le module CRM, le lien vers le devis n'apparaissant que si le commercial est licencié. Pour une institution financière, le « client » à conquérir est en plus un membre : le CRM relie alors prospection terrain, adhésion, ouverture de compte et premier crédit, ce qu'Odoo ne fait pas.
 
 | Lot | Contenu | Effort | Dépend de |
 |---|---|---|---|
-| CRM-0 Pipeline de vente complet | Lien opportunité → devis, interne au commercial (création du devis depuis le deal, passage automatique à GAGNE à la commande) ; motif de perte obligatoire et rapport des pertes ; **Kanban plus lisible** : une couleur discrète par étape (liseré ou en-tête légèrement teinté, palette neutre qui progresse vers la clôture, vert pour gagné, rouge atténué ou gris pour perdu), badges de probabilité, montant total et pondéré en tête de colonne, avatar de l'agent sur la carte, mise en évidence douce des deals en retard sur leur date de clôture ; couleurs issues des variables du thème (compatibles mode sombre), sans dégradé ni fond saturé ; étapes configurables (ordre, probabilité par défaut, étape gagnée/perdue) et pipelines multiples (vente, adhésion, partenariats) ; prévision pondérée par période et par agent | M | — |
-| CRM-1 Pipeline d'adhésion | Intégration du §5 bis (option A) : piste → adhésion (module client) → premier compte → premier crédit, avec taux de conversion par agent et par agence ; prospects saisis depuis l'app terrain. Chaque étape apparaît seulement si son module est licencié (client, épargne, crédit, agent mobile) ; sans client, la conversion reste en tiers commercial | M | Client (optionnel), LIC-1 |
+| CRM-0 Pipeline de vente complet | Lien opportunité → devis par l'API d'intégration du commercial, si licencié (création du devis depuis le deal, passage automatique à GAGNE à la commande) ; motif de perte obligatoire et rapport des pertes ; **Kanban plus lisible** : une couleur discrète par étape (liseré ou en-tête légèrement teinté, palette neutre qui progresse vers la clôture, vert pour gagné, rouge atténué ou gris pour perdu), badges de probabilité, montant total et pondéré en tête de colonne, avatar de l'agent sur la carte, mise en évidence douce des deals en retard sur leur date de clôture ; couleurs issues des variables du thème (compatibles mode sombre), sans dégradé ni fond saturé ; étapes configurables (ordre, probabilité par défaut, étape gagnée/perdue) et pipelines multiples (vente, adhésion, partenariats) ; prévision pondérée par période et par agent | M | CRM-S |
+| CRM-1 Pipeline d'adhésion | Intégration du §5 bis (option A) : piste → adhésion (module client) → premier compte → premier crédit, avec taux de conversion par agent et par agence ; prospects saisis depuis l'app terrain. Chaque étape apparaît seulement si son module est licencié (client, épargne, crédit, agent mobile) ; sans client, la conversion reste en tiers commercial | M | CRM-S, Client (optionnel), LIC-1 |
 | CRM-2 Campagnes | Envoi de masse e-mail/SMS à un segment (consentement, désabonnement, estimation du coût SMS, rapport d'envoi), en réutilisant les modèles et canaux de notification | M | — |
 | CRM-3 Automatisation | Relances programmées (prospect sans activité ; échéance de DAT et client dormant seulement si épargne ou client licenciés), tâches créées automatiquement | S | NC-4 |
 | CRM-4 Scoring de prospects | Score simple et explicable (complétude KYC, activité, segment) | S | — |
@@ -200,21 +201,21 @@ Domaines couverts : stock et logistique, CRM, commercial, helpdesk, personnalisa
 4. Doublons : recherche dans les pistes, puis dans le module client et le commercial selon la licence, sur le modèle de `doublons()`.
 5. App terrain : piste dans le CRM si le CRM est licencié, sinon prospect dans le module client comme aujourd'hui.
 
-**À décider — frontière entre piste et dossier d'adhésion**, quand une institution a le CRM :
+**Décidé le 2026-11-14 — frontière entre piste et dossier d'adhésion : option A**, quand une institution a le CRM :
 
 | Option | Fonctionnement | Conséquences |
 |---|---|---|
-| **A (recommandée)** | Tout ce qui précède l'ouverture du dossier d'adhésion vit dans le CRM. Le `Client` n'est créé qu'à la conversion, directement en `EN_COURS_ADHESION`. L'état `PROSPECT` du module client ne sert plus qu'aux institutions sans CRM | Une seule saisie par étape ; la base des clients ne contient que des dossiers réels ; les pistes perdues ne laissent aucune donnée personnelle dans le module client ; rien ne change pour une institution sans CRM |
+| **A (retenue)** | Tout ce qui précède l'ouverture du dossier d'adhésion vit dans le CRM. Le `Client` n'est créé qu'à la conversion, directement en `EN_COURS_ADHESION`. L'état `PROSPECT` du module client ne sert plus qu'aux institutions sans CRM | Une seule saisie par étape ; la base des clients ne contient que des dossiers réels ; les pistes perdues ne laissent aucune donnée personnelle dans le module client ; rien ne change pour une institution sans CRM |
 | B | Piste CRM et `Client PROSPECT` créés ensemble | Double saisie ou synchronisation à maintenir ; deux statuts pour la même personne, qui divergent |
-| C | Le CRM seul gère les prospects ; l'état `PROSPECT` est retiré du module client | Une institution sans CRM perd la prospection qu'elle a aujourd'hui : écarté |
+| C | Le CRM seul gère les prospects ; l'état `PROSPECT` est retiré du module client | Une institution sans CRM perd la prospection qu'elle a aujourd'hui : écartée |
 
 Avec l'option A, à l'activation du CRM, les clients encore à l'état `PROSPECT` sont proposés à l'import comme pistes du pipeline Adhésion (import facultatif, sans suppression automatique).
 
-**Séparation du module** (à trancher avant CRM-1) : un module `crm` licenciable seul (26e module du catalogue) rend le pipeline Adhésion vendable sans le commercial et le CRM utilisable sans la comptabilité (il ne passe pas d'écritures). Sinon le CRM reste dans le commercial et le pipeline Adhésion exige commercial + client.
+**Séparation du module — décidée le 2026-11-14** : un module `crm` licenciable seul (26e module du catalogue) rend le pipeline Adhésion vendable sans le commercial et le CRM utilisable sans la comptabilité (il ne passe pas d'écritures). Pipeline Vente visible si le commercial est licencié, pipeline Adhésion si le module client l'est ; CRM seul = pistes, activités et relances sans conversion.
 
 | Lot | Contenu | Effort | Dépend de |
 |---|---|---|---|
-| CRM-S Séparation (si retenue) | Module `crm` au catalogue des licences ; code et routes `/api/commercial/crm` déplacés ; `commercial_prospect` migrée en pistes du pipeline Vente ; contrat d'intégration vers client et commercial ; rôles, Angular (`features/crm`), tests | M (à confirmer par un inventaire du code CRM) | LIC-1 |
+| CRM-S Séparation | Module `crm` au catalogue des licences ; code et routes `/api/commercial/crm` déplacés ; `commercial_prospect` migrée en pistes du pipeline Vente ; contrat d'intégration vers client et commercial ; rôles, Angular (`features/crm`), tests | M (à confirmer par un inventaire du code CRM) | LIC-1 |
 
 **Critères d'acceptation** : un devis créé depuis une opportunité la référence, et la commande la passe à GAGNE ; une opportunité perdue sans motif est refusée ; la prévision pondérée d'un agent égale la somme montant × probabilité de ses deals ouverts ; le taux de conversion prospect → membre par agent est vérifiable contre les données ; un désabonné n'est jamais contacté ; une campagne affiche envoyés/échoués/désabonnés.
 
@@ -292,7 +293,7 @@ Avec l'option A, à l'activation du CRM, les clients encore à l'état `PROSPECT
 | **A — Fiabilité** (immédiat) | LIC-1, LIC-2, LIC-3, ST-1, COM-0, CG-1, CG-4, puis LIC-4 | Vente module par module sans écran cassé ni écriture perdue ; correctifs courts sur des défauts confirmés |
 | **B — Conformité** | Paquets de localisation (format) → FIS-1 à FIS-5, COM-1 | Plus gros écart, prérequis de la gestion commerciale |
 | **C — Pilotage** | CG-2 analytique, CG-3 paiements en lot, NC-1 champs personnalisés partout | Pilotage par projet et par bailleur, socle de personnalisation |
-| **D — Relation client** | CRM-0, CRM-1, CRM-2, HD-1, HD-2 | Adhésion et réclamations, angles propres à EDIP |
+| **D — Relation client** | CRM-S, puis CRM-0, CRM-1, CRM-2, HD-1, HD-2 | Adhésion et réclamations, angles propres à EDIP |
 | **E — Gestion avancée** | COM-2, COM-3, ST-2 à ST-5, ST-7, ST-8, NC-2 à NC-4, HD-3 à HD-5, CRM-3, CRM-4 | Rattrapage fonctionnel |
 | **F — Sur demande** | FIS-6 FNE, COM-4, COM-5, CG-5, CG-6, FAB-1, FAB-2 | Selon les clients et les pays visés |
 

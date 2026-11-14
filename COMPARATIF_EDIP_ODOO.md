@@ -204,7 +204,7 @@ L'écart sur le reporting réglementaire de banque et microfinance reste le plus
 | Remises | Remise globale, plafond par ligne, workflow d'approbation | Remises, approbations (Enterprise) |
 | Acomptes | Facture d'acompte et imputation | Acomptes (down payments) |
 | TVA | Montant TVA porté et publié en comptabilité ; moteur fiscal non confirmé | Moteur de taxes complet |
-| CRM | Leads (statuts, source, segment, conversion en tiers commercial, doublons, réaffectation ; CRM inclus dans le module commercial), deals (étapes, montant, probabilité, clôture prévue), **pipeline Kanban** avec glisser-déposer, activités, objectifs, portefeuille, vue client 360, e-mails, tableau de bord ; manquent le lien deal → devis, le motif de perte, les étapes configurables et la prévision pondérée | CRM complet : pipeline, scoring prédictif, automatisation, marketing |
+| CRM | Leads (statuts, source, segment, conversion en tiers commercial, doublons, réaffectation ; CRM inclus dans le module commercial, module séparé décidé le 2026-11-14), deals (étapes, montant, probabilité, clôture prévue), **pipeline Kanban** avec glisser-déposer, activités, objectifs, portefeuille, vue client 360, e-mails, tableau de bord ; manquent le lien deal → devis, le motif de perte, les étapes configurables et la prévision pondérée | CRM complet : pipeline, scoring prédictif, automatisation, marketing |
 | Balance âgée | Oui | Oui |
 | Rapports | 17 codes `REP-COM` | Analyse de ventes, pivot, dashboards |
 | Plafond de crédit client | Événement `PLAFOND_DEPASSE` | Limite de crédit (Enterprise) |
