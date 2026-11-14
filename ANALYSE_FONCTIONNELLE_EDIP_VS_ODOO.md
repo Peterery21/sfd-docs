@@ -360,7 +360,7 @@ Une **analyse fonctionnelle** décrit **ce que le système doit faire** du point
 ## 6. Questions ouvertes pour validation
 
 1. Quels pays sont visés à court terme ? Cela fixe le périmètre de F1-F3 et R1.
-2. Les clients cibles hors SFD (commerce, stock) sont-ils un objectif commercial, ou EDIP reste-t-il sectoriel ?
+2. ~~Les clients cibles hors SFD (commerce, stock) sont-ils un objectif commercial, ou EDIP reste-t-il sectoriel ?~~ **Tranché le 2026-11-14** : EDIP s'adresse à toute entreprise ; la verticale finance de proximité (IMF, coopératives, tontines) est un ensemble de modules en plus. Les manques de gestion générique (TVA, analytique, CRM, stock) sont donc prioritaires au même titre que le métier SFD.
 3. Le fournisseur SMS en production est-il en place ? (non confirmé dans le code)
 4. L'e-facturation d'État est-elle exigée dans les pays visés ?
 5. Le découvert épargne est-il livré ? (non trouvé par le scan, mentionné dans l'historique git)

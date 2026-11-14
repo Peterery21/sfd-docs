@@ -13,8 +13,8 @@ Date : 2026-11-13 (première version : 2026-10-12).
 
 | Axe | EDIP | Odoo |
 |---|---|---|
-| Cible | Institutions de microfinance (SFD), coopératives, tontines, plus gestion interne (RH, paie, stock, commercial) | PME et ETI de tous secteurs |
-| Cœur métier | Épargne, crédit, caisse, collecte terrain, comptabilité SFD | Ventes, achats, stock, fabrication, comptabilité générale |
+| Cible | Toute entreprise (PME, commerce, services, ONG, institutions financières) : gestion d'entreprise complète. Verticale finance de proximité en plus, activable par licence de module, pour les IMF/SFD, coopératives et tontines | PME et ETI de tous secteurs |
+| Cœur métier | Commun à tous : comptabilité, RH, paie, stock, commercial, CRM, projets, support, budget. Verticale finance : épargne, crédit, caisse, collecte terrain, comptabilité SFD | Ventes, achats, stock, fabrication, comptabilité générale |
 | Zones couvertes | UEMOA (BCEAO), CEMAC (BEAC), RDC ; données de démo pour 10 pays (TG, SN, CI, BJ, BF, ML, NE, GW, CD, CM) | Mondial. En Afrique : 13 modules `l10n_*` en 20.0 (`syscohada`, `sn`, `ci`, `cm`, `bj`, `bf`, `tg`, `cd`, `ml`, `ne`, `ga`, `ma`, `ke`), qui apportent **le plan comptable SYSCOHADA et les taxes seulement**. Paie officielle en Afrique : Égypte, Kenya, Maroc ([doc](https://www.odoo.com/documentation/20.0/applications/hr/payroll/payroll_localizations.html)), **aucune pour UEMOA, CEMAC ou RDC**. Pas d'e-facturation FNE (Côte d'Ivoire) ni Sénégal trouvée |
 | Licence | Propriétaire. `sfd-licence-service` : fichier de licence signé (Ed25519), activation par module, plafonds d'agences et d'utilisateurs, mode démo, passage en lecture seule à l'expiration | Community (LGPL) gratuite. Enterprise, par utilisateur et par mois en facturation annuelle : One App Free 0 €, Standard 24,90 €, Custom 44,90 € (Studio, multi-société, API externe, IA agentique) — trois sources tierces concordantes, page officielle non lue en EUR |
 | Écosystème | Aucun, tout est interne | Marketplace de milliers d'apps, réseau de partenaires ; aucun vertical microfinance officiel (seul le module OCA `account_loan`, qui gère des emprunts, pas une IMF) |
@@ -444,10 +444,10 @@ La paie baisse de 3 à 2 : les barèmes erronés sont désormais semés en insta
 
 ## 7. Recommandations
 
-Le positionnement d'octobre tient : EDIP est une plateforme sectorielle (IMF, coopératives, tontines) avec une gestion interne complète, pas un concurrent d'Odoo sur le générique. Depuis, l'écart s'est creusé en faveur d'EDIP sur le métier (PI-SPI, provisions, indicateurs UEMOA), et en faveur d'Odoo sur l'IA et le hors-ligne. Odoo n'a toujours ni microfinance, ni paie, ni e-facturation pour la zone.
+EDIP est un ERP pour toute entreprise, avec en plus une verticale finance de proximité (IMF, coopératives, tontines) activable par module. Il concurrence donc Odoo aussi sur le générique : pour une entreprise classique, les écarts de gestion (TVA, analytique, CRM, stock, personnalisation) pèsent directement sur la vente. Depuis octobre, l'écart s'est creusé en faveur d'EDIP sur le métier (PI-SPI, provisions, indicateurs UEMOA), et en faveur d'Odoo sur l'IA et le hors-ligne. Odoo n'a toujours ni microfinance, ni paie, ni e-facturation pour la zone.
 
 **P0 — avant toute démo ou mise en production**
-1. **Corriger les barèmes de paie.** Le barème IRPP du Togo semé par `PaieParametrageSystemInitializer` (5 tranches 0/7/15/25/35 %, que le code lui-même qualifie de « valeurs de démonstration à faire valider ») ne correspond pas à l'art. 74 du CGI (8 tranches 0/3/10/15/20/25/30/35 %), et il part désormais en installation réelle. Intégrer aussi l'ITS 2024 de Côte d'Ivoire (6 tranches, RICF, plafond CNPS 3 375 000) et le barème du Sénégal (art. 173.1, quotient familial, TRIMF, CFCE). Un bulletin faux engage l'institution cliente.
+1. **Corriger les barèmes de paie.** Le barème IRPP du Togo semé par `PaieParametrageSystemInitializer` (5 tranches 0/7/15/25/35 %, que le code lui-même qualifie de « valeurs de démonstration à faire valider ») ne correspond pas à l'art. 74 du CGI (8 tranches 0/3/10/15/20/25/30/35 %), et il part désormais en installation réelle. Intégrer aussi l'ITS 2024 de Côte d'Ivoire (6 tranches, RICF, plafond CNPS 3 375 000) et le barème du Sénégal (art. 173.1, quotient familial, TRIMF, CFCE). Un bulletin faux engage l'entreprise cliente.
 2. **Mettre à jour les copies locales** : au 2026-11-13, presque tous les dépôts locaux étaient en retard sur GitHub (jusqu'à 114 commits pour Angular, 51 pour client, 26 pour paiement externe), ce qui a faussé une première version de ce comparatif. Mettre à jour les branches de base avant toute analyse ou démonstration ; retirer l'ancien clone local `sfd-mobile/sfd-agent-mobile` (vide sur GitHub), l'app agent étant `sfd-agent-mobile-flutter`.
 3. **Nettoyer le gabarit Velzon** dans le portail client et le back-office : retirer les reducers et données de démonstration (surface d'attaque, poids du bundle) et remplacer les README de gabarit.
 
@@ -458,7 +458,7 @@ Le positionnement d'octobre tient : EDIP est une plateforme sectorielle (IMF, co
 7. **Trancher les migrations** : Liquibase n'existe que dans 4 services alors que la règle est « pas de versionnement avant la production ». Retirer, ou prévoir une baseline unique pour tous au passage en production.
 
 **P2 — différenciation**
-8. **Comptabilité analytique** : avec Projets, Suivi-évaluation et Budget déjà en place, des axes analytiques sur les lignes d'écriture relieraient coûts, bailleurs et projets — un argument fort pour les IMF et ONG financées par des bailleurs.
+8. **Comptabilité analytique** : avec Projets, Suivi-évaluation et Budget déjà en place, des axes analytiques sur les lignes d'écriture relieraient coûts, bailleurs et projets — un argument fort pour toute organisation financée par des bailleurs (ONG, IMF, projets).
 9. **API publique et webhooks sortants.** Les webhooks entrants signés existent déjà (PI-SPI, déclencheurs du workflow) ; manquent les webhooks sortants génériques et une API publique à clés, sur le même modèle de signature et de rejeu. C'est aussi la voie pour un pont avec Odoo (fabrication, e-commerce) plutôt que de les développer.
 10. **Architecture de localisation** : voir ci-dessous. C'est la recommandation structurante : elle porte la correction des barèmes (n° 1), le moteur de TVA (n° 5) et l'ouverture à de nouveaux pays.
 11. **Guichet hors-ligne ciblé** (caisse et agence) plutôt qu'une PWA générale : Odoo 20 met le hors-ligne en avant, et la connectivité des agences est un vrai problème terrain.
@@ -499,4 +499,4 @@ Chaque valeur porte sa **source** (texte, article, URL, date) et un **statut** `
 
 **P3 — à surveiller**
 12. **IA** : commencer petit et mesurable (suggestion de rapprochement bancaire, pré-scoring crédit expliqué) plutôt qu'un assistant générique pour répondre aux agents d'Odoo 20.
-13. **Prix** : Odoo Custom ≈ 44,90 €/utilisateur/mois sans microfinance ni paie locale. EDIP peut se vendre par agence et par module grâce au service de licence, avec le cœur SFD, la paie de la zone et PI-SPI inclus.
+13. **Prix** : Odoo Custom ≈ 44,90 €/utilisateur/mois sans microfinance ni paie locale. EDIP peut se vendre par agence et par module grâce au service de licence : modules de gestion seuls pour une entreprise classique (avec la paie de la zone et PI-SPI), cœur SFD en plus pour une institution financière.

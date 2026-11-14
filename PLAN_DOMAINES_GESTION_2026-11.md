@@ -10,8 +10,8 @@ Domaines couverts : stock et logistique, CRM, commercial, helpdesk, personnalisa
 
 ## 0. Principes
 
-1. **Ne pas copier Odoo partout.** EDIP est une plateforme sectorielle (IMF, coopératives, tontines). Chaque domaine reçoit une décision : **construire**, **compléter**, ou **intégrer** (passer par une API vers un outil tiers, Odoo compris).
-2. **Viser ce que nos clients utilisent** : une IMF ou une coopérative a besoin d'une comptabilité générale et d'une fiscalité irréprochables, d'un stock de fournitures et de produits, d'un CRM orienté adhésion, d'un traitement des réclamations. Elle n'a presque jamais besoin d'un WMS ou d'un MRP complet.
+1. **Ne pas copier Odoo partout.** EDIP sert toute entreprise (PME, commerce, services, ONG, institutions financières) ; la verticale finance de proximité (IMF, coopératives, tontines) est un ensemble de modules en plus. Chaque domaine reçoit une décision : **construire**, **compléter**, ou **intégrer** (passer par une API vers un outil tiers, Odoo compris).
+2. **Viser ce que nos clients utilisent** : toute entreprise cliente a besoin d'une comptabilité générale et d'une fiscalité irréprochables, d'un stock de fournitures et de produits, d'un CRM, d'un traitement des réclamations. Les domaines de ce plan sont donc génériques d'abord ; les angles propres aux institutions financières (adhésion, dossier client EDIP) viennent en complément. Un WMS ou un MRP complet reste rare chez nos clients : un industriel passe par l'intégration (FAB-2).
 3. **Règles du projet** : tout ce qui concerne un module reste dans ce module (les autres le lisent par l'API d'intégration) ; comptabilisation dual-line sans compte générique de repli ; composants Angular partagés réutilisés ; vérification de non-régression, e2e du module et passage navigateur sur base jetable après chaque lot.
 4. **S'appuyer sur l'architecture de localisation** (comparatif §7) pour tout ce qui dépend du pays : taxes, déclarations, formats.
 
@@ -112,7 +112,7 @@ Domaines couverts : stock et logistique, CRM, commercial, helpdesk, personnalisa
 
 **Manques par rapport à Odoo** : aucun lien opportunité → devis ; pas de motif de perte ; étapes figées dans le code (pas d'étapes configurables ni de pipelines multiples) ; pas de prévision pondérée (montant × probabilité) ; pas de score de leads, d'automatisation ni de campagnes.
 
-**Angle EDIP** : pour une IMF, le « client » à conquérir est un membre. Le CRM doit relier prospection terrain, adhésion, ouverture de compte et premier crédit, ce qu'Odoo ne fait pas.
+**Angle EDIP** : le CRM sert d'abord toute entreprise (leads, deals, devis, prévision). Pour une institution financière, le « client » à conquérir est en plus un membre : le CRM relie alors prospection terrain, adhésion, ouverture de compte et premier crédit, ce qu'Odoo ne fait pas.
 
 | Lot | Contenu | Effort | Dépend de |
 |---|---|---|---|
@@ -182,7 +182,7 @@ Domaines couverts : stock et logistique, CRM, commercial, helpdesk, personnalisa
 
 | Lot | Contenu | Effort | Condition |
 |---|---|---|---|
-| FAB-1 Production légère | Ordre de transformation : consommation de composants (à partir des compositions existantes) → produit fini, avec coût de revient et écritures ; utile aux coopératives qui transforment (agroalimentaire, artisanat) | M | Si une coopérative cliente le demande |
+| FAB-1 Production légère | Ordre de transformation : consommation de composants (à partir des compositions existantes) → produit fini, avec coût de revient et écritures ; utile aux PME et coopératives qui transforment (agroalimentaire, artisanat) | M | Si un client le demande |
 | FAB-2 Intégration | Pont vers un outil de production (Odoo MRP par exemple) via API publique et webhooks sortants | M | Après l'API publique (recommandation 9 du comparatif) |
 
 ---
@@ -193,7 +193,7 @@ Domaines couverts : stock et logistique, CRM, commercial, helpdesk, personnalisa
 |---|---|---|
 | **A — Fiabilité** (immédiat) | ST-1, CG-1, CG-4 | Correctifs courts sur des défauts confirmés |
 | **B — Conformité** | Paquets de localisation (format) → FIS-1 à FIS-5, COM-1 | Plus gros écart, prérequis de la gestion commerciale |
-| **C — Pilotage** | CG-2 analytique, CG-3 paiements en lot, NC-1 champs personnalisés partout | Différenciation IMF/bailleurs, socle de personnalisation |
+| **C — Pilotage** | CG-2 analytique, CG-3 paiements en lot, NC-1 champs personnalisés partout | Pilotage par projet et par bailleur, socle de personnalisation |
 | **D — Relation client** | CRM-0, CRM-1, CRM-2, HD-1, HD-2 | Adhésion et réclamations, angles propres à EDIP |
 | **E — Gestion avancée** | COM-2, COM-3, ST-2 à ST-5, NC-2 à NC-4, HD-3 à HD-5, CRM-3, CRM-4 | Rattrapage fonctionnel |
 | **F — Sur demande** | FIS-6 FNE, COM-4, COM-5, CG-5, CG-6, FAB-1, FAB-2 | Selon les clients et les pays visés |
