@@ -219,10 +219,13 @@ Volume EDIP : ~230 endpoints, 88 classes de test. Nouveau : workflow achats (com
 
 | Fonction | EDIP | Odoo |
 |---|---|---|
-| Référentiels | Articles, familles, catégories, unités, magasins, emplacements | Produits, catégories, unités, entrepôts, emplacements |
+| Référentiels | Articles, familles, catégories, unités, magasins, emplacements (le stock est tenu par magasin, pas par emplacement) | Produits, catégories, unités, entrepôts, emplacements |
+| Réservation | Champs présents, jamais alimentés : le disponible égale le stock | Réservation native à la commande |
+| Livraisons, retours | Statuts « préparé » et « livré », quantité livrée ; pas d'adresse, transporteur ni suivi ; retours seulement pour le matériel affecté | Livraisons, retours clients et fournisseurs natifs |
+| Stock seul | Utilisable sans le module commercial : fournisseur et bénéficiaire en texte libre, écritures paramétrées par type d'opération | Inventory utilisable seul |
 | Mouvements | 11 types (entrées achat/retour/transfert/inventaire, sorties conso/vente/transfert/perte/affectation, régularisations) | Mouvements par règles de routage (push/pull) |
 | Documents | Bons de réception et de sortie, transferts, inventaire physique | Réceptions, livraisons, transferts internes, inventaires |
-| Valorisation | **CUMP seul** : FIFO, LIFO et prix standard sont refusés par le code | Standard, FIFO, coût moyen, avec valorisation comptable automatique |
+| Valorisation | **CUMP seul** : FIFO, LIFO et prix standard existent dans l'énumération mais sont refusés par le code | Standard, FIFO, coût moyen, avec valorisation comptable automatique |
 | Lots / séries | Lots avec statuts, **consommation FIFO des lots** à la sortie, dates de fabrication et de péremption, alertes de péremption ; numéros de série seulement sur le matériel affecté aux employés | Lots, numéros de série, dates de péremption natifs |
 | Affectation au personnel | Dotations, consommation courante, renouvellement, quotas, matériel | Non natif (module tiers) |
 | Alertes | Rupture, péremption, seuil minimum, générées automatiquement ; paramètres de réappro sur l'article, sans génération de demande d'achat | Règles de réapprovisionnement |
@@ -232,7 +235,7 @@ Volume EDIP : ~230 endpoints, 88 classes de test. Nouveau : workflow achats (com
 | Workflows (nouveau) | Sortie, inventaire, transfert, affectation ; PDF unitaires (BR, BS, inventaire, lot, transfert) | Approbations |
 | WMS (vagues, colisage, putaway), codes-barres, transporteurs | Non | Natifs ou Enterprise |
 
-Volume EDIP : ~191 endpoints, 83 classes de test. Odoo reste nettement supérieur sur la logistique.
+Volume EDIP : ~191 endpoints, 83 classes de test. EDIP couvre le stock interne, pas une logistique complète (vérifié le 2026-11-14) : Odoo reste nettement supérieur sur la réservation, les emplacements, les livraisons et les retours.
 
 ### 3.11 RH
 

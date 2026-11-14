@@ -55,32 +55,43 @@ Domaines couverts : stock et logistique, CRM, commercial, helpdesk, personnalisa
 
 ## 3. Stock et logistique — **compléter**, priorité 2
 
-**État vérifié (GitHub, 2026-11-13)**
+**Réponse courte** : EDIP gère bien le stock interne (magasins, mouvements, lots, inventaire, écritures), pas encore une logistique complète. Manquent la réservation, le stock par emplacement, les livraisons suivies, les retours clients et fournisseurs, et le réapprovisionnement automatique.
+
+**Règle** : le stock et le commercial marchent ensemble, mais un client peut prendre le stock seul. Chaque lot ci-dessous doit fonctionner sans le module commercial ; le lien avec le commercial reste optionnel.
+
+**État vérifié (GitHub, 2026-11-14)**
 
 | Fonction | État |
 |---|---|
-| Référentiels, magasins, **emplacements**, mouvements, transferts entre magasins, inventaire, workflows, PDF unitaires | Fait |
+| Référentiels, magasins, mouvements, transferts entre magasins (statuts expédié puis reçu), inventaire, workflows, PDF unitaires | Fait |
+| Stock seul, sans commercial | Fait : réception avec fournisseur en texte libre (code, libellé, n° de bon de livraison et de facture), sortie avec bénéficiaire libre, écritures stock/achat paramétrées par type d'opération. Pas de référentiel fournisseur propre au stock ; la dette fournisseur relève du commercial ou de la comptabilité |
+| Emplacements | Partiel : référentiel (rayon, étagère, casier, zone) et saisie sur les lignes de bons et les lots, mais le stock est tenu par magasin, pas par emplacement |
+| Préparation et livraison | Partiel : statuts « préparé » et « livré » du bon de sortie, quantité livrée enregistrée ; ni adresse, ni transporteur, ni suivi, ni preuve de livraison |
+| Réservation | **Absent** : champs « quantité réservée » sur le stock et le lot, jamais alimentés ; le disponible égale donc le stock |
+| Retours | Absent pour les clients et fournisseurs : l'entrée « retour » ne sert qu'au matériel rendu par un employé |
 | Kits (`ArticleComposition`, décomposés à la sortie) | Fait |
-| Lots : consommation FIFO, date de fabrication et de péremption, quantités réservées ; articles « gestion par lot » et « périssable » avec durée de vie | Fait |
+| Lots : consommation FIFO, date de fabrication et de péremption ; articles « gestion par lot » et « périssable » avec durée de vie | Fait |
 | Alertes automatiques : **rupture, péremption, seuil minimum** | Fait |
 | Paramètres de réapprovisionnement sur l'article (stock minimum, de sécurité, maximum, quantité et délai de réappro) | Fait, **mais rien ne génère de demande d'achat** |
 | Numéros de série | Partiel : seulement sur le matériel affecté aux employés, pas sur les lots ni les mouvements |
 | Code-barres | Partiel : champ sur l'article et recherche ; l'app Flutter embarque déjà une bibliothèque de scan (utilisée pour le QR de configuration), pas encore pour le stock |
 | Type de sortie VENTE depuis le commercial | **Défaut** : le contrat d'intégration ne transmet pas le type, les ventes sont classées en consommation |
 | `calculerEcart` | Stub (le calcul réel est ailleurs) |
-| Valorisation | CUMP seul (FIFO, LIFO, prix standard refusés) |
+| Valorisation | CUMP seul : l'énumération prévoit FIFO, LIFO et prix standard, mais le code les refuse |
 | Rappel de lot | Absent |
 
 | Lot | Contenu | Effort | Dépend de |
 |---|---|---|---|
-| ST-1 Correctifs | `typeSortie` dans `BonSortieRequest`, renseigné VENTE par le commercial ; `calculerEcart` implémenté ou supprimé ; test de bout en bout mouvement + écriture | S | — |
-| ST-2 Réapprovisionnement | Exploiter les paramètres déjà présents sur l'article : génération de demandes d'achat (lot COM-2) ou de transferts entre magasins quand le stock passe sous le minimum, en tenant compte du délai | S | COM-2 |
+| ST-1 Correctifs | `typeSortie` dans `BonSortieRequest`, renseigné VENTE par le commercial ; `calculerEcart` implémenté ou supprimé ; test de bout en bout mouvement + écriture, avec et sans module commercial | S | — |
+| ST-2 Réapprovisionnement | Exploiter les paramètres déjà présents sur l'article quand le stock passe sous le minimum, en tenant compte du délai. Sans commercial : propositions de réappro dans le stock (transfert entre magasins ou bon de réception préparé). Avec commercial : demande d'achat (lot COM-2) | S | COM-2 seulement pour la demande d'achat |
 | ST-3 Traçabilité | Numéros de série sur les lots et mouvements (le modèle existe déjà pour le matériel affecté), rappel de lot (qui a reçu quoi) ; les alertes de péremption existent déjà | M | — |
 | ST-4 Valorisation | FIFO effectif (couches de coût) en plus du CUMP, avec écritures correspondantes | M | — |
 | ST-5 Scan | Lecture de codes-barres à la réception, la sortie et l'inventaire, en réutilisant la bibliothèque de scan déjà présente dans l'app Flutter et le champ code-barres de l'article ; douchette sur le web | S | — |
-| ST-6 WMS, transporteurs | Vagues, colisage, étiquettes de transport | — | **Ne pas construire** ; intégrer si besoin |
+| ST-6 WMS lourd | Vagues de préparation, colisage, étiquettes et tarifs des transporteurs par API | — | **Ne pas construire** ; intégrer si besoin |
+| ST-7 Réservation et emplacements | Réserver à la demande ou à la validation d'une sortie, libérer à la livraison ou à l'annulation ; disponible = stock − réservé ; stock tenu par emplacement (entrée, sortie, transfert interne entre emplacements, inventaire par emplacement) | M | — |
+| ST-8 Livraisons et retours | Bon de livraison avec adresse et contact, référentiel simple de transporteurs, n° de suivi, preuve de livraison (signature ou photo dans l'app Flutter) ; retours client (entrée) et fournisseur (sortie) avec motif et écritures, rattachés au bon d'origine | M | — |
 
-**Critères d'acceptation** : livrer 5 unités → mouvement `SORTIE_VENTE` et écriture sur le compte de vente ; stock sous le minimum → demande d'achat créée ; inventaire 18 sur 20 → écart −2 valorisé et soumis au workflow.
+**Critères d'acceptation** : livrer 5 unités → mouvement `SORTIE_VENTE` et écriture sur le compte de vente ; stock sous le minimum → proposition de réappro (demande d'achat si le commercial est actif) ; inventaire 18 sur 20 → écart −2 valorisé et soumis au workflow ; réserver 5 sur 20 → disponible 15 ; retour client de 2 → entrée et écriture rattachées au bon de livraison ; module commercial désactivé par la licence → réception, sortie, inventaire, livraison et écritures fonctionnent.
 
 ---
 
@@ -195,7 +206,7 @@ Domaines couverts : stock et logistique, CRM, commercial, helpdesk, personnalisa
 | **B — Conformité** | Paquets de localisation (format) → FIS-1 à FIS-5, COM-1 | Plus gros écart, prérequis de la gestion commerciale |
 | **C — Pilotage** | CG-2 analytique, CG-3 paiements en lot, NC-1 champs personnalisés partout | Pilotage par projet et par bailleur, socle de personnalisation |
 | **D — Relation client** | CRM-0, CRM-1, CRM-2, HD-1, HD-2 | Adhésion et réclamations, angles propres à EDIP |
-| **E — Gestion avancée** | COM-2, COM-3, ST-2 à ST-5, NC-2 à NC-4, HD-3 à HD-5, CRM-3, CRM-4 | Rattrapage fonctionnel |
+| **E — Gestion avancée** | COM-2, COM-3, ST-2 à ST-5, ST-7, ST-8, NC-2 à NC-4, HD-3 à HD-5, CRM-3, CRM-4 | Rattrapage fonctionnel |
 | **F — Sur demande** | FIS-6 FNE, COM-4, COM-5, CG-5, CG-6, FAB-1, FAB-2 | Selon les clients et les pays visés |
 
 Les lots d'une même phase sur des modules différents se mènent en parallèle (dépôts disjoints).
