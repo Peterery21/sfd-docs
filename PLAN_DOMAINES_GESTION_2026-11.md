@@ -1,10 +1,10 @@
 # Plan de développement : domaines de gestion où EDIP est en retrait sur Odoo
 
-Date : 2026-11-13. Suite du [comparatif EDIP vs Odoo](COMPARATIF_EDIP_ODOO.md) (§6 scores, §7 recommandations).
+Date : 2026-11-13, revalidé le 2026-11-14 (licence indépendante des modules). Suite du [comparatif EDIP vs Odoo](COMPARATIF_EDIP_ODOO.md) (§6 scores, §7 recommandations).
 
 Domaines couverts : stock et logistique, CRM, commercial, helpdesk, personnalisation sans code, fabrication, comptabilité générale, fiscalité.
 
-**Base des constats** : état GitHub (`origin/develop`) au 2026-11-13, pas les copies locales. Les efforts sont des ordres de grandeur (S = quelques jours, M = 1 à 3 semaines, L = plus d'un mois) à affiner au découpage.
+**Base des constats** : état GitHub (`origin/develop`) au 2026-11-14, pas les copies locales ; chaque domaine revérifié ligne à ligne. Les efforts sont des ordres de grandeur (S = quelques jours, M = 1 à 3 semaines, L = plus d'un mois) à affiner au découpage.
 
 ---
 
@@ -14,6 +14,53 @@ Domaines couverts : stock et logistique, CRM, commercial, helpdesk, personnalisa
 2. **Viser ce que nos clients utilisent** : toute entreprise cliente a besoin d'une comptabilité générale et d'une fiscalité irréprochables, d'un stock de fournitures et de produits, d'un CRM, d'un traitement des réclamations. Les domaines de ce plan sont donc génériques d'abord ; les angles propres aux institutions financières (adhésion, dossier client EDIP) viennent en complément. Un WMS ou un MRP complet reste rare chez nos clients : un industriel passe par l'intégration (FAB-2).
 3. **Règles du projet** : tout ce qui concerne un module reste dans ce module (les autres le lisent par l'API d'intégration) ; comptabilisation dual-line sans compte générique de repli ; composants Angular partagés réutilisés ; vérification de non-régression, e2e du module et passage navigateur sur base jetable après chaque lot.
 4. **S'appuyer sur l'architecture de localisation** (comparatif §7) pour tout ce qui dépend du pays : taxes, déclarations, formats.
+5. **Licence indépendante** : chaque module se vend seul (§0 bis). Un lot ne crée une dépendance vers un autre module licenciable que si elle est déclarée « requise » ; sinon la fonction se masque ou se dégrade proprement quand l'autre module manque.
+
+---
+
+## 0 bis. Licence indépendante des modules — règles et état vérifié
+
+**Mécanisme actuel** : `LicenceModules` liste 25 modules licenciables ; le noyau (préférences, licence, workflow) n'est jamais bloqué. `LicenceModuleFilter` refuse en 403 tout `/api/<module>` non licencié.
+
+| Constat | Conséquence |
+|---|---|
+| Le filtre n'existe que dans le monolithe | Un microservice déployé seul n'est pas protégé |
+| Les appels entre modules du monolithe repassent par le filtre, sans exemption pour la clé de service | Un module non licencié répond 403 aux autres modules, chacun traitant ce 403 à sa façon |
+| Les messages RabbitMQ ne sont pas filtrés | La comptabilité consomme les écritures même non licenciée |
+| Angular masque menus et routes des modules non licenciés | Les composants partagés qui appellent un autre module (sélecteur de compte comptable dans le stock) restent visibles et affichent une erreur générique ; le code `MODULE_NON_LICENCIE` n'a pas de message dédié |
+
+**Dépendances requises** (décision du 2026-11-14 pour la première ligne) :
+
+| Module | Requiert | Raison |
+|---|---|---|
+| Commercial | Comptabilité | Le commercial génère ses écritures en comptabilité ; le référentiel des taxes y vit donc (FIS-1) |
+| Portail support | Support | Même produit |
+| Paie | RH | Employés, contrats, pointages |
+| Suivi-évaluation | Projets (socle partagé) | Déjà géré par un accès partagé dans la licence |
+
+**Dépendances optionnelles, état vérifié** :
+
+| Cas | État | Attendu |
+|---|---|---|
+| Stock sans commercial | OK, aucun appel | — |
+| Stock sans comptabilité | OK si les types d'opération sont en mode MANUEL (défaut AUTOMATIQUE) | Mode MANUEL proposé par défaut quand la comptabilité n'est pas licenciée |
+| Commercial sans stock | **Bloqué** : la validation d'un bon de livraison exige un magasin du stock, même pour des prestations ; la facture d'achat échoue sur la réception | BL et facture sans mouvement de stock, message clair (COM-0) |
+| Commercial sans caisse | Règlement espèces et comptoir bloqués | Masquer ces modes de règlement |
+| Commercial sans PI-SPI | OK, seul ce mode de règlement échoue | — |
+| Support sans client, RH ou Projets | OK, autonome ; Projets appelle Support en option | — |
+| RH sans paie | Départs et champs perso bloqués tant que `paie-active` n'est pas désactivé | Désactivation automatique selon la licence |
+| Client sans comptabilité | Adhésion, KYC, parts sociales exigent une journée comptable ouverte | Hors périmètre de ce plan : décider si la comptabilité est requise pour la verticale finance |
+
+**Risques transverses** : un 403 de licence se transforme en faux message métier (« stock insuffisant », « magasin introuvable ») ; une écriture commerciale qui échoue à la publication est perdue sans signal (la paie, elle, bloque et trace).
+
+| Lot | Contenu | Effort | Dépend de |
+|---|---|---|---|
+| LIC-1 Dépendances déclarées | Dépendances requises dans le catalogue ; licence incohérente refusée à l'import ; dépendances optionnelles exposées à Angular | S | — |
+| LIC-2 Dégradation propre | Clients d'intégration : 403 `MODULE_NON_LICENCIE` distingué d'une panne et traduit ; message dédié dans l'intercepteur Angular ; composants partagés masqués si le module source manque (sélecteur de compte, etc.) | M | LIC-1 |
+| LIC-3 Écritures sans perte | Publication comptable du commercial (et des modules sans trace) non silencieuse : trace et rejeu, sur le modèle de la paie | S | — |
+| LIC-4 Tests de combinaisons | E2E par combinaison vendue (stock seul, commercial + comptabilité sans stock, support seul, RH sans paie) sur base jetable | M | LIC-1, LIC-2 |
+
+**Critères d'acceptation** : stock seul → réception, sortie, inventaire sans erreur ni écran cassé ; commercial sans stock → facture de prestation livrée et réglée ; module non licencié → message « module non inclus dans votre licence », jamais un faux message métier ; licence « commercial sans comptabilité » refusée à l'import.
 
 ---
 
@@ -21,13 +68,15 @@ Domaines couverts : stock et logistique, CRM, commercial, helpdesk, personnalisa
 
 **Pourquoi d'abord** : c'est le plus gros écart (EDIP 1/5, Odoo 4/5), il bloque toute vente hors secteur financier, et il conditionne le commercial, le stock et la comptabilité générale.
 
-**État vérifié** : aucun référentiel de taxes ; taux saisi librement sur les lignes commerciales (défaut 18) ; un seul compte de TVA par schéma commercial ; aucune déclaration ; aucune e-facturation.
+**État vérifié (2026-11-14)** : aucun référentiel de taxes ; taux saisi librement sur les lignes commerciales (défaut 18, aussi repris de l'article) ; un seul compte de TVA par schéma commercial ; la vente comptoir calcule sa TVA à part, hors calculateur commun ; NIF (IFU) seulement sur le client du module client, rien sur le tiers commercial ; aucun régime fiscal ; aucune retenue à la source ; aucune déclaration ; aucune e-facturation.
+
+**Licence** : le référentiel des taxes reste dans la comptabilité, car le commercial requiert la comptabilité (§0 bis). Déclarations et retenues lisent les écritures déjà publiées, sans dépendance entrante.
 
 | Lot | Contenu | Effort | Dépend de |
 |---|---|---|---|
 | FIS-1 Référentiel | Entités `Taxe` (code, taux, type TVA/retenue/autre, sens, comptes par norme, dates d'effet) et `RegimeTva` dans la comptabilité ; alimentation par le paquet pays ; écran de paramétrage | M | Paquets de localisation (format) |
-| FIS-2 Application | `codeTaxe` sur les lignes commerciales (en plus de `tauxTva`), liste déroulante au lieu de la saisie libre, ventilation de la TVA par taxe, une ligne comptable par compte de taxe ; vente comptoir alignée sur le calculateur commun | M | FIS-1 |
-| FIS-3 Positions fiscales | Régime fiscal et NIF sur le tiers ; substitution automatique taxe/compte (exonéré, export, régime spécial) | S | FIS-2 |
+| FIS-2 Application | `codeTaxe` sur les lignes commerciales (en plus de `tauxTva`), liste déroulante au lieu de la saisie libre, ventilation de la TVA par taxe, une ligne comptable par compte de taxe ; vente comptoir passée sur le calculateur commun (suppression de son calcul propre) ; `tauxTva` gardé en repli | M | FIS-1 |
+| FIS-3 Positions fiscales | Régime fiscal et NIF sur le tiers commercial (client et fournisseur), sans lecture du module client ; substitution automatique taxe/compte (exonéré, export, régime spécial) | S | FIS-2 |
 | FIS-4 Déclaration de TVA | Agrégation des écritures comptabilisées par case, drill-down vers les pièces, écriture de liquidation, verrou fiscal de la période, export PDF/Excel ; modèle de formulaire par pays dans le paquet | M | FIS-1, comptabilité |
 | FIS-5 Retenues à la source | Retenues sur prestations (taux par pays), précompte TVA, état des retenues | S | FIS-1 |
 | FIS-6 E-facturation FNE (Côte d'Ivoire) | Facture normalisée transmise à la DGI ; argument commercial, Odoo ne l'a pas | L | FIS-2 ; **vague 0 sourcée** (spécification DGI) avant tout code |
@@ -38,13 +87,13 @@ Domaines couverts : stock et logistique, CRM, commercial, helpdesk, personnalisa
 
 ## 2. Comptabilité générale — **compléter**, priorité 1
 
-**État vérifié** : solide sur l'essentiel (journaux, lettrage, rapprochement, clôtures mensuelle et annuelle en assistant, réouverture, états SYSCOHADA, 40 rapports). Manques : import OFX (stub), détection de doublons à l'import de relevés, analytique, paiements en lot, multi-société, vrai TER SYCEBNL.
+**État vérifié (2026-11-14)** : solide sur l'essentiel (journaux, lettrage, rapprochement, clôtures mensuelle et annuelle en assistant, réouverture, états SYSCOHADA, ~40 rapports ; ces points non revérifiés en détail). Import CSV et CAMT.053 en place. Manques confirmés : import OFX (stub qui renvoie une liste vide), détection de doublons à l'import de relevés, analytique (seul existe un indicateur « analytique obligatoire » sur le compte, et le rapport nommé « analytique » ne fait que des ratios), paiements en lot, multi-société, vrai TER SYCEBNL (dérivé du bilan, sans variation entre exercices).
 
 | Lot | Contenu | Effort | Dépend de |
 |---|---|---|---|
 | CG-1 Import bancaire fiable | Parseur OFX 1.x/2.x, détection de doublons (compte, référence, date, montant), soldes lus dans le fichier, rapport d'import (importées, doublons, erreurs) | S | — |
-| CG-2 Comptabilité analytique | Plans et axes analytiques (projet, bailleur, agence, activité), ventilation sur les lignes d'écriture, règles de répartition, rapports ; reliée à Projets, Suivi-évaluation et Budget | L | — |
-| CG-3 Paiements en lot | Règlement groupé des fournisseurs et des salaires en réutilisant les ordres groupés PI-SPI (`PaiementGroupe`) et, hors UEMOA, un fichier de virement | M | — |
+| CG-2 Comptabilité analytique | Plans et axes analytiques (projet, bailleur, agence, activité) possédés par la comptabilité, ventilation sur les lignes d'écriture, règles de répartition, rapports ; réutiliser l'indicateur « analytique obligatoire » existant. Projets, Suivi-évaluation et Budget publient seulement un code d'axe, en option : la comptabilité ne dépend jamais d'eux | L | — |
+| CG-3 Paiements en lot | Règlement groupé des fournisseurs et des salaires avec un fichier de virement par défaut ; ordres groupés PI-SPI (`PaiementGroupe`) seulement si le module PI-SPI est licencié | M | — |
 | CG-4 TER SYCEBNL réel | Vrai tableau emplois-ressources (variations entre deux exercices), pas une simple présentation du bilan | S | — |
 | CG-5 Rapprochement assisté | Propositions de lettrage et de rapprochement apprises des choix passés (premier pas « IA » mesurable) | M | CG-1 |
 | CG-6 Multi-société et consolidation | Plusieurs entités juridiques dans une instance, éliminations intra-groupe | L | **Décision produit** : seulement si un client réseau (faîtière, groupe) le demande |
@@ -64,7 +113,7 @@ Domaines couverts : stock et logistique, CRM, commercial, helpdesk, personnalisa
 | Fonction | État |
 |---|---|
 | Référentiels, magasins, mouvements, transferts entre magasins (statuts expédié puis reçu), inventaire, workflows, PDF unitaires | Fait |
-| Stock seul, sans commercial | Fait : réception avec fournisseur en texte libre (code, libellé, n° de bon de livraison et de facture), sortie avec bénéficiaire libre, écritures stock/achat paramétrées par type d'opération. Pas de référentiel fournisseur propre au stock ; la dette fournisseur relève du commercial ou de la comptabilité |
+| Stock seul, sans commercial ni comptabilité | Fait (aucun appel au commercial ; sans comptabilité, types d'opération en mode MANUEL) : réception avec fournisseur en texte libre (code, libellé, n° de bon de livraison et de facture), sortie avec bénéficiaire libre, écritures stock/achat paramétrées par type d'opération. Pas de référentiel fournisseur propre au stock ; la dette fournisseur relève du commercial ou de la comptabilité |
 | Emplacements | Partiel : référentiel (rayon, étagère, casier, zone) et saisie sur les lignes de bons et les lots, mais le stock est tenu par magasin, pas par emplacement |
 | Préparation et livraison | Partiel : statuts « préparé » et « livré » du bon de sortie, quantité livrée enregistrée ; ni adresse, ni transporteur, ni suivi, ni preuve de livraison |
 | Réservation | **Absent** : champs « quantité réservée » sur le stock et le lot, jamais alimentés ; le disponible égale donc le stock |
@@ -82,7 +131,7 @@ Domaines couverts : stock et logistique, CRM, commercial, helpdesk, personnalisa
 
 | Lot | Contenu | Effort | Dépend de |
 |---|---|---|---|
-| ST-1 Correctifs | `typeSortie` dans `BonSortieRequest`, renseigné VENTE par le commercial ; `calculerEcart` implémenté ou supprimé ; test de bout en bout mouvement + écriture, avec et sans module commercial | S | — |
+| ST-1 Correctifs | `typeSortie` dans `BonSortieRequest`, renseigné VENTE par le commercial ; `calculerEcart` implémenté ou supprimé ; mode MANUEL par défaut et sélecteurs de comptes masqués sans comptabilité ; test de bout en bout mouvement + écriture, avec et sans module commercial | S | LIC-2 pour le masquage |
 | ST-2 Réapprovisionnement | Exploiter les paramètres déjà présents sur l'article quand le stock passe sous le minimum, en tenant compte du délai. Sans commercial : propositions de réappro dans le stock (transfert entre magasins ou bon de réception préparé). Avec commercial : demande d'achat (lot COM-2) | S | COM-2 seulement pour la demande d'achat |
 | ST-3 Traçabilité | Numéros de série sur les lots et mouvements (le modèle existe déjà pour le matériel affecté), rappel de lot (qui a reçu quoi) ; les alertes de péremption existent déjà | M | — |
 | ST-4 Valorisation | FIFO effectif (couches de coût) en plus du CUMP, avec écritures correspondantes | M | — |
@@ -97,14 +146,17 @@ Domaines couverts : stock et logistique, CRM, commercial, helpdesk, personnalisa
 
 ## 4. Commercial (ventes et achats) — **compléter**, priorité 2
 
-**État vérifié** : devis → commande → BL → facture → avoir → règlement, achats complets, comptoir, acomptes, listes de prix, grilles, remises avec workflow, balance âgée, **relances d'impayés**, règlement fournisseur par PI-SPI, 17 rapports. Manques : demandes d'achat et rapprochement à trois voies, règles de prix avancées, abonnements, signature électronique, portail fournisseur.
+**État vérifié (2026-11-14)** : devis → commande → BL → facture → avoir → règlement, comptoir, acomptes, listes de prix, grilles, balance âgée, **relances d'impayés**, règlement fournisseur PI-SPI, 17 rapports. Achats : devis fournisseur, commande (validation par workflow), facture, avoir, règlement ; **pas de réception avant facture** (le bon de réception du stock est créé à la validation de la facture). Remises : simple notification workflow, pas de circuit d'approbation. Manques : demandes d'achat et rapprochement à trois voies, règles de prix avancées, abonnements, signature électronique, portail fournisseur.
+
+**Licence** : requiert la comptabilité. Sans stock, le BL et la facture d'achat sont aujourd'hui bloqués ; sans caisse, le règlement espèces et le comptoir aussi (§0 bis).
 
 | Lot | Contenu | Effort | Dépend de |
 |---|---|---|---|
+| COM-0 Commercial sans stock | BL et facture d'achat sans mouvement de stock quand le stock n'est pas licencié (prestations, négoce sans suivi), modes de règlement masqués selon caisse et PI-SPI, message de licence explicite | S | LIC-2 |
 | COM-1 Fiscalité | Intégration de FIS-2/FIS-3 dans tous les documents | — | FIS-2 |
-| COM-2 Achats contrôlés | Demande d'achat → demande de prix comparative → commande ; rapprochement commande / réception / facture avant paiement | M | — |
-| COM-3 Prix | Règles de prix (quantité, période, catégorie de client, promotions), prix calculés à partir du coût | M | — |
-| COM-4 Abonnements | Contrats et facturation récurrente (cotisations, loyers, services) — utile pour les coopératives | M | FIS-2 |
+| COM-2 Achats contrôlés | Demande d'achat → demande de prix comparative → commande ; réception avant facture ; rapprochement commande / réception / facture avant paiement, ramené à commande / facture sans stock | M | — |
+| COM-3 Prix | Règles de prix (quantité, période, catégorie de client, promotions), prix calculés à partir du coût ; circuit d'approbation des remises hors seuil | M | — |
+| COM-4 Abonnements | Contrats et facturation récurrente (cotisations, loyers, services) — utile pour toute entreprise de services | M | FIS-2 |
 | COM-5 Signature | Signature électronique des devis et contrats, avec piste d'audit | M | Choix d'un fournisseur (vague 0 sourcée) |
 | COM-6 E-commerce, location | — | — | **Ne pas construire** ; intégrer si besoin |
 
@@ -112,25 +164,27 @@ Domaines couverts : stock et logistique, CRM, commercial, helpdesk, personnalisa
 
 ---
 
-## 5. CRM — **compléter et orienter vers l'adhésion**, priorité 3
+## 5. CRM — **compléter**, adhésion en option, priorité 3
 
-**État vérifié — le pipeline leads/deals existe déjà** :
-- **Leads** (`Prospect`) : statuts NOUVEAU → EN_CONTACT → QUALIFIE → PROPOSITION → NEGOCIATION → CONVERTI / PERDU ; source d'acquisition, segment, montant estimé, agent ; conversion en tiers, réaffectation, détection des doublons.
+**Licence** : le CRM vit dans le module commercial (`/api/commercial/crm`) ; il n'est pas licenciable seul. Un client « commercial » a le CRM ; un client « client » seul ne l'a pas. Un module CRM séparé ne se justifie que si on veut le vendre sans le commercial.
+
+**État vérifié (2026-11-14) — le pipeline leads/deals existe déjà** :
+- **Leads** (`Prospect`) : statuts NOUVEAU → EN_CONTACT → QUALIFIE → PROPOSITION → NEGOCIATION → CONVERTI / PERDU ; source d'acquisition, segment, montant estimé, agent ; conversion en tiers commercial (pas en client du module client, donc pas en adhésion), réaffectation, détection des doublons.
 - **Deals** (`OpportuniteCommerciale`) : étapes PROSPECTION → QUALIFICATION → PROPOSITION → NEGOCIATION → GAGNE / PERDU ; montant, probabilité, dates de clôture prévue et réelle.
-- **Pipeline Kanban** avec glisser-déposer entre étapes, filtres par agent et montant.
-- Activités (appel, rendez-vous, tâche, note, e-mail) en chronologie, envoi d'e-mails, objectifs par agent, portefeuille, vue client 360, tableau de bord, rapport de pipeline.
-- Segments de clients (comptages) dans le module client ; notifications e-mail, SMS et push en place.
+- **Pipeline Kanban** avec glisser-déposer natif entre étapes, filtres par agent (texte libre) et montant.
+- Activités (appel, rendez-vous, tâche, note, e-mail) en chronologie, envoi d'e-mails, objectifs par agent, portefeuille, vue 360 du tiers commercial, tableau de bord, rapport de pipeline ; les relances d'impayés sont tracées en activité.
+- Segment commercial sur le prospect ; segments de clients distincts dans le module client. SMS et push depuis le CRM non vérifiés.
 
 **Manques par rapport à Odoo** : aucun lien opportunité → devis ; pas de motif de perte ; étapes figées dans le code (pas d'étapes configurables ni de pipelines multiples) ; pas de prévision pondérée (montant × probabilité) ; pas de score de leads, d'automatisation ni de campagnes.
 
-**Angle EDIP** : le CRM sert d'abord toute entreprise (leads, deals, devis, prévision). Pour une institution financière, le « client » à conquérir est en plus un membre : le CRM relie alors prospection terrain, adhésion, ouverture de compte et premier crédit, ce qu'Odoo ne fait pas.
+**Angle EDIP** : le CRM sert d'abord toute entreprise (leads, deals, devis, prévision) ; CRM-0, CRM-2 et CRM-4 restent dans le commercial sans autre dépendance. Pour une institution financière, le « client » à conquérir est en plus un membre : le CRM relie alors prospection terrain, adhésion, ouverture de compte et premier crédit, ce qu'Odoo ne fait pas.
 
 | Lot | Contenu | Effort | Dépend de |
 |---|---|---|---|
-| CRM-0 Pipeline de vente complet | Lien opportunité → devis (création du devis depuis le deal, passage automatique à GAGNE à la commande) ; motif de perte obligatoire et rapport des pertes ; **Kanban plus lisible** : une couleur discrète par étape (liseré ou en-tête légèrement teinté, palette neutre qui progresse vers la clôture, vert pour gagné, rouge atténué ou gris pour perdu), badges de probabilité, montant total et pondéré en tête de colonne, avatar de l'agent sur la carte, mise en évidence douce des deals en retard sur leur date de clôture ; couleurs issues des variables du thème (compatibles mode sombre), sans dégradé ni fond saturé ; étapes configurables (ordre, probabilité par défaut, étape gagnée/perdue) et pipelines multiples (vente, adhésion, partenariats) ; prévision pondérée par période et par agent | M | — |
-| CRM-1 Pipeline d'adhésion | Prospect → adhésion (module client) → premier compte → premier crédit, avec taux de conversion par agent et par agence ; prospects saisis depuis l'app terrain | M | Client, agent mobile |
+| CRM-0 Pipeline de vente complet | Lien opportunité → devis, interne au commercial (création du devis depuis le deal, passage automatique à GAGNE à la commande) ; motif de perte obligatoire et rapport des pertes ; **Kanban plus lisible** : une couleur discrète par étape (liseré ou en-tête légèrement teinté, palette neutre qui progresse vers la clôture, vert pour gagné, rouge atténué ou gris pour perdu), badges de probabilité, montant total et pondéré en tête de colonne, avatar de l'agent sur la carte, mise en évidence douce des deals en retard sur leur date de clôture ; couleurs issues des variables du thème (compatibles mode sombre), sans dégradé ni fond saturé ; étapes configurables (ordre, probabilité par défaut, étape gagnée/perdue) et pipelines multiples (vente, adhésion, partenariats) ; prévision pondérée par période et par agent | M | — |
+| CRM-1 Pipeline d'adhésion | Prospect → adhésion (module client) → premier compte → premier crédit, avec taux de conversion par agent et par agence ; prospects saisis depuis l'app terrain. Chaque étape apparaît seulement si son module est licencié (client, épargne, crédit, agent mobile) ; sans client, la conversion reste en tiers commercial | M | Client (optionnel), LIC-1 |
 | CRM-2 Campagnes | Envoi de masse e-mail/SMS à un segment (consentement, désabonnement, estimation du coût SMS, rapport d'envoi), en réutilisant les modèles et canaux de notification | M | — |
-| CRM-3 Automatisation | Relances programmées (prospect sans activité, échéance de DAT, client dormant), tâches créées automatiquement | S | Déclencheurs du workflow |
+| CRM-3 Automatisation | Relances programmées (prospect sans activité ; échéance de DAT et client dormant seulement si épargne ou client licenciés), tâches créées automatiquement | S | NC-4 |
 | CRM-4 Scoring de prospects | Score simple et explicable (complétude KYC, activité, segment) | S | — |
 
 **Critères d'acceptation** : un devis créé depuis une opportunité la référence, et la commande la passe à GAGNE ; une opportunité perdue sans motif est refusée ; la prévision pondérée d'un agent égale la somme montant × probabilité de ses deals ouverts ; le taux de conversion prospect → membre par agent est vérifiable contre les données ; un désabonné n'est jamais contacté ; une campagne affiche envoyés/échoués/désabonnés.
@@ -139,11 +193,13 @@ Domaines couverts : stock et logistique, CRM, commercial, helpdesk, personnalisa
 
 ## 6. Helpdesk — **compléter, avec un angle réglementaire**, priorité 3
 
-**État vérifié (GitHub, 2026-11-13)**
+**État vérifié (GitHub, 2026-11-14)**
+
+**Licence** : Support est autonome (aucun appel vers client, RH, crédit, épargne ou Projets ; le workflow appartient au noyau). Projets appelle Support en option. Le portail support requiert Support.
 
 | Fonction | État |
 |---|---|
-| Tickets incident et demande de service, cycle NOUVEAU → QUALIFIE → ASSIGNE → EN_COURS → EN_ATTENTE → RESOLU → FERME | Fait |
+| Tickets incident et demande de service, cycle NOUVEAU → QUALIFIE → ASSIGNE → EN_COURS → EN_ATTENTE → RESOLU → FERME, avec retours arrière contrôlés | Fait |
 | Qualification, assignation, escalade (manuelle et automatique), mise en attente avec pause du SLA, résolution confirmée par le demandeur, réouverture, clôture automatique | Fait |
 | Catégories avec champs personnalisés, matrice impact × urgence → priorité, groupes N1-N3 et membres, politiques SLA | Fait |
 | Validation (approbation) d'une demande, satisfaction avec commentaire, historique d'événements, anonymisation RGPD | Fait |
@@ -159,11 +215,11 @@ Domaines couverts : stock et logistique, CRM, commercial, helpdesk, personnalisa
 
 | Lot | Contenu | Effort | Dépend de |
 |---|---|---|---|
-| HD-1 Réclamations clients | Type « réclamation » lié au client et au compte/crédit concerné, délais réglementaires, registre et rapport périodique | M | Vague 0 sourcée (texte BCEAO) |
-| HD-2 E-mail entrant | Création et mise à jour de tickets depuis une boîte e-mail | M | — |
+| HD-1 Réclamations clients | Type « réclamation » avec références optionnelles au client, au compte ou au crédit (résolues seulement si ces modules sont licenciés, texte libre sinon), délais réglementaires, registre et rapport périodique | M | Vague 0 sourcée (texte BCEAO), LIC-2 |
+| HD-2 E-mail entrant | Création et mise à jour de tickets depuis une boîte e-mail, en réutilisant le déclencheur « courriel reçu » (IMAP) du workflow | S | — |
 | HD-3 Base de connaissances | Articles publics et internes, suggestion d'articles à la création d'un ticket | M | — |
 | HD-4 Réponses types | Modèles et macros (réponse + changement de statut) | S | — |
-| HD-5 Canaux | Tickets depuis le portail client EDIP, puis WhatsApp/SMS | M | HD-1 |
+| HD-5 Canaux | Tickets depuis le portail client EDIP (entrée masquée si Support n'est pas licencié, aucune dépendance au démarrage), puis WhatsApp/SMS | M | HD-1 |
 
 **Critères d'acceptation** : une réclamation dépassant le délai apparaît dans le rapport réglementaire ; un e-mail entrant crée un ticket rattaché au bon client.
 
@@ -171,14 +227,16 @@ Domaines couverts : stock et logistique, CRM, commercial, helpdesk, personnalisa
 
 ## 7. Personnalisation sans code — **compléter, sans viser un Studio**, priorité 3
 
-**État vérifié** : cœur générique de champs personnalisés (integration-api) utilisé par 4 services (RH, Projets, Support, Paie) ; designer de rapports dans 14 services ; formulaires dynamiques et déclencheurs du moteur de workflow ; import par classeurs.
+**État vérifié (2026-11-14)** : cœur générique de champs personnalisés (integration-api) utilisé par **3 services** (RH, Projets, Support ; la paie lit ceux de la RH) ; designer de rapports dans 14 services ; formulaires dynamiques et 5 déclencheurs du workflow (webhook, planification, événement de module, courriel reçu, fichier), qui ne font que démarrer un processus ; import par classeurs dans quelques modules, sans import générique ni import des champs personnalisés.
+
+**Licence** : le cœur des champs est une bibliothèque commune ; chaque module garde ses propres champs. Le workflow est dans le noyau. L'écran du designer de rapports est l'option licenciable « report-designer ».
 
 | Lot | Contenu | Effort | Dépend de |
 |---|---|---|---|
-| NC-1 Champs personnalisés partout | Brancher le cœur existant sur client, épargne, crédit, caisse, commercial, stock, avec affichage dans les formulaires, les listes, les rapports et l'import | M | — |
+| NC-1 Champs personnalisés partout | Brancher le cœur existant sur client, épargne, crédit, caisse, commercial, stock, avec affichage dans les formulaires, les listes et les rapports ; import des champs à construire | M | — |
 | NC-2 Listes configurables | Colonnes, filtres et tris enregistrés par utilisateur, vues partagées | M | — |
-| NC-3 Tableaux de bord personnels | Indicateurs choisis par l'utilisateur à partir des sources du designer de rapports | M | — |
-| NC-4 Règles d'automatisation | « Quand X, alors Y » (notifier, créer une tâche, lancer un circuit) sur la base des déclencheurs du workflow | M | — |
+| NC-3 Tableaux de bord personnels | Indicateurs choisis par l'utilisateur à partir des sources du designer de rapports ; rattaché à l'option « report-designer » | M | — |
+| NC-4 Règles d'automatisation | « Quand X, alors Y » (notifier, créer une tâche, lancer un circuit) sur la base des déclencheurs du workflow : ajouter la couche d'actions ; une action vers un module non licencié échoue proprement | M | LIC-2 |
 | NC-5 Constructeur d'écrans | — | — | **Ne pas construire** (coût élevé, risque de fragilité) |
 
 **Critères d'acceptation** : un champ ajouté sur le client apparaît dans la fiche, la liste, un rapport et le gabarit d'import sans déploiement ; une règle d'automatisation se déclenche et est tracée dans l'audit.
@@ -187,14 +245,14 @@ Domaines couverts : stock et logistique, CRM, commercial, helpdesk, personnalisa
 
 ## 8. Fabrication — **ne pas construire de MRP**, priorité 4
 
-**État vérifié** : aucun module ; seules les compositions d'articles (kits) existent en stock.
+**État vérifié (2026-11-14)** : aucun module ; seules les compositions d'articles (kits) existent en stock, et un kit n'a pas de stock propre (décomposé à la sortie).
 
 **Décision proposée** : un MRP complet ne correspond pas à la cible. Deux options :
 
 | Lot | Contenu | Effort | Condition |
 |---|---|---|---|
-| FAB-1 Production légère | Ordre de transformation : consommation de composants (à partir des compositions existantes) → produit fini, avec coût de revient et écritures ; utile aux PME et coopératives qui transforment (agroalimentaire, artisanat) | M | Si un client le demande |
-| FAB-2 Intégration | Pont vers un outil de production (Odoo MRP par exemple) via API publique et webhooks sortants | M | Après l'API publique (recommandation 9 du comparatif) |
+| FAB-1 Production légère | Dans le module stock : ordre de transformation, consommation de composants (à partir des compositions existantes) → entrée du produit fini en stock, avec coût de revient et écritures ; utile aux PME et coopératives qui transforment (agroalimentaire, artisanat) | M | Si un client le demande |
+| FAB-2 Intégration | Pont vers un outil de production (Odoo MRP par exemple) via API publique et webhooks sortants | M | Après l'API publique (recommandation 9 du comparatif) ; vague 0 sourcée |
 
 ---
 
@@ -202,7 +260,7 @@ Domaines couverts : stock et logistique, CRM, commercial, helpdesk, personnalisa
 
 | Phase | Contenu | Pourquoi |
 |---|---|---|
-| **A — Fiabilité** (immédiat) | ST-1, CG-1, CG-4 | Correctifs courts sur des défauts confirmés |
+| **A — Fiabilité** (immédiat) | LIC-1, LIC-2, LIC-3, ST-1, COM-0, CG-1, CG-4, puis LIC-4 | Vente module par module sans écran cassé ni écriture perdue ; correctifs courts sur des défauts confirmés |
 | **B — Conformité** | Paquets de localisation (format) → FIS-1 à FIS-5, COM-1 | Plus gros écart, prérequis de la gestion commerciale |
 | **C — Pilotage** | CG-2 analytique, CG-3 paiements en lot, NC-1 champs personnalisés partout | Pilotage par projet et par bailleur, socle de personnalisation |
 | **D — Relation client** | CRM-0, CRM-1, CRM-2, HD-1, HD-2 | Adhésion et réclamations, angles propres à EDIP |
@@ -232,6 +290,7 @@ Les lots d'une même phase sur des modules différents se mènent en parallèle 
 
 - Tests de la classe touchée puis suite complète du service (`scripts/claude/regress.sh`), rapport `Baseline → Après | Régressions: 0`.
 - Recherche des effets de bord sur les contrats partagés (énumérations, `@PreAuthorize`, DTO d'intégration, actions NgRx).
+- Test du lot avec chaque module dont il dépend en option désactivé dans la licence (dégradation propre, message de licence).
 - E2E du module (`./dev.sh start <module>`, `npm run e2e:<module>`) et passage dans le navigateur interne sur base de démo jetable (`edip-env`).
 - Pour tout lot qui publie des lignes comptables : relecture de la règle dual-line avant le code, et preuve d'une pièce équilibrée.
 - Pour toute intégration externe (FNE, signature, e-mail entrant) : vague 0 sourcée, rien tant qu'un point bloquant n'est pas vérifié.
