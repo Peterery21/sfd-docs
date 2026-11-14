@@ -182,10 +182,39 @@ Domaines couverts : stock et logistique, CRM, commercial, helpdesk, personnalisa
 | Lot | Contenu | Effort | Dépend de |
 |---|---|---|---|
 | CRM-0 Pipeline de vente complet | Lien opportunité → devis, interne au commercial (création du devis depuis le deal, passage automatique à GAGNE à la commande) ; motif de perte obligatoire et rapport des pertes ; **Kanban plus lisible** : une couleur discrète par étape (liseré ou en-tête légèrement teinté, palette neutre qui progresse vers la clôture, vert pour gagné, rouge atténué ou gris pour perdu), badges de probabilité, montant total et pondéré en tête de colonne, avatar de l'agent sur la carte, mise en évidence douce des deals en retard sur leur date de clôture ; couleurs issues des variables du thème (compatibles mode sombre), sans dégradé ni fond saturé ; étapes configurables (ordre, probabilité par défaut, étape gagnée/perdue) et pipelines multiples (vente, adhésion, partenariats) ; prévision pondérée par période et par agent | M | — |
-| CRM-1 Pipeline d'adhésion | Prospect → adhésion (module client) → premier compte → premier crédit, avec taux de conversion par agent et par agence ; prospects saisis depuis l'app terrain. Chaque étape apparaît seulement si son module est licencié (client, épargne, crédit, agent mobile) ; sans client, la conversion reste en tiers commercial | M | Client (optionnel), LIC-1 |
+| CRM-1 Pipeline d'adhésion | Intégration du §5 bis (option A) : piste → adhésion (module client) → premier compte → premier crédit, avec taux de conversion par agent et par agence ; prospects saisis depuis l'app terrain. Chaque étape apparaît seulement si son module est licencié (client, épargne, crédit, agent mobile) ; sans client, la conversion reste en tiers commercial | M | Client (optionnel), LIC-1 |
 | CRM-2 Campagnes | Envoi de masse e-mail/SMS à un segment (consentement, désabonnement, estimation du coût SMS, rapport d'envoi), en réutilisant les modèles et canaux de notification | M | — |
 | CRM-3 Automatisation | Relances programmées (prospect sans activité ; échéance de DAT et client dormant seulement si épargne ou client licenciés), tâches créées automatiquement | S | NC-4 |
 | CRM-4 Scoring de prospects | Score simple et explicable (complétude KYC, activité, segment) | S | — |
+
+### 5 bis. Intégration CRM ↔ institution financière (option : module CRM séparé)
+
+**Constat vérifié (2026-11-14)** : deux notions de prospect sans lien. Module client : un `Client` à l'état `PROSPECT` (états possibles `PROSPECT`, `EN_COURS_ADHESION`, `EN_ATTENTE_PAIEMENT`, `ACTIF`, champ `sourceProspection`) ; l'app terrain (`POST /prospects` de l'agent mobile) crée ce prospect dans le module client. Commercial : table `commercial_prospect`, convertie en `TiersCommercial` (`tiersId`).
+
+**Principe** : le CRM possède la **piste** (contact, étape, source, agent, agence, montant estimé, activités, relances), jamais le dossier. Le dossier reste au module propriétaire : adhérent au module client, tiers au commercial. La piste garde seulement une référence (module cible + identifiant) ; une personne à la fois adhérente et cliente commerciale a deux références, sans fusion des dossiers.
+
+**Flux** :
+1. Deux pipelines selon la licence : **Adhésion** (contacté → dossier ouvert → KYC complet → parts payées → adhérent → premier compte → premier crédit) si le module client est licencié ; **Vente** (qualifié → devis → commande → facture) si le commercial l'est.
+2. Conversion par l'API d'intégration du module propriétaire : création d'un `Client` à l'état `EN_COURS_ADHESION` (pipeline Adhésion) ou d'un `TiersCommercial` (pipeline Vente, comme `convertir()` aujourd'hui).
+3. Étapes suivantes sans saisie : le CRM écoute les événements RabbitMQ adhésion validée, compte ouvert (épargne), crédit décaissé. **Non vérifié** : existence de ces trois événements sous cette forme.
+4. Doublons : recherche dans les pistes, puis dans le module client et le commercial selon la licence, sur le modèle de `doublons()`.
+5. App terrain : piste dans le CRM si le CRM est licencié, sinon prospect dans le module client comme aujourd'hui.
+
+**À décider — frontière entre piste et dossier d'adhésion**, quand une institution a le CRM :
+
+| Option | Fonctionnement | Conséquences |
+|---|---|---|
+| **A (recommandée)** | Tout ce qui précède l'ouverture du dossier d'adhésion vit dans le CRM. Le `Client` n'est créé qu'à la conversion, directement en `EN_COURS_ADHESION`. L'état `PROSPECT` du module client ne sert plus qu'aux institutions sans CRM | Une seule saisie par étape ; la base des clients ne contient que des dossiers réels ; les pistes perdues ne laissent aucune donnée personnelle dans le module client ; rien ne change pour une institution sans CRM |
+| B | Piste CRM et `Client PROSPECT` créés ensemble | Double saisie ou synchronisation à maintenir ; deux statuts pour la même personne, qui divergent |
+| C | Le CRM seul gère les prospects ; l'état `PROSPECT` est retiré du module client | Une institution sans CRM perd la prospection qu'elle a aujourd'hui : écarté |
+
+Avec l'option A, à l'activation du CRM, les clients encore à l'état `PROSPECT` sont proposés à l'import comme pistes du pipeline Adhésion (import facultatif, sans suppression automatique).
+
+**Séparation du module** (à trancher avant CRM-1) : un module `crm` licenciable seul (26e module du catalogue) rend le pipeline Adhésion vendable sans le commercial et le CRM utilisable sans la comptabilité (il ne passe pas d'écritures). Sinon le CRM reste dans le commercial et le pipeline Adhésion exige commercial + client.
+
+| Lot | Contenu | Effort | Dépend de |
+|---|---|---|---|
+| CRM-S Séparation (si retenue) | Module `crm` au catalogue des licences ; code et routes `/api/commercial/crm` déplacés ; `commercial_prospect` migrée en pistes du pipeline Vente ; contrat d'intégration vers client et commercial ; rôles, Angular (`features/crm`), tests | M (à confirmer par un inventaire du code CRM) | LIC-1 |
 
 **Critères d'acceptation** : un devis créé depuis une opportunité la référence, et la commande la passe à GAGNE ; une opportunité perdue sans motif est refusée ; la prévision pondérée d'un agent égale la somme montant × probabilité de ses deals ouverts ; le taux de conversion prospect → membre par agent est vérifiable contre les données ; un désabonné n'est jamais contacté ; une campagne affiche envoyés/échoués/désabonnés.
 
