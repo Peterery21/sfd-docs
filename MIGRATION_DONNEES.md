@@ -869,7 +869,7 @@ Supprimés : plans d'amortissement, mouvements d'acquisition, immobilisations, n
 
 ## 4 septies quater. Classeur `09-RH` (module RH, ordre 1000)
 
-Ordre de dépôt : après `01-Parametrage`, `02-Comptabilite` (agences, banques, plan) et `04-Epargne` (comptes de salaire internes). Feuilles, dans l'ordre de chargement : `DEPARTEMENTS`, `CATEGORIES_EMPLOI`, `POSTES`, `TYPES_CONTRAT`, `GRILLES_SALARIALES` (facultative), `EMPLOYES`, `CONTRATS`, `AFFECTATIONS` (facultative), `SOLDES_CONGES`. Nom de feuille = code du dataset ; en-têtes en MAJUSCULES_SNAKE (casse, accents, `_` et `*` final ignorés). Référence complète : `sfd-rh-service/src/main/resources/import/rh/COLONNES.md`.
+Ordre de dépôt : après `01-Parametrage`, `02-Comptabilite` (agences, banques, plan) et `04-Epargne` (comptes de salaire internes). Feuilles, dans l'ordre de chargement : `DEPARTEMENTS`, `CATEGORIES_EMPLOI`, `POSTES`, `TYPES_CONTRAT`, `GRILLES_SALARIALES` (facultative), `EMPLOYES`, `CONTRATS`, `AFFECTATIONS` (facultative), `SOLDES_CONGES`, `CHAMPS_PERSO_DEFINITIONS` (facultative), `CHAMPS_PERSO_EMPLOYES` (facultative ; définitions avant valeurs). Nom de feuille = code du dataset ; en-têtes en MAJUSCULES_SNAKE (casse, accents, `_` et `*` final ignorés). Référence complète : `sfd-rh-service/src/main/resources/import/rh/COLONNES.md`.
 
 ### Décisions de cadrage
 - **Employés à la date de bascule** avec leur contrat en cours ; pas de bulletins détaillés, de congés pris, d'absences ni de formations (seuls les soldes de congés sont repris).
@@ -931,6 +931,16 @@ Un département, une catégorie, un poste ou un type de contrat déjà en base e
 ### SOLDES_CONGES (après EMPLOYES)
 `MATRICULE`*, `SOLDE_JOURS`* (décimal ; négatif : avertissement `SOLDE_NEGATIF`, ligne chargée), `DATE_SOLDE` (**laisser vide** = dernier jour de `Mc` ; toute autre date est refusée : `SOLDE_DATE_INVALIDE`). Employé sorti : ligne ignorée (avertissement). Un seul solde par matricule (`SOLDE_DOUBLON`).
 
+### CHAMPS_PERSO_DEFINITIONS (facultative, avant CHAMPS_PERSO_EMPLOYES)
+Crée les **définitions** de champs personnalisés EMPLOYE (catalogue RH, entité cible fixée : pas de colonne). Création par le service de saisie de l'écran (mêmes validations), tracée `created_by = MIGRATION:<code du lot>`. Une paie qui lit `E.cp_<code>` doit marquer le champ `EXPOSE_PAIE` (types `NOMBRE`, `DECIMAL`, `DATE`, `BOOLEEN` ; un booléen vaut 1/0).
+
+`CODE`* (40, minuscules/chiffres/`_`, commence par une lettre, immuable), `LIBELLE`* (fr), `TYPE`* (`TEXTE`, `TEXTE_LONG`, `NOMBRE`, `DECIMAL`, `DATE`, `BOOLEEN`, `LISTE`, `LISTE_MULTIPLE`, `FICHIER`) ; facultatives : `LIBELLE_EN`, `OBLIGATOIRE`, `VALEUR_UNIQUE`, `VALEURS_LISTE` (types liste, obligatoire pour eux : codes séparés par `|`, libellé facultatif `code=libellé`, ex. `std=Standard|vip=VIP`), `VALEUR_MIN` ≤ `VALEUR_MAX`, `REGEX`, `LONGUEUR_MAX`, `SECTION`, `ORDRE`, `EXPOSE_PAIE`, `UNITE`, `ROLES_LECTURE` / `ROLES_EDITION` (séparés par `|`), `CODE_PAYS`, `ACTIF` (défaut oui). Pas de colonne d'aide : l'entité n'en porte pas.
+
+Un code déjà défini en base est **ignoré avec avertissement** (`CHAMP_PERSO_DEF_EXISTE_DEJA`, jamais modifié). Erreurs bloquantes : `CHAMP_PERSO_DEF_DOUBLON`, `_CODE_INVALIDE`, `_LISTE_VIDE`, `_BORNES`, `_PAIE_TYPE` (exposition à la paie d'un type non exposable), type inconnu ; au chargement, toute autre violation du service (regex dangereuse, code de liste invalide ou en double…) est reportée par ligne (`CHAMP_PERSO_DEF_INVALIDE`, origine chargement).
+
+### CHAMPS_PERSO_EMPLOYES (facultative, après EMPLOYES et CHAMPS_PERSO_DEFINITIONS)
+Valeurs, format long : `MATRICULE`*, `CODE_CHAMP`*, `VALEUR` (`LISTE_MULTIPLE` : une ligne par valeur). `CODE_CHAMP` désigne un champ actif de la base **ou défini par `CHAMPS_PERSO_DEFINITIONS` du même lot** ; la valeur est contrôlée au chargement (type, bornes, regex, liste, unicité) après création de la définition ; rejet par ligne `CHAMP_PERSO_VALEUR_INVALIDE`. Valeurs tracées `updated_by = MIGRATION:<code du lot>`.
+
 ### Codes d'erreur propres au classeur 09
 | Code | Gravité | Cause |
 |---|---|---|
@@ -952,9 +962,12 @@ Un département, une catégorie, un poste ou un type de contrat déjà en base e
 | `AFFECTATION_CHEVAUCHEMENT` | avertissement | périodes qui se chevauchent |
 | `SOLDE_EMPLOYE_INCONNU`, `SOLDE_DATE_INVALIDE`, `SOLDE_CONGE_POSTERIEUR` | bloquante | employé introuvable, date autre que celle de `Mc`, congé annuel déjà posé après cette date |
 | `SOLDE_NEGATIF`, `SOLDE_EMPLOYE_SORTI` | avertissement | solde négatif chargé / employé sorti ignoré |
+| `CHAMP_PERSO_DEF_DOUBLON`, `_CODE_INVALIDE`, `_LISTE_VIDE`, `_BORNES`, `_PAIE_TYPE`, `_INVALIDE` | bloquante | définition de champ : code répété ou mal formé, liste sans valeur, bornes inversées, exposition paie d'un type non exposable, refus du service au chargement |
+| `CHAMP_PERSO_DEF_EXISTE_DEJA` | avertissement | code de champ déjà défini : ligne ignorée |
+| `CHAMP_PERSO_EMPLOYE_INCONNU`, `_CHAMP_INCONNU`, `_DOUBLON`, `_VALEUR_INVALIDE` | bloquante | valeur de champ : employé ou champ introuvable / archivé, couple répété, valeur refusée |
 
 ### Annulation
-Supprimés (ordre inverse) : congés de reprise, événements de carrière, affectations, contrats, employés, grilles, types de contrat, postes, catégories et départements créés par le lot ; les liens vers des employés du lot (responsables, supérieurs) sont d'abord vidés ; la numérotation des matricules est ramenée. Les éléments déjà en base ne sont pas touchés. **Refus** si une donnée hors lot repose sur ce qui a été chargé : congé, absence, mission, pointage, heures supplémentaires, sanction, évaluation, promotion, mutation, formation, contrat ou affectation hors lot sur un employé du lot ; bulletin, élément variable, avance ou personnalisation de paie ; employés, contrats, affectations ou postes hors lot référençant un département, poste, catégorie, type ou grille du lot ; un congé annuel hors lot créé après l'import (`SOLDES_CONGES`). Le motif s'affiche sur l'écran du lot (§7). Le classeur 10 s'annule **avant** le classeur 09.
+Supprimés (ordre inverse) : congés de reprise, événements de carrière, affectations, contrats, employés, grilles, types de contrat, postes, catégories et départements créés par le lot (valeurs de champs personnalisés puis définitions créées par le lot) ; les liens vers des employés du lot (responsables, supérieurs) sont d'abord vidés ; la numérotation des matricules est ramenée. Les éléments déjà en base ne sont pas touchés. **Refus** si une donnée hors lot repose sur ce qui a été chargé : congé, absence, mission, pointage, heures supplémentaires, sanction, évaluation, promotion, mutation, formation, contrat ou affectation hors lot sur un employé du lot ; bulletin, élément variable, avance ou personnalisation de paie ; employés, contrats, affectations ou postes hors lot référençant un département, poste, catégorie, type ou grille du lot ; un congé annuel hors lot créé après l'import (`SOLDES_CONGES`) ; une valeur de champ personnalisé saisie hors lot sur une définition créée par le lot (`CHAMPS_PERSO_DEFINITIONS`). Le motif s'affiche sur l'écran du lot (§7). Le classeur 10 s'annule **avant** le classeur 09.
 
 ## 4 septies quinquies. Classeur `10-Paie` (module paie, ordre 1100)
 
